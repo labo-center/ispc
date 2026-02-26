@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PRÉVIO — Panels d'Analyses Biologiques</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --c-teal:#0ea5c9;    --c-teal-d:#0e7490; --c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed;  --c-violet-d:#6d28d9;
+  --c-green:#10b981;   --c-green-d:#047857; --c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b;   --c-amber-d:#d97706;
+  --c-red:#ef4444;
+  --dark-1:#070c1a; --dark-2:#0f1628; --dark-3:#141c35; --dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08); --dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.42); --dark-t:rgba(255,255,255,.88);
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  --nav-h:62px;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+  --drawer-w:440px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh}
+body{font-family:var(--ff);color:var(--dark-t);background:var(--dark-1);overflow-x:hidden}
+button{font-family:var(--ff);border:none;cursor:pointer;outline:none}
+
+/* ── BG TEXTURE ── */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:44px 44px}
+.blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.b1{top:-200px;left:-150px;width:700px;height:700px;background:radial-gradient(circle,rgba(14,165,201,.08),transparent 65%)}
+.b2{bottom:-180px;right:-130px;width:640px;height:640px;background:radial-gradient(circle,rgba(124,58,237,.09),transparent 65%)}
+.scan{position:fixed;left:0;right:0;height:1px;z-index:0;pointer-events:none;opacity:.14;
+  background:linear-gradient(90deg,transparent,var(--c-teal) 35%,var(--c-violet) 65%,transparent);
+  animation:scan 12s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+
+/* ── NAV ── */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--nav-h);
+  background:rgba(7,12,26,.88);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b);
+}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 24px;gap:0}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:28px;flex-shrink:0;text-decoration:none}
+.nav-mark{
+  width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;
+  box-shadow:0 0 22px rgba(14,165,201,.3),0 0 44px rgba(124,58,237,.12);
+  flex-shrink:0;
+}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+.nav-breadcrumb{font-size:13px;color:var(--dark-m);display:flex;align-items:center;gap:7px}
+.nav-breadcrumb a{color:var(--dark-m);cursor:pointer;transition:color .15s;text-decoration:none}
+.nav-breadcrumb a:hover{color:rgba(255,255,255,.7)}
+.nav-breadcrumb sep{opacity:.3}
+.nav-breadcrumb .current{color:rgba(255,255,255,.72);font-weight:600}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-back{padding:9px 18px;border-radius:99px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.65);transition:all .18s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.nav-back:hover{background:rgba(255,255,255,.11);color:#fff}
+
+/* ── WRAPPER ── */
+.wrapper{
+  position:relative;z-index:1;max-width:1200px;margin:0 auto;
+  padding:calc(var(--nav-h) + 40px) 24px 80px;
+  transition:margin-right .45s var(--ease-o);
+}
+body.drawer-open .wrapper{margin-right:var(--drawer-w)}
+
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.fu{animation:fu .65s var(--ease-o) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+/* ── PAGE HEADER ── */
+.page-header{margin-bottom:44px}
+.ph-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c-teal);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ph-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--c-teal),var(--c-green));box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.page-header h1{font-family:var(--ffd);font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.04;letter-spacing:-.055em;color:#fff;margin-bottom:12px}
+.page-header h1 em{font-style:italic;font-weight:300;background:linear-gradient(115deg,#22d3ee,#a78bfa 50%,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-header p{font-size:15px;color:var(--dark-m);max-width:540px;line-height:1.88}
+
+/* hint chip */
+.hint-chip{display:inline-flex;align-items:center;gap:7px;margin-top:18px;
+  background:rgba(14,165,201,.07);border:1px solid rgba(14,165,201,.18);
+  border-radius:99px;padding:7px 16px;font-size:12px;font-weight:600;color:var(--c-teal)}
+
+/* ── LEGEND ── */
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.leg{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;border:1px solid}
+.l-teal{background:rgba(14,165,201,.08);border-color:rgba(14,165,201,.22);color:var(--c-teal)}
+.l-amber{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.22);color:var(--c-amber)}
+.l-violet{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.22);color:#a78bfa}
+.l-green{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.22);color:var(--c-green)}
+.leg-dot{width:7px;height:7px;border-radius:50%}
+
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+
+/* ── SECTION CARD (style index.html) ── */
+.sec-card{
+  background:rgba(255,255,255,.028);border:1px solid var(--dark-b);
+  border-radius:26px;overflow:hidden;position:relative;
+}
+.sec-card::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:22px 22px}
+
+/* Top stripe */
+.sec-stripe{height:3px;width:100%;position:relative;z-index:1}
+.s-teal .sec-stripe{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.s-amber .sec-stripe{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
+.s-violet .sec-stripe{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.s-green .sec-stripe{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+
+/* Card header */
+.sec-head{
+  padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);
+  display:flex;align-items:center;gap:14px;position:relative;z-index:1;
+}
+.sec-ico{
+  width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+  font-size:22px;flex-shrink:0;border:1.5px solid;
+}
+.s-teal .sec-ico{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
+.s-amber .sec-ico{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
+.s-violet .sec-ico{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
+.s-green .sec-ico{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+.sec-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.s-teal .sec-cat{color:var(--c-teal)}.s-amber .sec-cat{color:var(--c-amber)}
+.s-violet .sec-cat{color:#a78bfa}.s-green .sec-cat{color:var(--c-green)}
+.sec-title{font-family:var(--ffd);font-size:18px;font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1.1}
+.sec-sub{font-size:11px;color:var(--dark-m);margin-top:3px}
+.sec-count{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;flex-shrink:0;border:1px solid}
+.s-teal .sec-count{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.s-amber .sec-count{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+.s-violet .sec-count{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa}
+.s-green .sec-count{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+
+/* Sub-panels inside card */
+.sec-panels{padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+
+/* Individual sub-panel (accordion look) */
+.sub-panel{border-radius:13px;overflow:hidden;border:1px solid var(--dark-b)}
+.sub-panel-head{
+  padding:8px 14px;display:flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  cursor:pointer;user-select:none;transition:background .15s;
+}
+.s-teal .sub-panel-head{background:rgba(14,165,201,.08);color:var(--c-teal)}
+.s-amber .sub-panel-head{background:rgba(245,158,11,.08);color:var(--c-amber)}
+.s-violet .sub-panel-head{background:rgba(124,58,237,.08);color:#a78bfa}
+.s-green .sub-panel-head{background:rgba(16,185,129,.08);color:var(--c-green)}
+.s-teal .sub-panel-head:hover{background:rgba(14,165,201,.14)}
+.s-amber .sub-panel-head:hover{background:rgba(245,158,11,.14)}
+.s-violet .sub-panel-head:hover{background:rgba(124,58,237,.14)}
+.s-green .sub-panel-head:hover{background:rgba(16,185,129,.14)}
+.sph-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.sph-count{margin-left:auto;opacity:.6;font-size:10px}
+.sph-chevron{margin-left:4px;font-size:11px;transition:transform .25s var(--ease-o);opacity:.6}
+.sub-panel.open .sph-chevron{transform:rotate(90deg)}
+
+/* Sub-panel body (collapsible) */
+.sub-panel-body{
+  padding:10px 14px 12px;background:rgba(0,0,0,.18);
+  display:flex;flex-wrap:wrap;gap:5px;
+  max-height:0;overflow:hidden;transition:max-height .35s var(--ease-o),padding .25s;
+  padding-top:0;padding-bottom:0;
+}
+.sub-panel.open .sub-panel-body{
+  max-height:320px;padding-top:10px;padding-bottom:12px;
+}
+
+/* ── TAGS (clickable markers) ── */
+.tag{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:500;color:var(--dark-t);
+  background:rgba(255,255,255,.052);border:1px solid rgba(255,255,255,.09);
+  border-radius:8px;padding:5px 11px;
+  cursor:pointer;transition:all .18s;user-select:none;position:relative;
+}
+.tag::after{content:'›';opacity:0;margin-left:2px;font-size:14px;transition:opacity .15s,transform .15s;transform:translateX(-4px)}
+.tag:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);padding-right:18px}
+.tag:hover::after{opacity:.5;transform:translateX(0)}
+.tag.active{box-shadow:0 0 0 1.5px currentColor}
+
+.tag.hi-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.22);color:#7dd3fc}
+.tag.hi-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.22);color:#fcd34d}
+.tag.hi-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.22);color:#6ee7b7}
+.tag.hi-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.22);color:#c4b5fd}
+.tag.hi-teal:hover{background:rgba(14,165,201,.18);border-color:rgba(14,165,201,.4)}
+.tag.hi-amber:hover{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.4)}
+.tag.hi-green:hover{background:rgba(16,185,129,.18);border-color:rgba(16,185,129,.4)}
+.tag.hi-violet:hover{background:rgba(124,58,237,.18);border-color:rgba(124,58,237,.4)}
+
+/* ════════════════════════════════
+   DRAWER
+════════════════════════════════ */
+.drawer-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(7,12,26,.5);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .35s;
+}
+body.drawer-open .drawer-overlay{opacity:1;pointer-events:all}
+
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:301;
+  width:var(--drawer-w);max-width:95vw;
+  background:var(--dark-2);border-left:1px solid var(--dark-b);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .45s var(--ease-o);
+  overflow:hidden;
+}
+body.drawer-open .drawer{transform:translateX(0)}
+
+.drawer-stripe{height:3px;width:100%;flex-shrink:0;transition:background .3s}
+.drawer-header{padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);flex-shrink:0;position:relative}
+.drawer-close{
+  position:absolute;top:18px;right:20px;width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid var(--dark-b);
+  display:grid;place-items:center;cursor:pointer;color:var(--dark-m);font-size:17px;
+  transition:all .15s;
+}
+.drawer-close:hover{background:rgba(255,255,255,.14);color:#fff}
+.drawer-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--dark-m);margin-bottom:8px}
+.drawer-name{font-family:var(--ffd);font-size:24px;font-weight:600;letter-spacing:-.04em;color:#fff;line-height:1.1;margin-bottom:6px;padding-right:40px}
+.drawer-phonetic{font-size:11.5px;color:var(--dark-m);font-style:italic;font-family:var(--ffd)}
+
+.drawer-body{flex:1;overflow-y:auto;padding:22px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.drawer-body::-webkit-scrollbar{width:4px}
+.drawer-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+.drawer-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:99px;border:1px solid;font-size:11px;font-weight:700;margin-bottom:20px}
+
+.drawer-def{font-size:14px;line-height:1.88;color:var(--dark-m);margin-bottom:24px}
+.drawer-def strong{color:var(--dark-t)}
+
+.val-box{background:rgba(255,255,255,.04);border:1px solid var(--dark-b);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.val-box-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:12px}
+.val-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.val-row:last-child{border-bottom:none}
+.val-label{font-size:12.5px;color:var(--dark-m)}
+.val-num{font-family:var(--ffd);font-size:14px;font-weight:600;color:#fff}
+
+.conds-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.conds-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.cond-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px}
+.cond{font-size:11px;font-weight:700;padding:4px 11px;border-radius:8px;letter-spacing:.03em;border:1px solid}
+.cond-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:#fcd34d}
+.cond-red{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25);color:#fca5a5}
+.cond-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#c4b5fd}
+.cond-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:#7dd3fc}
+.cond-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:#6ee7b7}
+.cond-gray{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.1);color:var(--dark-m)}
+
+.tip{background:rgba(14,165,201,.06);border:1px solid rgba(14,165,201,.15);border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.tip-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.tip-txt{font-size:12.5px;color:var(--dark-m);line-height:1.78}
+.tip-txt strong{color:var(--c-teal)}
+
+/* ── FOOTER ── */
+.page-footer{text-align:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--dark-b);position:relative;z-index:1}
+.footer-logo{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;margin-bottom:6px}
+.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:4px;opacity:.45;font-family:var(--ff);text-transform:uppercase}
+.footer-disc{font-size:11.5px;color:var(--dark-m);max-width:520px;margin:0 auto;line-height:1.88}
+
+@media(max-width:600px){
+  :root{--drawer-w:100vw}
+  body.drawer-open .wrapper{margin-right:0}
+}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="scan"></div>
+
+<!-- OVERLAY -->
+<div class="drawer-overlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-stripe" id="drawer-stripe"></div>
+  <div class="drawer-header">
+    <div class="drawer-close" onclick="closeDrawer()">✕</div>
+    <div class="drawer-cat" id="d-cat"></div>
+    <div class="drawer-name" id="d-name"></div>
+    <div class="drawer-phonetic" id="d-phonetic"></div>
+  </div>
+  <div class="drawer-body">
+    <div id="d-badge"></div>
+    <div class="drawer-def" id="d-def"></div>
+    <div class="val-box" id="d-valbox"></div>
+    <div class="conds-title">Conditions associées possibles</div>
+    <div class="cond-tags" id="d-conds"></div>
+    <div class="tip" id="d-tip"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+    </a>
+    <div class="nav-breadcrumb">
+      <a href="index.html">Accueil</a>
+      <sep>/</sep>
+      <span class="current">Panels d'analyses</span>
+    </div>
+    <div class="nav-r">
+      <a class="nav-back" href="index.html">← Retour</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrapper">
+
+  <!-- PAGE HEADER -->
+  <header class="page-header fu">
+    <div class="ph-eyebrow"><span class="ph-dot"></span>Référentiel · Laboratoire d'Analyses Médicales</div>
+    <h1>Guide des <em>Panels Biologiques</em></h1>
+    <p>Panorama complet des explorations biologiques réalisables en laboratoire. Ouvrez chaque panel et cliquez sur un marqueur pour accéder à sa définition, ses valeurs de référence et ses implications cliniques.</p>
+    <div class="hint-chip">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Ouvrez un panel · Cliquez sur un marqueur pour le détail
+    </div>
+  </header>
+
+  <!-- LEGEND -->
+  <div class="legend fu d1">
+    <span class="leg l-teal"><span class="leg-dot" style="background:var(--c-teal)"></span>Organes & Métabolisme</span>
+    <span class="leg l-amber"><span class="leg-dot" style="background:var(--c-amber)"></span>Endocrino & Nutrition</span>
+    <span class="leg l-violet"><span class="leg-dot" style="background:#a78bfa"></span>Hématologie & Hémostase</span>
+    <span class="leg l-green"><span class="leg-dot" style="background:var(--c-green)"></span>Immunologie & Dépistages</span>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <!-- ══ 01 ORGANES & MÉTABOLISME ══ -->
+    <div class="sec-card s-teal fu d1">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🫀</div>
+        <div>
+          <div class="sec-cat">01 — Biologie fondamentale</div>
+          <div class="sec-title">Organes & Métabolisme</div>
+          <div class="sec-sub">Exploration fonctionnelle des grands organes</div>
+        </div>
+        <div class="sec-count">6 panels · 24 marqueurs</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Hépatique
+            <span class="sph-count">5 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('ALAT','Organes & Métabolisme — Bilan Hépatique','al-at','teal')">ALAT</span>
+            <span class="tag hi-teal" onclick="openDrawer('ASAT','Organes & Métabolisme — Bilan Hépatique','a-sat','teal')">ASAT</span>
+            <span class="tag" onclick="openDrawer('GGT','Organes & Métabolisme — Bilan Hépatique','ji-ji-té','teal')">GGT</span>
+            <span class="tag" onclick="openDrawer('PAL (Phosphatase Alcaline)','Organes & Métabolisme — Bilan Hépatique','pal','teal')">PAL</span>
+            <span class="tag" onclick="openDrawer('Bilirubine Totale','Organes & Métabolisme — Bilan Hépatique','bi-li-ru-bine','teal')">Bilirubine totale</span>
+            <span class="tag" onclick="openDrawer('Bilirubine Conjuguée','Organes & Métabolisme — Bilan Hépatique','bi-li-ru-bine kon-ju-gé','teal')">Bilirubine conjuguée</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Rénal & Phosphocalcique
+            <span class="sph-count">5 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Créatinine ± DFG','Organes & Métabolisme — Bilan Rénal','kré-a-ti-nine','teal')">Créatinine ± DFG</span>
+            <span class="tag" onclick="openDrawer('Urée','Organes & Métabolisme — Bilan Rénal','u-ré','teal')">Urée</span>
+            <span class="tag" onclick="openDrawer('Acide Urique','Organes & Métabolisme — Bilan Rénal','a-side u-rik','teal')">Acide urique</span>
+            <span class="tag" onclick="openDrawer('Calcium / Phosphore','Organes & Métabolisme — Bilan Rénal','kal-siom / fos-for','teal')">Calcium / Phosphore</span>
+            <span class="tag" onclick="openDrawer('PTH (Parathormone)','Organes & Métabolisme — Bilan Rénal','pé-té-ash','teal')">PTH</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Glucidique
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Glycémie à jeun','Organes & Métabolisme — Bilan Glucidique','gli-sé-mi','teal')">Glycémie à jeun</span>
+            <span class="tag hi-teal" onclick="openDrawer('HbA1c (Hémoglobine Glyquée)','Organes & Métabolisme — Bilan Glucidique','ash-bé-a-un-sé','teal')">HbA1c</span>
+            <span class="tag" onclick="openDrawer('Insuline ± HOMA-IR','Organes & Métabolisme — Bilan Glucidique','in-su-line / o-ma','teal')">Insuline ± HOMA-IR</span>
+            <span class="tag" onclick="openDrawer('Microalbuminurie','Organes & Métabolisme — Bilan Glucidique','mi-kro-al-bu-mi-nu-ri','teal')">Microalbuminurie</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Ionogramme / Hydratation
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('Sodium (Na⁺)','Ionogramme','so-diom','teal')">Na⁺</span>
+            <span class="tag" onclick="openDrawer('Potassium (K⁺)','Ionogramme','po-ta-siom','teal')">K⁺</span>
+            <span class="tag" onclick="openDrawer('Chlorures (Cl⁻)','Ionogramme','klo-rur','teal')">Cl⁻</span>
+            <span class="tag" onclick="openDrawer('Bicarbonates (HCO₃⁻)','Ionogramme','bi-kar-bo-nat','teal')">HCO₃⁻</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Électrophorèse des Protéines
+            <span class="sph-count">2 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('EPS — Électrophorèse des Protéines Sériques','Électrophorèse','é-lek-tro-fo-rèse','teal')">EPS (profil complet)</span>
+            <span class="tag" onclick="openDrawer('Immunofixation (IFIX)','Électrophorèse','i-mu-no-fik-sa-sion','teal')">Immunofixation (IFIX)</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Cardiovasculaire
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Troponines','Bilan Cardiovasculaire','tro-po-nine','teal')">Troponines</span>
+            <span class="tag" onclick="openDrawer('BNP / NT-proBNP','Bilan Cardiovasculaire','bé-en-pé','teal')">BNP / NT-proBNP</span>
+            <span class="tag" onclick="openDrawer('D-Dimères','Bilan Cardiovasculaire','dé-di-mère','teal')">D-dimères</span>
+            <span class="tag hi-teal" onclick="openDrawer('Profil Lipidique (EAL)','Bilan Cardiovasculaire','li-pi-dik','teal')">Profil lipidique (EAL)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 02 ENDOCRINO & NUTRITION ══ -->
+    <div class="sec-card s-amber fu d2">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">⚗️</div>
+        <div>
+          <div class="sec-cat">02 — Hormones & Micronutriments</div>
+          <div class="sec-title">Endocrino & Nutrition</div>
+          <div class="sec-sub">Hormones, micronutriments et équilibres métaboliques</div>
+        </div>
+        <div class="sec-count">6 panels · 26 marqueurs</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Thyroïdien
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('TSH (Thyréostimuline)','Endocrino — Thyroïde','té-ess-ash','amber')">TSH</span>
+            <span class="tag" onclick="openDrawer('T4 Libre ± T3 Libre','Endocrino — Thyroïde','té-katr / té-trwa','amber')">T4L ± T3L</span>
+            <span class="tag" onclick="openDrawer('Anti-TPO (Anticorps Anti-Thyroperoxydase)','Endocrino — Thyroïde','an-ti-té-pé-o','amber')">Anti-TPO</span>
+            <span class="tag" onclick="openDrawer('Anti-Tg (Anticorps Anti-Thyroglobuline)','Endocrino — Thyroïde','an-ti-té-jé','amber')">Anti-Tg</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Hormonal
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('LH / FSH (Gonadotrophines)','Endocrino — Hormones','el-ash / eff-ess-ash','amber')">LH / FSH</span>
+            <span class="tag" onclick="openDrawer('Estradiol (E2)','Endocrino — Hormones','es-tra-diol','amber')">Estradiol</span>
+            <span class="tag" onclick="openDrawer('Cortisol','Endocrino — Hormones','kor-ti-zol','amber')">Cortisol</span>
+            <span class="tag hi-amber" onclick="openDrawer('DHEA-S (Déhydroépiandrostérone Sulfate)','Endocrino — Hormones','dé-éch-é-a-ess','amber')">DHEA-S</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Prostate (PSA)
+            <span class="sph-count">3 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('PSA Total (Antigène Prostatique Spécifique)','Prostate','pé-ess-a','amber')">PSA total</span>
+            <span class="tag" onclick="openDrawer('PSA Libre','Prostate','pé-ess-a libr','amber')">PSA libre</span>
+            <span class="tag" onclick="openDrawer('Ratio PSA Libre / Total','Prostate','ra-tio pé-ess-a','amber')">Ratio libre / total</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Osseux
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('25-OH Vitamine D','Endocrino — Osseux','vi-ta-mine dé','amber')">25-OH Vitamine D</span>
+            <span class="tag" onclick="openDrawer('CTX (C-Télopeptide du Collagène)','Endocrino — Osseux','sé-té-iks','amber')">CTX (résorption)</span>
+            <span class="tag" onclick="openDrawer('Calcium / Phosphore','Endocrino — Osseux','kal-siom / fos-for','amber')">Calcium / Phosphore</span>
+            <span class="tag" onclick="openDrawer('PTH (Parathormone)','Endocrino — Osseux','pé-té-ash','amber')">PTH</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Nutrition & Oligoéléments
+            <span class="sph-count">5 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('Albumine','Nutrition','al-bu-min','amber')">Albumine</span>
+            <span class="tag" onclick="openDrawer('Préalbumine (Transthyrétine)','Nutrition','pré-al-bu-min','amber')">Préalbumine</span>
+            <span class="tag hi-amber" onclick="openDrawer('Zinc','Oligoéléments','zink','amber')">Zinc</span>
+            <span class="tag hi-amber" onclick="openDrawer('Sélénium','Oligoéléments','sé-lé-niom','amber')">Sélénium</span>
+            <span class="tag" onclick="openDrawer('CACOR (Calcul Calorique Corrélé)','Nutrition','ka-kor','amber')">CACOR</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Gazométrie
+            <span class="sph-count">5 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('pH Sanguin','Gazométrie','pé-ash','amber')">pH</span>
+            <span class="tag" onclick="openDrawer('pCO₂ (Pression Partielle CO₂)','Gazométrie','pé-sé-o-deux','amber')">pCO₂</span>
+            <span class="tag" onclick="openDrawer('pO₂ (Pression Partielle O₂)','Gazométrie','pé-o-deux','amber')">pO₂</span>
+            <span class="tag" onclick="openDrawer('Bicarbonates (HCO₃⁻)','Gazométrie','bi-kar-bo-nat','amber')">HCO₃⁻</span>
+            <span class="tag hi-amber" onclick="openDrawer('Lactates','Gazométrie','lak-tat','amber')">Lactates</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 03 HÉMATOLOGIE & HÉMOSTASE ══ -->
+    <div class="sec-card s-violet fu d3">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🩸</div>
+        <div>
+          <div class="sec-cat">03 — Sang & Coagulation</div>
+          <div class="sec-title">Hématologie & Hémostase</div>
+          <div class="sec-sub">Numération, coagulation et inflammation systémique</div>
+        </div>
+        <div class="sec-count">5 panels · 20 marqueurs</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Anémie
+            <span class="sph-count">6 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-violet" onclick="openDrawer('NFS — Numération Formule Sanguine','Hématologie — Anémie','en-eff-ess','violet')">NFS complète</span>
+            <span class="tag hi-violet" onclick="openDrawer('Réticulocytes','Hématologie — Anémie','ré-ti-ku-lo-sit','violet')">Réticulocytes</span>
+            <span class="tag" onclick="openDrawer('Ferritine','Hématologie — Anémie','fe-ri-tin','violet')">Ferritine</span>
+            <span class="tag" onclick="openDrawer('Saturation de la Transferrine','Hématologie — Anémie','trans-fé-rin','violet')">Saturation transferrine</span>
+            <span class="tag" onclick="openDrawer('Vitamine B9 (Folates)','Hématologie — Anémie','vi-ta-mine bé-9','violet')">Vitamine B9 (folates)</span>
+            <span class="tag" onclick="openDrawer('Vitamine B12 (Cobalamine)','Hématologie — Anémie','vi-ta-mine bé-12','violet')">Vitamine B12</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Inflammatoire
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-violet" onclick="openDrawer('CRP (Protéine C-Réactive)','Hématologie — Inflammation','sé-er-pé','violet')">CRP</span>
+            <span class="tag hi-violet" onclick="openDrawer('CRP Ultra-Sensible (CRPus)','Hématologie — Inflammation','sé-er-pé ul-tra-sen-sibl','violet')">CRPus</span>
+            <span class="tag" onclick="openDrawer('Procalcitonine (PCT)','Hématologie — Inflammation','pro-kal-si-to-nin','violet')">PCT (procalcitonine)</span>
+            <span class="tag" onclick="openDrawer('VS — Vitesse de Sédimentation','Hématologie — Inflammation','vé-ess','violet')">VS</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Coagulation
+            <span class="sph-count">3 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-violet" onclick="openDrawer('TP / INR (Taux de Prothrombine)','Hémostase — Coagulation','té-pé / in-er','violet')">TP / INR</span>
+            <span class="tag" onclick="openDrawer('TCA (Temps de Céphaline Activée)','Hémostase — Coagulation','té-sé-a','violet')">TCA</span>
+            <span class="tag" onclick="openDrawer('Fibrinogène','Hémostase — Coagulation','fi-bri-no-jèn','violet')">Fibrinogène</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Hémolyse
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('LDH (Lactate Déshydrogénase)','Hématologie — Hémolyse','el-dé-ash','violet')">LDH</span>
+            <span class="tag" onclick="openDrawer('Haptoglobine','Hématologie — Hémolyse','hap-to-glo-bin','violet')">Haptoglobine</span>
+            <span class="tag" onclick="openDrawer('Test de Coombs','Hématologie — Hémolyse','koumbs','violet')">Test de Coombs</span>
+            <span class="tag" onclick="openDrawer('β2-Microglobuline','Hématologie — Hémolyse','bé-ta-deux-mi-kro-glo-bu-lin','violet')">β2-microglobuline</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Bilan Thrombophilie
+            <span class="sph-count">3 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('Antithrombine III (AT3)','Hémostase — Thrombophilie','an-ti-trom-bin','violet')">Antithrombine (AT3)</span>
+            <span class="tag" onclick="openDrawer('Homocystéine','Hémostase — Thrombophilie','o-mo-sis-té-in','violet')">Homocystéine</span>
+            <span class="tag" onclick="openDrawer('Anticoagulant Circulant (ACC)','Hémostase — Thrombophilie','an-ti-ko-a-gu-lan','violet')">Anticoagulant circulant (ACC)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 04 IMMUNOLOGIE & DÉPISTAGES ══ -->
+    <div class="sec-card s-green fu d4">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🔬</div>
+        <div>
+          <div class="sec-cat">04 — Immuno, Infectieux & Dépistages</div>
+          <div class="sec-title">Immunologie & Dépistages</div>
+          <div class="sec-sub">Auto-immunité, infectieux, oncologie, sérologies</div>
+        </div>
+        <div class="sec-count">6 panels · 26 marqueurs</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Auto-immunité & Allergologie
+            <span class="sph-count">6 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('ANA — Anticorps Anti-Nucléaires','Immunologie — Auto-immunité','a-en-a','green')">ANA (anti-nucléaires)</span>
+            <span class="tag" onclick="openDrawer('Anti-CCP (Anticorps Anti-Peptides Citrullinés)','Immunologie — Auto-immunité','an-ti-sé-sé-pé','green')">Anti-CCP</span>
+            <span class="tag hi-green" onclick="openDrawer('IgE Totales','Immunologie — Allergologie','i-jé-é to-tal','green')">IgE totales</span>
+            <span class="tag" onclick="openDrawer('Phadiatop (Dépistage Pneumallergènes)','Immunologie — Allergologie','fa-dia-top','green')">Phadiatop</span>
+            <span class="tag" onclick="openDrawer('Trophatop (Dépistage Trophallergènes)','Immunologie — Allergologie','tro-fa-top','green')">Trophatop</span>
+            <span class="tag" onclick="openDrawer('IgE Spécifiques (RAST)','Immunologie — Allergologie','rast','green')">IgE spécifiques (RAST)</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Marqueurs Tumoraux
+            <span class="sph-count">5 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('CA 19-9 (Antigène Carbohydrate 19-9)','Oncologie — Marqueurs','sé-a-dix-neuf-neuf','green')">CA 19-9</span>
+            <span class="tag" onclick="openDrawer('CA 125 (Antigène Carbohydrate 125)','Oncologie — Marqueurs','sé-a-san-vingt-cinq','green')">CA 125</span>
+            <span class="tag" onclick="openDrawer('CA 15-3 (Antigène Carbohydrate 15-3)','Oncologie — Marqueurs','sé-a-quinze-trwa','green')">CA 15-3</span>
+            <span class="tag hi-green" onclick="openDrawer('NSE (Énolase Neurone-Spécifique)','Oncologie — Marqueurs','en-ess-é','green')">NSE</span>
+            <span class="tag hi-green" onclick="openDrawer('CYFRA 21-1','Oncologie — Marqueurs','si-fra','green')">CYFRA 21-1</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>IST
+            <span class="sph-count">5 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('PCR Chlamydia / Gonorrhée','IST — Dépistage','pé-sé-er','green')">PCR Chlamydia / Gonorrhée</span>
+            <span class="tag" onclick="openDrawer('Sérologie HBV (Hépatite B)','IST — Dépistage','ash-bé-vé','green')">AgHBs / Ac HBc / HBe</span>
+            <span class="tag" onclick="openDrawer('Sérologie HCV (Hépatite C)','IST — Dépistage','ash-sé-vé','green')">Ac anti-VHC (HCV)</span>
+            <span class="tag" onclick="openDrawer('Sérologie VIH','IST — Dépistage','vé-i-ash','green')">Ag p24 / Ac VIH</span>
+            <span class="tag" onclick="openDrawer('Syphilis (TPHA / VDRL)','IST — Dépistage','si-fi-lis','green')">Syphilis (TPHA/VDRL)</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Grossesse & Prénatal
+            <span class="sph-count">4 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('β-hCG (Gonadotrophine Chorionique)','Grossesse — Prénatal','bé-ta-ash-sé-jé','green')">β-hCG</span>
+            <span class="tag" onclick="openDrawer('Sérologie Toxoplasmose','Grossesse — Prénatal','tok-so-plaz-moz','green')">Toxoplasmose</span>
+            <span class="tag" onclick="openDrawer('Sérologie Rubéole','Grossesse — Prénatal','ru-bé-ol','green')">Rubéole</span>
+            <span class="tag" onclick="openDrawer('Sérologie CMV (Cytomégalovirus)','Grossesse — Prénatal','sé-em-vé','green')">CMV</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Microbiologie & Infectieux
+            <span class="sph-count">6 marqueurs</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('ECBU (Examen Cytobactériologique des Urines)','Microbiologie','é-sé-bé-u','green')">ECBU</span>
+            <span class="tag" onclick="openDrawer('PV (Prélèvement Vaginal)','Microbiologie','pé-vé','green')">Prélèvement vaginal (PV)</span>
+            <span class="tag" onclick="openDrawer('Coproculture / Parasitologie','Microbiologie','ko-pro-kul-tur','green')">Coproculture / Parasitologie</span>
+            <span class="tag" onclick="openDrawer('Mycologie','Microbiologie','mi-ko-lo-ji','green')">Mycologie</span>
+            <span class="tag hi-green" onclick="openDrawer('PCR Respiratoire','Microbiologie','pé-sé-er res-pi-ra-twar','green')">PCR Respiratoire</span>
+            <span class="tag" onclick="openDrawer('BDIV (Bilan Digestif Infectieux Viral)','Microbiologie','bé-div','green')">BDIV</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <footer class="page-footer">
+    <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+    <p class="footer-disc">Document pédagogique · Usage interne · Ne constitue pas un acte médical ni un diagnostic · Toute décision thérapeutique doit être prise avec un professionnel de santé qualifié</p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+/* ══ ACCORDION ══ */
+function togglePanel(headEl){
+  const panel = headEl.closest('.sub-panel');
+  panel.classList.toggle('open');
+}
+
+/* ══ DATA ══ */
+const DATA = {
+  'ALAT':{def:`L'<strong>ALAT (Alanine Aminotransférase)</strong> est une enzyme principalement présente dans les cellules hépatiques. Lorsque le foie est endommagé, les hépatocytes libèrent l'ALAT dans le sang, ce qui entraîne une élévation du taux sérique. C'est un marqueur très sensible de la cytolyse hépatique.`,vals:[['Normale H/F','< 45 UI/L'],['Zone limite','45–100 UI/L'],['Élévation significative','> 100 UI/L']],conds:[{t:'Hépatite virale aiguë',c:'red'},{t:'Stéatose hépatique (NASH)',c:'amber'},{t:'Hépatite médicamenteuse',c:'amber'},{t:'Cirrhose',c:'red'},{t:'Alcoolisme',c:'amber'},{t:'Effort physique intense',c:'teal'}],tip:'Un ratio ALAT/ASAT < 1 oriente vers une hépatite virale ; un ratio > 2 oriente vers une cause alcoolique.',badge:'Inclus dans le bilan standard',badgeC:'teal'},
+  'ASAT':{def:`L'<strong>ASAT (Aspartate Aminotransférase)</strong> est une enzyme présente dans le foie, le cœur, les muscles et les reins. Moins spécifique que l'ALAT pour le foie, elle s'élève aussi lors d'une atteinte musculaire cardiaque ou squelettique.`,vals:[['Normale H','< 40 UI/L'],['Normale F','< 35 UI/L']],conds:[{t:'Hépatite',c:'red'},{t:'Infarctus du myocarde',c:'red'},{t:'Rhabdomyolyse',c:'amber'},{t:'Alcoolisme',c:'amber'},{t:'Cirrhose',c:'red'}],tip:'Le ratio ASAT/ALAT (ratio de De Ritis) est un outil clé : > 2 suggère une cause alcoolique, < 1 une hépatite virale.',badge:'Inclus dans le bilan standard',badgeC:'teal'},
+  'GGT':{def:`La <strong>GGT (Gamma-Glutamyltransférase)</strong> est une enzyme présente dans le foie, les voies biliaires et le rein. Elle est particulièrement sensible à la consommation d'alcool et aux médicaments hépatotoxiques. C'est souvent le premier marqueur à s'élever en cas d'atteinte hépatobiliaire chronique.`,vals:[['Normale H','< 55 UI/L'],['Normale F','< 38 UI/L']],conds:[{t:'Alcoolisme chronique',c:'amber'},{t:'Cholestase',c:'amber'},{t:'Médicaments (statines, antibiotiques)',c:'teal'},{t:'NASH / stéatose',c:'amber'},{t:'Cancer du foie',c:'red'}],tip:"La GGT est fortement induite par l'alcool — elle peut être élevée sans cytolyse associée. Aussi sensible aux inducteurs enzymatiques (antiépileptiques, rifampicine).",badge:'Inclus dans le bilan standard',badgeC:'teal'},
+  'PAL (Phosphatase Alcaline)':{def:`La <strong>PAL (Phosphatase Alcaline)</strong> est un groupe d'isoenzymes issu principalement du foie et des os. Une élévation isolée de la PAL avec GGT normale oriente vers une origine osseuse ; une élévation avec GGT élevée oriente vers une cholestase.`,vals:[['Normale adulte','40–130 UI/L'],['Grossesse / croissance','Naturellement élevée']],conds:[{t:'Cholestase intra ou extra-hépatique',c:'amber'},{t:'Maladie de Paget',c:'violet'},{t:'Métastases osseuses',c:'red'},{t:'Sarcoïdose',c:'teal'},{t:'Grossesse (3ème trimestre)',c:'green'}],tip:"Chez l'enfant et l'adolescent, la PAL est physiologiquement élevée du fait de la croissance osseuse.",badge:'Inclus dans le bilan hépatique',badgeC:'teal'},
+  'Bilirubine Totale':{def:`La <strong>bilirubine totale</strong> est le produit de dégradation de l'hémoglobine. Elle circule sous deux formes : non conjuguée (indirecte) et conjuguée (directe). L'ictère (jaunisse) apparaît à partir de 35–50 µmol/L.`,vals:[['Normale','< 17 µmol/L (< 1 mg/dL)'],['Ictère clinique','> 35–50 µmol/L']],conds:[{t:'Hémolyse (↑ indirecte)',c:'red'},{t:'Hépatite',c:'amber'},{t:'Cholestase (↑ directe)',c:'amber'},{t:'Maladie de Gilbert (bénigne)',c:'green'},{t:'Ictère néonatal',c:'teal'}],tip:"La maladie de Gilbert est une cause fréquente et bénigne d'hyperbilirubinémie indirecte intermittente, souvent révélée par le jeûne ou le stress.",badge:'Inclus dans le bilan hépatique',badgeC:'teal'},
+  'Bilirubine Conjuguée':{def:`La <strong>bilirubine conjuguée (directe)</strong> est la fraction hydrosoluble, produite par conjugaison hépatique. Son élévation isolée indique une atteinte hépatique ou une obstruction des voies biliaires.`,vals:[['Normale','< 5 µmol/L'],['Pathologique','> 5 µmol/L avec ictère']],conds:[{t:'Cholestase intra-hépatique',c:'amber'},{t:'Obstruction biliaire (calcul, cancer)',c:'red'},{t:'Hépatite virale ou toxique',c:'amber'},{t:'Cirrhose biliaire',c:'red'}],tip:"Une bilirubine conjuguée élevée associée à des urines foncées et des selles décolorées est un signe fort de cholestase.",badge:'Inclus dans le bilan hépatique',badgeC:'teal'},
+  'Créatinine ± DFG':{def:`La <strong>créatinine</strong> est un déchet du métabolisme musculaire, éliminé exclusivement par filtration rénale. Son taux sérique permet d'estimer le <strong>débit de filtration glomérulaire (DFG)</strong> via les formules CKD-EPI ou MDRD. C'est l'indicateur de référence de la fonction rénale.`,vals:[['Normale H','0.7–1.2 mg/dL (62–106 µmol/L)'],['Normale F','0.5–0.9 mg/dL (44–80 µmol/L)'],['DFG normal','> 90 mL/min/1.73m²']],conds:[{t:'Insuffisance rénale aiguë',c:'red'},{t:'Insuffisance rénale chronique (IRC)',c:'red'},{t:'Déshydratation',c:'amber'},{t:'Rhabdomyolyse',c:'amber'},{t:'Prise de créatine (faux positif)',c:'teal'}],tip:"La créatinine est influencée par la masse musculaire : une valeur \"normale\" peut masquer une IRC chez une personne âgée. Le DFG est plus fiable.",badge:'Inclus dans le bilan rénal',badgeC:'teal'},
+  'Urée':{def:`L'<strong>urée</strong> est le principal produit de dégradation des protéines, synthétisée par le foie et éliminée par les reins. Son élévation (urémie) reflète soit une insuffisance rénale, soit un apport protéique excessif, soit une déshydratation.`,vals:[['Normale','2.5–7.5 mmol/L (15–45 mg/dL)']],conds:[{t:'Insuffisance rénale',c:'red'},{t:'Déshydratation',c:'amber'},{t:'Régime hyperprotéiné',c:'teal'},{t:'Insuffisance hépatique (↓ urée)',c:'violet'},{t:'Hémorragie digestive haute',c:'red'}],tip:"Un ratio urée/créatinine > 100 (en mg/dL) est en faveur d'une insuffisance rénale pré-rénale (déshydratation, insuffisance cardiaque) plutôt que rénale.",badge:'Inclus dans le bilan rénal',badgeC:'teal'},
+  'Acide Urique':{def:`L'<strong>acide urique</strong> est le produit terminal du catabolisme des purines. Il est produit par le foie et éliminé à 70% par les reins. L'hyperuricémie peut être asymptomatique ou se manifester par des crises de goutte ou une lithiase rénale.`,vals:[['Normale H','200–420 µmol/L'],['Normale F','150–360 µmol/L'],['Seuil goutte','> 360 µmol/L']],conds:[{t:'Goutte',c:'red'},{t:'Lithiase rénale urique',c:'amber'},{t:'Syndrome métabolique',c:'amber'},{t:'Alimentation riche en purines',c:'teal'},{t:'Diurétiques thiazidiques',c:'violet'}],tip:"L'hyperuricémie est souvent asymptomatique pendant des années. Les aliments riches en purines (abats, fruits de mer, bière) majorent fortement le risque.",badge:'Inclus dans le bilan rénal étendu',badgeC:'teal'},
+  'Calcium / Phosphore':{def:`Le <strong>calcium</strong> et le <strong>phosphore</strong> sont deux minéraux essentiels régulés conjointement par la PTH et la vitamine D. Leur dosage simultané est indispensable pour interpréter un déséquilibre phosphocalcique.`,vals:[['Calcémie normale','2.2–2.6 mmol/L'],['Phosphorémie normale','0.8–1.45 mmol/L']],conds:[{t:'Hyperparathyroïdie',c:'red'},{t:'Hypoparathyroïdie',c:'violet'},{t:'Hypervitaminose D',c:'amber'},{t:'Sarcoïdose',c:'teal'},{t:'Insuffisance rénale chronique',c:'red'}],tip:"La calcémie totale doit être corrigée : Ca corrigé = Ca mesuré + 0.8 × (4 − albumine g/dL). Une calcémie corrigée > 2.75 mmol/L est une hypercalcémie significative.",badge:'Bilan phosphocalcique',badgeC:'teal'},
+  'PTH (Parathormone)':{def:`La <strong>PTH (parathormone)</strong> est sécrétée par les glandes parathyroïdes en réponse à une hypocalcémie. Elle régule la calcémie en stimulant la résorption osseuse et la production rénale de vitamine D active.`,vals:[['Normale PTH intacte','10–65 pg/mL']],conds:[{t:'Hyperparathyroïdie primaire',c:'red'},{t:'Hyperparathyroïdie secondaire (IRC)',c:'amber'},{t:'Hypoparathyroïdie post-chirurgicale',c:'violet'},{t:'Carence en vitamine D',c:'amber'},{t:'Adénome parathyroïdien',c:'red'}],tip:"L'interprétation de la PTH est toujours couplée à la calcémie : élevée avec hypercalcémie → hyperparathyroïdie primaire ; élevée avec hypocalcémie → hyperparathyroïdie secondaire.",badge:'Bilan phosphocalcique & osseux',badgeC:'teal'},
+  'Glycémie à jeun':{def:`La <strong>glycémie à jeun</strong> mesure la concentration de glucose dans le sang après au moins 8 heures de jeûne. C'est le test de référence pour le dépistage et le suivi du diabète et du prédiabète.`,vals:[['Normale','70–100 mg/dL (3.9–5.5 mmol/L)'],['Prédiabète','100–125 mg/dL'],['Diabète','≥ 126 mg/dL (2 mesures)']],conds:[{t:'Diabète de type 1',c:'red'},{t:'Diabète de type 2',c:'red'},{t:'Syndrome métabolique',c:'amber'},{t:'Acromégalie / Cushing',c:'violet'},{t:'Hypoglycémie (tumeur, insulinome)',c:'amber'}],tip:"Un prélèvement non à jeun ou un stress aigu peut fausser la glycémie. L'HbA1c est complémentaire pour l'évaluation sur 3 mois.",badge:'Bilan glucidique standard',badgeC:'teal'},
+  'HbA1c (Hémoglobine Glyquée)':{def:`L'<strong>HbA1c</strong> reflète la glycémie moyenne des 2 à 3 derniers mois, en mesurant la proportion d'hémoglobine glyquée. C'est l'indicateur de référence pour le suivi du diabète et le dépistage du prédiabète. Elle n'est pas influencée par le jeûne.`,vals:[['Normale','< 5.7%'],['Prédiabète','5.7–6.4%'],['Diabète','≥ 6.5%'],['Objectif diabétique traité','< 7%']],conds:[{t:'Diabète (suivi)',c:'red'},{t:'Prédiabète',c:'amber'},{t:'Anémie hémolytique (faux ↓)',c:'violet'},{t:'Anémie ferriprive (faux ↑)',c:'amber'},{t:'Insuffisance rénale (↑ possible)',c:'teal'}],tip:"L'HbA1c peut être faussée par des anomalies de l'hémoglobine (hémoglobinopathies) ou une durée de vie réduite des globules rouges (hémolyse, post-transfusion).",badge:'Marqueur clé PRÉVIO',badgeC:'teal'},
+  'Insuline ± HOMA-IR':{def:`L'<strong>insulinémie à jeun</strong> couplée au <strong>HOMA-IR</strong> permet de quantifier la résistance à l'insuline avant même l'apparition du diabète. HOMA-IR = (glycémie mmol/L × insuline µU/mL) / 22.5`,vals:[['Insuline normale','2–20 µU/mL'],['HOMA-IR normal','< 2.5'],['Résistance insuline','> 2.5']],conds:[{t:'Syndrome métabolique',c:'amber'},{t:'Diabète de type 2 (précoce)',c:'red'},{t:'SOPK',c:'violet'},{t:'Stéatose hépatique (NASH)',c:'amber'},{t:'Obésité abdominale',c:'teal'}],tip:"Une insulinémie élevée avec glycémie normale est une insulinorésistance compensée — stade précoce et réversible avec des modifications du mode de vie.",badge:'Marqueur clé PRÉVIO',badgeC:'teal'},
+  'Microalbuminurie':{def:`La <strong>microalbuminurie</strong> mesure de petites quantités d'albumine dans les urines, non détectables par les bandelettes classiques. C'est le premier signe d'atteinte rénale dans le diabète et l'hypertension.`,vals:[['Normale','< 30 mg/g créatinine'],['Microalbuminurie','30–300 mg/g'],['Protéinurie franche','> 300 mg/g']],conds:[{t:'Néphropathie diabétique (précoce)',c:'red'},{t:'Néphropathie hypertensive',c:'amber'},{t:'Glomérulonéphrite',c:'violet'},{t:'Risque cardiovasculaire élevé',c:'red'}],tip:"La microalbuminurie doit être mesurée sur 2 prélèvements à distance car elle peut varier selon l'activité physique, la fièvre ou la déshydratation.",badge:'Dépistage rénal diabétique',badgeC:'teal'},
+  'Sodium (Na⁺)':{def:`Le <strong>sodium (Na⁺)</strong> est le principal cation extracellulaire et le déterminant majeur de l'osmolalité plasmatique. Il régule les échanges d'eau entre compartiments et est contrôlé par l'hormone ADH et le système rénine-angiotensine-aldostérone.`,vals:[['Normale','136–145 mmol/L'],['Hyponatrémie','< 136 mmol/L'],['Hypernatrémie','> 145 mmol/L']],conds:[{t:'Hyponatrémie (SIADH, insuffisance cardiaque)',c:'amber'},{t:'Hypernatrémie (déshydratation)',c:'red'},{t:'Insuffisance surrénalienne',c:'violet'},{t:'Potomanie',c:'teal'},{t:'Diabète insipide',c:'amber'}],tip:"L'hyponatrémie est la dysnatrémie la plus fréquente en milieu hospitalier. Un remplacement trop rapide peut entraîner une myélinolyse centro-pontine.",badge:'Ionogramme sanguin',badgeC:'teal'},
+  'Potassium (K⁺)':{def:`Le <strong>potassium (K⁺)</strong> est le principal cation intracellulaire. Des variations même modestes de sa concentration plasmatique peuvent avoir des effets importants sur le rythme cardiaque et la contractilité musculaire.`,vals:[['Normale','3.5–5.0 mmol/L'],['Hypokaliémie','< 3.5 mmol/L'],['Hyperkaliémie','> 5.0 mmol/L']],conds:[{t:'Hypokaliémie (diurétiques, diarrhées)',c:'amber'},{t:'Hyperkaliémie (IRC, médicaments)',c:'red'},{t:'Hyperaldostéronisme',c:'violet'},{t:'Paralysie périodique',c:'amber'}],tip:"L'hémolyse lors du prélèvement peut majorer artificiellement la kaliémie. Une hyperkaliémie > 6.5 mmol/L est une urgence cardiologique.",badge:'Ionogramme sanguin',badgeC:'teal'},
+  'Chlorures (Cl⁻)':{def:`Les <strong>chlorures (Cl⁻)</strong> sont le principal anion extracellulaire. Ils participent à l'équilibre acide-base et à l'osmolalité plasmatique. Ils sont généralement interprétés en combinaison avec les bicarbonates et le trou anionique.`,vals:[['Normale','98–106 mmol/L']],conds:[{t:'Acidose métabolique hyperchlorémique',c:'amber'},{t:'Alcalose métabolique hypochlorémique',c:'teal'},{t:'Vomissements (↓ Cl⁻)',c:'amber'},{t:'SIADH (↓ Cl⁻)',c:'violet'}],tip:"Le trou anionique = Na⁺ − (Cl⁻ + HCO₃⁻). Valeur normale 8–12 mmol/L. Un trou anionique élevé oriente vers une acidose lactique, cétose ou insuffisance rénale.",badge:'Ionogramme sanguin',badgeC:'teal'},
+  'Bicarbonates (HCO₃⁻)':{def:`Les <strong>bicarbonates (HCO₃⁻)</strong> sont le principal tampon du sang et jouent un rôle essentiel dans l'équilibre acide-base. Leur dosage permet de caractériser les troubles acido-basiques.`,vals:[['Normale','22–29 mmol/L'],['Acidose métabolique','< 22 mmol/L'],['Alcalose métabolique','> 29 mmol/L']],conds:[{t:'Acidose métabolique (IRC, diarrhées)',c:'red'},{t:'Alcalose métabolique (vomissements)',c:'amber'},{t:'Acidocétose diabétique',c:'red'},{t:'Syndrome de Bartter',c:'violet'}],tip:"Les bicarbonates plasmatiques mesurés (CO₂ total) sont un reflet indirect fiable de l'état acido-basique, sans nécessiter une gazométrie artérielle.",badge:'Ionogramme sanguin',badgeC:'teal'},
+  'EPS — Électrophorèse des Protéines Sériques':{def:`L'<strong>électrophorèse des protéines sériques (EPS)</strong> sépare les protéines du sang en fractions selon leur charge électrique : albumine, alpha-1, alpha-2, bêta et gammaglobulines. Elle donne une image globale de l'état nutritionnel, inflammatoire et immunitaire.`,vals:[['Albumine','60–70%'],['Alpha-1','1–3%'],['Alpha-2','7–12%'],['Bêta','8–14%'],['Gammaglobulines','12–20%']],conds:[{t:'Syndrome inflammatoire (↑ alpha-2)',c:'amber'},{t:'Myélome multiple (pic étroit)',c:'red'},{t:'Déficit immunitaire (↓ gamma)',c:'violet'},{t:'Cirrhose (inversion A/G)',c:'amber'},{t:'Syndrome néphrotique (↓ albumine)',c:'red'}],tip:"Un pic étroit (\"pic monoclonal\") dans les gammaglobulines nécessite une immunofixation (IFIX) pour typage de l'immunoglobuline monoclonale.",badge:'Bilan protéique',badgeC:'teal'},
+  'Immunofixation (IFIX)':{def:`L'<strong>immunofixation (IFIX)</strong> est un examen de deuxième intention, prescrit après détection d'un pic monoclonal à l'EPS. Elle permet d'identifier précisément la nature de l'immunoglobuline pathologique et la chaîne légère associée.`,vals:[['Résultat normal','Polyclonal (pas de pic)']],conds:[{t:'Myélome multiple',c:'red'},{t:'Maladie de Waldenström',c:'red'},{t:'MGUS (gammapathie monoclonale bénigne)',c:'amber'},{t:'Amylose AL',c:'violet'}],tip:"La MGUS est fréquente chez les > 70 ans (3%) et nécessite un suivi régulier car 1% se transforme en myélome par an.",badge:'Bilan spécialisé (2ème intention)',badgeC:'violet'},
+  'Troponines':{def:`Les <strong>troponines</strong> (TnI et TnT) sont des protéines structurelles du muscle cardiaque libérées dans le sang lors de la nécrose des cardiomyocytes. Elles constituent le marqueur de référence du syndrome coronarien aigu.`,vals:[['Normale hs-TnT','< 14 ng/L'],['Élévation significative','> 52 ng/L (99e percentile)']],conds:[{t:'Infarctus du myocarde (SCA)',c:'red'},{t:'Myocardite',c:'amber'},{t:'Embolie pulmonaire massive',c:'red'},{t:'Insuffisance rénale (faux ↑)',c:'violet'},{t:'Rhabdomyolyse sévère',c:'amber'}],tip:"La cinétique est cruciale : une ascension de 20% en 3h est hautement spécifique d'un SCA.",badge:'Urgence cardiologique',badgeC:'red'},
+  'BNP / NT-proBNP':{def:`Le <strong>BNP</strong> et son précurseur <strong>NT-proBNP</strong> sont sécrétés par les ventricules en réponse à une augmentation de la pression ou du volume. Ce sont les marqueurs biologiques de référence de l'insuffisance cardiaque.`,vals:[['BNP normal','< 100 pg/mL'],['NT-proBNP normal < 50 ans','< 450 pg/mL'],['NT-proBNP normal > 75 ans','< 1800 pg/mL']],conds:[{t:'Insuffisance cardiaque aiguë',c:'red'},{t:'Cardiomyopathie',c:'amber'},{t:'FA (fibrillation atriale)',c:'amber'},{t:'Embolie pulmonaire',c:'red'},{t:'IRC (↑ NT-proBNP)',c:'violet'}],tip:"Un BNP < 100 pg/mL a une valeur prédictive négative > 90% pour l'insuffisance cardiaque. L'obésité peut faussement diminuer le taux.",badge:'Marqueur insuffisance cardiaque',badgeC:'teal'},
+  'D-Dimères':{def:`Les <strong>D-dimères</strong> sont des produits de dégradation de la fibrine, libérés lors de la fibrinolyse. Ils ont une excellente valeur prédictive négative pour l'exclusion d'une TVP et d'une embolie pulmonaire chez les patients à faible probabilité clinique.`,vals:[['Seuil standard','< 500 µg/L (ou < 0.5 mg/L FEU)'],['Seuil adapté à l\'âge (> 50 ans)','âge × 10 µg/L']],conds:[{t:'Thrombose veineuse profonde (TVP)',c:'red'},{t:'Embolie pulmonaire',c:'red'},{t:'CIVD',c:'red'},{t:'Post-chirurgie / traumatisme (↑ physiologique)',c:'amber'},{t:'Grossesse (↑ physiologique)',c:'teal'}],tip:"Les D-dimères ne sont utiles qu'en cas de faible probabilité pré-test. Une valeur élevée n'est pas spécifique de la MTEV.",badge:'Exclusion thromboembolique',badgeC:'teal'},
+  'Profil Lipidique (EAL)':{def:`Le <strong>bilan lipidique complet (EAL)</strong> comprend le cholestérol total, LDL, HDL et les triglycérides. Il constitue l'outil de base pour l'évaluation du risque cardiovasculaire.`,vals:[['CT optimal','< 200 mg/dL'],['LDL optimal','< 130 mg/dL (< 70 à haut risque)'],['HDL protecteur','> 60 mg/dL'],['TG normal','< 150 mg/dL']],conds:[{t:'Athérosclérose / risque CV',c:'red'},{t:'Hypothyroïdie (↑ LDL)',c:'amber'},{t:'Syndrome néphrotique',c:'violet'},{t:'Diabète (↑ TG)',c:'amber'},{t:'Alcoolisme (↑ TG)',c:'amber'}],tip:"Le ratio CT/HDL (Castelli) est un indicateur pratique du risque : optimal < 3.5, élevé > 5. Les TG élevés (> 5.6 mmol/L) augmentent le risque de pancréatite aiguë.",badge:'Bilan cardiovasculaire standard',badgeC:'teal'},
+  'TSH (Thyréostimuline)':{def:`La <strong>TSH</strong> est sécrétée par l'hypophyse et régule la production des hormones thyroïdiennes (T3/T4). C'est le test de première ligne pour le dépistage et le suivi des dysthyroïdies. Sa sensibilité est très élevée.`,vals:[['Normale','0.4–4.0 mUI/L'],['Hypothyroïdie','> 4.0 mUI/L'],['Hyperthyroïdie','< 0.4 mUI/L']],conds:[{t:'Hypothyroïdie (de Hashimoto)',c:'amber'},{t:'Hyperthyroïdie (Graves-Basedow)',c:'red'},{t:'Adénome thyroïdien toxique',c:'amber'},{t:'Thyroïdite silencieuse',c:'teal'}],tip:"La TSH varie selon l'âge : les valeurs de référence sont plus élevées après 60 ans. Une TSH légèrement élevée chez le sujet âgé ne nécessite pas systématiquement un traitement.",badge:'Test de première ligne thyroïde',badgeC:'amber'},
+  'T4 Libre ± T3 Libre':{def:`La <strong>T4 libre (FT4)</strong> et la <strong>T3 libre (FT3)</strong> sont les fractions actives des hormones thyroïdiennes. La T4 est la forme de stockage principale, convertie en T3 active dans les tissus périphériques.`,vals:[['T4L normale','12–22 pmol/L'],['T3L normale','3.1–6.8 pmol/L']],conds:[{t:'Hypothyroïdie centrale (↓ T4L + TSH normale)',c:'violet'},{t:'Hyperthyroïdie fruste',c:'amber'},{t:'Résistance aux hormones thyroïdiennes',c:'red'},{t:'Amiodarone (↑ T4L)',c:'teal'}],tip:"La T3 libre est utile dans les hyperthyroïdies à T3 et dans le suivi de l'hypothyroïdie sous traitement avec conversion T4→T3 insuffisante.",badge:'2ème intention après TSH anormale',badgeC:'amber'},
+  'Anti-TPO (Anticorps Anti-Thyroperoxydase)':{def:`Les <strong>anti-TPO</strong> sont des auto-anticorps dirigés contre la thyroperoxydase, enzyme clé de la synthèse des hormones thyroïdiennes. Présents dans > 95% des thyroïdites auto-immunes (Hashimoto).`,vals:[['Normale','< 34 UI/mL (selon kit)'],['Élévation significative','> 100 UI/mL']],conds:[{t:'Thyroïdite de Hashimoto',c:'red'},{t:'Maladie de Basedow',c:'amber'},{t:'Thyroïdite du post-partum',c:'teal'},{t:'Risque hypothyroïdie sous amiodarone',c:'violet'}],tip:"Des anti-TPO positifs avec TSH normale constituent un risque d'hypothyroïdie future (1–2%/an). Ils ne nécessitent pas de traitement mais justifient un suivi annuel de la TSH.",badge:'Auto-immunité thyroïdienne',badgeC:'amber'},
+  'Anti-Tg (Anticorps Anti-Thyroglobuline)':{def:`Les <strong>anti-Tg</strong> sont des auto-anticorps dirigés contre la thyroglobuline, protéine de stockage des hormones thyroïdiennes. Particulièrement utiles dans le suivi post-traitement du cancer thyroïdien différencié.`,vals:[['Normale','< 115 UI/mL (selon kit)']],conds:[{t:'Thyroïdite de Hashimoto',c:'amber'},{t:'Cancer thyroïdien (suivi)',c:'red'},{t:'Maladie de Basedow',c:'teal'}],tip:"Les anti-Tg positifs après thyroïdectomie pour cancer doivent être suivis car ils peuvent masquer une récidive en interférant avec le dosage de la thyroglobuline résiduelle.",badge:'Auto-immunité thyroïdienne',badgeC:'amber'},
+  'LH / FSH (Gonadotrophines)':{def:`La <strong>LH</strong> et la <strong>FSH</strong> sont des gonadotrophines hypophysaires qui régulent la fonction gonadique. Elles permettent d'orienter le diagnostic entre une origine centrale (hypothalamo-hypophysaire) et périphérique (ovarienne/testiculaire).`,vals:[['FSH F phase folliculaire','3–10 UI/L'],['LH F phase folliculaire','1–12 UI/L'],['FSH H','1–8 UI/L'],['LH H','1–9 UI/L']],conds:[{t:'Insuffisance ovarienne prématurée (↑ FSH)',c:'red'},{t:'Ménopause (↑ LH/FSH)',c:'amber'},{t:'SOPK (LH/FSH > 2)',c:'violet'},{t:'Hypogonadisme central (↓ LH/FSH)',c:'amber'}],tip:"En cas d'aménorrhée, un rapport LH/FSH > 2 oriente fortement vers un SOPK. Des LH et FSH élevées orientent vers une insuffisance ovarienne primaire.",badge:'Bilan hormonal gonadique',badgeC:'amber'},
+  'Estradiol (E2)':{def:`L'<strong>estradiol (E2)</strong> est le principal œstrogène chez la femme en période d'activité génitale. Son dosage est utile dans le bilan de l'infertilité, des troubles du cycle et de la ménopause.`,vals:[['F phase folliculaire','20–140 pg/mL'],['Pic ovulatoire','150–750 pg/mL'],['H','10–50 pg/mL']],conds:[{t:'Insuffisance ovarienne',c:'red'},{t:'SOPK',c:'violet'},{t:'Tumeur sécrétante',c:'red'},{t:'Gynécomastie chez l\'homme',c:'amber'},{t:'Ménopause',c:'teal'}],tip:"L'estradiol doit être interprété selon le jour du cycle. Un dosage isolé hors contexte a peu de valeur.",badge:'Bilan hormonal féminin',badgeC:'amber'},
+  'Cortisol':{def:`Le <strong>cortisol</strong> est l'hormone du stress, sécrétée par les corticosurrénales selon un rythme circadien (pic matinal). Il régule le métabolisme glucidique, la réponse inflammatoire et la pression artérielle.`,vals:[['Cortisol 8h','150–700 nmol/L (5.5–25 µg/dL)'],['Cortisol 20h','Doit être < 50% du 8h']],conds:[{t:'Syndrome de Cushing (↑)',c:'red'},{t:'Insuffisance surrénalienne (maladie d\'Addison ↓)',c:'amber'},{t:'Stress, dépression, obésité (↑ modéré)',c:'teal'},{t:'Prise de corticoïdes (↓ ACTH/Cortisol)',c:'violet'}],tip:"Le test de freinage à la dexaméthasone (1 mg à minuit) est le test de dépistage du syndrome de Cushing : un cortisol à 8h > 50 nmol/L après freinage est anormal.",badge:'Bilan surrénalien',badgeC:'amber'},
+  'DHEA-S (Déhydroépiandrostérone Sulfate)':{def:`La <strong>DHEA-S</strong> est un androgène surrénalien faible, précurseur de la testostérone et des œstrogènes. Son dosage est utile dans le bilan d'hyperandrogénie (hirsutisme, acné) et comme marqueur du vieillissement.`,vals:[['H 20–40 ans','200–500 µg/dL'],['F 20–40 ans','65–380 µg/dL']],conds:[{t:'Hyperandrogénie surrénalienne',c:'amber'},{t:'Tumeur surrénalienne',c:'red'},{t:'Insuffisance surrénalienne (↓)',c:'amber'},{t:'SOPK (↑ modéré)',c:'violet'}],tip:"La DHEA-S est l'androgène de choix pour différencier une hyperandrogénie ovarienne (testostérone ↑) d'une hyperandrogénie surrénalienne (DHEA-S ↑).",badge:'Bilan surrénalien & androgènes',badgeC:'amber'},
+  'PSA Total (Antigène Prostatique Spécifique)':{def:`Le <strong>PSA total</strong> est une glycoprotéine produite par les cellules prostatiques, utilisée pour le dépistage et le suivi du cancer de la prostate. Sa spécificité est limitée car il peut être élevé dans des pathologies bénignes.`,vals:[['Normale < 50 ans','< 2.5 ng/mL'],['Normale 50–60 ans','< 3.5 ng/mL'],['Normale > 70 ans','< 6.5 ng/mL']],conds:[{t:'Cancer de la prostate',c:'red'},{t:'Hypertrophie bénigne (HBP)',c:'amber'},{t:'Prostatite aiguë',c:'amber'},{t:'Après rapport sexuel (faux ↑)',c:'teal'}],tip:"La vélocité du PSA (augmentation > 0.75 ng/mL/an) est plus informative qu'une valeur isolée. Toujours interpréter avec le ratio PSA libre/total.",badge:'Dépistage prostatique',badgeC:'amber'},
+  'PSA Libre':{def:`Le <strong>PSA libre</strong> est la fraction non liée aux protéines. Le ratio PSA libre/total permet d'améliorer la spécificité du PSA total pour distinguer un cancer d'une pathologie bénigne : plus le ratio est bas, plus le risque de cancer est élevé.`,vals:[['Ratio libre/total favorable','> 25% (faible risque cancer)'],['Ratio inquiétant','< 10% (risque élevé)']],conds:[{t:'Cancer de la prostate (↓ ratio)',c:'red'},{t:'HBP (↑ ratio)',c:'green'}],tip:"Le dosage du PSA libre n'est utile que pour un PSA total entre 4 et 10 ng/mL.",badge:'Complément PSA total',badgeC:'amber'},
+  'Ratio PSA Libre / Total':{def:`Le <strong>ratio PSA libre/total</strong> améliore la spécificité du dépistage du cancer de la prostate dans la zone PSA 4–10 ng/mL. Un ratio bas (< 15–20%) est associé à un risque plus élevé de cancer.`,vals:[['Faible risque','> 25%'],['Risque intermédiaire','15–25%'],['Haut risque','< 15%']],conds:[{t:'Orientation biopsie prostatique',c:'amber'},{t:'HBP vs cancer (discrimination)',c:'teal'}],tip:"Le ratio n'est interprétable que si le PSA total est entre 4 et 10 ng/mL. En dehors de cette fourchette, sa valeur discriminante est limitée.",badge:'Discrimination HBP / cancer',badgeC:'amber'},
+  '25-OH Vitamine D':{def:`La <strong>25-OH vitamine D</strong> (calcidiol) est la forme de stockage de la vitamine D. Sa carence est extrêmement fréquente (80% de la population française en hiver) et impliquée dans l'ostéoporose, les maladies auto-immunes et le risque infectieux.`,vals:[['Carence sévère','< 25 nmol/L (< 10 ng/mL)'],['Insuffisance','25–75 nmol/L'],['Optimal','75–150 nmol/L'],['Toxicité (rare)','> 375 nmol/L']],conds:[{t:'Ostéoporose / ostéomalacie',c:'red'},{t:'Maladies auto-immunes',c:'violet'},{t:'Risque infectieux élevé',c:'amber'},{t:'Insuffisance rénale chronique',c:'amber'},{t:'Malabsorption intestinale',c:'teal'}],tip:"La supplémentation est recommandée chez tous les adultes > 65 ans, en cas de carence documentée. La forme D3 (cholécalciférol) est supérieure à la D2.",badge:'Marqueur clé PRÉVIO',badgeC:'amber'},
+  'CTX (C-Télopeptide du Collagène)':{def:`Le <strong>CTX</strong> est un marqueur de résorption osseuse, libéré lors de la dégradation osseuse par les ostéoclastes. Il est utile pour évaluer le turnover osseux et surveiller l'efficacité des traitements anti-ostéoporotiques.`,vals:[['Préménopause','< 0.300 µg/L'],['Post-ménopause','< 0.550 µg/L'],['H adulte','< 0.300 µg/L']],conds:[{t:'Ostéoporose (résorption élevée)',c:'red'},{t:'Maladie de Paget',c:'amber'},{t:'Métastases osseuses',c:'red'},{t:'Hyperparathyroïdie',c:'amber'}],tip:"Le CTX est sensible au jeûne et au rythme circadien : il doit être prélevé le matin à jeun pour être comparatif.",badge:'Marqueur de résorption osseuse',badgeC:'amber'},
+  'Albumine':{def:`L'<strong>albumine</strong> est la principale protéine plasmatique, synthétisée par le foie. Elle reflète l'état nutritionnel global, la fonction hépatique et la présence d'un syndrome inflammatoire. Sa demi-vie longue (20 jours) en fait un marqueur nutritionnel à long terme.`,vals:[['Normale','35–50 g/L'],['Dénutrition modérée','30–35 g/L'],['Dénutrition sévère','< 30 g/L']],conds:[{t:'Dénutrition protéino-énergétique',c:'red'},{t:'Syndrome néphrotique (perte urinaire)',c:'amber'},{t:'Cirrhose hépatique',c:'red'},{t:'Syndrome inflammatoire (↓ par dilution)',c:'violet'}],tip:"L'albumine est une protéine de phase aiguë négative : elle diminue en cas d'inflammation même sans dénutrition réelle. La CRP doit toujours être interprétée conjointement.",badge:'Statut nutritionnel',badgeC:'amber'},
+  'Préalbumine (Transthyrétine)':{def:`La <strong>préalbumine (transthyrétine)</strong> est une protéine de transport avec une demi-vie courte (2–3 jours), ce qui en fait un marqueur nutritionnel sensible aux variations rapides.`,vals:[['Normale','0.2–0.4 g/L'],['Dénutrition modérée','0.1–0.2 g/L'],['Dénutrition sévère','< 0.1 g/L']],conds:[{t:'Dénutrition aiguë',c:'red'},{t:'Syndrome inflammatoire (↓)',c:'amber'},{t:'Insuffisance hépatique (↓)',c:'amber'}],tip:"La préalbumine est particulièrement utile en réanimation et en post-opératoire pour surveiller l'efficacité de la renutrition artificielle.",badge:'Marqueur de renutrition',badgeC:'amber'},
+  'Zinc':{def:`Le <strong>zinc</strong> est un oligoélément essentiel impliqué dans > 300 réactions enzymatiques : immunité, cicatrisation, sens du goût et de l'odorat, synthèse des protéines. Sa carence est fréquente chez les personnes âgées et les végétaliens.`,vals:[['Plasma normal','10–18 µmol/L'],['Carence','< 10 µmol/L']],conds:[{t:'Déficit immunitaire',c:'amber'},{t:'Retard de cicatrisation',c:'teal'},{t:'Ageusie / anosmie',c:'teal'},{t:'Malabsorption (Crohn, cœliaque)',c:'amber'}],tip:"La zincémie plasmatique est peu sensible — elle peut être normale malgré une carence tissulaire. L'évaluation clinique est complémentaire indispensable.",badge:'Oligoélément essentiel',badgeC:'amber'},
+  'Sélénium':{def:`Le <strong>sélénium</strong> est un oligoélément antioxydant, cofacteur de la glutathion peroxydase et des iodothyronine déiodinases (conversion T4→T3). La carence est fréquente en Europe du Nord.`,vals:[['Plasma normal','0.8–1.5 µmol/L'],['Carence','< 0.6 µmol/L']],conds:[{t:'Dysfonction thyroïdienne',c:'amber'},{t:'Insuffisance cardiaque dilatée',c:'red'},{t:'Infertilité masculine',c:'violet'},{t:'Stress oxydatif élevé',c:'teal'}],tip:"La supplémentation en sélénium (200 µg/j) pourrait réduire la progression de la thyroïdite de Hashimoto. À ne pas dépasser 400 µg/j (risque de sélénose).",badge:'Oligoélément antioxydant',badgeC:'amber'},
+  'CACOR (Calcul Calorique Corrélé)':{def:`Le <strong>CACOR</strong> est un outil d'évaluation nutritionnelle intégrant des marqueurs biologiques, le poids et des données cliniques pour estimer les besoins caloriques et protéiques d'un patient.`,vals:[['Évaluation','Interprétation individuelle selon profil']],conds:[{t:'Dénutrition protéino-énergétique',c:'red'},{t:'Obésité (bilan nutritionnel)',c:'amber'},{t:'Post-chirurgie bariatrique',c:'teal'}],tip:"Le CACOR est souvent utilisé en association avec le MNA (Mini-Nutritional Assessment) pour évaluer le risque de dénutrition, en particulier chez les personnes âgées.",badge:'Évaluation nutritionnelle',badgeC:'amber'},
+  'pH Sanguin':{def:`Le <strong>pH sanguin</strong> mesure l'acidité ou l'alcalinité du sang artériel. Le corps maintient le pH dans une fourchette étroite grâce à des systèmes tampons (bicarbonates, protéines) et à la régulation rénale et respiratoire.`,vals:[['Normal','7.38–7.42'],['Acidémie','< 7.35'],['Alcalémie','> 7.45']],conds:[{t:'Acidose respiratoire (hypercapnie)',c:'red'},{t:'Acidose métabolique (ALD, IRC)',c:'red'},{t:'Alcalose respiratoire (hyperventilation)',c:'amber'},{t:'Alcalose métabolique (vomissements)',c:'amber'}],tip:"Le pH est le résultat final de l'équilibre entre pCO₂ (composante respiratoire) et HCO₃⁻ (composante métabolique). L'analyse complète nécessite les deux paramètres.",badge:'Gazométrie artérielle',badgeC:'amber'},
+  'pCO₂ (Pression Partielle CO₂)':{def:`La <strong>pCO₂</strong> reflète la ventilation alvéolaire. Elle est régulée par la fréquence et l'amplitude respiratoires. C'est le paramètre de référence de la composante respiratoire de l'équilibre acide-base.`,vals:[['Normale','35–45 mmHg'],['Hypercapnie','> 45 mmHg'],['Hypocapnie','< 35 mmHg']],conds:[{t:'BPCO décompensée (hypercapnie)',c:'red'},{t:'Hypoventilation centrale',c:'red'},{t:'Anxiété / hyperventilation (↓ pCO₂)',c:'amber'},{t:'Embolie pulmonaire (↓ pCO₂ compensatrice)',c:'amber'}],tip:"En cas d'acidose métabolique, la pCO₂ doit baisser de façon compensatrice. La formule de Winter permet de vérifier : pCO₂ attendue = 1.5 × [HCO₃⁻] + 8 ± 2.",badge:'Composante respiratoire',badgeC:'amber'},
+  'pO₂ (Pression Partielle O₂)':{def:`La <strong>pO₂</strong> mesure la pression partielle en oxygène dans le sang artériel. Elle reflète l'efficacité des échanges gazeux pulmonaires.`,vals:[['Normale adulte','80–100 mmHg'],['Hypoxémie modérée','60–80 mmHg'],['Hypoxémie sévère','< 60 mmHg']],conds:[{t:'Insuffisance respiratoire aiguë',c:'red'},{t:'Pneumonie / SDRA',c:'red'},{t:'Embolie pulmonaire',c:'amber'},{t:'Altitude (↓ physiologique)',c:'teal'}],tip:"La pO₂ normale diminue avec l'âge : pO₂ normale estimée = 102 − (0.33 × âge). Une pO₂ < 60 mmHg définit l'insuffisance respiratoire.",badge:'Échanges gazeux pulmonaires',badgeC:'amber'},
+  'Lactates':{def:`Les <strong>lactates</strong> sont des produits du métabolisme anaérobie. Leur élévation est un signe d'alerte de choc ou d'hypoxie tissulaire. En réanimation, c'est un marqueur pronostique majeur.`,vals:[['Normale','0.5–1.5 mmol/L'],['Hyperlactatémie','2–4 mmol/L'],['Acidose lactique sévère','> 4 mmol/L']],conds:[{t:'Choc septique',c:'red'},{t:'Choc cardiogénique',c:'red'},{t:'Ischémie mésentérique',c:'red'},{t:'Insuffisance hépatique sévère',c:'amber'},{t:'Effort physique intense (transitoire)',c:'teal'}],tip:"La clearance des lactates (diminution > 10% en 6h sous traitement) est un critère de réponse thérapeutique dans le choc septique.",badge:'Marqueur de perfusion tissulaire',badgeC:'amber'},
+  'NFS — Numération Formule Sanguine':{def:`La <strong>NFS</strong> est l'examen hématologique de base, comptabilisant les différentes cellules sanguines : globules rouges (et indices GR : VGM, TCMH, CCMH), globules blancs (et formule différentielle) et plaquettes.`,vals:[['Hémoglobine H','13–17.5 g/dL'],['Hémoglobine F','12–16 g/dL'],['GB','4–10 G/L'],['Plaquettes','150–400 G/L']],conds:[{t:'Anémie (↓ Hb)',c:'amber'},{t:'Polyglobulie',c:'red'},{t:'Leucopénie (immunodépression)',c:'violet'},{t:'Leucocytose (infection, cancer)',c:'amber'},{t:'Thrombopénie',c:'red'}],tip:"Le VGM (Volume Globulaire Moyen) guide l'étiologie de l'anémie : macrocytose (B9, B12) vs microcytose (fer) vs normocytose (inflammation, hémolyse).",badge:'Bilan de base incontournable',badgeC:'violet'},
+  'Réticulocytes':{def:`Les <strong>réticulocytes</strong> sont les précurseurs immédiats des globules rouges matures. Leur numération distingue une anémie périphérique (régénérative : hémolyse, hémorragie) d'une anémie centrale (arégénérative : insuffisance médullaire).`,vals:[['Normale','20–100 G/L (0.5–2.5%)'],['Anémie régénérative','> 120 G/L'],['Anémie arégénérative','< 20 G/L']],conds:[{t:'Hémolyse (régénérative)',c:'amber'},{t:'Hémorragie aiguë (régénérative)',c:'amber'},{t:'Aplasie médullaire (arégénérative)',c:'red'},{t:'Carence B12/B9 (arégénérative)',c:'violet'}],tip:"L'index réticulocytaire (IR = réticulocytes × Ht/0.45) permet de corriger pour l'anémie : IR > 2 = régénérative, IR < 2 = centrale.",badge:'Classification de l\'anémie',badgeC:'violet'},
+  'Ferritine':{def:`La <strong>ferritine</strong> est la principale protéine de stockage du fer dans l'organisme. Son dosage reflète les réserves en fer : abaissée dans la carence martiale, élevée dans la surcharge en fer, l'inflammation et certaines pathologies hépatiques.`,vals:[['Normale H','30–400 µg/L'],['Normale F','15–200 µg/L'],['Carence','< 12 µg/L'],['Surcharge','> 1000 µg/L (hémochromatose)']],conds:[{t:'Anémie ferriprive (↓↓)',c:'red'},{t:'Hémochromatose (↑↑)',c:'amber'},{t:'Syndrome inflammatoire (↑)',c:'teal'},{t:'Maladie de Still (↑↑↑)',c:'violet'}],tip:"La ferritine est une protéine de phase aiguë positive : elle peut être \"faussement normale\" en cas de carence martiale associée à une inflammation.",badge:'Marqueur clé PRÉVIO',badgeC:'violet'},
+  'Saturation de la Transferrine':{def:`La <strong>saturation de la transferrine</strong> (ratio fer sérique / capacité totale de fixation) reflète la disponibilité du fer pour l'érythropoïèse et permet de distinguer les anémies ferriprives des anémies inflammatoires.`,vals:[['Normale','20–45%'],['Carence martiale','< 16%'],['Hémochromatose','> 60%']],conds:[{t:'Anémie ferriprive (↓)',c:'red'},{t:'Hémochromatose (↑↑)',c:'amber'},{t:'Anémie inflammatoire (normale à ↓)',c:'violet'}],tip:"Association saturation < 20% + ferritine basse = carence martiale vraie. Association saturation basse + ferritine normale + CRP élevée = anémie inflammatoire.",badge:'Fer fonctionnel',badgeC:'violet'},
+  'Vitamine B9 (Folates)':{def:`La <strong>vitamine B9 (acide folique / folates)</strong> est essentielle à la synthèse des acides nucléiques et à la maturation cellulaire. Sa carence provoque une anémie mégaloblastique et des anomalies de fermeture du tube neural pendant la grossesse.`,vals:[['Folates sériques','7–45 nmol/L'],['Folates érythrocytaires (réserves)','> 360 nmol/L']],conds:[{t:'Anémie mégaloblastique',c:'red'},{t:'Spina bifida (carence grossesse)',c:'violet'},{t:'Malabsorption (cœliaque, Crohn)',c:'amber'},{t:'Alcoolisme',c:'amber'}],tip:"La supplémentation en acide folique (400 µg/j) est recommandée au moins 1 mois avant et pendant le premier trimestre de grossesse.",badge:'Vitamine clé grossesse',badgeC:'violet'},
+  'Vitamine B12 (Cobalamine)':{def:`La <strong>vitamine B12 (cobalamine)</strong> est indispensable à la synthèse de l'ADN, à la myélinisation nerveuse et au métabolisme des folates. Sa carence cause une anémie mégaloblastique et des complications neurologiques potentiellement irréversibles.`,vals:[['Normale','200–900 pg/mL (148–664 pmol/L)'],['Carence','< 200 pg/mL'],['Zone grise','200–300 pg/mL']],conds:[{t:'Anémie de Biermer (gastrite auto-immune)',c:'red'},{t:'Neuropathie / ataxie',c:'red'},{t:'Végétalisme strict',c:'amber'},{t:'Metformine (réduction absorption)',c:'teal'}],tip:"Dans la zone grise 200–300 pg/mL, l'homocystéine et l'acide méthylmalonique (AMM) permettent de confirmer une carence fonctionnelle en B12.",badge:'Vitamine essentielle neurologique',badgeC:'violet'},
+  'CRP (Protéine C-Réactive)':{def:`La <strong>CRP</strong> est une protéine de phase aiguë synthétisée par le foie en réponse à une inflammation, une infection ou une nécrose tissulaire. C'est le marqueur inflammatoire le plus utilisé en pratique clinique.`,vals:[['Normale','< 6 mg/L'],['Inflammation modérée','10–100 mg/L'],['Inflammation sévère','> 100 mg/L (souvent infection bactérienne)']],conds:[{t:'Infection bactérienne (↑↑)',c:'red'},{t:'Infection virale (↑ modéré)',c:'amber'},{t:'Maladie auto-immune',c:'violet'},{t:'Néoplasie',c:'amber'},{t:'Post-chirurgie (transitoire)',c:'teal'}],tip:"Une CRP > 100 mg/L oriente fortement vers une infection bactérienne. La PCT (procalcitonine) est plus spécifique des infections bactériennes.",badge:'Marqueur inflammatoire clé',badgeC:'violet'},
+  'CRP Ultra-Sensible (CRPus)':{def:`La <strong>CRP ultra-sensible</strong> mesure des concentrations très faibles de CRP. Elle est utilisée comme marqueur du risque cardiovasculaire et de l'inflammation de bas grade — non pour diagnostiquer une infection.`,vals:[['Risque CV faible','< 1 mg/L'],['Risque CV intermédiaire','1–3 mg/L'],['Risque CV élevé','> 3 mg/L']],conds:[{t:'Risque cardiovasculaire (athérosclérose)',c:'red'},{t:'Syndrome métabolique',c:'amber'},{t:'Inflammation de bas grade (obésité)',c:'amber'},{t:'Diabète de type 2',c:'teal'}],tip:"La CRPus ne doit pas être interprétée en période d'infection aiguë. C'est un reflet de l'inflammation chronique de bas grade, facteur de risque indépendant d'infarctus.",badge:'Marqueur clé PRÉVIO',badgeC:'violet'},
+  'Procalcitonine (PCT)':{def:`La <strong>procalcitonine (PCT)</strong> est sécrétée massivement lors des infections bactériennes systémiques (sepsis). Elle est plus spécifique que la CRP pour les infections bactériennes et permet de guider la prescription et la durée des antibiotiques.`,vals:[['Normale','< 0.1 ng/mL'],['Infection bactérienne probable','0.1–0.5 ng/mL'],['Sepsis sévère','> 2 ng/mL']],conds:[{t:'Sepsis bactérien',c:'red'},{t:'Choc septique',c:'red'},{t:'Pneumonie bactérienne',c:'amber'},{t:'Infection virale (< 0.1 ng/mL)',c:'green'}],tip:"La PCT est un excellent outil de déterminisme antibiotique : un algorithme PCT-guidé permet de réduire la durée d'antibiothérapie de 30–40% sans augmenter la mortalité.",badge:'Marqueur infectieux bactérien',badgeC:'violet'},
+  'VS — Vitesse de Sédimentation':{def:`La <strong>vitesse de sédimentation (VS)</strong> mesure la vitesse à laquelle les globules rouges se déposent dans un tube en 1 heure. C'est un marqueur d'inflammation non spécifique à cinétique lente, très utile pour le suivi de certaines maladies.`,vals:[['Normale H < 50 ans','< 10 mm/h'],['Normale F < 50 ans','< 15 mm/h'],['Normale H/F > 50 ans','< âge/2 (H) ou (âge+10)/2 (F)']],conds:[{t:'Artérite à cellules géantes (Horton)',c:'red'},{t:'Polyarthrite rhumatoïde',c:'amber'},{t:'Myélome multiple',c:'red'},{t:'Infection chronique (TBC)',c:'amber'}],tip:"La VS est lente à se normaliser (semaines à mois) — c'est pourquoi elle est utile en suivi de maladies inflammatoires chroniques, contrairement à la CRP.",badge:'Marqueur inflammatoire chronique',badgeC:'violet'},
+  'TP / INR (Taux de Prothrombine)':{def:`Le <strong>TP (taux de prothrombine)</strong> évalue la voie extrinsèque de la coagulation (facteurs II, V, VII, X). Il est indispensable pour évaluer la fonction hépatique et surveiller les patients sous anticoagulants oraux (AVK).`,vals:[['TP normal','70–100%'],['INR normal','0.8–1.2'],['INR cible sous AVK (FANV)','2.0–3.0'],['INR cible valve prothétique','2.5–3.5']],conds:[{t:'Insuffisance hépatocellulaire',c:'red'},{t:'Déficit en vitamine K',c:'amber'},{t:'CIVD',c:'red'},{t:'Traitement par AVK (warfarine)',c:'violet'},{t:'Surdosage en AVK (urgence)',c:'red'}],tip:"Le TP/INR est le meilleur reflet de la fonction de synthèse hépatique. Un TP < 50% isolé sans traitement anticoagulant doit faire évoquer une insuffisance hépatocellulaire sévère.",badge:'Bilan hémostase standard',badgeC:'violet'},
+  'TCA (Temps de Céphaline Activée)':{def:`Le <strong>TCA</strong> évalue la voie intrinsèque de la coagulation (facteurs VIII, IX, XI, XII). Un allongement évoque un déficit en facteurs de coagulation, un anticoagulant circulant ou un traitement par héparine.`,vals:[['Ratio normal','< 1.2'],['Allongé','> 1.3 (à interpréter selon contexte)']],conds:[{t:'Hémophilie A (déficit VIII)',c:'red'},{t:'Hémophilie B (déficit IX)',c:'red'},{t:'Maladie de Willebrand',c:'amber'},{t:'Anticoagulant lupique',c:'violet'},{t:'Traitement par héparine',c:'teal'}],tip:"Un TCA allongé non corrigé par le mélange avec du plasma normal signe un anticoagulant circulant (anticorps). Un TCA corrigé par le plasma normal signe un déficit en facteur.",badge:'Voie intrinsèque coagulation',badgeC:'violet'},
+  'Fibrinogène':{def:`Le <strong>fibrinogène</strong> est une glycoprotéine plasmatique synthétisée par le foie, précurseur de la fibrine. Il joue un rôle essentiel dans la formation du caillot et c'est aussi une protéine de phase aiguë — facteur de risque cardiovasculaire indépendant.`,vals:[['Normale','2–4 g/L'],['Risque CV élevé','> 4.5 g/L'],['Hypofibrinogénémie','< 1.5 g/L']],conds:[{t:'CIVD (↓↓)',c:'red'},{t:'Insuffisance hépatique sévère (↓)',c:'red'},{t:'Syndrome inflammatoire (↑)',c:'amber'},{t:'Afibrinogénémie congénitale',c:'violet'}],tip:"Dans la CIVD, le fibrinogène s'effondre car il est consommé massivement. Un fibrinogène < 1 g/L dans ce contexte est une urgence thérapeutique.",badge:'Facteur de coagulation & inflammation',badgeC:'violet'},
+  'LDH (Lactate Déshydrogénase)':{def:`La <strong>LDH</strong> est une enzyme présente dans toutes les cellules de l'organisme, libérée lors de leur destruction. Non spécifique, elle s'élève lors de toute lyse cellulaire : hémolyse, nécrose myocardique, ischémie tissulaire, cancer.`,vals:[['Normale','140–280 UI/L']],conds:[{t:'Hémolyse (intravasculaire)',c:'red'},{t:'Lymphome / leucémie (↑↑)',c:'red'},{t:'Infarctus du myocarde',c:'amber'},{t:'Pneumocystose (PCP)',c:'violet'},{t:'Ischémie tissulaire',c:'amber'}],tip:"Dans les lymphomes, le taux de LDH est un facteur pronostique majeur (intégré dans le score IPI).",badge:'Marqueur de cytolyse universelle',badgeC:'violet'},
+  'Haptoglobine':{def:`L'<strong>haptoglobine</strong> est une protéine plasmatique qui capture l'hémoglobine libre libérée lors de l'hémolyse, prévenant ainsi la toxicité rénale. Sa concentration s'effondre lors d'une hémolyse intravasculaire.`,vals:[['Normale','0.3–2.0 g/L'],['Hémolyse intravasculaire','< 0.1 g/L ou indosable']],conds:[{t:'Hémolyse intravasculaire (↓↓)',c:'red'},{t:'Syndrome inflammatoire (↑)',c:'teal'},{t:'Hépatopathie sévère (↓)',c:'amber'},{t:'Anémie hémolytique auto-immune',c:'violet'}],tip:"L'association haptoglobine effondrée + LDH élevée + schizocytes à la NFS est caractéristique d'une microangiopathie thrombotique (MAT).",badge:'Marqueur hémolyse intravasculaire',badgeC:'violet'},
+  'Test de Coombs':{def:`Le <strong>test de Coombs</strong> (test à l'antiglobuline) détecte les anticorps ou le complément fixés à la surface des globules rouges (test direct) ou les anticorps libres dans le sérum (test indirect). Il est indispensable dans le bilan d'une anémie hémolytique auto-immune.`,vals:[['Résultat normal','Négatif']],conds:[{t:'Anémie hémolytique auto-immune (AHAI)',c:'red'},{t:'Maladie hémolytique du nouveau-né',c:'amber'},{t:'Réaction transfusionnelle hémolytique',c:'red'},{t:'Médicaments (alpha-méthyldopa, pénicillines)',c:'violet'}],tip:"Un Coombs direct positif avec haptoglobine effondrée et LDH élevée confirme une AHAI. La recherche de l'anticorps (chaud ou froid) oriente le traitement.",badge:'Hémolyse immunologique',badgeC:'violet'},
+  'β2-Microglobuline':{def:`La <strong>β2-microglobuline (B2M)</strong> est une petite protéine présente à la surface de toutes les cellules nucléées. Son taux sérique reflète le turnover cellulaire et la filtration rénale. C'est un marqueur pronostique important dans les hémopathies malignes.`,vals:[['Normale','< 2.5 mg/L']],conds:[{t:'Myélome multiple (pronostique)',c:'red'},{t:'LLC, lymphomes',c:'amber'},{t:'Insuffisance rénale (↑)',c:'violet'},{t:'Infection VIH',c:'amber'}],tip:"Dans le myélome, la β2-microglobuline est l'un des deux paramètres du score ISS. ISS 1 : B2M < 3.5 + albumine ≥ 3.5 g/dL = pronostic favorable.",badge:'Pronostic hématologique',badgeC:'violet'},
+  'Antithrombine III (AT3)':{def:`L'<strong>antithrombine III (AT3)</strong> est le principal inhibiteur physiologique de la coagulation. Un déficit héréditaire ou acquis augmente significativement le risque de thrombose veineuse profonde et d'embolie pulmonaire.`,vals:[['Normale','80–120%'],['Déficit','< 70% (thrombose possible)']],conds:[{t:'Déficit héréditaire (thrombophilie)',c:'red'},{t:'CIVD (consommation)',c:'red'},{t:'Syndrome néphrotique (perte urinaire)',c:'amber'},{t:'Insuffisance hépatique',c:'amber'}],tip:"Le déficit en AT3 est la thrombophilie héréditaire avec le risque thrombotique le plus élevé. Les porteurs ont un risque de thrombose x5–10.",badge:'Bilan thrombophilie',badgeC:'violet'},
+  'Homocystéine':{def:`L'<strong>homocystéine</strong> est un acide aminé soufré intermédiaire du métabolisme de la méthionine. Son élévation (hyperhomocystéinémie) est un facteur de risque cardiovasculaire et de thrombose, indépendant des lipides.`,vals:[['Normale','5–15 µmol/L'],['Hyperhomocystéinémie légère','15–30 µmol/L'],['Sévère','> 30 µmol/L']],conds:[{t:'Risque cardiovasculaire (athérosclérose)',c:'red'},{t:'Carence en B9, B12, B6',c:'amber'},{t:'Insuffisance rénale chronique (↑)',c:'violet'},{t:'Hypothyroïdie',c:'teal'}],tip:"La supplémentation en vitamines B9 + B12 ± B6 normalise l'homocystéine mais n'a pas démontré de bénéfice clinique sur les événements cardiovasculaires dans les études randomisées.",badge:'Facteur de risque thrombotique',badgeC:'violet'},
+  'Anticoagulant Circulant (ACC)':{def:`L'<strong>anticoagulant circulant (ACC)</strong>, ou anticoagulant lupique, est un anticorps dirigé contre les phospholipides qui allonge paradoxalement le TCA in vitro mais est associé à un risque thrombotique élevé in vivo.`,vals:[['Résultat normal','Absent (TCA normalisé au mélange)']],conds:[{t:'Syndrome des antiphospholipides (SAPL)',c:'red'},{t:'Lupus érythémateux systémique',c:'violet'},{t:'Fausses couches à répétition',c:'amber'},{t:'Thrombose veineuse ou artérielle récidivante',c:'red'}],tip:"Le diagnostic de SAPL requiert : 1) un critère clinique (thrombose ou complication obstétricale) ET 2) un critère biologique confirmé sur 2 prélèvements à 12 semaines d'intervalle.",badge:'Syndrome antiphospholipides',badgeC:'violet'},
+  'ANA — Anticorps Anti-Nucléaires':{def:`Les <strong>ANA (anticorps anti-nucléaires)</strong> sont un groupe hétérogène d'auto-anticorps dirigés contre des constituants du noyau cellulaire. Leur dépistage est le test de première intention dans le bilan d'une connectivite suspectée.`,vals:[['Négatif','< 1/80'],['Zone grise','1/80–1/160'],['Positif significatif','≥ 1/160']],conds:[{t:'Lupus érythémateux systémique (LES)',c:'red'},{t:'Syndrome de Sjögren',c:'amber'},{t:'Sclérodermie systémique',c:'amber'},{t:'Polyarthrite rhumatoïde',c:'violet'},{t:'Hépatites auto-immunes',c:'teal'}],tip:"Des ANA positifs nécessitent la recherche d'anticorps spécifiques (anti-dsDNA pour le LES, anti-SSA/SSB pour Sjögren) pour typer la connectivite.",badge:'Dépistage auto-immunité',badgeC:'green'},
+  'Anti-CCP (Anticorps Anti-Peptides Citrullinés)':{def:`Les <strong>anti-CCP</strong> sont les marqueurs les plus spécifiques de la polyarthrite rhumatoïde (PR) — spécificité > 95%. Ils peuvent être présents des années avant les premiers symptômes.`,vals:[['Négatif','< 17 U/mL'],['Positif','≥ 17 U/mL'],['Fortement positif','> 50 U/mL']],conds:[{t:'Polyarthrite rhumatoïde',c:'red'},{t:'PR érosive (taux élevé = mauvais pronostic)',c:'red'},{t:'Arthrites psoriasiques (faible proportion)',c:'amber'}],tip:"Les anti-CCP combinés au facteur rhumatoïde (FR) donnent une spécificité > 99% pour la PR.",badge:'Marqueur spécifique polyarthrite',badgeC:'green'},
+  'IgE Totales':{def:`Les <strong>IgE totales</strong> sont des immunoglobulines E dont l'élévation oriente vers une atopie ou une parasitose. Un taux élevé est fréquent dans les maladies allergiques mais aussi dans les helminthiases.`,vals:[['Normale adulte','< 100 UI/mL'],['Allergie probable','100–1000 UI/mL'],['Parasitose / aspergillome','> 1000 UI/mL']],conds:[{t:'Asthme allergique',c:'amber'},{t:'Dermatite atopique',c:'amber'},{t:'Rhinite allergique',c:'teal'},{t:'Parasitose (helminthes)',c:'green'}],tip:"Les IgE totales n'identifient pas l'allergène en cause. Les IgE spécifiques (RAST) ou les tests cutanés sont nécessaires.",badge:'Dépistage allergique',badgeC:'green'},
+  'Phadiatop (Dépistage Pneumallergènes)':{def:`Le <strong>Phadiatop</strong> est un test de dépistage semi-quantitatif qui détecte les IgE spécifiques des principaux pneumallergènes (acariens, pollens, moisissures, poils d'animaux). Un résultat positif indique une sensibilisation aux allergènes respiratoires.`,vals:[['Positif','IgE spécifiques détectées → orientation allergologique'],['Négatif','Allergie respiratoire peu probable']],conds:[{t:'Rhinite allergique saisonnière ou perannuelle',c:'amber'},{t:'Asthme allergique',c:'amber'},{t:'Conjonctivite allergique',c:'teal'}],tip:"Un Phadiatop positif doit être suivi de tests IgE spécifiques pour identifier l'allergène précis.",badge:'Dépistage pneumallergènes',badgeC:'green'},
+  'Trophatop (Dépistage Trophallergènes)':{def:`Le <strong>Trophatop</strong> est l'équivalent du Phadiatop pour les allergènes alimentaires : lait, œuf, blé, soja, arachide, poissons, fruits à coque. Il dépiste une sensibilisation alimentaire IgE-médiée.`,vals:[['Positif','Sensibilisation alimentaire → confirmer par IgE spécifiques'],['Négatif','Allergie alimentaire IgE-médiée peu probable']],conds:[{t:'Allergie alimentaire IgE-médiée',c:'red'},{t:'Urticaire aiguë récidivante',c:'amber'},{t:'Anaphylaxie d\'origine alimentaire',c:'red'}],tip:"Un Trophatop négatif n'exclut pas une allergie alimentaire non IgE-médiée (entéropathie, FPIES).",badge:'Dépistage alimentaire',badgeC:'green'},
+  'IgE Spécifiques (RAST)':{def:`Les <strong>IgE spécifiques (RAST)</strong> dosent les IgE dirigées contre un allergène précis. Elles confirment et quantifient la sensibilisation allergique identifiée par le dépistage.`,vals:[['Classe 0','< 0.35 kU/L (nul)'],['Classe 1-2','0.35–3.5 kU/L (faible à modéré)'],['Classe 3-6','> 3.5 kU/L (élevé à très élevé)']],conds:[{t:'Allergie documentée (confirmation)',c:'amber'},{t:'Anaphylaxie (identification allergène)',c:'red'},{t:'Indication désensibilisation (immunothérapie)',c:'green'}],tip:"Le niveau d'IgE spécifiques est corrélé à la probabilité d'une réaction clinique mais ne prédit pas l'intensité de la réaction.",badge:'Confirmation allergène spécifique',badgeC:'green'},
+  'CA 19-9 (Antigène Carbohydrate 19-9)':{def:`Le <strong>CA 19-9</strong> est un marqueur tumoral associé au cancer du pancréas et des voies biliaires. Il est utilisé pour le suivi thérapeutique et la détection précoce de récidive.`,vals:[['Normale','< 37 U/mL'],['Élévation significative','> 100 U/mL (forte suspicion maligne)']],conds:[{t:'Cancer du pancréas',c:'red'},{t:'Cholangiocarcinome',c:'red'},{t:'Cancer colorectal (associé)',c:'amber'},{t:'Pancréatite chronique (faux ↑)',c:'teal'}],tip:"10% de la population est Lewis-négatif et ne produit pas de CA 19-9, même en cas de cancer pancréatique.",badge:'Marqueur cancer pancréas',badgeC:'green'},
+  'CA 125 (Antigène Carbohydrate 125)':{def:`Le <strong>CA 125</strong> est un marqueur tumoral principalement utilisé dans le suivi du cancer de l'ovaire (adénocarcinome séreux). Il est très utile pour surveiller la réponse au traitement et détecter les récidives.`,vals:[['Normale','< 35 U/mL (femme non enceinte)']],conds:[{t:'Cancer de l\'ovaire (suivi)',c:'red'},{t:'Endométriose (faux ↑)',c:'amber'},{t:'Méninge (grossesse, règles)',c:'teal'},{t:'Cirrhose / ascite (faux ↑)',c:'amber'}],tip:"Le CA 125 est peu utile pour le dépistage en population générale (faible VPP). Il est indiqué pour le suivi post-traitement du cancer de l'ovaire.",badge:'Marqueur cancer ovaire',badgeC:'green'},
+  'CA 15-3 (Antigène Carbohydrate 15-3)':{def:`Le <strong>CA 15-3</strong> est le marqueur tumoral de référence du cancer du sein métastatique. Il est peu sensible aux stades localisés mais très utile pour suivre l'efficacité du traitement et détecter les récidives.`,vals:[['Normale','< 30 U/mL']],conds:[{t:'Cancer du sein métastatique (suivi)',c:'red'},{t:'Cancer bronchique (association)',c:'amber'},{t:'Hépatopathie (faux ↑)',c:'teal'}],tip:"Le CA 15-3 ne doit pas être utilisé pour le dépistage du cancer du sein. Une élévation progressive sous traitement est le signe d'une progression tumorale.",badge:'Marqueur cancer sein',badgeC:'green'},
+  'NSE (Énolase Neurone-Spécifique)':{def:`La <strong>NSE</strong> est une isoenzyme de l'énolase exprimée dans les cellules d'origine neuroendocrine et les neurones. C'est un marqueur tumoral pour les cancers neuroendocrines et surtout pour le carcinome pulmonaire à petites cellules (CPPC).`,vals:[['Normale','< 16.3 ng/mL']],conds:[{t:'Carcinome pulmonaire à petites cellules (CPPC)',c:'red'},{t:'Neuroblastome (enfant)',c:'red'},{t:'Tumeurs carcinoïdes',c:'amber'},{t:'Hémolyse (faux ↑)',c:'amber'}],tip:"La NSE est sensible à l'hémolyse — un échantillon hémolysé donnera un faux positif. Elle est utilisée conjointement au CYFRA 21-1 dans le bilan des cancers bronchiques.",badge:'Marqueur tumeurs neuroendocrines',badgeC:'green'},
+  'CYFRA 21-1':{def:`Le <strong>CYFRA 21-1</strong> est un fragment de cytokératine 19, protéine du cytosquelette des cellules épithéliales. C'est le marqueur tumoral le plus sensible pour le cancer bronchique non à petites cellules (CBNPC).`,vals:[['Normale','< 3.3 ng/mL']],conds:[{t:'Cancer bronchique non à petites cellules',c:'red'},{t:'Cancer de la vessie (suivi)',c:'amber'},{t:'Cancer du col utérin',c:'amber'},{t:'Insuffisance rénale (faux ↑)',c:'teal'}],tip:"Le CYFRA 21-1 est particulièrement performant pour les carcinomes épidermoïdes bronchiques (sensibilité 60%).",badge:'Marqueur cancer bronchique',badgeC:'green'},
+  'PCR Chlamydia / Gonorrhée':{def:`La <strong>PCR Chlamydia/Gonorrhée</strong> (TAAN) est la méthode de référence pour le dépistage de Chlamydia trachomatis et Neisseria gonorrhoeae. Elle peut être réalisée sur premier jet d'urines ou prélèvement vaginal.`,vals:[['Résultat','Positif / Négatif'],['Prélèvement','Premier jet urinaire ou auto-prélèvement vaginal']],conds:[{t:'Infection génitale à Chlamydia (IST fréquente)',c:'red'},{t:'Gonorrhée (urétrite, cervicite)',c:'red'},{t:'Salpingite / pelvi-péritonite',c:'amber'},{t:'Infertilité tubaire (séquelles)',c:'amber'}],tip:"Chlamydia trachomatis est l'IST bactérienne la plus fréquente en France, souvent asymptomatique. Le dépistage annuel est recommandé chez les sujets sexuellement actifs < 25 ans.",badge:'IST — Dépistage de première ligne',badgeC:'green'},
+  'Sérologie HBV (Hépatite B)':{def:`Le bilan <strong>HBV (hépatite B)</strong> comprend plusieurs marqueurs : l'AgHBs (infection active ou portage chronique), les anticorps anti-HBs (immunité vaccinale ou guérison), anti-HBc (contact avec le virus), et l'AgHBe (réplication virale active).`,vals:[['AgHBs','Négatif (normal)'],['Anticorps anti-HBs','> 10 UI/L = immunité vaccinale']],conds:[{t:'Hépatite B aiguë (AgHBs positif)',c:'red'},{t:'Portage chronique VHB',c:'amber'},{t:'Cirrhose / hépatocarcinome (évolution)',c:'red'},{t:'Réactivation sous immunosuppresseurs',c:'amber'}],tip:"La vaccination contre l'hépatite B est recommandée pour tous les nourrissons. Chez l'adulte non vacciné, un rappel peut être nécessaire si anti-HBs < 10 UI/L.",badge:'IST — Hépatite B',badgeC:'green'},
+  'Sérologie HCV (Hépatite C)':{def:`La <strong>sérologie anti-VHC</strong> détecte les anticorps contre le virus de l'hépatite C. Une sérologie positive indique un contact avec le VHC. La confirmation repose sur la PCR ARN-VHC, qui affirme l'infection active.`,vals:[['Anticorps anti-VHC','Négatif (normal)'],['Si positif → PCR ARN-VHC','Confirme l\'infection active']],conds:[{t:'Hépatite C chronique (cirrhose en 20 ans)',c:'red'},{t:'Hépatocarcinome (évolution cirrhose)',c:'red'},{t:'Cryoglobulinémie mixte',c:'violet'}],tip:"L'hépatite C chronique est guérissable dans > 95% des cas avec les antiviraux à action directe (AAD) en 8–12 semaines.",badge:'IST — Hépatite C',badgeC:'green'},
+  'Sérologie VIH':{def:`Le <strong>dépistage VIH</strong> combine la détection de l'antigène p24 et des anticorps anti-VIH 1 et 2 (test de 4ème génération). Un résultat positif doit être confirmé par Western Blot.`,vals:[['Test de dépistage','Négatif (normal) — fenêtre sérologique : 6 semaines après exposition'],['Dépistage si exposition récente','PCR ARN-VIH à J15']],conds:[{t:'Infection VIH (SIDA si CD4 < 200)',c:'red'},{t:'Transmission sexuelle / IV',c:'red'},{t:'Primo-infection VIH (syndrome mononucléosique)',c:'amber'}],tip:"La PrEP (prophylaxie pré-exposition par Truvada®) est disponible sans prescription chez les personnes à haut risque.",badge:'IST — Dépistage VIH',badgeC:'green'},
+  'Syphilis (TPHA / VDRL)':{def:`Le dépistage de la <strong>syphilis</strong> repose sur deux types de tests : le TPHA/TPPA (tests tréponémiques, spécifiques de Treponema pallidum) et le VDRL/RPR (tests non-tréponémiques, quantitatifs, utiles pour le suivi du traitement).`,vals:[['TPHA négatif','Pas de contact avec T. pallidum'],['VDRL titre','Quantitatif — suivi traitement']],conds:[{t:'Syphilis primaire (chancre)',c:'red'},{t:'Syphilis secondaire (roséole)',c:'amber'},{t:'Syphilis tertiaire (neurosyphilis)',c:'red'},{t:'Syphilis congénitale',c:'red'}],tip:"Le TPHA reste positif à vie après guérison (cicatrice sérologique). Seul le VDRL se négative ou diminue fortement après traitement.",badge:'IST — Syphilis',badgeC:'green'},
+  'β-hCG (Gonadotrophine Chorionique)':{def:`La <strong>β-hCG</strong> est produite dès la nidation par le trophoblaste. Son dosage quantitatif confirme la grossesse, suit son évolution précoce (doublement toutes les 48h en grossesse normalement évolutive) et dépiste la GEU ou la fausse couche.`,vals:[['Non enceinte','< 5 UI/L'],['Grossesse 4 SA','50–500 UI/L'],['Pic à 10 SA','25 000–200 000 UI/L']],conds:[{t:'Grossesse normale',c:'green'},{t:'Grossesse extra-utérine (↑ lente)',c:'red'},{t:'Fausse couche (↓ anormale)',c:'amber'},{t:'Môle hydatiforme (↑↑)',c:'red'}],tip:"Une β-hCG qui ne double pas en 48h en début de grossesse (< 6 SA) est évocatrice de GEU ou de fausse couche précoce.",badge:'Marqueur de grossesse',badgeC:'green'},
+  'Sérologie Toxoplasmose':{def:`La <strong>sérologie toxoplasmose</strong> mesure les IgG et IgM anti-Toxoplasma gondii. Chez la femme enceinte non immunisée, une primo-infection peut provoquer des complications graves chez le fœtus.`,vals:[['IgG+ IgM−','Immunisée — aucun risque fœtal'],['IgG− IgM−','Femme enceinte non immunisée — surveillance mensuelle']],conds:[{t:'Primo-infection (IgM+ récent)',c:'red'},{t:'Toxoplasmose congénitale',c:'red'},{t:'Réactivation (immunodéprimé)',c:'amber'}],tip:"Mesures préventives : ne pas manger de viande crue, éviter le contact avec les bacs à litière des chats, se laver les mains après contact avec le sol.",badge:'Sérologie obligatoire grossesse',badgeC:'green'},
+  'Sérologie Rubéole':{def:`La <strong>sérologie rubéole</strong> détermine l'immunité contre le virus de la rubéole. Une primo-infection rubéolique en début de grossesse peut entraîner un syndrome de rubéole congénitale grave (surdité, cataracte, cardiopathie).`,vals:[['IgG+ (immunisée)','> 10 UI/mL'],['Non immunisée','IgG < 4 UI/mL → vacciner avant grossesse (pas pendant)']],conds:[{t:'Syndrome de rubéole congénitale (1er trimestre)',c:'red'},{t:'Rubéole post-natale (bénigne)',c:'teal'},{t:'Non vaccinée (risque)',c:'amber'}],tip:"Le vaccin ROR est un vaccin vivant — contre-indiqué pendant la grossesse. La vaccination doit être réalisée idéalement 3 mois avant une grossesse planifiée.",badge:'Sérologie obligatoire grossesse',badgeC:'green'},
+  'Sérologie CMV (Cytomégalovirus)':{def:`La <strong>sérologie CMV</strong> est recommandée en début de grossesse. Le CMV est la première cause d'infection virale congénitale, pouvant provoquer surdité, retard mental et troubles visuels chez le nouveau-né infecté in utero.`,vals:[['IgG+ IgM−','Immunisée — risque fœtal faible'],['IgG− IgM−','Non immunisée — mesures préventives strictes']],conds:[{t:'CMV congénital (primo-infection 1er trimestre)',c:'red'},{t:'Réactivation chez l\'immunodéprimé',c:'amber'},{t:'Rétinite à CMV (SIDA)',c:'red'}],tip:"Il n'existe pas de vaccin contre le CMV. Mesures préventives : ne pas embrasser les jeunes enfants sur la bouche et se laver les mains après change.",badge:'Sérologie prénatale',badgeC:'green'},
+  'ECBU (Examen Cytobactériologique des Urines)':{def:`L'<strong>ECBU</strong> est l'examen microbiologique de référence pour le diagnostic des infections urinaires. Il comprend une bandelette urinaire, une numération des leucocytes et hématies, et une culture bactérienne avec antibiogramme.`,vals:[['Leucocyturie significative','> 10⁴/mL'],['Bactériurie significative','> 10⁵ UFC/mL (> 10³ si cathéter)']],conds:[{t:'Cystite (E. coli +++)',c:'amber'},{t:'Pyélonéphrite aiguë',c:'red'},{t:'Prostatite bactérienne',c:'amber'},{t:'Infection urinaire à Klebsiella / Proteus',c:'teal'}],tip:"Un ECBU avec leucocyturie sans bactériurie doit faire évoquer une tuberculose urinaire ou une cystite interstitielle.",badge:'Microbiologie standard',badgeC:'green'},
+  'PV (Prélèvement Vaginal)':{def:`Le <strong>prélèvement vaginal (PV)</strong> permet d'identifier les agents pathogènes responsables de vaginites et cervicites : Candida albicans, Gardnerella vaginalis (vaginose), Trichomonas vaginalis, et les IST (Chlamydia, Gonocoque par PCR).`,vals:[['Flore normale','Lactobacilles dominants (flore de Döderlein)']],conds:[{t:'Vaginose bactérienne (Gardnerella)',c:'amber'},{t:'Candidose vulvovaginale',c:'teal'},{t:'Trichomonase (MST)',c:'amber'},{t:'Cervicite à Chlamydia/Gonocoque',c:'red'}],tip:"Le score de Nugent (analyse microscopique) permet de grader la vaginose bactérienne. Une vaginose non traitée pendant la grossesse est associée à un risque accru d'accouchement prématuré.",badge:'Microbiologie gynécologique',badgeC:'green'},
+  'Coproculture / Parasitologie':{def:`La <strong>coproculture</strong> recherche des bactéries pathogènes dans les selles (Salmonella, Shigella, Campylobacter, E. coli entérohémorragique…). L'<strong>examen parasitologique des selles (EPS)</strong> recherche des protozoaires et des helminthes.`,vals:[['Résultat normal','Absence de pathogène identifié']],conds:[{t:'Gastroentérite bactérienne (Salmonella, Campylobacter)',c:'red'},{t:'Giardiase (diarrhée chronique)',c:'amber'},{t:'Amibiase (colite aiguë)',c:'red'},{t:'Cryptosporidiose (immunodéprimé)',c:'violet'}],tip:"L'EPS nécessite 3 prélèvements à jours alternés pour une sensibilité optimale.",badge:'Microbiologie digestive',badgeC:'green'},
+  'Mycologie':{def:`L'<strong>examen mycologique</strong> recherche des champignons (levures et filamenteux) dans différents prélèvements : cutanés, unguéaux, vaginaux, respiratoires, urinaires. L'identification précise de l'espèce et l'antifongigramme guident le traitement antifongique.`,vals:[['Résultat normal','Pas de champignon pathogène identifié']],conds:[{t:'Candidose cutanéomuqueuse (Candida albicans)',c:'amber'},{t:'Dermatophytose (teigne, pied d\'athlète)',c:'teal'},{t:'Aspergillose (invasive chez l\'immunodéprimé)',c:'red'},{t:'Onychomycose',c:'teal'}],tip:"L'examen direct (KOH) permet un diagnostic rapide en quelques heures. La culture fongique prend 2–4 semaines.",badge:'Microbiologie fongique',badgeC:'green'},
+  'PCR Respiratoire':{def:`Les <strong>PCR respiratoires</strong> (panel multiplex) identifient simultanément de nombreux pathogènes respiratoires : virus (Influenza A/B, VRS, SARS-CoV-2, rhinovirus…) et bactéries (Mycoplasma, Bordetella, Legionella). Elles ont révolutionné le diagnostic des infections respiratoires.`,vals:[['Résultat','Positif ou Négatif pour chaque agent'],['Prélèvement','Nasopharynx ou LBA en réanimation']],conds:[{t:'Grippe saisonnière (Influenza)',c:'amber'},{t:'COVID-19 (SARS-CoV-2)',c:'red'},{t:'VRS (bronchiolite nourrisson)',c:'amber'},{t:'Coqueluche (Bordetella pertussis)',c:'teal'}],tip:"Un panel respiratoire multiplex peut tester simultanément 20+ pathogènes en 1–2 heures et réduit les prescriptions inutiles d'antibiotiques.",badge:'Diagnostic infectieux respiratoire',badgeC:'green'},
+  'BDIV (Bilan Digestif Infectieux Viral)':{def:`Le <strong>BDIV</strong> recherche les virus entériques responsables de gastroentérites : norovirus, rotavirus, astrovirus, adénovirus entériques. Il est particulièrement utile en contexte épidémique et chez les patients immunodéprimés.`,vals:[['Résultat','Positif ou Négatif pour chaque virus']],conds:[{t:'Gastroentérite virale épidémique (norovirus)',c:'amber'},{t:'Gastroentérite pédiatrique (rotavirus)',c:'teal'},{t:'Diarrhée de l\'immunodéprimé',c:'violet'}],tip:"Le rotavirus est la première cause de gastroentérite sévère chez l'enfant avant 5 ans. La vaccination par Rotarix® ou RotaTeq® a drastiquement réduit les hospitalisations.",badge:'Virologie digestive',badgeC:'green'},
+};
+
+/* ══ COLOUR MAPS ══ */
+const STRIPES = {
+  teal:'linear-gradient(90deg,var(--c-teal),var(--c-green))',
+  amber:'linear-gradient(90deg,var(--c-amber),var(--c-teal))',
+  violet:'linear-gradient(90deg,var(--c-violet),var(--c-teal))',
+  green:'linear-gradient(90deg,var(--c-green),var(--c-amber))',
+};
+const BCOLS = {
+  teal:{bg:'rgba(14,165,201,.1)',bd:'rgba(14,165,201,.25)',c:'#7dd3fc'},
+  amber:{bg:'rgba(245,158,11,.1)',bd:'rgba(245,158,11,.25)',c:'#fcd34d'},
+  violet:{bg:'rgba(124,58,237,.1)',bd:'rgba(124,58,237,.25)',c:'#c4b5fd'},
+  green:{bg:'rgba(16,185,129,.1)',bd:'rgba(16,185,129,.25)',c:'#6ee7b7'},
+  red:{bg:'rgba(239,68,68,.1)',bd:'rgba(239,68,68,.25)',c:'#fca5a5'},
+};
+const TIP_RGB = {teal:'14,165,201',amber:'245,158,11',violet:'124,58,237',green:'16,185,129'};
+
+/* ══ DRAWER ══ */
+let currentTag = null;
+
+function openDrawer(name, cat, phonetic, color){
+  const info = DATA[name] || {
+    def:`<strong>${name}</strong> — Définition complète à venir.`,
+    vals:[],conds:[],tip:'Consultez votre biologiste pour plus d\'informations.',
+    badge:'Marqueur en cours de documentation',badgeC:'teal'
+  };
+
+  document.getElementById('drawer-stripe').style.background = STRIPES[color]||STRIPES.teal;
+  document.getElementById('d-cat').textContent = cat;
+  document.getElementById('d-name').textContent = name;
+  document.getElementById('d-phonetic').textContent = phonetic ? '· '+phonetic+' ·' : '';
+
+  const bc = BCOLS[info.badgeC]||BCOLS.teal;
+  document.getElementById('d-badge').innerHTML = `
+    <div class="drawer-badge" style="background:${bc.bg};border-color:${bc.bd};color:${bc.c};margin-bottom:20px">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L1 3.5V6C1 8.8 3.1 11.4 6 12C8.9 11.4 11 8.8 11 6V3.5L6 1Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="0.8"/><path d="M6 3.5V8M6 3.5L4 5.5M6 3.5L8 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ${info.badge}
+    </div>`;
+
+  document.getElementById('d-def').innerHTML = info.def;
+
+  const vb = document.getElementById('d-valbox');
+  if(info.vals && info.vals.length){
+    vb.style.display = 'block';
+    vb.innerHTML = '<div class="val-box-title">Valeurs de référence indicatives</div>'
+      + info.vals.map(([l,v])=>`<div class="val-row"><span class="val-label">${l}</span><span class="val-num">${v}</span></div>`).join('');
+  } else {
+    vb.style.display = 'none';
+  }
+
+  document.getElementById('d-conds').innerHTML = (info.conds||[]).map(({t,c})=>{
+    const col = BCOLS[c]||BCOLS.teal;
+    return `<span class="cond" style="background:${col.bg};border-color:${col.bd};color:${col.c}">${t}</span>`;
+  }).join('');
+
+  const rgb = TIP_RGB[color]||TIP_RGB.teal;
+  const tip = document.getElementById('d-tip');
+  tip.innerHTML = `<span class="tip-ico">💡</span><span class="tip-txt"><strong>À noter :</strong> ${info.tip}</span>`;
+  tip.style.borderColor = `rgba(${rgb},.18)`;
+  tip.style.background = `rgba(${rgb},.05)`;
+
+  document.querySelectorAll('.tag.active').forEach(t=>t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  currentTag = event.currentTarget;
+
+  document.body.classList.add('drawer-open');
+  document.querySelector('.drawer-body').scrollTop = 0;
+}
+
+function closeDrawer(){
+  document.body.classList.remove('drawer-open');
+  if(currentTag){currentTag.classList.remove('active');currentTag=null;}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+</script>
+</body>
+</html>
