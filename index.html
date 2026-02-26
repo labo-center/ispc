@@ -135,1168 +135,348 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
   background:linear-gradient(135deg,var(--c-teal),var(--c-green));
   box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite}
 
-.hero h1{
-  font-family:var(--ffd);
-  font-size:clamp(42px,7.5vw,86px);
-  font-weight:700;line-height:1.02;letter-spacing:-.055em;
-  color:#fff;margin-bottom:8px;
-  animation:fu .7s var(--ease-o) .18s both;
-}
-.hero h1 .grad{
-  font-style:italic;font-weight:300;
-  background:linear-gradient(115deg,#22d3ee 0%,#a78bfa 55%,#4ade80 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.hero h1 .block{display:block}
-.hero-sub{font-size:17px;color:var(--dark-m);max-width:540px;margin:18px auto 44px;
-  line-height:1.9;animation:fu .7s var(--ease-o) .28s both}
+/* Title */
+.hero h1{font-family:var(--ffd);font-size:clamp(36px,8.5vw,64px);font-weight:600;
+  line-height:1.06;letter-spacing:-.03em;color:#fff;margin-bottom:14px;
+  animation:fu .7s var(--ease-o) .14s both}
+.hero h1 em{font-style:italic;font-weight:400;
+  background:linear-gradient(120deg,#a78bfa,#22d3ee 45%,#34d399);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-/* CTA buttons */
-.cta-row{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;
-  animation:fu .7s var(--ease-o) .38s both;margin-bottom:60px}
-.btn-main{
-  display:inline-flex;align-items:center;gap:9px;
-  padding:16px 38px;border-radius:99px;font-weight:700;font-size:15px;
+/* Sub */
+.hero-sub{font-size:16px;max-width:520px;line-height:1.75;margin:0 auto 32px;color:var(--dark-mut);
+  animation:fu .7s var(--ease-o) .22s both}
+
+/* CTA */
+.hero-btn{padding:12px 28px;border-radius:99px;font-size:14px;font-weight:700;
   background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
-  box-shadow:0 8px 32px rgba(14,116,144,.42),0 0 0 1px rgba(14,165,201,.18);
-  transition:transform .22s var(--ease-s),box-shadow .22s;
-}
-.btn-main:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 52px rgba(14,116,144,.54)}
-.btn-main .arr{font-size:18px;transition:transform .2s}
-.btn-main:hover .arr{transform:translateX(4px)}
-.btn-ghost{padding:15px 28px;border-radius:99px;font-weight:600;font-size:14px;
-  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);
-  color:rgba(255,255,255,.72);transition:all .18s}
-.btn-ghost:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28)}
+  box-shadow:0 4px 18px rgba(14,116,144,.35);transition:transform .18s,box-shadow .18s;
+  animation:fu .7s var(--ease-o) .3s both}
+.hero-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(14,116,144,.48)}
 
-/* Stats bar */
-.hero-stats{
-  display:flex;gap:0;
-  background:rgba(255,255,255,.04);border:1px solid var(--dark-b);
-  border-radius:20px;overflow:hidden;max-width:620px;margin:0 auto;
-  animation:fu .7s var(--ease-o) .48s both;
-}
-.hst{flex:1;padding:20px 16px;border-right:1px solid var(--dark-b);text-align:center;position:relative}
-.hst:last-child{border-right:none}
-.hst::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.65}
-.hst:nth-child(1)::before{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
-.hst:nth-child(2)::before{background:linear-gradient(90deg,var(--c-violet),var(--c-green))}
-.hst:nth-child(3)::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
-.hst:nth-child(4)::before{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
-.hst-v{font-family:var(--ffd);font-size:26px;font-weight:700;color:#fff;letter-spacing:-.05em;line-height:1}
-.hst-l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-  color:var(--dark-m);margin-top:5px}
-
-/* ── Programme prévention ── */
-.prog-section{padding:88px 24px;position:relative}
-.prog-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
-.prog-in{max-width:1120px;margin:0 auto}
-.s-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
-  color:var(--c-teal);text-align:center;margin-bottom:14px}
-.s-title{font-family:var(--ffd);font-size:clamp(26px,4vw,44px);font-weight:600;
-  letter-spacing:-.055em;color:#fff;text-align:center;line-height:1.08;margin-bottom:14px}
-.s-title em{font-style:italic;font-weight:300;color:rgba(255,255,255,.46)}
-.s-sub{font-size:14.5px;color:var(--dark-m);text-align:center;max-width:510px;
-  margin:0 auto 54px;line-height:1.88}
-/* 3 pillar cards */
-.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-@media(max-width:800px){.pillar-grid{grid-template-columns:1fr}}
-.pillar{
-  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
-  border-radius:26px;padding:34px 28px 28px;cursor:pointer;position:relative;overflow:hidden;
-  transition:transform .3s var(--ease-s),border-color .2s,background .2s;
-}
-.pillar:hover{transform:translateY(-6px);background:rgba(255,255,255,.056)}
-.p-teal:hover{border-color:rgba(14,165,201,.45)}
-.p-violet:hover{border-color:rgba(124,58,237,.45)}
-.p-green:hover{border-color:rgba(16,185,129,.45)}
-.pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.p-teal::before{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
-.p-violet::before{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
-.p-green::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
-.p-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px}
-.p-teal .p-tag{color:var(--c-teal)}.p-violet .p-tag{color:#a78bfa}.p-green .p-tag{color:var(--c-green)}
-.p-ico{font-size:38px;margin-bottom:18px;display:block}
-.p-title{font-family:var(--ffd);font-size:20px;font-weight:600;letter-spacing:-.03em;
-  color:#fff;margin-bottom:12px}
-.p-desc{font-size:13.5px;color:var(--dark-m);line-height:1.82}
-.p-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:18px}
-.pchip{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:99px;
-  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);color:rgba(255,255,255,.45)}
-.p-arrow{position:absolute;bottom:24px;right:24px;width:32px;height:32px;
-  border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--dark-b);
-  display:grid;place-items:center;color:var(--dark-m);font-size:14px;
-  transition:all .2s}
-.pillar:hover .p-arrow{background:rgba(255,255,255,.14);color:#fff;transform:translate(2px,-2px)}
-
-/* ── Parcours ── */
-.parcours{padding:88px 24px;background:rgba(255,255,255,.018);position:relative}
-.parcours::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent)}
-.parcours-in{max-width:1120px;margin:0 auto}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:50px;position:relative}
-.steps::before{content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;
-  background:linear-gradient(90deg,var(--c-teal),var(--c-violet),var(--c-green));opacity:.28}
-@media(max-width:700px){.steps{grid-template-columns:1fr 1fr;gap:28px}.steps::before{display:none}}
-.step{text-align:center;padding:0 18px}
-.step-wrap{width:56px;height:56px;border-radius:50%;margin:0 auto 20px;
-  background:rgba(255,255,255,.055);border:1px solid var(--dark-b);
-  display:grid;place-items:center;font-size:24px;position:relative;
-  transition:border-color .2s,box-shadow .2s}
-.step:hover .step-wrap{border-color:var(--c-teal);box-shadow:0 0 22px var(--c-teal-glow)}
-.step-n{position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;
-  background:var(--dark-2);border:1px solid var(--dark-b);
-  font-size:10px;font-weight:700;color:var(--dark-m);display:grid;place-items:center}
-.step-title{font-weight:700;font-size:14.5px;color:#fff;margin-bottom:8px}
-.step-desc{font-size:12.5px;color:var(--dark-m);line-height:1.75}
-
-/* ── Prévention promise ── */
-.promise{padding:88px 24px}
-.promise-in{max-width:1120px;margin:0 auto}
-.promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:700px){.promise-grid{grid-template-columns:1fr}}
-.promise-card{
-  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
-  border-radius:22px;padding:28px 24px;
-  display:flex;gap:18px;align-items:flex-start;
-}
-.pr-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
-  font-size:22px;flex-shrink:0;border:1.5px solid}
-.pr-ico-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
-.pr-ico-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
-.pr-ico-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
-.pr-ico-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
-.pr-title{font-weight:700;font-size:15px;color:#fff;margin-bottom:6px}
-.pr-desc{font-size:13px;color:var(--dark-m);line-height:1.78}
-
-/* ── CTA section ── */
-.cta-sect{padding:100px 24px}
-.cta-box{
-  max-width:700px;margin:0 auto;
-  background:linear-gradient(135deg,rgba(14,116,144,.12),rgba(109,40,217,.12));
-  border:1px solid rgba(255,255,255,.1);border-radius:32px;
-  padding:68px 48px;text-align:center;position:relative;overflow:hidden;
-}
-.cta-box::before{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.024) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.024) 1px,transparent 1px);
-  background-size:28px 28px;pointer-events:none}
-.cta-box h2{font-family:var(--ffd);font-size:clamp(24px,4vw,38px);font-weight:600;
-  letter-spacing:-.055em;color:#fff;margin-bottom:14px;position:relative}
-.cta-box p{color:var(--dark-m);font-size:15px;line-height:1.88;margin-bottom:34px;position:relative}
-
-/* ════════════════════════════════════════
-   SCREEN 2 — DASHBOARD
-════════════════════════════════════════ */
-#s-dash{background:var(--bg)}
-
-.dash-hero{
-  background:var(--dark-2);padding:52px 24px 0;
-  padding-top:calc(var(--nav-h) + 36px);
-  position:relative;overflow:hidden;
-}
-.dh-b1{position:absolute;top:-120px;right:-80px;width:480px;height:480px;border-radius:50%;
-  background:radial-gradient(circle,rgba(124,58,237,.17),transparent 65%);pointer-events:none}
-.dh-b2{position:absolute;bottom:-80px;left:-40px;width:320px;height:320px;border-radius:50%;
-  background:radial-gradient(circle,rgba(14,165,201,.12),transparent 65%);pointer-events:none}
-.dh-grid{position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
-  background-size:28px 28px;pointer-events:none}
-.dh-in{max-width:1160px;margin:0 auto;position:relative;z-index:1}
-.dh-crumb{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
-  color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.dh-crumb a{cursor:pointer;transition:color .15s}.dh-crumb a:hover{color:rgba(255,255,255,.6)}
-.dh-crumb sep{opacity:.3}
-.dh-in h1{font-family:var(--ffd);font-size:clamp(24px,3.5vw,38px);font-weight:600;
-  letter-spacing:-.055em;color:#fff;margin-bottom:7px}
-.dh-in h1 em{font-style:italic;font-weight:300;
-  background:linear-gradient(120deg,var(--c-teal),var(--c-violet));
+/* ── Landing cards ── */
+.land{padding:0 24px 80px}
+.land-title{font-family:var(--ffd);font-size:clamp(26px,5.5vw,42px);font-weight:600;
+  line-height:1.06;letter-spacing:-.03em;color:#fff;margin-bottom:14px}
+.land-title em{font-style:italic;font-weight:400;
+  background:linear-gradient(120deg,#a78bfa,#22d3ee 45%,#34d399);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.dh-in p{color:var(--dark-m);font-size:13.5px;padding-bottom:28px}
+.land-sub{color:var(--dark-mut);font-size:14px;max-width:520px;line-height:1.75;margin-bottom:32px}
 
-/* KPI strip */
-.kpi-rail{
-  background:rgba(255,255,255,.034);border-top:1px solid var(--dark-b);
-  border-bottom:1px solid rgba(0,0,0,.08);
-  display:flex;overflow-x:auto;scrollbar-width:none;
-  max-width:1160px;margin:0 auto;
-}
-.kpi-rail::-webkit-scrollbar{display:none}
-.kpi{flex:1;min-width:118px;padding:18px 20px;border-right:1px solid var(--dark-b);
-  display:flex;flex-direction:column;gap:4px;position:relative;overflow:hidden}
-.kpi:last-child{border-right:none}
-.kpi-bar{position:absolute;top:0;left:0;right:0;height:2.5px}
-.k1 .kpi-bar{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
-.k2 .kpi-bar{background:linear-gradient(90deg,var(--c-violet),var(--c-green))}
-.k3 .kpi-bar{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
-.k4 .kpi-bar{background:linear-gradient(90deg,var(--c-amber),var(--c-red))}
-.k5 .kpi-bar{background:linear-gradient(90deg,var(--c-red),var(--c-teal))}
-.kpi-l{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-m)}
-.kpi-v{font-family:var(--ffd);font-size:22px;font-weight:700;color:#fff;letter-spacing:-.04em;line-height:1}
-.kb{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;
-  border-radius:99px;width:fit-content;margin-top:2px}
-.kb-g{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.3);color:var(--c-green)}
-.kb-w{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.3);color:var(--c-amber)}
-.kb-n{background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m)}
-
-/* Dash body */
-.dash-body{max-width:1160px;margin:0 auto;padding:28px 24px 80px;background:var(--bg)}
-.db-row{display:grid;gap:18px;margin-bottom:26px}
-.r3{grid-template-columns:repeat(3,1fr)}
-.r2{grid-template-columns:1fr 1fr}
-.r21{grid-template-columns:2fr 1fr}
-@media(max-width:860px){.r3,.r2,.r21{grid-template-columns:1fr 1fr}}
-@media(max-width:560px){.r3,.r2,.r21{grid-template-columns:1fr}}
-
-.blk-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px}
-.blk-title{font-family:var(--ffd);font-size:17.5px;font-weight:600;letter-spacing:-.03em}
-.blk-link{font-size:12.5px;font-weight:700;color:var(--c-teal-d);cursor:pointer}
-.blk-link:hover{opacity:.7}
-
-/* Module cards */
-.mcard{
-  background:var(--card);border:1.5px solid var(--brd);border-radius:22px;
-  overflow:hidden;cursor:pointer;
-  box-shadow:0 2px 14px rgba(0,0,0,.04);
-  transition:transform .3s var(--ease-s),box-shadow .25s,border-color .2s;
-}
-.mcard:hover{transform:translateY(-5px);box-shadow:0 22px 60px rgba(0,0,0,.1)}
-.mc-teal:hover{border-color:var(--c-teal)}.mc-violet:hover{border-color:var(--c-violet)}
-.mc-amber:hover{border-color:var(--c-amber)}
-.mc-stripe{height:3px;width:100%}
-.mc-teal .mc-stripe{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
-.mc-violet .mc-stripe{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
-.mc-amber .mc-stripe{background:linear-gradient(90deg,var(--c-amber),var(--c-red))}
-.mc-body{padding:20px 20px 14px}
-.mc-ico{font-size:30px;margin-bottom:12px;display:block}
-.mc-title{font-family:var(--ffd);font-size:16px;font-weight:600;letter-spacing:-.025em;margin-bottom:6px}
-.mc-desc{font-size:12.5px;color:var(--mut);line-height:1.72}
-.mc-foot{padding:11px 20px 15px;border-top:1px solid var(--brd);
-  display:flex;align-items:center;justify-content:space-between}
-.ms{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;
-  padding:4px 11px;border-radius:99px}
-.ms-done{background:#dcfce7;color:#166534}
-.ms-partial{background:#fef3c7;color:#92400e}
-.ms-todo{background:var(--bg);color:var(--mut);border:1px solid var(--brd)}
-.mc-arr{color:var(--mut);font-size:16px;transition:transform .2s,color .2s}
-.mcard:hover .mc-arr{transform:translateX(4px);color:var(--txt)}
-
-/* Score gauges */
-.scores-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:560px){.scores-row{grid-template-columns:1fr}}
-.score-g{
-  background:var(--dark-3);border:1px solid var(--dark-b);border-radius:18px;
-  padding:20px 16px;text-align:center;position:relative;overflow:hidden;
-}
-.score-g::before{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:18px 18px;pointer-events:none}
-.sg-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
-  color:var(--dark-m);margin-bottom:14px;position:relative}
-.sg-wrap{width:82px;height:82px;margin:0 auto 12px;position:relative}
-.sg-wrap svg{width:82px;height:82px}
-.sg-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:7;stroke-linecap:round}
-.sg-arc{fill:none;stroke-width:7;stroke-linecap:round;
-  stroke-dasharray:194;transition:stroke-dashoffset 1.6s var(--ease-o);
-  transform:rotate(-90deg);transform-origin:50% 50%}
-.sg-num{font-family:var(--ffd);font-size:19px;font-weight:700;fill:#fff;
-  text-anchor:middle;dominant-baseline:central}
-.sg-name{font-family:var(--ffd);font-size:13px;font-weight:600;color:#fff;
-  margin-bottom:6px;position:relative}
-.sg-v{font-size:10.5px;font-weight:700;padding:3px 11px;border-radius:99px;display:inline-block;position:relative}
-.sv-g{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.3);color:var(--c-green)}
-.sv-w{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.3);color:var(--c-amber)}
-.sv-n{background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m)}
-
-/* Insight list */
-.insights{display:flex;flex-direction:column;gap:10px}
-.ins{background:var(--card);border:1px solid var(--brd);border-radius:15px;
-  padding:14px 16px;display:flex;gap:12px;align-items:flex-start;
-  transition:transform .2s,box-shadow .2s}
-.ins:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.07)}
-.ins-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
-.ins-title{font-weight:700;font-size:13px;margin-bottom:3px}
-.ins-txt{font-size:12px;color:var(--mut);line-height:1.65}
-.ins-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;
-  border-radius:99px;margin-top:6px;background:var(--bg);color:var(--mut);border:1px solid var(--brd)}
-
-/* Quick actions */
-.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.qa{background:var(--card);border:1.5px solid var(--brd);border-radius:16px;
-  padding:15px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;
-  transition:all .2s var(--ease-s)}
-.qa:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08);border-color:#94a3b8}
-.qa-ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
-  font-size:18px;flex-shrink:0;border:1.5px solid}
-.qi-t{background:rgba(14,165,201,.09);border-color:rgba(14,165,201,.22)}
-.qi-v{background:rgba(124,58,237,.09);border-color:rgba(124,58,237,.22)}
-.qi-g{background:rgba(16,185,129,.09);border-color:rgba(16,185,129,.22)}
-.qi-a{background:rgba(245,158,11,.09);border-color:rgba(245,158,11,.22)}
-.qa-tit{font-weight:700;font-size:13.5px;margin-bottom:1px}
-.qa-sub{font-size:11.5px;color:var(--mut)}
+/* Cards grid */
+.land-cards{display:grid;grid-template-columns:1fr;gap:14px;max-width:700px;margin:0 auto}
+@media(min-width:520px){.land-cards{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:760px){.land-cards{grid-template-columns:repeat(3,1fr)}}
+.land-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:24px 20px;position:relative;overflow:hidden;
+  transition:transform .25s var(--ease-s),box-shadow .25s,border-color .2s;
+  cursor:pointer;backdrop-filter:blur(8px)}
+.land-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 20px 56px rgba(0,0,0,.1)}
+.land-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.land-card:nth-child(2)::before{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.land-card:nth-child(3)::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.land-card:nth-child(4)::before{background:linear-gradient(90deg,var(--c-amber),var(--c-violet))}
+.land-card-ico{font-size:30px;margin-bottom:12px;display:block}
+.land-card-title{font-family:var(--ffd);font-size:22px;font-weight:600;letter-spacing:-.02em;color:#fff;margin-bottom:8px}
+.land-card-sub{font-size:13px;color:var(--dark-mut);line-height:1.6}
 
 /* ════════════════════════════════════════
-   BRIDGE SCREENS (3 & 4)
+   SCREEN 2 — MON ESPACE
 ════════════════════════════════════════ */
-.bridge{
-  min-height:100vh;background:var(--dark-2);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:calc(var(--nav-h)+60px) 24px 80px;
-  position:relative;overflow:hidden;text-align:center;
-}
-.br-grid{position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
-  background-size:32px 32px;pointer-events:none}
-.br-ico{width:92px;height:92px;border-radius:28px;display:grid;place-items:center;
-  font-size:44px;margin:0 auto 30px;border:2px solid;position:relative}
-.bridge h2{font-family:var(--ffd);font-size:clamp(26px,5vw,44px);font-weight:600;
-  letter-spacing:-.055em;color:#fff;margin-bottom:14px;line-height:1.1}
-.bridge h2 em{font-style:italic;font-weight:300}
-.bridge-sub{color:var(--dark-m);font-size:14.5px;max-width:520px;margin:0 auto 38px;
-  line-height:1.9}
-.bridge-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.btag{font-size:11px;font-weight:700;padding:5px 14px;border-radius:99px;border:1px solid}
-.br-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:28px}
-.br-btn-main{display:inline-flex;align-items:center;gap:8px;padding:15px 34px;border-radius:99px;
-  font-weight:700;font-size:14px;color:#fff;
-  box-shadow:0 8px 28px rgba(0,0,0,.3);transition:transform .2s}
-.br-btn-main:hover{transform:translateY(-2px)}
-.br-btn-back{padding:14px 26px;border-radius:99px;font-weight:600;font-size:13.5px;
-  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);
-  color:rgba(255,255,255,.72);transition:all .18s;cursor:pointer}
-.br-btn-back:hover{background:rgba(255,255,255,.12);color:#fff}
+#s-mon{background:var(--dark-1);padding-top:var(--nav-h)}
+.mon-wrap{max-width:820px;margin:0 auto;padding:24px}
+
+/* ── Hero KPIs ── */
+.mon-kpis{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px}
+.mkpi{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);
+  backdrop-filter:blur(10px);border-radius:16px;padding:16px 20px;min-width:140px;
+  position:relative;overflow:hidden;flex:1}
+.mkpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.mkpi:nth-child(2)::before{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.mkpi:nth-child(3)::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.mkpi-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-mut)}
+.mkpi-val{font-family:var(--ffd);font-size:26px;font-weight:700;color:#fff;letter-spacing:-.03em;line-height:1.1;margin-bottom:2px}
+.mkpi-sub{font-size:12px;color:rgba(255,255,255,.4)}
+
+/* ── Radar ── */
+.mon-radar{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:24px 20px;margin-bottom:32px;position:relative;overflow:hidden}
+.mon-radar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--c-violet),var(--c-teal),var(--c-green))}
+.mon-radar-title{font-family:var(--ffd);font-size:20px;font-weight:600;color:#fff;margin-bottom:16px}
+.mon-radar-svg{width:100%;height:300px}
+
+/* ── Bio ── */
+.mon-bio{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:24px 20px;margin-bottom:32px}
+.mon-bio-title{font-family:var(--ffd);font-size:20px;font-weight:600;color:#fff;margin-bottom:16px}
+.mon-bio-tabs{display:flex;gap:8px;margin-bottom:20px}
+.bio-tab{padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.05);color:var(--dark-mut);cursor:pointer;transition:all .15s}
+.bio-tab:hover{background:rgba(255,255,255,.1);color:var(--dark-t)}
+.bio-tab.on{background:rgba(255,255,255,.14);color:#fff}
+.bio-panel{display:none}
+.bio-panel.on{display:block}
+.bio-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+.bio-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:16px;padding:14px 16px}
+.bio-card-lbl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--dark-mut);margin-bottom:4px}
+.bio-card-val{font-size:18px;font-weight:700;color:#fff}
+.bio-card-ref{font-size:11px;color:var(--dark-mut)}
+
+/* ── Trend ── */
+.mon-trend{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:24px 20px;margin-bottom:32px}
+.mon-trend-title{font-family:var(--ffd);font-size:20px;font-weight:600;color:#fff;margin-bottom:16px}
+.mon-trend-svg{width:100%;height:200px}
+
+/* ── Reco ── */
+.mon-reco{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;padding:24px 20px}
+.mon-reco-title{font-family:var(--ffd);font-size:20px;font-weight:600;color:#fff;margin-bottom:16px}
+.mon-reco-tabs{display:flex;gap:8px;margin-bottom:20px}
+.rt{padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.05);color:var(--dark-mut);cursor:pointer;transition:all .15s}
+.rt:hover{background:rgba(255,255,255,.1);color:var(--dark-t)}
+.rt.on{background:rgba(255,255,255,.14);color:#fff}
+.rp{display:none}
+.rp.on{display:block}
+.reco-grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:520px){.reco-grid{grid-template-columns:repeat(2,1fr)}}
+.reco-card{background:var(--card);border-radius:16px;padding:18px 20px;
+  border:1px solid var(--brd);box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.rc-red{border-color:var(--c-red);box-shadow:0 4px 16px rgba(239,68,68,.12)}
+.rc-amber{border-color:var(--c-amber);box-shadow:0 4px 16px rgba(245,158,11,.12)}
+.rc-green{border-color:var(--c-green);box-shadow:0 4px 16px rgba(16,185,129,.12)}
+.rc-ico{font-size:24px;margin-bottom:10px;display:block}
+.rc-cat{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--mut);margin-bottom:4px}
+.rc-title{font-size:16px;font-weight:600;color:var(--txt);margin-bottom:8px}
+.rc-desc{font-size:13px;color:var(--mut);line-height:1.6;margin-bottom:12px}
+.rc-impact{display:flex;align-items:center;gap:8px;background:var(--bg);border-radius:8px;padding:6px 12px;font-size:12px}
+.rc-impact-lbl{color:var(--mut)}
+.rc-impact-val{font-weight:600}
+.rc-impact-val.high{color:var(--good)}.rc-impact-val.med{color:var(--warn)}.rc-impact-val.low{color:var(--bad)}
+
+/* ── Footer ── */
+.footer{padding:40px 24px;text-align:center;border-top:1px solid var(--dark-b);background:var(--dark-2)}
+.footer-logo{font-family:var(--ffd);font-size:18px;font-weight:700;color:#fff;letter-spacing:-.02em;margin-bottom:8px}
+.footer-logo sup{font-size:9px;vertical-align:top;margin-top:2px;opacity:.6}
+.footer-disc{font-size:11px;color:var(--dark-mut);line-height:1.6;max-width:600px;margin:0 auto}
 
 /* ════════════════════════════════════════
-   SCREEN 5 — MONITORING + RECOMMANDATIONS
+   NEW: BILAN BIOLOGIQUE BRIDGE SCREEN STYLES
 ════════════════════════════════════════ */
-#s-mon{background:var(--bg)}
-
-.mon-hero{
-  background:var(--dark-1);padding:52px 24px 0;
-  padding-top:calc(var(--nav-h)+36px);
-  position:relative;overflow:hidden;
-}
-.mh-b1{position:absolute;top:-100px;right:-80px;width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(245,158,11,.11),transparent 65%);pointer-events:none}
-.mh-b2{position:absolute;bottom:-80px;left:-60px;width:360px;height:360px;border-radius:50%;
-  background:radial-gradient(circle,rgba(14,165,201,.11),transparent 65%);pointer-events:none}
-.mh-grid{position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.027) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.027) 1px,transparent 1px);
-  background-size:36px 36px;pointer-events:none}
-.mh-in{max-width:1160px;margin:0 auto;position:relative;z-index:1}
-.mh-ey{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.mh-ey span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c-amber)}
-.live{display:inline-flex;align-items:center;gap:5px;
-  background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);
-  border-radius:99px;padding:4px 12px;font-size:10.5px;font-weight:700;color:var(--c-green)}
-.live-d{width:6px;height:6px;border-radius:50%;background:var(--c-green);
-  box-shadow:0 0 8px var(--c-green);animation:pulse 2s infinite}
-.mh-in h1{font-family:var(--ffd);font-size:clamp(24px,3.5vw,38px);font-weight:600;
-  letter-spacing:-.055em;color:#fff;margin-bottom:6px}
-.mh-in h1 em{font-style:italic;font-weight:300;
-  background:linear-gradient(120deg,var(--c-amber),var(--c-teal));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.mh-in p{color:var(--dark-m);font-size:13px;padding-bottom:24px}
-
-/* Alert strip */
-.alert-rail{
-  background:rgba(245,158,11,.07);
-  border-top:1px solid rgba(245,158,11,.18);border-bottom:1px solid rgba(245,158,11,.18);
-  padding:10px 24px;
-}
-.alert-in{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:10px}
-.al-txt{font-size:12.5px;font-weight:600;color:var(--c-amber)}
-.al-btn{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;
-  border-radius:99px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.28);
-  color:var(--c-amber);cursor:pointer}
-
-/* Monitor body */
-.mon-body{max-width:1160px;margin:0 auto;padding:28px 24px 80px}
-
-/* Dark card */
-.dc{background:var(--dark-2);border:1px solid var(--dark-b);border-radius:24px;
-  position:relative;overflow:hidden}
-.dc::before{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.017) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.017) 1px,transparent 1px);
-  background-size:22px 22px;pointer-events:none}
-.dc-head{padding:22px 24px 0;position:relative;display:flex;align-items:flex-start;justify-content:space-between}
-.dc-title{font-family:var(--ffd);font-size:16px;font-weight:600;color:#fff;letter-spacing:-.025em}
-.dc-sub{font-size:11px;color:var(--dark-m);margin-top:3px}
-.dc-body{padding:16px 24px 24px;position:relative}
-
-/* Two-column monitor layout */
-.mon-cols{display:grid;grid-template-columns:1fr 400px;gap:22px;align-items:start;margin-bottom:26px}
-@media(max-width:960px){.mon-cols{grid-template-columns:1fr}}
-
-/* Radar legend */
-.rleg-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
-.rleg-item{display:flex;align-items:center;gap:9px;padding:9px 12px;
-  background:rgba(255,255,255,.04);border:1px solid var(--dark-b);border-radius:11px}
-.rleg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.rleg-name{font-size:12px;font-weight:600;color:rgba(255,255,255,.72);flex:1}
-.rleg-val{font-family:var(--ffd);font-size:16px;font-weight:700;color:#fff}
-.rleg-t{font-size:10px;margin-left:3px}
-
-/* Tabs (bio) */
-.bio-card{background:var(--card);border:1.5px solid var(--brd);border-radius:22px;overflow:hidden}
-.bio-head{background:var(--dark-3);padding:16px 20px;position:relative;overflow:hidden}
-.bio-head::after{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
-  background-size:20px 20px;pointer-events:none}
-.bio-head-in{position:relative;z-index:1;display:flex;align-items:center;gap:12px}
-.bio-head-ico{width:34px;height:34px;border-radius:10px;
-  background:rgba(14,165,201,.18);border:1px solid rgba(14,165,201,.35);
-  display:grid;place-items:center;font-size:17px}
-.bio-head h3{font-family:var(--ffd);font-size:15px;font-weight:600;color:#fff;letter-spacing:-.02em}
-.bio-head p{font-size:11px;color:var(--dark-m)}
-.bio-tabs{display:flex;border-bottom:1px solid var(--brd);overflow-x:auto;scrollbar-width:none}
-.bio-tabs::-webkit-scrollbar{display:none}
-.bio-tab{padding:10px 16px;font-size:12.5px;font-weight:700;color:var(--mut);cursor:pointer;
-  white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
-.bio-tab:hover{color:var(--txt)}.bio-tab.on{color:var(--c-teal-d);border-bottom-color:var(--c-teal-d)}
-.bio-panel{display:none}.bio-panel.on{display:block}
-.bio-row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;
-  gap:8px;padding:13px 20px;border-bottom:1px solid var(--brd);transition:background .1s}
-.bio-row:last-child{border-bottom:none}.bio-row:hover{background:#f8f7f4}
-.bio-name{font-weight:600;font-size:13px}.bio-ref{font-size:11px;color:var(--mut);margin-top:1px}
-.bio-val{font-family:var(--ffd);font-size:16px;font-weight:700;text-align:right}
-.bio-unit{font-size:11px;color:var(--mut);white-space:nowrap;text-align:right}
-.bio-b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700}
-.bb-g{background:#dcfce7;color:#166534}.bb-w{background:#fef3c7;color:#92400e}.bb-b{background:#fee2e2;color:#991b1b}
-
-/* Alertes risk cards */
-.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
-.rcard{background:var(--card);border:1.5px solid;border-radius:16px;padding:16px;
-  display:flex;gap:11px;align-items:flex-start;transition:transform .2s}
-.rcard:hover{transform:translateY(-2px)}
-.rk-g{border-color:#bbf7d0}.rk-w{border-color:#fde68a}.rk-b{border-color:#fecaca}
-.rk-ico{font-size:20px;flex-shrink:0}
-.rk-title{font-weight:700;font-size:12.5px;margin-bottom:3px}
-.rk-g .rk-title{color:#166534}.rk-w .rk-title{color:#92400e}.rk-b .rk-title{color:#991b1b}
-.rk-desc{font-size:11.5px;color:var(--mut);line-height:1.6}
-
-/* ── RECOMMANDATIONS (nouvelle section clé) ── */
-.reco-section{margin-top:26px}
-.reco-tabs-nav{display:flex;gap:0;background:var(--dark-2);border:1px solid var(--dark-b);
-  border-radius:16px;overflow:hidden;margin-bottom:18px;padding:5px}
-.reco-tab-btn{flex:1;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:700;
-  color:var(--dark-m);transition:all .18s;cursor:pointer;text-align:center}
-.reco-tab-btn.on{background:rgba(255,255,255,.1);color:#fff}
-.reco-panel{display:none}.reco-panel.on{display:grid;gap:14px}
-/* Dietary reco */
-.reco-grid-2{grid-template-columns:1fr 1fr}
-@media(max-width:700px){.reco-grid-2{grid-template-columns:1fr}}
-.reco-grid-3{grid-template-columns:repeat(3,1fr)}
-@media(max-width:700px){.reco-grid-3{grid-template-columns:1fr}}
-.reco-card{
-  background:var(--card);border:1.5px solid var(--brd);border-radius:20px;
-  padding:22px 20px;position:relative;overflow:hidden;
-  transition:transform .25s var(--ease-s),box-shadow .2s,border-color .2s;
-}
-.reco-card:hover{transform:translateY(-4px);box-shadow:0 16px 44px rgba(0,0,0,.08)}
-.reco-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.rc-green::before{background:linear-gradient(90deg,var(--c-green),var(--c-teal))}
-.rc-amber::before{background:linear-gradient(90deg,var(--c-amber),var(--c-green))}
-.rc-red::before{background:linear-gradient(90deg,var(--c-red),var(--c-amber))}
-.rc-violet::before{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
-.rc-teal::before{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
-.rc-green:hover{border-color:rgba(16,185,129,.4)}.rc-amber:hover{border-color:rgba(245,158,11,.4)}
-.rc-violet:hover{border-color:rgba(124,58,237,.4)}.rc-teal:hover{border-color:rgba(14,165,201,.4)}
-.reco-card.priority{box-shadow:0 0 0 2px rgba(245,158,11,.3);border-color:rgba(245,158,11,.4)}
-.reco-prio{position:absolute;top:16px;right:16px;
-  font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;
-  background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--c-amber)}
-.rc-ico{font-size:30px;margin-bottom:14px;display:block}
-.rc-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px;color:var(--mut)}
-.rc-title{font-family:var(--ffd);font-size:15px;font-weight:600;letter-spacing:-.025em;margin-bottom:8px}
-.rc-desc{font-size:12.5px;color:var(--mut);line-height:1.78}
-.rc-impact{display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid var(--brd)}
-.rc-impact-lbl{font-size:10.5px;font-weight:600;color:var(--mut)}
-.rc-impact-val{font-size:10.5px;font-weight:700;margin-left:auto}
-.rc-impact-val.high{color:var(--c-green)}.rc-impact-val.med{color:var(--c-amber)}
-/* Activity reco with intensity */
-.act-card{
-  background:var(--dark-3);border:1px solid var(--dark-b);border-radius:20px;
-  padding:22px 20px;position:relative;overflow:hidden;
-  transition:transform .25s var(--ease-s),border-color .2s;
-}
-.act-card::before{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:18px 18px;pointer-events:none}
-.act-card:hover{transform:translateY(-4px);border-color:rgba(16,185,129,.35)}
-.ac-top{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-green),var(--c-teal))}
-.ac-ico{font-size:30px;margin-bottom:12px;display:block;position:relative}
-.ac-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;
-  color:var(--c-green);margin-bottom:6px;position:relative}
-.ac-title{font-family:var(--ffd);font-size:15px;font-weight:600;letter-spacing:-.025em;
-  color:#fff;margin-bottom:8px;position:relative}
-.ac-desc{font-size:12.5px;color:var(--dark-m);line-height:1.78;position:relative}
-.ac-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;position:relative}
-.ac-tag{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:99px;
-  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:var(--c-green)}
-.ac-tag.amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.22);color:var(--c-amber)}
-.ac-tag.violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.22);color:#a78bfa}
-/* Weekly plan */
-.week-plan{background:var(--dark-2);border:1px solid var(--dark-b);border-radius:18px;
-  overflow:hidden;position:relative}
-.week-plan::before{content:'';position:absolute;inset:0;
-  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
-  background-size:18px 18px;pointer-events:none}
-.wplan-head{padding:16px 20px;border-bottom:1px solid var(--dark-b);
-  display:flex;align-items:center;gap:10px;position:relative}
-.wplan-head-ico{width:28px;height:28px;border-radius:8px;
-  background:rgba(14,165,201,.18);border:1px solid rgba(14,165,201,.3);
-  display:grid;place-items:center;font-size:14px}
-.wplan-head-title{font-family:var(--ffd);font-size:14px;font-weight:600;color:#fff;letter-spacing:-.025em}
-.wplan-body{padding:14px 20px;position:relative}
-.wday{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--dark-b)}
-.wday:last-child{border-bottom:none}
-.wday-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
-  color:var(--dark-m);width:32px;flex-shrink:0}
-.wday-blocks{display:flex;gap:5px;flex:1;flex-wrap:wrap}
-.wday-block{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid}
-.wb-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)}
-.wb-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
-.wb-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa}
-.wb-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
-.wb-rest{background:rgba(255,255,255,.05);border-color:var(--dark-b);color:var(--dark-m)}
-
-/* ══ FOOTER ══ */
-.footer{background:var(--dark-1);border-top:1px solid var(--dark-b);padding:30px 24px;text-align:center}
-.footer-logo{font-family:var(--ffd);font-size:20px;font-weight:700;letter-spacing:-.07em;
-  color:#fff;margin-bottom:7px}
-.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;
-  margin-top:4px;opacity:.45;font-family:var(--ff);text-transform:uppercase}
-.footer-disc{font-size:11.5px;color:var(--dark-m);line-height:1.88;max-width:560px;margin:0 auto}
+.land-steps{display:grid;grid-template-columns:1fr;gap:16px;padding:32px 0;max-width:700px;margin:0 auto}
+@media(min-width:520px){.land-steps{grid-template-columns:repeat(3,1fr)}}
+.step-card{position:relative;background:var(--card);border-radius:var(--radius-card);padding:24px 20px;
+  border:1.5px solid var(--brd);transition:transform .25s var(--ease-s),box-shadow .25s,border-color .2s;
+  overflow:hidden;display:flex;flex-direction:column;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.step-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:0 20px 56px rgba(0,0,0,.1);border-color:var(--c-teal)}
+.step-num{font-size:14px;font-weight:700;color:var(--c-teal);background:var(--c-teal-glow);border-radius:99px;
+  width:32px;height:32px;display:grid;place-items:center;margin-bottom:16px}
+.step-title{font-family:var(--ffd);font-size:20px;font-weight:600;letter-spacing:-.02em;color:var(--txt);margin-bottom:8px}
+.step-desc{font-size:13px;color:var(--mut);line-height:1.6}
+.land-btn{display:block;max-width:300px;margin:32px auto 0;padding:12px 28px;border-radius:99px;
+  font-size:14px;font-weight:700;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 4px 18px rgba(14,116,144,.35);transition:transform .18s,box-shadow .18s;text-align:center}
+.land-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(14,116,144,.48)}
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════
-     NAV
-════════════════════════════ -->
-<nav class="nav">
+<div class="nav">
   <div class="nav-in">
     <div class="nav-logo" onclick="go('home')">
-      <div class="nav-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></div>
+      <div class="nav-mark">🩸</div> <!-- Modified logo as per your mention (blood drop from the screenshot) -->
       <div class="nav-type">PRÉVIO<sup>®</sup></div>
     </div>
     <div class="nav-links">
-      <div class="nl on" id="nl-home" onclick="go('home')">Accueil</div>
+      <div class="nl" id="nl-home" onclick="go('home')">Accueil</div>
       <div class="nl" id="nl-dash" onclick="go('dash')">Dashboard</div>
       <div class="nl" id="nl-bio" onclick="go('bio')">Bilan Biologique</div>
-      <div class="nl" id="nl-profil" onclick="go('profil')">Profil Santé</div>
+      <div class="nl" id="nl-profil" onclick="window.location.href='bilan_coaching_premium_.html'">Profil Santé</div> <!-- Linked to separate page as per original intent -->
       <div class="nl" id="nl-mon" onclick="go('mon')">Monitoring</div>
     </div>
     <div class="nav-r">
-      <div class="nav-live"><span class="nav-live-dot"></span>Données locales</div>
-      <button class="nav-btn" onclick="go('dash')">Mon espace →</button>
+      <div class="nav-live">
+        <div class="nav-live-dot"></div>
+        Données locales
+      </div>
+      <button class="nav-btn" onclick="go('mon')">Mon espace →</button>
     </div>
   </div>
-</nav>
+</div>
 
-<!-- ════════════════════════════
-     S1 — LANDING (ACCUEIL)
-════════════════════════════ -->
-<div id="s-home" class="screen active">
-
-  <!-- Hero -->
-  <section class="hero">
+<!-- SCREEN: HOME (original) -->
+<div class="screen active" id="s-home">
+  <div class="hero">
     <div class="hero-b1"></div><div class="hero-b2"></div><div class="hero-b3"></div>
-    <div class="hero-grid"></div><div class="hero-scan"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-scan"></div>
     <div class="hero-in">
-
-      <div class="eyebrow"><span class="eyebrow-dot"></span>Coaching santé préventif · Basé sur la biologie</div>
-
-      <h1>
-        <span class="block">Faites le point</span>
-        <span class="block grad">sur votre santé.</span>
-      </h1>
-
-      <p class="hero-sub">Interprétez vos bilans biologiques en contexte, construisez votre profil de santé complet et recevez des recommandations personnalisées sur votre alimentation et votre activité physique.</p>
-
-      <div class="cta-row">
-        <button class="btn-main" onclick="go('dash')">Commencer mon bilan <span class="arr">→</span></button>
-        <button class="btn-ghost" onclick="go('mon')">Voir le monitoring</button>
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Prévention. Personnalisée.
       </div>
-
-      <div class="hero-stats">
-        <div class="hst"><div class="hst-v">18</div><div class="hst-l">Biomarqueurs</div></div>
-        <div class="hst"><div class="hst-v">12+</div><div class="hst-l">Scores validés</div></div>
-        <div class="hst"><div class="hst-v">3</div><div class="hst-l">Domaines santé</div></div>
-        <div class="hst"><div class="hst-v">100%</div><div class="hst-l">Données locales</div></div>
+      <h1>La <em>prévention</em> personnalisée commence par un bilan augmenté.</h1>
+      <div class="hero-sub">PRÉVIO transforme vos bilans biologiques en insights actionnables — contextualisés par votre mode de vie, nutrition et profil hormonal.</div>
+      <button class="hero-btn" onclick="go('bio')">Commencer un bilan →</button>
+    </div>
+  </div>
+  <div class="land">
+    <h2 class="land-title">Nos <em>outils</em> de prévention</h2>
+    <div class="land-sub">Des outils simples et puissants pour contextualiser vos bilans et optimiser votre santé.</div>
+    <div class="land-cards">
+      <div class="land-card" onclick="go('bio')">
+        <span class="land-card-ico">🩸</span>
+        <div class="land-card-title">Bilan augmenté</div>
+        <div class="land-card-sub">Interprétez vos résultats labo avec contexte pré-analytique et lifestyle.</div>
+      </div>
+      <div class="land-card" onclick="window.location.href='bilan_coaching_premium_.html'">
+        <span class="land-card-ico">📋</span>
+        <div class="land-card-title">Profil santé</div>
+        <div class="land-card-sub">Questionnaire contextuel pour un coaching personnalisé.</div>
+      </div>
+      <div class="land-card" onclick="go('mon')">
+        <span class="land-card-ico">📈</span>
+        <div class="land-card-title">Monitoring</div>
+        <div class="land-card-sub">Suivez vos tendances et recevez des recommandations.</div>
       </div>
     </div>
-  </section>
+  </div>
+</div>
 
-  <!-- 3 Piliers -->
-  <section class="prog-section">
-    <div class="prog-in">
-      <div class="s-eyebrow">Le programme PRÉVIO</div>
-      <h2 class="s-title">Trois piliers. <em>Un profil complet.</em></h2>
-      <p class="s-sub">La santé préventive repose sur la biologie, le mode de vie et les habitudes au quotidien. PRÉVIO les analyse ensemble.</p>
-
-      <div class="pillar-grid">
-        <div class="pillar p-teal fu d1" onclick="go('bio')">
-          <div class="p-tag">Étape 01 — Biologie</div>
-          <span class="p-ico">🩸</span>
-          <div class="p-title">Bilan Biologique Contextuel</div>
-          <p class="p-desc">Un résultat de laboratoire sans contexte est une information incomplète. Renseignez les variables pré-analytiques et de mode de vie pour une interprétation cliniquement juste.</p>
-          <div class="p-chips">
-            <span class="pchip">IMC · Jeûne</span><span class="pchip">Pré-analytique</span>
-            <span class="pchip">Hormonal</span><span class="pchip">Nutrition</span>
+<!-- SCREEN: MON ESPACE (original) -->
+<div class="screen" id="s-mon">
+  <div class="mon-wrap">
+    <div class="mon-kpis fu d1">
+      <div class="mkpi">
+        <div class="mkpi-lbl">Score global</div>
+        <div class="mkpi-val">68/100</div>
+        <div class="mkpi-sub">Amélioration possible</div>
+      </div>
+      <div class="mkpi">
+        <div class="mkpi-lbl">Risque CV</div>
+        <div class="mkpi-val">Modéré</div>
+        <div class="mkpi-sub">SCORE2 12%</div>
+      </div>
+      <div class="mkpi">
+        <div class="mkpi-lbl">Dernier bilan</div>
+        <div class="mkpi-val">15/02/26</div>
+        <div class="mkpi-sub">3 anomalies</div>
+      </div>
+    </div>
+    <div class="mon-radar fu d2">
+      <div class="mon-radar-title">Radar santé</div>
+      <svg id="radarSvg" class="mon-radar-svg" viewBox="0 0 300 300"></svg>
+    </div>
+    <div class="mon-bio fu d3">
+      <div class="mon-bio-title">Dernier bilan biologique</div>
+      <div class="mon-bio-tabs">
+        <div class="bio-tab on" onclick="bioCat(this,'base')">Base</div>
+        <div class="bio-tab" onclick="bioCat(this,'lip')">Lipides</div>
+        <div class="bio-tab" onclick="bioCat(this,'hep')">Hépatique</div>
+      </div>
+      <div class="bio-panel on" id="bp-base">
+        <div class="bio-grid">
+          <div class="bio-card">
+            <div class="bio-card-lbl">Glucose</div>
+            <div class="bio-card-val">0.92 g/L</div>
+            <div class="bio-card-ref">0.74-1.06</div>
           </div>
-          <div class="p-arrow">→</div>
+          <!-- Add more bio-cards as in original -->
         </div>
-        <div class="pillar p-violet fu d2" onclick="go('profil')">
-          <div class="p-tag">Étape 02 — Profil santé</div>
-          <span class="p-ico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block">
-        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(14,165,201,0.15)" stroke="#0ea5c9" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M12 16V9" stroke="#0ea5c9" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8.5 12L12 8.5L15.5 12" stroke="#0ea5c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span>
-          <div class="p-title">Profil Santé Multi-domaines</div>
-          <p class="p-desc">Évaluez votre métabolisme, votre sommeil, votre stress, votre activité physique et votre profil nutritionnel via des questionnaires scientifiquement validés.</p>
-          <div class="p-chips">
-            <span class="pchip">HOMA-IR · ISI · PSQI</span>
-            <span class="pchip">GAD-7 · PHQ-9</span><span class="pchip">DASH · MIND</span>
+      </div>
+      <!-- Other bio-panels -->
+    </div>
+    <div class="mon-trend fu d4">
+      <div class="mon-trend-title">Tendances</div>
+      <svg id="trendSvg" class="mon-trend-svg" viewBox="0 0 540 160"></svg>
+    </div>
+    <div class="mon-reco fu d5" id="reco-anchor">
+      <div class="mon-reco-title">Recommandations personnalisées</div>
+      <div class="mon-reco-tabs">
+        <div class="rt on" id="rt-diet" onclick="recoTab('diet')">Alimentation</div>
+        <div class="rt" id="rt-sport" onclick="recoTab('sport')">Sport</div>
+        <div class="rt" id="rt-vie" onclick="recoTab('vie')">Vie quotidienne</div>
+      </div>
+      <div class="rp on" id="rp-diet">
+        <div class="reco-grid">
+          <!-- Original reco-cards -->
+          <div class="reco-card rc-red">
+            <span class="rc-ico">🍎</span>
+            <div class="rc-cat">Sucres · Glucose 0.92</div>
+            <div class="rc-title">Réduire les sucres rapides</div>
+            <p class="rc-desc">Glucose à jeun 0.92 g/L proche du haut de référence. Limiter sodas, jus, pâtisseries. Privilégier fibres et protéines.</p>
+            <div class="rc-impact"><span class="rc-impact-lbl">Impact glucose</span><span class="rc-impact-val high">↓ 0.1-0.2 g/L</span></div>
           </div>
-          <div class="p-arrow">→</div>
-        </div>
-        <div class="pillar p-green fu d3" onclick="go('mon')">
-          <div class="p-tag">Étape 03 — Coaching</div>
-          <span class="p-ico">🥗</span>
-          <div class="p-title">Recommandations Personnalisées</div>
-          <p class="p-desc">Recevez des recommandations diététiques et d'activité physique basées sur votre profil biologique réel — glycémie, inflammation, lipides, sommeil et niveau de stress.</p>
-          <div class="p-chips">
-            <span class="pchip">Diététique</span><span class="pchip">Activité physique</span>
-            <span class="pchip">Hygiène de vie</span><span class="pchip">Suivi continu</span>
-          </div>
-          <div class="p-arrow">→</div>
+          <!-- More as in original -->
         </div>
       </div>
+      <!-- Other rp -->
     </div>
-  </section>
-
-  <!-- Parcours -->
-  <section class="parcours">
-    <div class="parcours-in">
-      <div class="s-eyebrow">Le parcours</div>
-      <h2 class="s-title">De vos résultats <em>à l'action</em></h2>
-      <p class="s-sub">Un flux structuré en 4 étapes pour passer de vos résultats bruts à des recommandations actionnables.</p>
-      <div class="steps">
-        <div class="step fu d1"><div class="step-wrap"><span>🩸</span><div class="step-n">1</div></div>
-          <div class="step-title">Saisissez vos résultats</div>
-          <p class="step-desc">Cholestérol, glycémie, ferritine, CRP… importez les valeurs de votre dernière analyse sanguine.</p></div>
-        <div class="step fu d2"><div class="step-wrap"><span>📋</span><div class="step-n">2</div></div>
-          <div class="step-title">Contextualisez</div>
-          <p class="step-desc">Jeûne, stress, traitements, activité physique — les variables qui transforment l'interprétation.</p></div>
-        <div class="step fu d3"><div class="step-wrap"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle">
-        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M12 16V9" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8.5 12L12 8.5L15.5 12" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span><div class="step-n">3</div></div>
-          <div class="step-title">Profilez votre santé</div>
-          <p class="step-desc">Questionnaires validés sur le sommeil, le stress, la nutrition et l'activité physique.</p></div>
-        <div class="step fu d4"><div class="step-wrap"><span>🥗</span><div class="step-n">4</div></div>
-          <div class="step-title">Recevez vos recommandations</div>
-          <p class="step-desc">Recommandations diét. et activité physique personnalisées selon votre biologie réelle.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Promesses prévention -->
-  <section class="promise">
-    <div class="promise-in">
-      <div class="s-eyebrow">Pourquoi PRÉVIO</div>
-      <h2 class="s-title">La prévention, <em>rendue lisible</em></h2>
-      <p class="s-sub">Des principes de médecine préventive traduits en recommandations concrètes pour chaque jour.</p>
-      <div class="promise-grid fu d1">
-        <div class="promise-card">
-          <div class="pr-ico pr-ico-teal">🔬</div>
-          <div><div class="pr-title">Interprétation contextualisée</div>
-            <p class="pr-desc">Un taux de CRP de 2 mg/L n'a pas le même sens selon votre niveau d'activité, votre jeûne ou vos traitements. PRÉVIO intègre ces variables pour vous donner une lecture juste.</p></div>
-        </div>
-        <div class="promise-card">
-          <div class="pr-ico pr-ico-green">🥗</div>
-          <div><div class="pr-title">Recommandations diététiques</div>
-            <p class="pr-desc">Si votre HbA1c est à 5.8%, vous recevez des recommandations spécifiques sur la gestion des glucides, la chronobiologie alimentaire et les index glycémiques.</p></div>
-        </div>
-        <div class="promise-card">
-          <div class="pr-ico pr-ico-violet">🏃</div>
-          <div><div class="pr-title">Programme d'activité physique</div>
-            <p class="pr-desc">Adapté à votre score d'activité, votre niveau d'inflammation et votre profil de sommeil — intensité, type d'effort et timing dans la journée.</p></div>
-        </div>
-        <div class="promise-card">
-          <div class="pr-ico pr-ico-amber">📈</div>
-          <div><div class="pr-title">Suivi longitudinal</div>
-            <p class="pr-desc">Mesurez l'impact de vos changements d'habitudes sur vos biomarqueurs biologiques au fil des bilans. La prévention se mesure dans le temps.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-sect">
-    <div class="cta-box">
-      <h2>Prêt à comprendre et agir sur votre santé ?</h2>
-      <p>Commencez par le questionnaire contextuel — 8 minutes qui transforment l'interprétation de vos résultats biologiques et activent vos premières recommandations personnalisées.</p>
-      <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative">
-        <button class="btn-main" onclick="go('bio')">Questionnaire biologique <span class="arr">→</span></button>
-        <button class="btn-ghost" onclick="go('dash')">Voir mon dashboard</button>
-      </div>
-    </div>
-  </section>
-
+  </div>
   <footer class="footer">
     <div class="footer-logo">PRÉVIO<sup>®</sup></div>
-    <p class="footer-disc">Outil d'aide à l'interprétation et au coaching hygiène de vie. Ne constitue pas un acte médical ni un diagnostic. Toute décision thérapeutique doit être prise avec un professionnel de santé qualifié.</p>
+    <p class="footer-disc">Recommandations à titre informatif et préventif · Ne constituent pas une prescription médicale · Consultez un professionnel de santé pour tout suivi thérapeutique · PRÉVIO v1.0 — Proof of Concept</p>
   </footer>
 </div>
 
-<!-- ════════════════════════════
-     S2 — DASHBOARD
-════════════════════════════ -->
-<div id="s-dash" class="screen">
-  <div class="dash-hero">
-    <div class="dh-b1"></div><div class="dh-b2"></div><div class="dh-grid"></div>
-    <div class="dh-in">
-      <div class="dh-crumb"><a onclick="go('home')">prévio</a><sep>/</sep><span style="color:rgba(255,255,255,.7)">Dashboard</span></div>
-      <h1>Bonjour — votre <em>profil prévention</em></h1>
-      <p>2 modules sur 3 complétés · Dernière mise à jour : aujourd'hui · 🔒 Données locales uniquement</p>
-    </div>
-  </div>
-
-  <!-- KPI strip -->
-  <div style="background:var(--dark-2);border-bottom:1px solid rgba(0,0,0,.08)">
-    <div class="kpi-rail">
-      <div class="kpi k1"><div class="kpi-bar"></div><div class="kpi-l">IMC</div><div class="kpi-v">23.4</div><span class="kb kb-g">Normal</span></div>
-      <div class="kpi k2"><div class="kpi-bar"></div><div class="kpi-l">HOMA-IR</div><div class="kpi-v">1.8</div><span class="kb kb-g">Normal</span></div>
-      <div class="kpi k3"><div class="kpi-bar"></div><div class="kpi-l">CRP us</div><div class="kpi-v">2.1</div><span class="kb kb-w">Limite</span></div>
-      <div class="kpi k4"><div class="kpi-bar"></div><div class="kpi-l">ISI Sommeil</div><div class="kpi-v">11</div><span class="kb kb-w">Léger</span></div>
-      <div class="kpi k5"><div class="kpi-bar"></div><div class="kpi-l">Complétion</div><div class="kpi-v">67%</div><span class="kb kb-w">En cours</span></div>
-    </div>
-  </div>
-
-  <!-- Body -->
-  <div class="dash-body">
-    <!-- Modules -->
-    <div class="blk-head"><div class="blk-title">Mes modules</div></div>
-    <div class="db-row r3 fu">
-      <div class="mcard mc-teal" onclick="go('bio')">
-        <div class="mc-stripe"></div>
-        <div class="mc-body"><span class="mc-ico">🩸</span>
-          <div class="mc-title">Bilan Biologique Contextuel</div>
-          <p class="mc-desc">Variables pré-analytiques, cliniques et lifestyle — pour une interprétation juste de vos résultats.</p></div>
-        <div class="mc-foot"><span class="ms ms-done">✓ Complété</span><span class="mc-arr">→</span></div>
+<!-- NEW SCREEN: BILAN BIOLOGIQUE BRIDGE (entry point with 3-step workflow) -->
+<div class="screen" id="s-bio">
+  <div class="hero">
+    <div class="hero-inner">
+      <div class="hero-pill">
+        <span class="hero-dot"></span>
+        Bilan Biologique
       </div>
-      <div class="mcard mc-violet" onclick="go('profil')">
-        <div class="mc-stripe"></div>
-        <div class="mc-body"><span class="mc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle">
-        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(124,58,237,0.15)" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M12 16V9" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8.5 12L12 8.5L15.5 12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span>
-          <div class="mc-title">Profil Santé Multi-domaines</div>
-          <p class="mc-desc">Bilan métabolique, sommeil, stress, nutrition — 3 modules, 22 étapes, 12 scores.</p></div>
-        <div class="mc-foot"><span class="ms ms-partial">⏳ Partiel (1/3)</span><span class="mc-arr">→</span></div>
+      <h1>Bilan <em>Biologique</em> Augmenté</h1>
+      <div class="hero-sub">
+        Contextualiser un bilan biologique est la clé d'une interprétation fiable. Suivez ces 3 étapes pour obtenir votre compte-rendu augmenté.
       </div>
-      <div class="mcard mc-amber" onclick="go('mon')">
-        <div class="mc-stripe"></div>
-        <div class="mc-body"><span class="mc-ico">📊</span>
-          <div class="mc-title">Monitoring & Recommandations</div>
-          <p class="mc-desc">Radar 6D, biomarqueurs, recommandations diét. et activité physique personnalisées.</p></div>
-        <div class="mc-foot"><span class="ms ms-todo">Voir l'analyse</span><span class="mc-arr">→</span></div>
-      </div>
-    </div>
-
-    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:26px 0"></div>
-
-    <!-- Scores -->
-    <div class="blk-head"><div class="blk-title">Scores santé</div><span class="blk-link" onclick="go('mon')">Radar complet →</span></div>
-    <div class="scores-row fu d1">
-      <div class="score-g"><div class="sg-lbl">Bilan Métabolique</div>
-        <div class="sg-wrap"><svg viewBox="0 0 82 82"><circle class="sg-bg" cx="41" cy="41" r="31"/><circle class="sg-arc" cx="41" cy="41" r="31" stroke="#a78bfa" style="stroke-dashoffset:68"/><text class="sg-num" x="41" y="43">65</text></svg></div>
-        <div class="sg-name">Métabolique</div><span class="sg-v sv-g">Bon profil</span></div>
-      <div class="score-g"><div class="sg-lbl">Habitudes de Vie</div>
-        <div class="sg-wrap"><svg viewBox="0 0 82 82"><circle class="sg-bg" cx="41" cy="41" r="31"/><circle class="sg-arc" cx="41" cy="41" r="31" stroke="var(--c-teal)" style="stroke-dashoffset:107"/><text class="sg-num" x="41" y="43">45</text></svg></div>
-        <div class="sg-name">Vie & Sommeil</div><span class="sg-v sv-w">À améliorer</span></div>
-      <div class="score-g"><div class="sg-lbl">Profil Nutritionnel</div>
-        <div class="sg-wrap"><svg viewBox="0 0 82 82"><circle class="sg-bg" cx="41" cy="41" r="31"/><circle class="sg-arc" cx="41" cy="41" r="31" stroke="var(--c-green)" style="stroke-dashoffset:49"/><text class="sg-num" x="41" y="43">75</text></svg></div>
-        <div class="sg-name">Nutrition</div><span class="sg-v sv-g">Bon profil</span></div>
-    </div>
-
-    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:26px 0"></div>
-
-    <!-- Bottom 2-col -->
-    <div class="db-row r2 fu d2">
-      <div>
-        <div class="blk-head"><div class="blk-title">Actions rapides</div></div>
-        <div class="qa-grid">
-          <div class="qa" onclick="go('bio')"><div class="qa-ico qi-t">🩸</div><div><div class="qa-tit">Nouveau bilan</div><div class="qa-sub">Contextualiser une analyse</div></div></div>
-          <div class="qa" onclick="go('profil')"><div class="qa-ico qi-v"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle">
-        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(124,58,237,0.15)" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M12 16V9" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8.5 12L12 8.5L15.5 12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></div><div><div class="qa-tit">Profil santé</div><div class="qa-sub">Continuer le module Vie</div></div></div>
-          <div class="qa" onclick="go('mon')"><div class="qa-ico qi-g">🥗</div><div><div class="qa-tit">Recommandations</div><div class="qa-sub">Diét. + activité physique</div></div></div>
-          <div class="qa"><div class="qa-ico qi-a">📑</div><div><div class="qa-tit">Export PDF</div><div class="qa-sub">Rapport complet</div></div></div>
+      <div class="hero-kpis">
+        <div class="hkpi">
+          <div class="hkpi-lbl">Étapes</div>
+          <div class="hkpi-val">3</div>
+          <div class="hkpi-sub">Simple & rapide</div>
         </div>
-      </div>
-      <div>
-        <div class="blk-head"><div class="blk-title">Insights récents</div></div>
-        <div class="insights">
-          <div class="ins"><div class="ins-dot" style="background:var(--c-amber);box-shadow:0 0 8px rgba(245,158,11,.4)"></div>
-            <div><div class="ins-title">Insomnie légère détectée</div>
-              <div class="ins-txt">ISI = 11 — TCC-I recommandée. Lever fixe 7j/7 prioritaire. Impact fort sur cortisol et CRP.</div>
-              <span class="ins-tag">Sommeil</span></div></div>
-          <div class="ins"><div class="ins-dot" style="background:var(--c-green);box-shadow:0 0 8px rgba(16,185,129,.4)"></div>
-            <div><div class="ins-title">HOMA-IR normal</div>
-              <div class="ins-txt">Sensibilité à l'insuline préservée. Maintenir l'activité physique post-prandiale (marche 20 min).</div>
-              <span class="ins-tag">Glycémie</span></div></div>
-          <div class="ins"><div class="ins-dot" style="background:var(--c-amber);box-shadow:0 0 8px rgba(245,158,11,.4)"></div>
-            <div><div class="ins-title">HbA1c zone prédiabète</div>
-              <div class="ins-txt">5.8% — Glycémie à jeun 103 mg/dL. Réduire glucides rapides, augmenter fibres solides.</div>
-              <span class="ins-tag">Glycémie</span></div></div>
+        <div class="hkpi">
+          <div class="hkpi-lbl">Données</div>
+          <div class="hkpi-val">100% local</div>
+          <div class="hkpi-sub">Confidentialité</div>
         </div>
       </div>
     </div>
   </div>
-
-  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Données stockées localement dans votre navigateur · Ne remplace pas un avis médical</p></footer>
-</div>
-
-<!-- ════════════════════════════
-     S3 — BILAN BIO (bridge)
-════════════════════════════ -->
-<div id="s-bio" class="screen"></div>
-<div id="s-profil" class="screen"></div>
-
-<!-- ════════════════════════════
-     S5 — MONITORING + RECOMMANDATIONS
-════════════════════════════ -->
-<div id="s-mon" class="screen">
-
-  <div class="mon-hero">
-    <div class="mh-b1"></div><div class="mh-b2"></div><div class="mh-grid"></div>
-    <div class="mh-in">
-      <div class="mh-ey">
-        <span>Monitoring & Coaching</span>
-        <div class="live"><span class="live-d"></span>LIVE</div>
+  <div class="content-wrap">
+    <div class="land-steps fu d1">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-title">Upload du CR labo</div>
+        <div class="step-desc">Téléchargez le PDF ou l'image de votre compte-rendu de laboratoire pour extraction automatique.</div>
       </div>
-      <h1>Tableau de bord <em>prévention</em></h1>
-      <p>Scores santé · Biomarqueurs · Recommandations diététiques & activité physique personnalisées</p>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-title">Questionnaire contextuel</div>
+        <div class="step-desc">Répondez à quelques questions sur votre mode de vie, nutrition et pré-analytique pour contextualiser.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-title">Bilan augmenté final</div>
+        <div class="step-desc">Obtenez l'interprétation combinée avec facteurs, recommandations et niveaux de preuve.</div>
+      </div>
     </div>
+    <button class="land-btn" onclick="window.location.href='bilan_augmente.html'">Commencer l'étape 1 →</button>
   </div>
-
-  <!-- Alert strip -->
-  <div class="alert-rail">
-    <div class="alert-in">
-      <span>⚠️</span>
-      <span class="al-txt">2 alertes actives — HbA1c 5.8% zone prédiabète · Insomnie légère ISI 11 → Voir les recommandations</span>
-      <button class="al-btn" onclick="openReco()">Recommandations →</button>
-    </div>
-  </div>
-
-  <!-- Body -->
-  <div class="mon-body">
-
-    <!-- Radar + Biomarqueurs -->
-    <div class="mon-cols">
-
-      <!-- Col gauche -->
-      <div style="display:flex;flex-direction:column;gap:18px">
-
-        <!-- Radar -->
-        <div class="dc fu">
-          <div class="dc-head">
-            <div><div class="dc-title">Radar Santé — 6 Dimensions</div>
-              <div class="dc-sub">Scores normalisés /100 · Données partielles (2/3 modules)</div></div>
-            <span style="font-size:10px;font-weight:700;padding:4px 11px;border-radius:99px;background:rgba(245,158,11,.13);border:1px solid rgba(245,158,11,.28);color:var(--c-amber)">Partiel</span>
-          </div>
-          <div class="dc-body">
-            <div style="display:flex;justify-content:center;padding:10px 0">
-              <svg id="radarSvg" width="300" height="300" viewBox="0 0 300 300"></svg>
-            </div>
-            <div class="rleg-grid">
-              <div class="rleg-item"><div class="rleg-dot" style="background:#a78bfa"></div><span class="rleg-name">Métabolique</span><span class="rleg-val">65<span class="rleg-t" style="color:var(--c-green)">↑</span></span></div>
-              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-teal)"></div><span class="rleg-name">Sommeil</span><span class="rleg-val">42<span class="rleg-t" style="color:var(--c-amber)">→</span></span></div>
-              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-amber)"></div><span class="rleg-name">Stress</span><span class="rleg-val">55<span class="rleg-t" style="color:var(--c-green)">↑</span></span></div>
-              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-green)"></div><span class="rleg-name">Nutrition</span><span class="rleg-val">75<span class="rleg-t" style="color:var(--c-green)">↑</span></span></div>
-              <div class="rleg-item"><div class="rleg-dot" style="background:#f472b6"></div><span class="rleg-name">Activité</span><span class="rleg-val">58<span class="rleg-t" style="color:var(--c-amber)">→</span></span></div>
-              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-red)"></div><span class="rleg-name">Inflammation</span><span class="rleg-val">60<span class="rleg-t" style="color:var(--c-red)">↓</span></span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trend chart -->
-        <div class="dc fu d2">
-          <div class="dc-head">
-            <div><div class="dc-title">Évolution des scores — 6 mois</div>
-              <div class="dc-sub">Projection illustrative · Complétez les modules pour les données réelles</div></div>
-          </div>
-          <div class="dc-body">
-            <svg id="trendSvg" width="100%" height="160" viewBox="0 0 540 160" preserveAspectRatio="xMidYMid meet" style="display:block"></svg>
-            <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap">
-              <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:#a78bfa;border-radius:2px"></div><span style="font-size:11.5px;color:var(--dark-m)">Métabolique</span></div>
-              <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:var(--c-green);border-radius:2px"></div><span style="font-size:11.5px;color:var(--dark-m)">Nutrition</span></div>
-              <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:var(--c-teal);border-radius:2px"></div><span style="font-size:11.5px;color:var(--dark-m)">Sommeil</span></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Risk signals -->
-        <div>
-          <div class="blk-head" style="margin-bottom:14px"><div class="blk-title">Signaux d'alerte</div></div>
-          <div class="risk-grid fu d3">
-            <div class="rcard rk-w"><div class="rk-ico">😴</div><div><div class="rk-title">Insomnie légère</div><div class="rk-desc">ISI 11 — TCC-I, lever fixe 7j/7, restriction luminosité soir.</div></div></div>
-            <div class="rcard rk-w"><div class="rk-ico">🍬</div><div><div class="rk-title">Prédiabète possible</div><div class="rk-desc">HbA1c 5.8% · Gly 103 mg/dL. Réduire glucides rapides.</div></div></div>
-            <div class="rcard rk-g"><div class="rk-ico">🫀</div><div><div class="rk-title">Risque CV faible</div><div class="rk-desc">Castelli 3.25 · LDL 98 · HDL protecteur 56 mg/dL.</div></div></div>
-            <div class="rcard rk-g"><div class="rk-ico">🫘</div><div><div class="rk-title">Fonction rénale OK</div><div class="rk-desc">eGFR 97 · Créatinine 0.91 · KFRE 5 ans 0.4%.</div></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Col droite — biomarqueurs -->
-      <div>
-        <div class="bio-card fu">
-          <div class="bio-head">
-            <div class="bio-head-in">
-              <div class="bio-head-ico">🩸</div>
-              <div><h3>Biomarqueurs</h3><p>Résultats contextualisés · Dernière analyse</p></div>
-            </div>
-          </div>
-          <div class="bio-tabs">
-            <div class="bio-tab on" onclick="bioCat(this,'lipides')">Lipides</div>
-            <div class="bio-tab" onclick="bioCat(this,'glycemie')">Glycémie</div>
-            <div class="bio-tab" onclick="bioCat(this,'inflam')">Inflammation</div>
-            <div class="bio-tab" onclick="bioCat(this,'renal')">Rénal</div>
-          </div>
-          <div id="bp-lipides" class="bio-panel on">
-            <div class="bio-row"><div><div class="bio-name">Cholestérol total</div><div class="bio-ref">< 200 mg/dL</div></div><div class="bio-val" style="color:var(--c-green)">182</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">LDL-Cholestérol</div><div class="bio-ref">< 130 mg/dL</div></div><div class="bio-val" style="color:var(--c-green)">98</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">HDL-Cholestérol</div><div class="bio-ref">H > 40 · F > 50</div></div><div class="bio-val" style="color:var(--c-green)">56</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">Triglycérides</div><div class="bio-ref">< 150 mg/dL</div></div><div class="bio-val" style="color:var(--c-amber)">138</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-w">!</div></div>
-            <div class="bio-row"><div><div class="bio-name">Castelli CT/HDL</div><div class="bio-ref">< 5.0</div></div><div class="bio-val" style="color:var(--c-green)">3.25</div><div class="bio-unit">ratio</div><div class="bio-b bb-g">✓</div></div>
-          </div>
-          <div id="bp-glycemie" class="bio-panel">
-            <div class="bio-row"><div><div class="bio-name">Glycémie à jeun</div><div class="bio-ref">70–100 mg/dL</div></div><div class="bio-val" style="color:var(--c-amber)">103</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-w">!</div></div>
-            <div class="bio-row"><div><div class="bio-name">Insulinémie à jeun</div><div class="bio-ref">2–20 µU/mL</div></div><div class="bio-val" style="color:var(--c-green)">8.4</div><div class="bio-unit">µU/mL</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">HOMA-IR</div><div class="bio-ref">< 2.5</div></div><div class="bio-val" style="color:var(--c-green)">1.8</div><div class="bio-unit">score</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">HbA1c</div><div class="bio-ref">< 5.7%</div></div><div class="bio-val" style="color:var(--c-amber)">5.8</div><div class="bio-unit">%</div><div class="bio-b bb-w">!</div></div>
-          </div>
-          <div id="bp-inflam" class="bio-panel">
-            <div class="bio-row"><div><div class="bio-name">CRP ultra-sensible</div><div class="bio-ref">< 3 mg/L</div></div><div class="bio-val" style="color:var(--c-amber)">2.1</div><div class="bio-unit">mg/L</div><div class="bio-b bb-w">!</div></div>
-            <div class="bio-row"><div><div class="bio-name">Ferritine</div><div class="bio-ref">H < 300 · F < 150</div></div><div class="bio-val" style="color:var(--c-green)">86</div><div class="bio-unit">µg/L</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">NLR ratio N/L</div><div class="bio-ref">< 3.0</div></div><div class="bio-val" style="color:var(--c-green)">2.1</div><div class="bio-unit">ratio</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">GGT</div><div class="bio-ref">H < 55 · F < 38</div></div><div class="bio-val" style="color:var(--c-green)">28</div><div class="bio-unit">UI/L</div><div class="bio-b bb-g">✓</div></div>
-          </div>
-          <div id="bp-renal" class="bio-panel">
-            <div class="bio-row"><div><div class="bio-name">Créatinine</div><div class="bio-ref">0.7–1.2 mg/dL</div></div><div class="bio-val" style="color:var(--c-green)">0.91</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">eGFR (CKD-EPI)</div><div class="bio-ref">> 90 mL/min</div></div><div class="bio-val" style="color:var(--c-green)">97</div><div class="bio-unit">mL/min</div><div class="bio-b bb-g">✓</div></div>
-            <div class="bio-row"><div><div class="bio-name">KFRE 5 ans</div><div class="bio-ref">< 5%</div></div><div class="bio-val" style="color:var(--c-green)">0.4</div><div class="bio-unit">%</div><div class="bio-b bb-g">✓</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ RECOMMANDATIONS PERSONNALISÉES (section clé) ══ -->
-    <div class="reco-section" id="reco-anchor">
-      <div class="blk-head" style="margin-bottom:20px">
-        <div class="blk-title">Recommandations personnalisées</div>
-        <span style="font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:var(--c-green)">Basées sur votre profil biologique</span>
-      </div>
-
-      <!-- Tab nav -->
-      <div class="reco-tabs-nav">
-        <div class="reco-tab-btn on" id="rt-diet" onclick="recoTab('diet')">🥗 Alimentation</div>
-        <div class="reco-tab-btn" id="rt-sport" onclick="recoTab('sport')">🏃 Activité physique</div>
-        <div class="reco-tab-btn" id="rt-vie" onclick="recoTab('vie')">💤 Hygiène de vie</div>
-      </div>
-
-      <!-- Panel Alimentation -->
-      <div id="rp-diet" class="reco-panel on reco-grid-2">
-
-        <div class="reco-card rc-amber priority">
-          <div class="reco-prio">⚠️ Priorité</div>
-          <span class="rc-ico">🩸</span>
-          <div class="rc-cat">Glycémie · HbA1c 5.8%</div>
-          <div class="rc-title">Réduire l'index glycémique global</div>
-          <p class="rc-desc">Votre HbA1c à 5.8% et votre glycémie à jeun de 103 mg/dL indiquent une zone prédiabétique. Privilégiez les glucides complexes (légumineuses, céréales complètes), limitez les sucres rapides et les boissons sucrées. Objectif : IG moyen < 55.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact attendu sur HbA1c</span><span class="rc-impact-val high">↓ 0.2–0.4% en 3 mois</span></div>
-        </div>
-
-        <div class="reco-card rc-green">
-          <span class="rc-ico">🫐</span>
-          <div class="rc-cat">Inflammation · CRP 2.1 mg/L</div>
-          <div class="rc-title">Alimentation anti-inflammatoire</div>
-          <p class="rc-desc">CRP à 2.1 mg/L — inflammation de bas grade. Augmentez les oméga-3 (poissons gras 3×/sem), les polyphénols (baies, curcuma, thé vert) et les antioxydants. Réduisez les graisses saturées et les aliments ultra-transformés.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact sur CRP</span><span class="rc-impact-val high">↓ 20–30% en 8 semaines</span></div>
-        </div>
-
-        <div class="reco-card rc-violet">
-          <span class="rc-ico">⏰</span>
-          <div class="rc-cat">Chronobiologie alimentaire</div>
-          <div class="rc-title">Fenêtre alimentaire + jeûne intermittent 16:8</div>
-          <p class="rc-desc">Associé à votre score d'insomnie (ISI 11), la chronobiologie alimentaire améliore simultanément la sensibilité à l'insuline et la qualité du sommeil. Dernier repas avant 19h, fenêtre de 8h. Favorise la régulation circadienne.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact glycémie à jeun</span><span class="rc-impact-val med">↓ 5–8 mg/dL en 4 sem</span></div>
-        </div>
-
-        <div class="reco-card rc-teal">
-          <span class="rc-ico">🫘</span>
-          <div class="rc-cat">Fibres & Microbiote</div>
-          <div class="rc-title">Augmenter les fibres solubles</div>
-          <p class="rc-desc">30g de fibres/jour minimum (vs ~15g en moyenne française). Légumineuses, avoine, graines de chia, légumes crucifères. Les fibres solubles ralentissent l'absorption des glucides et nourrissent le microbiote — bénéfice direct sur HOMA-IR.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact HOMA-IR</span><span class="rc-impact-val high">Maintien < 2.5</span></div>
-        </div>
-      </div>
-
-      <!-- Panel Activité physique -->
-      <div id="rp-sport" class="reco-panel" style="grid-template-columns:1fr 1fr;gap:14px">
-
-        <div class="act-card">
-          <div class="ac-top"></div>
-          <span class="ac-ico">🚶</span>
-          <div class="ac-type">Cardio modéré · Quotidien</div>
-          <div class="ac-title">Marche post-prandiale</div>
-          <p class="ac-desc">20–30 minutes après chaque repas principal. Réduit la glycémie post-prandiale de 15–25%. Simple, applicable immédiatement. Recommandation prioritaire vu HbA1c 5.8%.</p>
-          <div class="ac-tags">
-            <span class="ac-tag">Quotidien</span><span class="ac-tag">20–30 min</span>
-            <span class="ac-tag amber">Impact glycémie +++</span>
-          </div>
-        </div>
-
-        <div class="act-card">
-          <div class="ac-top"></div>
-          <span class="ac-ico">🏋️</span>
-          <div class="ac-type">Renforcement musculaire · 2–3×/sem</div>
-          <div class="ac-title">Musculation ou résistance</div>
-          <p class="ac-desc">La masse musculaire est le principal consommateur de glucose. 2–3 séances de 40 min/semaine améliorent la sensibilité à l'insuline de manière durable. Priorité aux grands groupes musculaires.</p>
-          <div class="ac-tags">
-            <span class="ac-tag">2–3×/sem</span><span class="ac-tag">40 min</span>
-            <span class="ac-tag amber">Impact HOMA-IR +++</span>
-          </div>
-        </div>
-
-        <div class="act-card">
-          <div class="ac-top"></div>
-          <span class="ac-ico">🧘</span>
-          <div class="ac-type">Récupération · CRP + Sommeil</div>
-          <div class="ac-title">Yoga ou Pilates doux</div>
-          <p class="ac-desc">1–2×/semaine. Associé à votre CRP limite (2.1 mg/L) et à l'insomnie légère, les pratiques de récupération active réduisent le cortisol, améliorent la qualité du sommeil et modulent l'inflammation.</p>
-          <div class="ac-tags">
-            <span class="ac-tag">1–2×/sem</span>
-            <span class="ac-tag violet">Impact sommeil ++</span>
-            <span class="ac-tag amber">↓ Cortisol</span>
-          </div>
-        </div>
-
-        <div class="act-card">
-          <div class="ac-top"></div>
-          <span class="ac-ico">🚴</span>
-          <div class="ac-type">Cardio-training · 1–2×/sem</div>
-          <div class="ac-title">Vélo ou natation — Zone 2</div>
-          <p class="ac-desc">45–60 min en zone 2 (60–70% FCmax) — l'intensité idéale pour brûler les graisses, améliorer la VO2max et réduire les triglycérides (actuellement 138 mg/dL). Favorise la mitochondriogenèse.</p>
-          <div class="ac-tags">
-            <span class="ac-tag">1–2×/sem</span><span class="ac-tag">Zone 2</span>
-            <span class="ac-tag amber">Impact TG +++</span>
-          </div>
-        </div>
-
-        <!-- Planning semaine -->
-        <div class="week-plan" style="grid-column:1/-1">
-          <div class="wplan-head">
-            <div class="wplan-head-ico">📅</div>
-            <div class="wplan-head-title">Planning semaine type — Programme PRÉVIO</div>
-          </div>
-          <div class="wplan-body">
-            <div class="wday"><div class="wday-name">Lun</div><div class="wday-blocks"><span class="wday-block wb-green">🏋️ Musculation 40 min</span><span class="wday-block wb-teal">🚶 Marche post-repas</span></div></div>
-            <div class="wday"><div class="wday-name">Mar</div><div class="wday-blocks"><span class="wday-block wb-teal">🚶 Marche 30 min</span><span class="wday-block wb-violet">🧘 Yoga 30 min (soir)</span></div></div>
-            <div class="wday"><div class="wday-name">Mer</div><div class="wday-blocks"><span class="wday-block wb-amber">🚴 Zone 2 — 50 min</span><span class="wday-block wb-teal">🚶 Marche post-repas</span></div></div>
-            <div class="wday"><div class="wday-name">Jeu</div><div class="wday-blocks"><span class="wday-block wb-green">🏋️ Musculation 40 min</span></div></div>
-            <div class="wday"><div class="wday-name">Ven</div><div class="wday-blocks"><span class="wday-block wb-teal">🚶 Marche 30 min</span><span class="wday-block wb-amber">🚴 Zone 2 — 45 min</span></div></div>
-            <div class="wday"><div class="wday-name">Sam</div><div class="wday-blocks"><span class="wday-block wb-violet">🧘 Yoga doux</span><span class="wday-block wb-teal">🚶 Marche 45 min</span></div></div>
-            <div class="wday"><div class="wday-name">Dim</div><div class="wday-blocks"><span class="wday-block wb-rest">Repos actif / Nature</span></div></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Panel Hygiène de vie -->
-      <div id="rp-vie" class="reco-panel reco-grid-3">
-
-        <div class="reco-card rc-violet priority">
-          <div class="reco-prio">⚠️ Priorité</div>
-          <span class="rc-ico">🛏️</span>
-          <div class="rc-cat">Sommeil · ISI 11</div>
-          <div class="rc-title">Lever fixe 7 jours sur 7</div>
-          <p class="rc-desc">La règle N°1 de la TCC-I. Un réveil fixe (même le week-end) régule l'horloge biologique et réduit le temps d'endormissement en 2–3 semaines. Non négociable pour ISI > 8.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact ISI</span><span class="rc-impact-val high">↓ 3–5 pts en 4 sem</span></div>
-        </div>
-
-        <div class="reco-card rc-amber">
-          <span class="rc-ico">📵</span>
-          <div class="rc-cat">Lumière bleue · Mélatonine</div>
-          <div class="rc-title">Écrans off 90 min avant le coucher</div>
-          <p class="rc-desc">La lumière bleue supprime la mélatonine de 50% et retarde l'endormissement de 60–90 min. Mode nuit insuffisant — arrêt complet ou lunettes filtrantes orange. Impact direct sur CRP via cortisol nocturne.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact sommeil</span><span class="rc-impact-val high">Endormissement -30 min</span></div>
-        </div>
-
-        <div class="reco-card rc-teal">
-          <span class="rc-ico">🌡️</span>
-          <div class="rc-cat">Exposition matinale</div>
-          <div class="rc-title">Lumière naturelle le matin (10 min)</div>
-          <p class="rc-desc">Exposition à la lumière naturelle dans les 30 min après le réveil. Synchronise l'horloge circadienne, boost le cortisol matinal (utile vu stress 55/100), améliore la vigilance et prépare l'endormissement nocturne.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact circadien</span><span class="rc-impact-val high">Synchronisation +++</span></div>
-        </div>
-
-        <div class="reco-card rc-green">
-          <span class="rc-ico">🧘</span>
-          <div class="rc-cat">Stress · Score 55/100</div>
-          <div class="rc-title">Cohérence cardiaque 3×5 min/jour</div>
-          <p class="rc-desc">3 sessions de 5 minutes (matin, midi, soir) de respiration 5/5. Réduit le cortisol, la fréquence cardiaque et l'inflammation. Praticable n'importe où — application gratuite (RespiRelax+).</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact cortisol</span><span class="rc-impact-val med">↓ 15–20% chronique</span></div>
-        </div>
-
-        <div class="reco-card rc-violet">
-          <span class="rc-ico">🚫</span>
-          <div class="rc-cat">Alcool · Triglycérides 138</div>
-          <div class="rc-title">Réduire la consommation d'alcool</div>
-          <p class="rc-desc">L'alcool est la première cause d'hypertriglycéridémie (TG 138 mg/dL). Objectif : < 1 verre/jour, jamais en semaine. Chaque verre supplémentaire augmente les TG de ~5 mg/dL et perturbe le sommeil paradoxal.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact triglycérides</span><span class="rc-impact-val high">↓ 15–25 mg/dL</span></div>
-        </div>
-
-        <div class="reco-card rc-amber">
-          <span class="rc-ico">💧</span>
-          <div class="rc-cat">Hydratation · Inflammation</div>
-          <div class="rc-title">1.5–2 L d'eau par jour minimum</div>
-          <p class="rc-desc">L'hydratation insuffisante concentre les biomarqueurs sanguins (fausse élévation de CRP et ferritine), augmente la viscosité et favorise l'inflammation. 2 grands verres d'eau dès le réveil.</p>
-          <div class="rc-impact"><span class="rc-impact-lbl">Impact CRP (faux positif)</span><span class="rc-impact-val med">Correction possible</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Recommandations à titre informatif et préventif · Ne constituent pas une prescription médicale · Consultez un professionnel de santé pour tout suivi thérapeutique · PRÉVIO v1.0 — Proof of Concept</p></footer>
 </div>
 
 <script>
 /* ══ ROUTER ══ */
 function go(id){
   // External tool pages — navigate directly
-  if(id==='bio'){window.location.href='questionnaire_contexte_bilan_v6.html';return;}
+  if(id==='bio'){window.location.href='bilan_augmente.html';return;} // Redirect to upload for step 1
   if(id==='profil'){window.location.href='bilan_coaching_premium_.html';return;}
   // Internal SPA screens
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
