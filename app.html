@@ -709,41 +709,66 @@ body{background:var(--dark-1)}
   height:calc(100vh - var(--nav-h));
   margin-top:var(--nav-h);
 }
+
+/* ══ PROGRESS DASHBOARD ══ */
 .profil-progress-bar{
   background:var(--dark-2);border-bottom:1px solid var(--dark-b);
-  padding:0 24px;flex-shrink:0;
+  padding:12px 24px 14px;flex-shrink:0;
 }
 .ppb-inner{
-  max-width:1160px;margin:0 auto;
-  display:flex;align-items:center;gap:16px;height:46px;
+  max-width:1000px;margin:0 auto;
 }
+.ppb-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .ppb-back{
-  padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;
+  padding:7px 16px;border-radius:99px;font-size:12px;font-weight:700;
   background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);
   color:var(--dark-m);cursor:pointer;transition:all .15s;white-space:nowrap;
 }
 .ppb-back:hover{background:rgba(255,255,255,.12);color:#fff}
-.ppb-modules{display:flex;gap:4px;flex:1}
+.ppb-title{font-family:var(--ffd);font-size:15px;font-weight:600;color:#fff;letter-spacing:-.02em}
+.ppb-title em{font-style:italic;font-weight:300;color:rgba(255,255,255,.45)}
+
+/* 3 module bars */
+.ppb-modules{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .ppb-mod{
-  display:flex;align-items:center;gap:6px;
-  padding:5px 12px;border-radius:99px;font-size:11.5px;font-weight:600;
-  color:var(--dark-m);cursor:pointer;transition:all .15s;
-  background:rgba(255,255,255,.03);border:1px solid transparent;
+  background:rgba(255,255,255,.035);border:1px solid var(--dark-b);
+  border-radius:14px;padding:10px 14px;cursor:pointer;
+  transition:all .2s;position:relative;overflow:hidden;
 }
-.ppb-mod:hover{background:rgba(255,255,255,.07);color:var(--dark-t)}
-.ppb-mod.active{background:rgba(255,255,255,.08);border-color:var(--dark-b2);color:#fff}
-.ppb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.ppb-dot-teal{background:var(--c-teal)}
-.ppb-dot-green{background:var(--c-green)}
-.ppb-dot-amber{background:var(--c-amber)}
-.ppb-label{white-space:nowrap}
-.ppb-status{font-size:10px;opacity:.5}
-.ppb-mod.done .ppb-status{color:var(--c-green);opacity:1}
-.ppb-progress-wrap{display:flex;align-items:center;gap:10px;margin-left:auto}
-.ppb-progress-track{width:80px;height:4px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
-.ppb-progress-fill{height:100%;border-radius:99px;transition:width .4s ease;
-  background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
-.ppb-pct{font-size:11px;font-weight:700;color:var(--dark-m);white-space:nowrap}
+.ppb-mod:hover{background:rgba(255,255,255,.06)}
+.ppb-mod.active{border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.ppb-mod.done{border-color:rgba(16,185,129,.3)}
+.ppb-mod-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.ppb-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.ppb-dot-teal{background:var(--c-teal);box-shadow:0 0 8px var(--c-teal-glow)}
+.ppb-dot-green{background:var(--c-green);box-shadow:0 0 8px var(--c-green-glow)}
+.ppb-dot-amber{background:var(--c-amber);box-shadow:0 0 8px rgba(245,158,11,.2)}
+.ppb-label{font-size:12px;font-weight:700;color:rgba(255,255,255,.75);flex:1}
+.ppb-status{font-size:11px;font-weight:700;color:var(--dark-m)}
+.ppb-mod.done .ppb-status{color:var(--c-green)}
+/* Individual progress track */
+.ppb-track{height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.ppb-fill-meta{height:100%;width:0%;border-radius:99px;transition:width .35s ease;
+  background:linear-gradient(90deg,var(--c-teal),#22d3ee)}
+.ppb-fill-life{height:100%;width:0%;border-radius:99px;transition:width .35s ease;
+  background:linear-gradient(90deg,var(--c-green),#34d399)}
+.ppb-fill-nutr{height:100%;width:0%;border-radius:99px;transition:width .35s ease;
+  background:linear-gradient(90deg,var(--c-amber),#fbbf24)}
+
+/* Global progress */
+.ppb-global{
+  margin-top:12px;display:flex;align-items:center;gap:14px;
+}
+.ppb-global-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--dark-m);white-space:nowrap}
+.ppb-global-track{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden;
+  position:relative}
+.ppb-global-fill{height:100%;width:0%;border-radius:99px;transition:width .5s ease;
+  background:linear-gradient(90deg,var(--c-teal),var(--c-violet),var(--c-green));
+  background-size:200% 100%;animation:progressShimmer 3s linear infinite}
+@keyframes progressShimmer{0%{background-position:0% 0}100%{background-position:200% 0}}
+.ppb-global-pct{font-family:var(--ffd);font-size:18px;font-weight:700;color:#fff;
+  min-width:42px;text-align:right}
 
 .profil-iframe{
   flex:1;width:100%;border:none;
@@ -751,8 +776,8 @@ body{background:var(--dark-1)}
 }
 
 @media(max-width:700px){
-  .ppb-modules{display:none}
-  .ppb-progress-wrap{margin-left:auto}
+  .ppb-modules{grid-template-columns:1fr}
+  .ppb-mod-top .ppb-label{font-size:11px}
 }
 
 /* ── Profil module cards ── */
@@ -1096,32 +1121,49 @@ body{background:var(--dark-1)}
 
   <!-- VUE 2: Module en cours (iframe + progress bar) -->
   <div id="profil-active" style="display:none">
-    <!-- Progress bar -->
+    <!-- Progress dashboard -->
     <div class="profil-progress-bar">
       <div class="ppb-inner">
-        <button class="ppb-back" onclick="closeModule()">← Modules</button>
+        <div class="ppb-top">
+          <button class="ppb-back" onclick="closeModule()">← Modules</button>
+          <div class="ppb-title">Profil Santé — <em>progression</em></div>
+        </div>
+
+        <!-- 3 module bars -->
         <div class="ppb-modules">
           <div class="ppb-mod" id="ppb-meta" onclick="openModule('meta')">
-            <span class="ppb-dot ppb-dot-teal"></span>
-            <span class="ppb-label">Métabolique</span>
-            <span class="ppb-status" id="ppb-status-meta">—</span>
+            <div class="ppb-mod-top">
+              <span class="ppb-dot ppb-dot-teal"></span>
+              <span class="ppb-label">Métabolique</span>
+              <span class="ppb-status" id="ppb-status-meta">—</span>
+            </div>
+            <div class="ppb-track"><div class="ppb-fill-meta" id="ppb-bar-meta"></div></div>
           </div>
           <div class="ppb-mod" id="ppb-life" onclick="openModule('life')">
-            <span class="ppb-dot ppb-dot-green"></span>
-            <span class="ppb-label">Vie</span>
-            <span class="ppb-status" id="ppb-status-life">—</span>
+            <div class="ppb-mod-top">
+              <span class="ppb-dot ppb-dot-green"></span>
+              <span class="ppb-label">Habitudes de Vie</span>
+              <span class="ppb-status" id="ppb-status-life">—</span>
+            </div>
+            <div class="ppb-track"><div class="ppb-fill-life" id="ppb-bar-life"></div></div>
           </div>
           <div class="ppb-mod" id="ppb-nutr" onclick="openModule('nutr')">
-            <span class="ppb-dot ppb-dot-amber"></span>
-            <span class="ppb-label">Nutrition</span>
-            <span class="ppb-status" id="ppb-status-nutr">—</span>
+            <div class="ppb-mod-top">
+              <span class="ppb-dot ppb-dot-amber"></span>
+              <span class="ppb-label">Nutrition</span>
+              <span class="ppb-status" id="ppb-status-nutr">—</span>
+            </div>
+            <div class="ppb-track"><div class="ppb-fill-nutr" id="ppb-bar-nutr"></div></div>
           </div>
         </div>
-        <div class="ppb-progress-wrap">
-          <div class="ppb-progress-track">
-            <div class="ppb-progress-fill" id="ppb-fill" style="width:0%"></div>
+
+        <!-- Global bar -->
+        <div class="ppb-global">
+          <span class="ppb-global-label">Progression globale</span>
+          <div class="ppb-global-track">
+            <div class="ppb-global-fill" id="ppb-global-fill"></div>
           </div>
-          <span class="ppb-pct" id="ppb-pct">0/3</span>
+          <span class="ppb-global-pct" id="ppb-global-pct">0%</span>
         </div>
       </div>
     </div>
@@ -1712,6 +1754,9 @@ function updateBridgeBadges(){
   }catch(e){}
 }
 
+// Progress state per module
+var modProgress={meta:{answered:0,total:34,pct:0,done:false},life:{answered:0,total:0,pct:0,done:false},nutr:{answered:0,total:0,pct:0,done:false}};
+
 // Listen for messages from iframe (progress + completion)
 window.addEventListener('message',function(e){
   if(!e.data||!e.data.type)return;
@@ -1720,24 +1765,37 @@ window.addEventListener('message',function(e){
     updateBridgeBadges();
   }
   if(e.data.type==='previo-progress'){
-    // Update progress bar fill
-    var fill=document.getElementById('ppb-fill');
-    var pct=document.getElementById('ppb-pct');
-    // Calculate overall progress: current module progress + completed modules
-    var doneCount=0;
-    try{
-      var raw=localStorage.getItem('previo_profil_state');
-      if(raw){var st=JSON.parse(raw);['meta','life','nutr'].forEach(function(k){if(st.done&&st.done[k])doneCount++;});}
-    }catch(ex){}
-    var overallPct=((doneCount*100)+(e.data.pct||0))/3;
-    if(fill)fill.style.width=Math.min(100,Math.round(overallPct))+'%';
-    if(pct)pct.textContent=e.data.answered+'/'+e.data.total+' ('+e.data.mod+')';
-    // Update active module status
-    var statusEl=document.getElementById('ppb-status-'+e.data.mod);
+    var mod=e.data.mod;
+    if(!mod)return;
+    modProgress[mod]={answered:e.data.answered,total:e.data.total,pct:e.data.pct,done:e.data.done};
+
+    // Update individual module bar
+    var bar=document.getElementById('ppb-bar-'+mod);
+    if(bar)bar.style.width=e.data.pct+'%';
+
+    // Update module status text
+    var statusEl=document.getElementById('ppb-status-'+mod);
     if(statusEl){
-      if(e.data.done){statusEl.textContent='✓';statusEl.parentElement.classList.add('done');}
-      else{statusEl.textContent=e.data.answered+'/'+e.data.total;}
+      if(e.data.done){
+        statusEl.textContent='✓ Complété';
+        var modEl=document.getElementById('ppb-'+mod);
+        if(modEl)modEl.classList.add('done');
+      } else {
+        statusEl.textContent=e.data.answered+'/'+e.data.total;
+      }
     }
+
+    // Calculate & update global progress
+    var totalAnswered=0,totalQs=0;
+    ['meta','life','nutr'].forEach(function(k){
+      totalAnswered+=modProgress[k].answered||0;
+      totalQs+=modProgress[k].total||0;
+    });
+    var globalPct=totalQs>0?Math.round(totalAnswered/totalQs*100):0;
+    var globalFill=document.getElementById('ppb-global-fill');
+    var globalPctEl=document.getElementById('ppb-global-pct');
+    if(globalFill)globalFill.style.width=globalPct+'%';
+    if(globalPctEl)globalPctEl.textContent=globalPct+'%';
   }
 });
 
