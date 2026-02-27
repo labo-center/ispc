@@ -44,12 +44,23 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .screen{
   display:none;
   opacity:0;
+  min-height:100vh;
 }
 .screen.active{
   display:block;
-  animation:screenFadeIn .28s ease-out forwards;
+  animation:screenFadeIn .22s ease-out forwards;
+}
+/* Iframe screens: instant switch, no fade = no flash */
+#s-profil.active,
+#s-guide.active{
+  animation:none;
+  opacity:1;
 }
 @keyframes screenFadeIn{from{opacity:0}to{opacity:1}}
+
+/* Prevent white flash between screens */
+body{background:var(--dark-1)}
+.nav{border-bottom:1px solid var(--dark-b);box-shadow:0 1px 0 var(--dark-1)}
 
 /* ── FADE HELPERS ── */
 .fu{animation:fu .5s ease-out both}
@@ -691,10 +702,14 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 
 /* ── Guide & Data screens ── */
 #s-guide{background:var(--dark-1)}
+#s-profil{background:var(--dark-1)}
 .guide-frame-wrap{
   min-height:100vh;padding-top:var(--nav-h);
 }
-.guide-frame-wrap iframe{width:100%;height:calc(100vh - var(--nav-h));border:none}
+.guide-frame-wrap iframe{
+  width:100%;height:calc(100vh - var(--nav-h));border:none;
+  background:var(--dark-1);color-scheme:dark;
+}
 
 #s-data{background:var(--bg)}
 .data-hero{
