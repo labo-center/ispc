@@ -1,52 +1,27 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0f1a3a"/>
-      <stop offset="1" stop-color="#162044"/>
-    </linearGradient>
-    <linearGradient id="shieldStroke" x1="120" y1="60" x2="400" y2="460" gradientUnits="userSpaceOnUse">
+    <linearGradient id="shieldStroke" x1="60" y1="20" x2="452" y2="492" gradientUnits="userSpaceOnUse">
       <stop stop-color="#22d3ee"/>
-      <stop offset="0.5" stop-color="#67e8f9"/>
       <stop offset="1" stop-color="#a78bfa"/>
     </linearGradient>
-    <linearGradient id="shieldFill" x1="120" y1="60" x2="400" y2="460" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22d3ee" stop-opacity="0.3"/>
-      <stop offset="1" stop-color="#a78bfa" stop-opacity="0.25"/>
+    <linearGradient id="shieldFill" x1="60" y1="20" x2="452" y2="492" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0e7490" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#6d28d9" stop-opacity="0.85"/>
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <filter id="outerGlow">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="18"/>
-      <feFlood flood-color="#22d3ee" flood-opacity="0.35"/>
-      <feComposite in2="SourceAlpha" operator="in"/>
-      <feMerge>
-        <feMergeNode/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
   
-  <!-- Rounded square background -->
-  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
-  
-  <!-- Shield shape - brighter stroke, more visible fill -->
-  <path d="M256 62L108 138V254C108 358.6 173.5 453.4 256 480C338.5 453.4 404 358.6 404 254V138L256 62Z" 
+  <!-- Shield - filled with gradient, bright stroke, NO dark background -->
+  <path d="M256 28L60 112V260C60 380 140 478 256 510C372 478 452 380 452 260V112L256 28Z" 
         fill="url(#shieldFill)" 
         stroke="url(#shieldStroke)" 
-        stroke-width="16" 
-        stroke-linejoin="round"
-        filter="url(#outerGlow)"/>
+        stroke-width="20" 
+        stroke-linejoin="round"/>
   
-  <!-- Arrow up (vertical line) - thicker -->
-  <line x1="256" y1="340" x2="256" y2="195" 
-        stroke="white" stroke-width="28" stroke-linecap="round"/>
+  <!-- Arrow up line -->
+  <line x1="256" y1="370" x2="256" y2="195" 
+        stroke="white" stroke-width="40" stroke-linecap="round"/>
   
-  <!-- Arrow chevron - thicker -->
-  <polyline points="192,258 256,192 320,258" 
-           stroke="white" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <!-- Arrow chevron -->
+  <polyline points="176,275 256,195 336,275" 
+           stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>
