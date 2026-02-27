@@ -1179,13 +1179,18 @@ function updateAccordion(){
   // Notify parent (app.html) of progress for live progress bar
   try{
     if(window.parent&&window.parent!==window){
+      var sections=mod.steps.map(function(step){
+        var ans=step.qs.filter(function(q){return isAnswered(q);}).length;
+        return {id:step.id,title:step.title||step.id,answered:ans,total:step.qs.length,done:isStepDone(step)};
+      });
       window.parent.postMessage({
         type:'previo-progress',
         mod:ST.mod,
         answered:answeredAll,
         total:totalQs,
         pct:pct,
-        done:allDone
+        done:allDone,
+        sections:sections
       },'*');
     }
   }catch(e){}
