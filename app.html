@@ -992,7 +992,7 @@ body{background:var(--dark-1)}
     <!-- 3 Module cards -->
     <div class="profil-modules fu d3">
 
-      <a href="bilan_coaching_premium.html" class="profil-mod pm-teal">
+      <a href="bilan_coaching_premium.html?mod=meta" class="profil-mod pm-teal">
         <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-teal),var(--c-green))"></div>
         <span class="pm-ico">🩺</span>
         <div class="pm-title">Bilan Métabolique</div>
@@ -1004,7 +1004,7 @@ body{background:var(--dark-1)}
         </div>
       </a>
 
-      <a href="bilan_coaching_premium.html" class="profil-mod pm-green">
+      <a href="bilan_coaching_premium.html?mod=life" class="profil-mod pm-green">
         <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-green),var(--c-amber))"></div>
         <span class="pm-ico">🌿</span>
         <div class="pm-title">Habitudes de Vie</div>
@@ -1016,7 +1016,7 @@ body{background:var(--dark-1)}
         </div>
       </a>
 
-      <a href="bilan_coaching_premium.html" class="profil-mod pm-amber">
+      <a href="bilan_coaching_premium.html?mod=nutr" class="profil-mod pm-amber">
         <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-amber),var(--c-violet))"></div>
         <span class="pm-ico">🥗</span>
         <div class="pm-title">Profil Nutritionnel</div>
@@ -1415,6 +1415,11 @@ body{background:var(--dark-1)}
     var gf=document.getElementById('guide-iframe');
     if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='bilan-biologique-previo.html';gf.setAttribute('data-loaded','1');}
   },1500);
+  // Handle hash navigation (e.g. app.html#profil coming back from module)
+  var hash=window.location.hash.replace('#','');
+  if(hash && document.getElementById('s-'+hash)){
+    setTimeout(function(){go(hash);},50);
+  }
 })();
 
 /* ══ ROUTER ══ */
