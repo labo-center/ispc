@@ -1662,10 +1662,27 @@ function preFillStep(step){
 function startMod(k){ST.mod=k;ST.step=0;ST.view='module';M[k].steps.forEach(st=>preFillStep(st));render();}
 function nextStep(){/* deprecated — accordion mode */}
 function prevStep(){/* deprecated — accordion mode */}
-function finishMod(){ST.done[ST.mod]=true;ST.view='results';render();}
-function goLanding(){window.location.href='app.html#profil';setTimeout(function(){if(window.opener||window.parent)try{window.parent.go&&window.parent.go('profil')}catch(e){}},50);}
+function finishMod(){
+  ST.done[ST.mod]=true;
+  // Save state to localStorage for parent to read
+  try{localStorage.setItem('previo_profil_state',JSON.stringify({done:ST.done}));}catch(e){}
+  // Notify parent iframe
+  try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'previo-module-done',mod:ST.mod},'*');}catch(e){}
+  ST.view='results';render();
+}
+function goLanding(){
+  // If inside iframe, tell parent to close module view
+  try{
+    if(window.parent&&window.parent!==window&&window.parent.closeModule){
+      window.parent.closeModule();
+      return;
+    }
+  }catch(e){}
+  // Fallback: navigate to app.html
+  window.location.href='app.html#profil';
+}
 function goResults(){ST.view='results';render();}
-function resetAll(){if(confirm('Effacer toutes vos réponses et recommencer ?')){ST.a={};ST.done={meta:false,life:false,nutr:false};ST.view='landing';ST.step=0;render();}}
+function resetAll(){if(confirm('Effacer toutes vos réponses et recommencer ?')){ST.a={};ST.done={meta:false,life:false,nutr:false};ST.view='landing';ST.step=0;try{localStorage.setItem('previo_profil_state',JSON.stringify({done:ST.done}));}catch(e){}render();}}
 
 /* ══ AUTO-START MODULE FROM URL ══ */
 (function(){

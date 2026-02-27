@@ -703,6 +703,58 @@ body{background:var(--dark-1)}
 #s-guide{background:var(--dark-1)}
 #s-profil{background:var(--dark-1)}
 
+/* ── Profil: embedded module view ── */
+#profil-active{
+  display:flex;flex-direction:column;
+  height:calc(100vh - var(--nav-h));
+  margin-top:var(--nav-h);
+}
+.profil-progress-bar{
+  background:var(--dark-2);border-bottom:1px solid var(--dark-b);
+  padding:0 24px;flex-shrink:0;
+}
+.ppb-inner{
+  max-width:1160px;margin:0 auto;
+  display:flex;align-items:center;gap:16px;height:46px;
+}
+.ppb-back{
+  padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);
+  color:var(--dark-m);cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.ppb-back:hover{background:rgba(255,255,255,.12);color:#fff}
+.ppb-modules{display:flex;gap:4px;flex:1}
+.ppb-mod{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:99px;font-size:11.5px;font-weight:600;
+  color:var(--dark-m);cursor:pointer;transition:all .15s;
+  background:rgba(255,255,255,.03);border:1px solid transparent;
+}
+.ppb-mod:hover{background:rgba(255,255,255,.07);color:var(--dark-t)}
+.ppb-mod.active{background:rgba(255,255,255,.08);border-color:var(--dark-b2);color:#fff}
+.ppb-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ppb-dot-teal{background:var(--c-teal)}
+.ppb-dot-green{background:var(--c-green)}
+.ppb-dot-amber{background:var(--c-amber)}
+.ppb-label{white-space:nowrap}
+.ppb-status{font-size:10px;opacity:.5}
+.ppb-mod.done .ppb-status{color:var(--c-green);opacity:1}
+.ppb-progress-wrap{display:flex;align-items:center;gap:10px;margin-left:auto}
+.ppb-progress-track{width:80px;height:4px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
+.ppb-progress-fill{height:100%;border-radius:99px;transition:width .4s ease;
+  background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
+.ppb-pct{font-size:11px;font-weight:700;color:var(--dark-m);white-space:nowrap}
+
+.profil-iframe{
+  flex:1;width:100%;border:none;
+  background:var(--dark-1);color-scheme:dark;
+}
+
+@media(max-width:700px){
+  .ppb-modules{display:none}
+  .ppb-progress-wrap{margin-left:auto}
+}
+
 /* ── Profil module cards ── */
 .profil-modules{
   display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
@@ -972,7 +1024,9 @@ body{background:var(--dark-1)}
 </div>
 
 <div id="s-profil" class="screen">
-  <div class="bridge">
+
+  <!-- VUE 1: Choix des modules (bridge) -->
+  <div id="profil-bridge" class="bridge">
     <div class="br-grid"></div>
     <div class="bridge-orb" style="position:absolute;width:600px;height:600px;top:-150px;right:-200px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.14),transparent 65%);pointer-events:none"></div>
     <div class="bridge-orb" style="position:absolute;width:400px;height:400px;bottom:-100px;left:-80px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,201,.1),transparent 65%);pointer-events:none"></div>
@@ -992,41 +1046,41 @@ body{background:var(--dark-1)}
     <!-- 3 Module cards -->
     <div class="profil-modules fu d3">
 
-      <a href="bilan_coaching_premium.html?mod=meta" class="profil-mod pm-teal">
+      <div class="profil-mod pm-teal" onclick="openModule('meta')">
         <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-teal),var(--c-green))"></div>
         <span class="pm-ico">🩺</span>
         <div class="pm-title">Bilan Métabolique</div>
         <p class="pm-desc">Analyses sanguines · Risque cardiovasculaire · Chronotype · Inflammation</p>
         <div class="pm-scores">HOMA-IR · FIB-4 · KFRE · eGFR · NLR · MEQ-5</div>
         <div class="pm-foot">
-          <span class="pm-steps">6 étapes</span>
+          <span class="pm-steps" id="pm-badge-meta">6 étapes</span>
           <span class="pm-arrow">→</span>
         </div>
-      </a>
+      </div>
 
-      <a href="bilan_coaching_premium.html?mod=life" class="profil-mod pm-green">
+      <div class="profil-mod pm-green" onclick="openModule('life')">
         <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-green),var(--c-amber))"></div>
         <span class="pm-ico">🌿</span>
         <div class="pm-title">Habitudes de Vie</div>
         <p class="pm-desc">Sommeil · Stress · Humeur · Alcool · Tabac · Écrans · Activité physique</p>
         <div class="pm-scores">ISI · PSQI · GAD-7 · PHQ-9 · MBI · AUDIT · Fagerström</div>
         <div class="pm-foot">
-          <span class="pm-steps">9 étapes</span>
+          <span class="pm-steps" id="pm-badge-life">9 étapes</span>
           <span class="pm-arrow">→</span>
         </div>
-      </a>
+      </div>
 
-      <a href="bilan_coaching_premium.html?mod=nutr" class="profil-mod pm-amber">
+      <div class="profil-mod pm-amber" onclick="openModule('nutr')">
         <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-amber),var(--c-violet))"></div>
         <span class="pm-ico">🥗</span>
         <div class="pm-title">Profil Nutritionnel</div>
         <p class="pm-desc">Qualité alimentaire · Micronutriments · Comportements · Rythme</p>
         <div class="pm-scores">DASH · MedDiet · MIND · Oméga-3 · TFEQ · Rythme</div>
         <div class="pm-foot">
-          <span class="pm-steps">7 étapes</span>
+          <span class="pm-steps" id="pm-badge-nutr">7 étapes</span>
           <span class="pm-arrow">→</span>
         </div>
-      </a>
+      </div>
 
     </div>
 
@@ -1039,6 +1093,42 @@ body{background:var(--dark-1)}
 
     <button class="br-btn-back" onclick="go('dash')" style="margin-top:28px">← Retour au dashboard</button>
   </div>
+
+  <!-- VUE 2: Module en cours (iframe + progress bar) -->
+  <div id="profil-active" style="display:none">
+    <!-- Progress bar -->
+    <div class="profil-progress-bar">
+      <div class="ppb-inner">
+        <button class="ppb-back" onclick="closeModule()">← Modules</button>
+        <div class="ppb-modules">
+          <div class="ppb-mod" id="ppb-meta" onclick="openModule('meta')">
+            <span class="ppb-dot ppb-dot-teal"></span>
+            <span class="ppb-label">Métabolique</span>
+            <span class="ppb-status" id="ppb-status-meta">—</span>
+          </div>
+          <div class="ppb-mod" id="ppb-life" onclick="openModule('life')">
+            <span class="ppb-dot ppb-dot-green"></span>
+            <span class="ppb-label">Vie</span>
+            <span class="ppb-status" id="ppb-status-life">—</span>
+          </div>
+          <div class="ppb-mod" id="ppb-nutr" onclick="openModule('nutr')">
+            <span class="ppb-dot ppb-dot-amber"></span>
+            <span class="ppb-label">Nutrition</span>
+            <span class="ppb-status" id="ppb-status-nutr">—</span>
+          </div>
+        </div>
+        <div class="ppb-progress-wrap">
+          <div class="ppb-progress-track">
+            <div class="ppb-progress-fill" id="ppb-fill" style="width:0%"></div>
+          </div>
+          <span class="ppb-pct" id="ppb-pct">0/3</span>
+        </div>
+      </div>
+    </div>
+    <!-- Iframe -->
+    <iframe id="profil-iframe" class="profil-iframe" src="about:blank"></iframe>
+  </div>
+
 </div>
 <div id="s-mon" class="screen">
 
@@ -1547,6 +1637,91 @@ function drawTrend(){
 }
 
 function drawCharts(){drawRadar();drawTrend();}
+
+/* ══ PROFIL MODULE MANAGEMENT ══ */
+var currentMod=null;
+
+function openModule(mod){
+  currentMod=mod;
+  // Hide bridge, show active view
+  document.getElementById('profil-bridge').style.display='none';
+  var active=document.getElementById('profil-active');
+  active.style.display='flex';
+  // Load iframe
+  var iframe=document.getElementById('profil-iframe');
+  iframe.src='bilan_coaching_premium.html?mod='+mod;
+  // Highlight active module in progress bar
+  ['meta','life','nutr'].forEach(function(k){
+    var el=document.getElementById('ppb-'+k);
+    if(el)el.classList.toggle('active',k===mod);
+  });
+  // Update progress
+  updateProfilProgress();
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+function closeModule(){
+  currentMod=null;
+  document.getElementById('profil-active').style.display='none';
+  document.getElementById('profil-bridge').style.display='';
+  // Clear iframe
+  document.getElementById('profil-iframe').src='about:blank';
+  updateProfilProgress();
+  updateBridgeBadges();
+}
+
+function updateProfilProgress(){
+  // Read completion state from localStorage (shared with bilan_coaching_premium)
+  var done=0;
+  try{
+    var raw=localStorage.getItem('previo_profil_state');
+    if(raw){
+      var st=JSON.parse(raw);
+      ['meta','life','nutr'].forEach(function(k){
+        var statusEl=document.getElementById('ppb-status-'+k);
+        if(st.done&&st.done[k]){
+          done++;
+          if(statusEl){statusEl.textContent='✓';statusEl.parentElement.classList.add('done');}
+        } else {
+          if(statusEl){statusEl.textContent='—';statusEl.parentElement.classList.remove('done');}
+        }
+      });
+    }
+  }catch(e){}
+  var fill=document.getElementById('ppb-fill');
+  var pct=document.getElementById('ppb-pct');
+  if(fill)fill.style.width=(done/3*100)+'%';
+  if(pct)pct.textContent=done+'/3';
+}
+
+function updateBridgeBadges(){
+  try{
+    var raw=localStorage.getItem('previo_profil_state');
+    if(raw){
+      var st=JSON.parse(raw);
+      ['meta','life','nutr'].forEach(function(k){
+        var badge=document.getElementById('pm-badge-'+k);
+        if(badge&&st.done&&st.done[k]){
+          badge.textContent='✓ Complété';
+          badge.style.background='rgba(16,185,129,.15)';
+          badge.style.borderColor='rgba(16,185,129,.3)';
+          badge.style.color='var(--c-green)';
+        }
+      });
+    }
+  }catch(e){}
+}
+
+// Listen for messages from iframe (module completion)
+window.addEventListener('message',function(e){
+  if(e.data&&e.data.type==='previo-module-done'){
+    updateProfilProgress();
+    updateBridgeBadges();
+  }
+});
+
+// Init badges on load
+setTimeout(function(){updateBridgeBadges();updateProfilProgress();},200);
 
 /* ══ DATA MANAGEMENT ══ */
 function updateDataStats(){
