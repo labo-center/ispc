@@ -281,7 +281,12 @@ body.drawer-open .drawer{transform:translateX(0)}
   :root{--drawer-w:100vw}
   body.drawer-open .wrapper{margin-right:0}
 }
+/* Hide nav when inside iframe */
+body.in-iframe .nav{display:none !important}
+body.in-iframe{padding-top:0 !important}
+body.in-iframe .wrapper{margin-top:0 !important}
 </style>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.self!==window.top)document.body.classList.add('in-iframe');});</script>
 </head>
 <body>
 

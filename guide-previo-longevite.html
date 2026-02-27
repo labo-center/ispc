@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Le Guide PRÉVIO — Longévité & Prévention</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --c-teal:#0ea5c9; --c-teal-d:#0e7490; --c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed; --c-violet-d:#6d28d9;
+  --c-green:#10b981; --c-green-d:#047857; --c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b; --c-amber-d:#d97706;
+  --c-red:#ef4444;
+  --dark-1:#070c1a; --dark-2:#0f1628; --dark-3:#141c35; --dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08); --dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.46); --dark-t:rgba(255,255,255,.88);
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--ff);color:var(--dark-t);background:var(--dark-1);overflow-x:hidden;line-height:1.6}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--dark-2)}
+::-webkit-scrollbar-thumb{background:rgba(14,165,201,.4);border-radius:99px}
+
+/* ── ANIMATIONS ── */
+.fu{animation:fu .7s var(--ease-o) both}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+.d4{animation-delay:.32s}.d5{animation-delay:.40s}.d6{animation-delay:.48s}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ═══════════════════════════
+   NAV
+═══════════════════════════ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:900;
+  height:62px;
+  background:rgba(7,12,26,.88);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b);
+}
+.nav-in{max-width:1160px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 24px;gap:0}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:auto;flex-shrink:0;text-decoration:none}
+.nav-mark{
+  width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;font-size:18px;
+  box-shadow:0 0 22px rgba(14,165,201,.32),0 0 44px rgba(124,58,237,.14);flex-shrink:0
+}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+.nav-guide-badge{
+  display:flex;align-items:center;gap:6px;padding:5px 14px;
+  background:rgba(14,165,201,.1);border:1px solid rgba(14,165,201,.22);
+  border-radius:99px;font-size:11px;font-weight:700;color:var(--c-teal);
+  letter-spacing:.06em;text-transform:uppercase
+}
+.nav-guide-dot{width:6px;height:6px;border-radius:50%;background:var(--c-teal);box-shadow:0 0 8px var(--c-teal);animation:pulse 2s infinite}
+
+/* ═══════════════════════════
+   HERO
+═══════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(62px + 60px) 24px 80px;
+  position:relative;overflow:hidden;
+}
+.hero-b1{position:absolute;top:-180px;left:-160px;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.12) 0%,transparent 65%);pointer-events:none}
+.hero-b2{position:absolute;bottom:-160px;right:-130px;width:580px;height:580px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.14) 0%,transparent 65%);pointer-events:none}
+.hero-b3{position:absolute;top:48%;left:55%;width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.07) 0%,transparent 60%);
+  pointer-events:none;transform:translate(-50%,-50%)}
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);
+  background-size:44px 44px;pointer-events:none}
+.hero-scan{position:absolute;left:0;right:0;height:1px;pointer-events:none;opacity:.2;
+  background:linear-gradient(90deg,transparent,rgba(14,165,201,.7) 35%,rgba(124,58,237,.7) 65%,transparent);
+  animation:scan 10s linear infinite}
+
+.hero-in{max-width:820px;text-align:center;position:relative;z-index:2}
+
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:99px;padding:6px 18px 6px 10px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:28px;
+  backdrop-filter:blur(8px)
+}
+.eyebrow-dot{width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-green));
+  box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite}
+
+.hero h1{
+  font-family:var(--ffd);
+  font-size:clamp(38px,7vw,80px);
+  font-weight:700;line-height:1.02;letter-spacing:-.055em;
+  color:#fff;margin-bottom:10px;
+}
+.hero h1 .grad{
+  font-style:italic;font-weight:300;
+  background:linear-gradient(115deg,#22d3ee 0%,#a78bfa 50%,#4ade80 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-quote{
+  margin:28px auto;max-width:560px;
+  background:rgba(255,255,255,.04);border:1px solid var(--dark-b);border-left:3px solid var(--c-teal);
+  border-radius:0 16px 16px 0;
+  padding:20px 24px;text-align:left;
+}
+.hero-quote p{font-size:15px;color:var(--dark-m);line-height:1.85}
+.hero-quote .quote-sig{font-size:12px;color:rgba(255,255,255,.3);margin-top:10px;font-style:italic}
+
+.hero-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 40px;border-radius:99px;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 8px 32px rgba(14,116,144,.42),0 0 0 1px rgba(14,165,201,.18);
+  text-decoration:none;transition:transform .22s var(--ease-s),box-shadow .22s;
+  margin-top:8px;cursor:pointer;border:none;
+}
+.hero-cta:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 52px rgba(14,116,144,.54)}
+
+/* Stats bar */
+.hero-stats{
+  display:flex;gap:0;
+  background:rgba(255,255,255,.04);border:1px solid var(--dark-b);
+  border-radius:20px;overflow:hidden;max-width:640px;margin:48px auto 0;
+}
+.hst{flex:1;padding:20px 16px;border-right:1px solid var(--dark-b);text-align:center;position:relative}
+.hst:last-child{border-right:none}
+.hst::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.65}
+.hst:nth-child(1)::before{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
+.hst:nth-child(2)::before{background:linear-gradient(90deg,var(--c-violet),var(--c-green))}
+.hst:nth-child(3)::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.hst:nth-child(4)::before{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
+.hst-v{font-family:var(--ffd);font-size:24px;font-weight:700;color:#fff;letter-spacing:-.05em;line-height:1}
+.hst-l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--dark-m);margin-top:5px}
+
+/* ═══════════════════════════
+   SECTIONS
+═══════════════════════════ */
+section{position:relative}
+.section-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);margin:0}
+
+.s-in{max-width:1120px;margin:0 auto;padding:88px 24px}
+.s-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c-teal);margin-bottom:14px}
+.s-title{font-family:var(--ffd);font-size:clamp(26px,4vw,46px);font-weight:600;letter-spacing:-.055em;color:#fff;line-height:1.06;margin-bottom:14px}
+.s-title em{font-style:italic;font-weight:300;color:rgba(255,255,255,.44)}
+.s-sub{font-size:14.5px;color:var(--dark-m);max-width:540px;line-height:1.88;margin-bottom:50px}
+
+/* ═══════════════════════════
+   WHY SECTION
+═══════════════════════════ */
+.why-section{background:var(--dark-2)}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:48px}
+@media(max-width:680px){.why-grid{grid-template-columns:1fr}}
+.why-card{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:22px;padding:28px 24px;display:flex;gap:16px;align-items:flex-start
+}
+.why-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+  font-size:22px;flex-shrink:0;border:1.5px solid}
+.ico-red{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.25)}
+.ico-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
+.ico-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+.ico-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
+.ico-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
+.why-title{font-weight:700;font-size:15px;color:#fff;margin-bottom:6px}
+.why-desc{font-size:13px;color:var(--dark-m);line-height:1.78}
+
+.formula-box{
+  background:linear-gradient(135deg,rgba(14,116,144,.1),rgba(109,40,217,.1));
+  border:1px solid rgba(255,255,255,.1);border-radius:24px;
+  padding:36px 40px;text-align:center;position:relative;overflow:hidden
+}
+.formula-box::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none}
+.formula-box p{font-family:var(--ffd);font-size:clamp(18px,3vw,28px);font-weight:600;
+  letter-spacing:-.03em;color:#fff;position:relative}
+.formula-box p span{font-style:italic;font-weight:300;background:linear-gradient(115deg,#22d3ee,#a78bfa);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.formula-sub{font-size:13px;color:var(--dark-m);margin-top:10px;position:relative}
+
+/* ═══════════════════════════
+   CHEAT SHEET / PILLAR OVERVIEW
+═══════════════════════════ */
+.cs-section{background:var(--dark-1)}
+.pillars-overview{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:10px}
+@media(max-width:900px){.pillars-overview{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.pillars-overview{grid-template-columns:1fr}}
+.pov-card{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:22px;padding:24px 20px;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s var(--ease-s),border-color .2s,background .2s;
+}
+.pov-card:hover{transform:translateY(-6px);background:rgba(255,255,255,.056)}
+.pov-teal:hover{border-color:rgba(14,165,201,.45)}
+.pov-violet:hover{border-color:rgba(124,58,237,.45)}
+.pov-green:hover{border-color:rgba(16,185,129,.45)}
+.pov-amber:hover{border-color:rgba(245,158,11,.45)}
+.pov-blue:hover{border-color:rgba(99,102,241,.45)}
+.pov-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pov-teal::before{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.pov-violet::before{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.pov-green::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.pov-amber::before{background:linear-gradient(90deg,var(--c-amber),var(--c-red))}
+.pov-blue::before{background:linear-gradient(90deg,#6366f1,var(--c-violet))}
+.pov-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px}
+.pov-teal .pov-tag{color:var(--c-teal)}
+.pov-violet .pov-tag{color:#a78bfa}
+.pov-green .pov-tag{color:var(--c-green)}
+.pov-amber .pov-tag{color:var(--c-amber)}
+.pov-blue .pov-tag{color:#818cf8}
+.pov-ico{font-size:32px;margin-bottom:14px;display:block}
+.pov-title{font-family:var(--ffd);font-size:16px;font-weight:600;letter-spacing:-.025em;color:#fff;margin-bottom:10px}
+.pov-checklist{list-style:none;display:flex;flex-direction:column;gap:5px}
+.pov-checklist li{font-size:11.5px;color:var(--dark-m);line-height:1.65;display:flex;gap:7px;align-items:flex-start}
+.pov-checklist li::before{content:'□';font-size:12px;color:rgba(255,255,255,.25);flex-shrink:0;margin-top:1px}
+.pov-link{
+  display:inline-flex;align-items:center;gap:5px;margin-top:16px;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  opacity:.5;transition:opacity .15s;cursor:pointer;
+}
+.pov-teal .pov-link{color:var(--c-teal)}
+.pov-violet .pov-link{color:#a78bfa}
+.pov-green .pov-link{color:var(--c-green)}
+.pov-amber .pov-link{color:var(--c-amber)}
+.pov-blue .pov-link{color:#818cf8}
+.pov-card:hover .pov-link{opacity:1}
+
+/* ═══════════════════════════
+   GOLDEN RULE
+═══════════════════════════ */
+.golden-section{background:var(--dark-2)}
+.golden-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:680px){.golden-row{grid-template-columns:1fr}}
+.golden-card{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:22px;padding:34px 28px;text-align:center;
+}
+.golden-num{font-family:var(--ffd);font-size:52px;font-weight:700;letter-spacing:-.05em;line-height:1;margin-bottom:12px}
+.g1 .golden-num{color:var(--c-teal)}
+.g2 .golden-num{color:var(--c-amber)}
+.g3 .golden-num{color:var(--c-green)}
+.golden-title{font-weight:700;font-size:16px;color:#fff;margin-bottom:8px}
+.golden-desc{font-size:13px;color:var(--dark-m);line-height:1.78}
+
+/* ═══════════════════════════
+   PILLAR DETAIL SECTIONS
+═══════════════════════════ */
+.pillar-section{padding:0}
+.pillar-hero{
+  padding:80px 24px 0;
+  position:relative;overflow:hidden;
+}
+.ph-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.024) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.024) 1px,transparent 1px);
+  background-size:36px 36px;pointer-events:none}
+.ph-teal .ph-blob{position:absolute;top:-120px;right:-100px;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.12),transparent 65%);pointer-events:none}
+.ph-violet .ph-blob{position:absolute;top:-100px;left:-80px;width:460px;height:460px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.12),transparent 65%);pointer-events:none}
+.ph-green .ph-blob{position:absolute;bottom:-80px;right:-80px;width:440px;height:440px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.1),transparent 65%);pointer-events:none}
+.ph-amber .ph-blob{position:absolute;top:-100px;left:-60px;width:440px;height:440px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,158,11,.1),transparent 65%);pointer-events:none}
+.ph-indigo .ph-blob{position:absolute;bottom:-100px;right:-80px;width:460px;height:460px;border-radius:50%;
+  background:radial-gradient(circle,rgba(99,102,241,.1),transparent 65%);pointer-events:none}
+.pillar-hero-in{max-width:1120px;margin:0 auto;position:relative;z-index:1;padding-bottom:56px}
+.pillar-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 16px 5px 10px;border-radius:99px;
+  font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  margin-bottom:18px;
+}
+.pb-teal{background:rgba(14,165,201,.1);border:1px solid rgba(14,165,201,.25);color:var(--c-teal)}
+.pb-violet{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.25);color:#a78bfa}
+.pb-green{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);color:var(--c-green)}
+.pb-amber{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--c-amber)}
+.pb-indigo{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.25);color:#818cf8}
+.pillar-hero h2{
+  font-family:var(--ffd);font-size:clamp(26px,4.5vw,50px);font-weight:700;
+  letter-spacing:-.055em;color:#fff;margin-bottom:12px;line-height:1.05
+}
+.pillar-hero h2 em{font-style:italic;font-weight:300;color:rgba(255,255,255,.44)}
+.pillar-hero-sub{font-size:15px;color:var(--dark-m);max-width:580px;line-height:1.88;margin-bottom:28px}
+
+/* Chips row */
+.chips-row{display:flex;flex-wrap:wrap;gap:7px}
+.chip{font-size:10.5px;font-weight:600;padding:4px 13px;border-radius:99px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);color:rgba(255,255,255,.5);
+  letter-spacing:.03em}
+.chip-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.chip-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa}
+.chip-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+.chip-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+
+/* Pillar body */
+.pillar-body{max-width:1120px;margin:0 auto;padding:56px 24px 88px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:28px}
+@media(max-width:720px){.two-col{grid-template-columns:1fr}}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px}
+@media(max-width:720px){.three-col{grid-template-columns:1fr}}
+
+/* Callouts */
+.callout{
+  border-radius:18px;padding:20px 24px;
+  display:flex;gap:14px;align-items:flex-start;margin-bottom:22px
+}
+.callout-key{background:rgba(14,165,201,.08);border:1px solid rgba(14,165,201,.2)}
+.callout-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)}
+.callout-green{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2)}
+.callout-ico{font-size:20px;flex-shrink:0;margin-top:2px}
+.callout-content p{font-size:13.5px;color:var(--dark-m);line-height:1.78}
+.callout-content strong{color:#fff}
+
+/* Tracking table */
+.track-section{margin-bottom:28px}
+.track-section h3{font-family:var(--ffd);font-size:18px;font-weight:600;letter-spacing:-.03em;color:#fff;margin-bottom:14px}
+.track-table{width:100%;border-collapse:collapse;border-radius:16px;overflow:hidden}
+.track-table thead tr{background:rgba(255,255,255,.06)}
+.track-table th{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--dark-m);padding:12px 16px;text-align:left}
+.track-table td{font-size:13px;color:var(--dark-m);padding:11px 16px;
+  border-top:1px solid rgba(255,255,255,.05);line-height:1.6}
+.track-table td:first-child{color:#fff;font-weight:600}
+.track-table tr:hover td{background:rgba(255,255,255,.025)}
+
+/* Action cards */
+.action-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px}
+@media(max-width:720px){.action-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.action-grid{grid-template-columns:1fr}}
+.action-card{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:18px;padding:20px 18px;position:relative;overflow:hidden
+}
+.action-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px}
+.ac-teal::before{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.ac-violet::before{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.ac-green::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.ac-amber::before{background:linear-gradient(90deg,var(--c-amber),var(--c-red))}
+.action-ico{font-size:26px;margin-bottom:10px;display:block}
+.action-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.ac-teal .action-label{color:var(--c-teal)}
+.ac-violet .action-label{color:#a78bfa}
+.ac-green .action-label{color:var(--c-green)}
+.ac-amber .action-label{color:var(--c-amber)}
+.action-title{font-weight:700;font-size:14px;color:#fff;margin-bottom:6px;line-height:1.4}
+.action-desc{font-size:12px;color:var(--dark-m);line-height:1.7}
+
+/* Sub heading */
+.sub-h{font-family:var(--ffd);font-size:20px;font-weight:600;letter-spacing:-.03em;color:#fff;margin-bottom:16px;margin-top:34px}
+.sub-h:first-child{margin-top:0}
+
+/* Explainer block */
+.explainer{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:22px;padding:30px 28px;margin-bottom:22px
+}
+.exp-lead{font-size:15px;color:var(--dark-t);line-height:1.85;margin-bottom:16px}
+.exp-lead strong{color:#fff}
+.exp-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.exp-list li{font-size:13.5px;color:var(--dark-m);line-height:1.72;display:flex;gap:10px;align-items:flex-start}
+.exp-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.dot-teal{background:var(--c-teal);box-shadow:0 0 8px var(--c-teal-glow)}
+.dot-violet{background:#a78bfa}
+.dot-green{background:var(--c-green);box-shadow:0 0 8px var(--c-green-glow)}
+.dot-amber{background:var(--c-amber)}
+.dot-red{background:var(--c-red)}
+
+/* ═══════════════════════════
+   CONCLUSION
+═══════════════════════════ */
+.conclusion-section{background:var(--dark-2)}
+.conc-in{max-width:1120px;margin:0 auto;padding:88px 24px}
+.conc-top{max-width:640px;margin-bottom:50px}
+.conc-three{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:48px}
+@media(max-width:700px){.conc-three{grid-template-columns:1fr}}
+.conc-card{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:22px;padding:28px 24px;text-align:center
+}
+.conc-n{font-family:var(--ffd);font-size:44px;font-weight:700;letter-spacing:-.05em;line-height:1;
+  margin-bottom:10px;background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.conc-title{font-weight:700;font-size:15px;color:#fff;margin-bottom:6px}
+.conc-desc{font-size:12.5px;color:var(--dark-m);line-height:1.75}
+
+.cta-finale{
+  background:linear-gradient(135deg,rgba(14,116,144,.14),rgba(109,40,217,.14));
+  border:1px solid rgba(255,255,255,.1);border-radius:32px;
+  padding:64px 48px;text-align:center;position:relative;overflow:hidden
+}
+.cta-finale::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none}
+.cta-finale h2{font-family:var(--ffd);font-size:clamp(22px,4vw,38px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;margin-bottom:10px;position:relative}
+.cta-finale h2 em{font-style:italic;font-weight:300}
+.cta-finale p{font-size:15px;color:var(--dark-m);max-width:500px;margin:0 auto 32px;
+  line-height:1.85;position:relative}
+
+/* ═══════════════════════════
+   SOURCES
+═══════════════════════════ */
+.sources-section{background:var(--dark-1)}
+.sources-in{max-width:1120px;margin:0 auto;padding:56px 24px 80px}
+.sources-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
+@media(max-width:720px){.sources-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.sources-grid{grid-template-columns:1fr}}
+.source-item{
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);
+  border-radius:12px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start
+}
+.source-n{font-size:11px;font-weight:700;color:var(--c-teal);flex-shrink:0;font-family:var(--ffd)}
+.source-txt{font-size:11.5px;color:rgba(255,255,255,.38);line-height:1.6}
+
+/* ═══════════════════════════
+   FOOTER
+═══════════════════════════ */
+footer{
+  background:var(--dark-1);
+  border-top:1px solid var(--dark-b);
+  padding:32px 24px;text-align:center
+}
+.footer-logo{font-family:var(--ffd);font-size:18px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:-.07em;margin-bottom:10px}
+.footer-logo sup{font-size:9px;font-family:var(--ff);font-weight:700;text-transform:uppercase}
+.footer-disc{font-size:11.5px;color:rgba(255,255,255,.22);max-width:700px;margin:0 auto;line-height:1.75}
+
+/* ═══════════════════════════
+   SMOOTH SCROLL ANCHOR
+═══════════════════════════ */
+[id]{scroll-margin-top:80px}
+
+/* ═══════════════════════════
+   RESPONSIVE
+═══════════════════════════ */
+@media(max-width:600px){
+  .hero-stats{flex-wrap:wrap}
+  .hst{flex:1 1 40%;border-bottom:1px solid var(--dark-b)}
+  .hst:nth-child(2n){border-right:none}
+  .cta-finale{padding:40px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-mark">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Shield shape -->
+          <path d="M11 2L3.5 5.2V10.5C3.5 14.8 6.7 18.8 11 20C15.3 18.8 18.5 14.8 18.5 10.5V5.2L11 2Z" fill="white" fill-opacity="0.18" stroke="white" stroke-opacity="0.55" stroke-width="1.1" stroke-linejoin="round"/>
+          <!-- Upward arrow -->
+          <path d="M11 14.5V8.5M11 8.5L8.5 11M11 8.5L13.5 11" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+    </a>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:6px;padding:6px 16px;border-radius:99px;font-size:12px;font-weight:700;color:rgba(255,255,255,.55);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);margin-right:auto;transition:all .15s;text-decoration:none" onmouseover="this.style.color='#fff';this.style.background='rgba(255,255,255,.12)'" onmouseout="this.style.color='rgba(255,255,255,.55)';this.style.background='rgba(255,255,255,.06)'">← Retour à l'accueil</a>
+    <div class="nav-guide-badge">
+      <span class="nav-guide-dot"></span>
+      Guide Complet — 30 Routines
+    </div>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hero-b1"></div>
+  <div class="hero-b2"></div>
+  <div class="hero-b3"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-scan"></div>
+  <div class="hero-in">
+    <div class="eyebrow fu">
+      <span class="eyebrow-dot"></span>
+      Prévention · Personnalisée · Actionnable
+    </div>
+    <h1 class="fu d1">
+      Le Guide <span class="grad"><em>Longévité</em></span>
+      <span class="block">& Prévention</span>
+    </h1>
+    <div class="hero-quote fu d2">
+      <p>Tu viens de faire le pas le plus important 🫶<br>
+      À l'intérieur : <strong>30 routines</strong> fondées sur la science, conçues pour reprendre le contrôle de ta santé <strong>sans te perdre</strong>.</p>
+      <div class="quote-sig">— L'équipe PRÉVIO ✨</div>
+    </div>
+    <button class="hero-cta fu d3" onclick="document.getElementById('cheatsheet').scrollIntoView({behavior:'smooth'})">
+      Découvrir les 5 piliers <span>→</span>
+    </button>
+    <div class="hero-stats fu d4">
+      <div class="hst"><div class="hst-v">5</div><div class="hst-l">Piliers</div></div>
+      <div class="hst"><div class="hst-v">30</div><div class="hst-l">Routines</div></div>
+      <div class="hst"><div class="hst-v">3×30</div><div class="hst-l">La règle d'or</div></div>
+      <div class="hst"><div class="hst-v">18</div><div class="hst-l">Études citées</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══ WHY ═══ -->
+<section class="why-section">
+  <div class="s-in">
+    <div class="s-eyebrow">Le problème</div>
+    <h2 class="s-title">Pourquoi la plupart des conseils santé <em>échouent</em></h2>
+    <p class="s-sub">Ils tombent dans l'un de ces deux pièges — et chez PRÉVIO, on a fait l'inverse.</p>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-ico ico-red">❌</div>
+        <div>
+          <div class="why-title">Trop complexe</div>
+          <div class="why-desc">Tu tiens 7 jours, puis tu lâches. La surcharge d'information crée une paralysie d'action plutôt qu'un changement durable.</div>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-ico ico-amber">🌫️</div>
+        <div>
+          <div class="why-title">Trop flou</div>
+          <div class="why-desc">Tu "fais attention", mais rien ne change vraiment. Sans mesure ni feedback, impossible de savoir ce qui fonctionne.</div>
+        </div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <p>Beaucoup d'analyse → peu d'actions → <span>beaucoup d'impact</span></p>
+      <div class="formula-sub">🎯 Les 20% d'habitudes qui créent 80% des résultats — mesurés et ajustés en continu</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══ CHEAT SHEET ═══ -->
+<section class="cs-section" id="cheatsheet">
+  <div class="s-in">
+    <div class="s-eyebrow">✦ Cheat Sheet PRÉVIO</div>
+    <h2 class="s-title">Le système complet <em>en 5 piliers</em></h2>
+    <p class="s-sub">Transforme ces piliers en routine automatique. Chaque pilier est détaillé plus bas.</p>
+    <div class="pillars-overview">
+
+      <div class="pov-card pov-teal">
+        <div class="pov-tag">Pilier 1</div>
+        <span class="pov-ico">🌙</span>
+        <div class="pov-title">Sommeil</div>
+        <ul class="pov-checklist">
+          <li>Heure de coucher stable (7–8 h)</li>
+          <li>10 min lumière naturelle au réveil</li>
+          <li>Café avant 12h maximum</li>
+          <li>Dîner ≥ 3 h avant le coucher</li>
+          <li>Lumières tamisées 2 h avant dodo</li>
+          <li>Chambre à 18°C</li>
+          <li>Rituel "descente" fixe</li>
+        </ul>
+        <button class="pov-link" onclick="document.getElementById('p1').scrollIntoView({behavior:'smooth'})">Voir détails →</button>
+      </div>
+
+      <div class="pov-card pov-green">
+        <div class="pov-tag">Pilier 2</div>
+        <span class="pov-ico">🥗</span>
+        <div class="pov-title">Nutrition</div>
+        <ul class="pov-checklist">
+          <li>1,6–2,2 g protéines / kg / jour</li>
+          <li>½ légumes / ¼ protéines / ¼ glucides</li>
+          <li>Crucifères chaque jour</li>
+          <li>Polyphénols quotidiens</li>
+          <li>Marche 10–15 min après repas</li>
+          <li>Fenêtre alimentaire ~12 h</li>
+        </ul>
+        <button class="pov-link" onclick="document.getElementById('p2').scrollIntoView({behavior:'smooth'})">Voir détails →</button>
+      </div>
+
+      <div class="pov-card pov-violet">
+        <div class="pov-tag">Pilier 3</div>
+        <span class="pov-ico">🏃‍♂️</span>
+        <div class="pov-title">Mouvement</div>
+        <ul class="pov-checklist">
+          <li>Marcher pendant les appels</li>
+          <li>3 exercices poids du corps</li>
+          <li>2 séances force/semaine</li>
+          <li>Viser 10 000 pas/jour</li>
+          <li>2 séances Zone 2 (30–45 min)</li>
+          <li>10 min mobilité/jour</li>
+        </ul>
+        <button class="pov-link" onclick="document.getElementById('p3').scrollIntoView({behavior:'smooth'})">Voir détails →</button>
+      </div>
+
+      <div class="pov-card pov-amber">
+        <div class="pov-tag">Pilier 4</div>
+        <span class="pov-ico">🧠</span>
+        <div class="pov-title">Stress</div>
+        <ul class="pov-checklist">
+          <li>1 soupir physiologique maintenant</li>
+          <li>Rituel du matin quotidien</li>
+          <li>Suivi HRV 7 jours</li>
+          <li>Couper les notifs non essentielles</li>
+          <li>1 moment social cette semaine</li>
+          <li>Lister 3 stresseurs majeurs</li>
+        </ul>
+        <button class="pov-link" onclick="document.getElementById('p4').scrollIntoView({behavior:'smooth'})">Voir détails →</button>
+      </div>
+
+      <div class="pov-card pov-blue">
+        <div class="pov-tag">Pilier 5</div>
+        <span class="pov-ico">📈</span>
+        <div class="pov-title">Mesure & Suivi</div>
+        <ul class="pov-checklist">
+          <li>Faire un bilan de base</li>
+          <li>Re-test à 4–6 mois</li>
+          <li>3 marqueurs prioritaires</li>
+          <li>Poids, tour de taille, FC repos</li>
+          <li>1 métrique wearable/jour</li>
+        </ul>
+        <button class="pov-link" onclick="document.getElementById('p5').scrollIntoView({behavior:'smooth'})">Voir détails →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══ GOLDEN RULE ═══ -->
+<section class="golden-section">
+  <div class="s-in">
+    <div class="s-eyebrow">La règle d'or</div>
+    <h2 class="s-title">Simple. <em>Puissante.</em></h2>
+    <div class="golden-row">
+      <div class="golden-card g1">
+        <div class="golden-num">3</div>
+        <div class="golden-title">✅ Choisis 3 actions</div>
+        <div class="golden-desc">Pas 10, pas 20 — juste 3. La concentration crée la traction. Commence petit, construis du momentum.</div>
+      </div>
+      <div class="golden-card g2">
+        <div class="golden-num">30</div>
+        <div class="golden-title">⏱️ Tiens 30 jours</div>
+        <div class="golden-desc">30 jours suffisent pour ancrer une habitude et obtenir un signal biologique mesurable sur tes marqueurs.</div>
+      </div>
+      <div class="golden-card g3">
+        <div class="golden-num">∞</div>
+        <div class="golden-title">📊 Mesure. Ajuste. Répète.</div>
+        <div class="golden-desc">La boucle de feedback est ce qui transforme une tentative en stratégie. Chaque cycle te rapproche de ta version optimale.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══════════════════════════════════════
+     PILIER 1 — SOMMEIL
+════════════════════════════════════════ -->
+<section class="pillar-section ph-teal" id="p1" style="background:var(--dark-1)">
+  <div class="pillar-hero">
+    <div class="ph-grid"></div>
+    <div class="ph-blob"></div>
+    <div class="pillar-hero-in">
+      <div class="pillar-badge pb-teal">🌙 Pilier 1 — Sommeil</div>
+      <h2>Ton protocole <em>de réparation</em></h2>
+      <p class="pillar-hero-sub">Le sommeil n'est pas une pause — c'est ton atelier de réparation. Il est un <strong>multiplicateur</strong> : il rend l'entraînement plus efficace, la nutrition plus simple, le stress plus gérable.</p>
+      <div class="chips-row">
+        <span class="chip chip-teal">Récupération musculaire</span>
+        <span class="chip chip-violet">Équilibre hormonal</span>
+        <span class="chip chip-amber">Inflammation</span>
+        <span class="chip">Appétit</span>
+        <span class="chip chip-green">Mémoire émotionnelle</span>
+      </div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="callout callout-key">
+      <span class="callout-ico">🔑</span>
+      <div class="callout-content"><p><strong>Le sommeil est un multiplicateur :</strong> quand tu dors mal, cortisol ↑, hormones de faim ↑, satiété ↓, inflammation ↑, récupération ↓. Une seule nuit courte suffit à dérégler l'ensemble du système.</p></div>
+    </div>
+    <div class="explainer">
+      <p class="exp-lead">Quand tu dors, ton corps optimise en parallèle :</p>
+      <ul class="exp-list">
+        <li><span class="exp-dot dot-teal"></span>Récupération musculaire et synthèse protéique</li>
+        <li><span class="exp-dot dot-violet"></span>Équilibre hormonal — testostérone, GH, cortisol</li>
+        <li><span class="exp-dot dot-amber"></span>Régulation inflammatoire via cytokines</li>
+        <li><span class="exp-dot dot-green"></span>Régulation de la faim (leptine ↑, ghréline ↓)</li>
+        <li><span class="exp-dot dot-red"></span>Consolidation mémoire et régulation émotionnelle (REM)</li>
+      </ul>
+    </div>
+    <div class="track-section">
+      <h3 class="sub-h">Ce que tu peux suivre</h3>
+      <table class="track-table">
+        <thead><tr><th>Signal</th><th>Ce que ça raconte</th><th>Outils</th></tr></thead>
+        <tbody>
+          <tr><td>HRV</td><td>Récupération / charge nerveuse</td><td>Whoop, Oura, Garmin</td></tr>
+          <tr><td>FC repos</td><td>Fatigue / forme cardio</td><td>Wearables</td></tr>
+          <tr><td>Somnolence diurne</td><td>Dette de sommeil</td><td>Subjectif (notes)</td></tr>
+          <tr><td>hsCRP</td><td>Inflammation chronique (si bilan)</td><td>Laboratoire</td></tr>
+          <tr><td>Cortisol AM/PM</td><td>Rythme circadien (si bilan)</td><td>Laboratoire</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="sub-h">Actions haut rendement</h3>
+    <div class="action-grid">
+      <div class="action-card ac-teal">
+        <span class="action-ico">☀️</span>
+        <div class="action-label">Circadien</div>
+        <div class="action-title">Lumière naturelle le matin</div>
+        <div class="action-desc">10–15 min dès le réveil. Synchronise l'horloge interne et prépare l'endormissement nocturne.</div>
+      </div>
+      <div class="action-card ac-amber">
+        <span class="action-ico">☕</span>
+        <div class="action-label">Caféine</div>
+        <div class="action-title">Café avant 12h, 1 max/jour</div>
+        <div class="action-desc">La caféine a une demi-vie de 6h. Tarder = pression adénosine réduite = moins d'endormissement.</div>
+      </div>
+      <div class="action-card ac-violet">
+        <span class="action-ico">🍽️</span>
+        <div class="action-label">Digestion</div>
+        <div class="action-title">Dîner ≥ 3 h avant le coucher</div>
+        <div class="action-desc">La thermogenèse digestive perturbe la descente de température essentielle à l'endormissement.</div>
+      </div>
+      <div class="action-card ac-teal">
+        <span class="action-ico">💡</span>
+        <div class="action-label">Mélatonine</div>
+        <div class="action-title">Lumières tamisées 2 h avant</div>
+        <div class="action-desc">La lumière bleue supprime la mélatonine. Mode nuit insuffisant — baisse d'intensité réelle.</div>
+      </div>
+      <div class="action-card ac-green">
+        <span class="action-ico">🌡️</span>
+        <div class="action-label">Thermorégulation</div>
+        <div class="action-title">Chambre à ~18°C</div>
+        <div class="action-desc">La baisse de température corporelle nocturne est un signal clé d'endormissement. 18°C est optimal.</div>
+      </div>
+      <div class="action-card ac-violet">
+        <span class="action-ico">🧘</span>
+        <div class="action-label">Rituel</div>
+        <div class="action-title">Séquence fixe avant dormir</div>
+        <div class="action-desc">Mêmes gestes = même signal au cerveau. Lecture, étirements, douche chaude — la régularité prime.</div>
+      </div>
+    </div>
+    <div class="callout callout-warn">
+      <span class="callout-ico">💊</span>
+      <div class="callout-content"><p><strong>Option suppléments :</strong> Magnésium bisglycinate le soir si toléré. Si traitement en cours ou pathologie existante, avis médical obligatoire avant tout supplément.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══════════════════════════════════════
+     PILIER 2 — NUTRITION
+════════════════════════════════════════ -->
+<section class="pillar-section ph-green" id="p2" style="background:var(--dark-2)">
+  <div class="pillar-hero">
+    <div class="ph-grid"></div>
+    <div class="ph-blob"></div>
+    <div class="pillar-hero-in">
+      <div class="pillar-badge pb-green">🥗 Pilier 2 — Nutrition</div>
+      <h2>Du carburant, <em>pas du remplissage</em></h2>
+      <p class="pillar-hero-sub">Quatre leviers simples, un impact majeur. L'objectif n'est pas la perfection mais la cohérence — une assiette bien construite à chaque repas crée des effets cumulatifs mesurables.</p>
+      <div class="chips-row">
+        <span class="chip chip-green">Protéines</span>
+        <span class="chip chip-teal">Bons gras</span>
+        <span class="chip chip-amber">Glucides qualité</span>
+        <span class="chip">Polyphénols</span>
+        <span class="chip chip-violet">Fenêtre alimentaire</span>
+      </div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="three-col">
+      <div class="explainer">
+        <p class="exp-lead"><strong>① Protéines d'abord</strong></p>
+        <p style="font-size:13px;color:var(--dark-m);line-height:1.78">Objectif : <strong style="color:#fff">1,6–2,2 g/kg/j</strong> selon activité.<br>Effets : satiété durable, préservation musculaire, glycémie plus stable.</p>
+      </div>
+      <div class="explainer">
+        <p class="exp-lead"><strong>② Les bons gras</strong></p>
+        <p style="font-size:13px;color:var(--dark-m);line-height:1.78">Oméga-3, huiles de qualité, noix, graines.<br>Effets : modulation inflammatoire, santé cérébrale, sensibilité à l'insuline.</p>
+      </div>
+      <div class="explainer">
+        <p class="exp-lead"><strong>③ Glucides : qualité &gt; quantité</strong></p>
+        <p style="font-size:13px;color:var(--dark-m);line-height:1.78">Fibres, légumineuses, céréales complètes, tubercules.<br>Évite le raffiné : pics glycémiques → fringales → résistance insuline.</p>
+      </div>
+    </div>
+    <div class="callout callout-green">
+      <span class="callout-ico">🍇</span>
+      <div class="callout-content"><p><strong>Polyphénols au quotidien :</strong> Fruits rouges, thé vert, cacao 85%+, huile d'olive EV, épices. Ces composés soutiennent la santé cellulaire, réduisent le stress oxydatif et soutiennent le métabolisme.</p></div>
+    </div>
+    <div class="track-section">
+      <h3 class="sub-h">Ce que tu peux mesurer</h3>
+      <table class="track-table">
+        <thead><tr><th>Marqueur</th><th>Ce que ça raconte</th></tr></thead>
+        <tbody>
+          <tr><td>HbA1c</td><td>Glycémie moyenne sur 3 mois</td></tr>
+          <tr><td>Insuline à jeun</td><td>Résistance à l'insuline précoce</td></tr>
+          <tr><td>Triglycérides</td><td>Métabolisme lipidique, alcool, sucres</td></tr>
+          <tr><td>Vitamine D</td><td>Immunité, os, humeur</td></tr>
+          <tr><td>Oméga-3 index</td><td>Capacité anti-inflammatoire</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="sub-h">Actions à copier-coller</h3>
+    <div class="action-grid">
+      <div class="action-card ac-green">
+        <span class="action-ico">🍽️</span>
+        <div class="action-label">Méthode assiette</div>
+        <div class="action-title">½ légumes / ¼ protéines / ¼ glucides</div>
+        <div class="action-desc">Un seul cadre mental à chaque repas. Pas de comptage, juste de la proportion visuelle.</div>
+      </div>
+      <div class="action-card ac-green">
+        <span class="action-ico">🥦</span>
+        <div class="action-label">Crucifères</div>
+        <div class="action-title">Chaque jour sans exception</div>
+        <div class="action-desc">Brocoli, chou-fleur, choux de Bruxelles — sulforaphane et glucosinolates, support cellulaire fort.</div>
+      </div>
+      <div class="action-card ac-teal">
+        <span class="action-ico">🚶</span>
+        <div class="action-label">Post-repas</div>
+        <div class="action-title">Marche 10–15 min après manger</div>
+        <div class="action-desc">Réduit le pic glycémique post-prandial de 20–30%. La méthode la plus simple qui soit.</div>
+      </div>
+      <div class="action-card ac-violet">
+        <span class="action-ico">⏱️</span>
+        <div class="action-label">Timing</div>
+        <div class="action-title">Fenêtre alimentaire 10–12 h</div>
+        <div class="action-desc">Si confortable. Pas de restriction calorique — juste une cohérence circadienne avec le métabolisme.</div>
+      </div>
+      <div class="action-card ac-amber">
+        <span class="action-ico">📋</span>
+        <div class="action-label">Préparation</div>
+        <div class="action-title">Prépare demain en 3 minutes</div>
+        <div class="action-desc">Protéine + légumes + glucides fibres. Une décision le soir évite 10 mauvaises décisions le lendemain.</div>
+      </div>
+      <div class="action-card ac-teal">
+        <span class="action-ico">🫒</span>
+        <div class="action-label">Gras qualité</div>
+        <div class="action-title">Huile d'olive EV + oléagineux</div>
+        <div class="action-desc">Chaque jour. Remplace les huiles raffinées. Base de la santé cardiovasculaire et inflammatoire.</div>
+      </div>
+    </div>
+    <div class="callout callout-warn">
+      <span class="callout-ico">⚠️</span>
+      <div class="callout-content"><p><strong>Suppléments :</strong> utiles si carence ou besoin identifié, jamais obligatoires par défaut. Si traitement, grossesse ou pathologie — avis médical systématique avant toute supplémentation.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══════════════════════════════════════
+     PILIER 3 — MOUVEMENT
+════════════════════════════════════════ -->
+<section class="pillar-section ph-violet" id="p3" style="background:var(--dark-1)">
+  <div class="pillar-hero">
+    <div class="ph-grid"></div>
+    <div class="ph-blob"></div>
+    <div class="pillar-hero-in">
+      <div class="pillar-badge pb-violet">🏃‍♂️ Pilier 3 — Mouvement</div>
+      <h2>Ton moteur <em>métabolique</em></h2>
+      <p class="pillar-hero-sub">Le mouvement est l'un des meilleurs médicaments préventifs — améliore la sensibilité à l'insuline, protège le cœur, maintient muscle et os, stabilise l'humeur. Le muscle est ta <strong>réserve métabolique</strong>.</p>
+      <div class="chips-row">
+        <span class="chip chip-violet">Force 2–4×/sem</span>
+        <span class="chip chip-teal">Marche quotidienne</span>
+        <span class="chip chip-green">Zone 2</span>
+        <span class="chip">Mobilité</span>
+        <span class="chip chip-amber">VO2 max</span>
+      </div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="three-col">
+      <div class="explainer">
+        <p class="exp-lead"><strong>① Force (2–4×/semaine)</strong></p>
+        <ul class="exp-list">
+          <li><span class="exp-dot dot-violet"></span>Mouvements simples, progressifs, full-body</li>
+          <li><span class="exp-dot dot-violet"></span>Pompes, squats, gainage — commencer par mesurer sa base</li>
+          <li><span class="exp-dot dot-violet"></span>+10% max de progression par semaine</li>
+        </ul>
+      </div>
+      <div class="explainer">
+        <p class="exp-lead"><strong>② Marche (quotidien)</strong></p>
+        <ul class="exp-list">
+          <li><span class="exp-dot dot-teal"></span>Le levier le plus accessible et sous-estimé</li>
+          <li><span class="exp-dot dot-teal"></span>Matin + après repas = double bénéfice circadien/glycémique</li>
+          <li><span class="exp-dot dot-teal"></span>Marcher pendant les appels = friction zéro</li>
+        </ul>
+      </div>
+      <div class="explainer">
+        <p class="exp-lead"><strong>③ Mobilité / Récupération (quotidien)</strong></p>
+        <ul class="exp-list">
+          <li><span class="exp-dot dot-green"></span>5–10 minutes suffisent</li>
+          <li><span class="exp-dot dot-green"></span>Prévention blessures, posture, articulations</li>
+          <li><span class="exp-dot dot-green"></span>Idéal le matin ou en fin de séance</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout callout-key">
+      <span class="callout-ico">🎯</span>
+      <div class="callout-content"><p><strong>Zone 2 cardio :</strong> 2 séances de 30–45 min à allure conversation (tu peux parler sans être essoufflé). C'est à cette intensité que tu développes les mitochondries et améliores le plus la longévité cardiovasculaire.</p></div>
+    </div>
+    <div class="track-section">
+      <h3 class="sub-h">Ce que tu peux suivre</h3>
+      <table class="track-table">
+        <thead><tr><th>Signal</th><th>Ce que ça raconte</th></tr></thead>
+        <tbody>
+          <tr><td>VO2 max (approx.)</td><td>Forme cardio — puissant prédicteur de longévité</td></tr>
+          <tr><td>FC repos</td><td>Efficacité cardiaque sur la durée</td></tr>
+          <tr><td>HRV</td><td>Récupération et surcharge d'entraînement</td></tr>
+          <tr><td>Pompes max (propres)</td><td>Force fonctionnelle de base</td></tr>
+          <tr><td>Pas/jour</td><td>Volume de mouvement réel</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="sub-h">Plan de démarrage (si tu pars de zéro)</h3>
+    <div class="action-grid">
+      <div class="action-card ac-violet">
+        <span class="action-ico">📍</span>
+        <div class="action-label">Semaine 1</div>
+        <div class="action-title">Mesure ta base</div>
+        <div class="action-desc">Pompes max propres, squats, gainage en secondes. Ce chiffre est ton point de départ, pas ton jugement.</div>
+      </div>
+      <div class="action-card ac-teal">
+        <span class="action-ico">🚶</span>
+        <div class="action-label">Quotidien</div>
+        <div class="action-title">30 min marche minimum</div>
+        <div class="action-desc">Fractionner en 3×10 min fonctionne aussi bien. L'accumulation prime sur la session unique.</div>
+      </div>
+      <div class="action-card ac-violet">
+        <span class="action-ico">💪</span>
+        <div class="action-label">Hebdomadaire</div>
+        <div class="action-title">2 séances poids du corps</div>
+        <div class="action-desc">Calendrier bloqué = fait. Sans agenda = raté. Traite comme un rendez-vous médical.</div>
+      </div>
+      <div class="action-card ac-green">
+        <span class="action-ico">🫀</span>
+        <div class="action-label">Cardio</div>
+        <div class="action-title">2 séances Zone 2/semaine</div>
+        <div class="action-desc">Vélo, marche rapide, natation — allure où tu peux tenir une conversation sans effort.</div>
+      </div>
+      <div class="action-card ac-amber">
+        <span class="action-ico">🤸</span>
+        <div class="action-label">Mobilité</div>
+        <div class="action-title">10 min mobilité/jour</div>
+        <div class="action-desc">Hanches, épaules, thoracique. La flexibilité protège sur le long terme — les blessures coûtent des semaines.</div>
+      </div>
+      <div class="action-card ac-green">
+        <span class="action-ico">📈</span>
+        <div class="action-label">Progression</div>
+        <div class="action-title">+10% max par semaine</div>
+        <div class="action-desc">La règle numéro un de la progression sans blessure. Patience = résultat sur 6 mois vs 6 semaines.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══════════════════════════════════════
+     PILIER 4 — STRESS
+════════════════════════════════════════ -->
+<section class="pillar-section ph-amber" id="p4" style="background:var(--dark-2)">
+  <div class="pillar-hero">
+    <div class="ph-grid"></div>
+    <div class="ph-blob"></div>
+    <div class="pillar-hero-in">
+      <div class="pillar-badge pb-amber">🧠 Pilier 4 — Stress</div>
+      <h2>Gérer <em>l'accélérateur invisible</em></h2>
+      <p class="pillar-hero-sub">Le stress aigu peut aider. Le stress <strong>chronique</strong> dérègle tout : sommeil, glycémie, inflammation, motivation. Il se voit dans le corps avant même d'être conscient.</p>
+      <div class="chips-row">
+        <span class="chip chip-amber">Cortisol</span>
+        <span class="chip chip-teal">HRV</span>
+        <span class="chip">Respiration</span>
+        <span class="chip chip-violet">Cohérence cardiaque</span>
+        <span class="chip chip-green">Rituel matinal</span>
+      </div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="callout callout-warn">
+      <span class="callout-ico">⚡</span>
+      <div class="callout-content"><p><strong>Le stress chronique se voit dans le corps :</strong> cortisol mal rythmé ("fatigué mais câblé"), HRV en baisse persistante, sommeil léger, fringales répétées, irritabilité quotidienne.</p></div>
+    </div>
+    <div class="two-col">
+      <div class="explainer">
+        <p class="exp-lead"><strong>Le soupir physiologique</strong> — 30 secondes</p>
+        <ul class="exp-list">
+          <li><span class="exp-dot dot-amber"></span>Double inspiration par le nez (courte + longue)</li>
+          <li><span class="exp-dot dot-amber"></span>Longue expiration lente par la bouche</li>
+          <li><span class="exp-dot dot-amber"></span>×3 répétitions — activation parasympathique immédiate</li>
+          <li><span class="exp-dot dot-green"></span>Étude Balban et al., <em>Cell Reports Medicine</em> 2023 : améliore humeur et vigilance vs méditation classique</li>
+        </ul>
+      </div>
+      <div class="explainer">
+        <p class="exp-lead"><strong>Rituel anti-dérive</strong> — 10 minutes/jour</p>
+        <ul class="exp-list">
+          <li><span class="exp-dot dot-teal"></span>5 min respiration ou méditation guidée</li>
+          <li><span class="exp-dot dot-teal"></span>5 min marche en lumière extérieure</li>
+          <li><span class="exp-dot dot-amber"></span>Journal : 3 priorités + 1 gratitude</li>
+          <li><span class="exp-dot dot-green"></span>Couper notifications non essentielles dès le réveil</li>
+        </ul>
+      </div>
+    </div>
+    <div class="track-section">
+      <h3 class="sub-h">Suivre le stress objectivement</h3>
+      <table class="track-table">
+        <thead><tr><th>Signal</th><th>Ce que ça raconte</th><th>Comment mesurer</th></tr></thead>
+        <tbody>
+          <tr><td>HRV (variabilité FC)</td><td>Récupération nerveuse, charge de stress</td><td>Oura, Whoop, Garmin, Polar</td></tr>
+          <tr><td>FC repos au réveil</td><td>Stress physiologique, fatigue</td><td>Wearable, pouls manuel</td></tr>
+          <tr><td>Cortisol AM/PM</td><td>Rythme circadien, épuisement</td><td>Bilan labo (si indiqué)</td></tr>
+          <tr><td>Sommeil paradoxal (%)</td><td>Récupération émotionnelle</td><td>Oura, Whoop</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <h3 class="sub-h">Actions concrètes</h3>
+    <div class="action-grid">
+      <div class="action-card ac-amber">
+        <span class="action-ico">😮‍💨</span>
+        <div class="action-label">Urgence</div>
+        <div class="action-title">Soupir physiologique ×3</div>
+        <div class="action-desc">La technique la plus rapide et la plus prouvée pour réduire l'activation sympathique en temps réel.</div>
+      </div>
+      <div class="action-card ac-teal">
+        <span class="action-ico">🌅</span>
+        <div class="action-label">Rituel</div>
+        <div class="action-title">Rituel matinal 10 min</div>
+        <div class="action-desc">Respiration + lumière = ancrage circadien + reset nerveux. La régularité crée la résilience.</div>
+      </div>
+      <div class="action-card ac-violet">
+        <span class="action-ico">📊</span>
+        <div class="action-label">Données</div>
+        <div class="action-title">Suivre HRV 7 jours</div>
+        <div class="action-desc">Observe ta tendance, pas ta valeur absolue. Une baisse prolongée = signal de récupération insuffisante.</div>
+      </div>
+      <div class="action-card ac-amber">
+        <span class="action-ico">🔕</span>
+        <div class="action-label">Hygiène numérique</div>
+        <div class="action-title">Couper les notifications</div>
+        <div class="action-desc">Chaque notification = micro-activation du système de stress. Moins de pings = moins de charge cognitive.</div>
+      </div>
+      <div class="action-card ac-green">
+        <span class="action-ico">👥</span>
+        <div class="action-label">Social</div>
+        <div class="action-title">1 moment social cette semaine</div>
+        <div class="action-desc">Le lien social est un des plus puissants tampons contre le stress chronique. Planifie-le vraiment.</div>
+      </div>
+      <div class="action-card ac-teal">
+        <span class="action-ico">📝</span>
+        <div class="action-label">Clarté</div>
+        <div class="action-title">3 stresseurs + 1 action chacun</div>
+        <div class="action-desc">Nommer un stresseur réduit son emprise. Lui associer une action concrète transforme l'anxiété en plan.</div>
+      </div>
+    </div>
+    <div class="callout callout-warn">
+      <span class="callout-ico">⚠️</span>
+      <div class="callout-content"><p><strong>Adaptogènes et plantes :</strong> ashwagandha, rhodiola et autres ont des données préliminaires intéressantes mais des interactions médicamenteuses possibles. Si doute → toujours consulter un professionnel de santé avant.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══════════════════════════════════════
+     PILIER 5 — MESURE & SUIVI
+════════════════════════════════════════ -->
+<section class="pillar-section ph-indigo" id="p5" style="background:var(--dark-1)">
+  <div class="pillar-hero">
+    <div class="ph-grid"></div>
+    <div class="ph-blob"></div>
+    <div class="pillar-hero-in">
+      <div class="pillar-badge pb-indigo">📈 Pilier 5 — Mesure & Suivi</div>
+      <h2>Fermer <em>la boucle</em></h2>
+      <p class="pillar-hero-sub">Sans mesure, tu joues au feeling. Avec mesure, tu transformes tes efforts en <strong>stratégie</strong>. 1 test = une photo. 3 tests = une trajectoire.</p>
+      <div class="chips-row">
+        <span class="chip" style="color:#818cf8;background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.25)">Biomarqueurs</span>
+        <span class="chip chip-teal">Wearables</span>
+        <span class="chip chip-green">Baseline</span>
+        <span class="chip chip-amber">Re-test 6 mois</span>
+        <span class="chip">HRV quotidien</span>
+      </div>
+    </div>
+  </div>
+  <div class="pillar-body">
+    <div class="callout callout-key">
+      <span class="callout-ico">🔑</span>
+      <div class="callout-content"><p><strong>La mesure est ce qui transforme tout :</strong> elle convertit des sensations vagues en données réelles, permet de distinguer ce qui fonctionne de ce qui ne fonctionne pas, et crée un feedback loop motivant.</p></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3 class="sub-h">Ce que tu peux mesurer</h3>
+        <table class="track-table">
+          <thead><tr><th>Catégorie</th><th>Marqueurs</th></tr></thead>
+          <tbody>
+            <tr><td>Métabolisme</td><td>HbA1c, insuline à jeun, lipides complets</td></tr>
+            <tr><td>Inflammation</td><td>hsCRP, ferritine (selon contexte)</td></tr>
+            <tr><td>Vitamines & équilibre</td><td>Vitamine D, B12, ferritine</td></tr>
+            <tr><td>Cardio-vasculaire</td><td>ApoB, tension artérielle</td></tr>
+            <tr><td>Selon objectifs</td><td>Hormones, marqueurs spécifiques</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <h3 class="sub-h">Mesures quotidiennes simples</h3>
+        <div class="explainer">
+          <ul class="exp-list">
+            <li><span class="exp-dot dot-teal"></span><strong style="color:#fff">Poids + tour de taille</strong> — le ratio est plus parlant que le poids seul</li>
+            <li><span class="exp-dot dot-violet"></span><strong style="color:#fff">FC repos au réveil</strong> — tendance sur 2 semaines</li>
+            <li><span class="exp-dot dot-amber"></span><strong style="color:#fff">HRV matin</strong> — récupération nerveuse</li>
+            <li><span class="exp-dot dot-green"></span><strong style="color:#fff">Qualité de sommeil</strong> — subjectif (1–10) ou wearable</li>
+            <li><span class="exp-dot dot-teal"></span><strong style="color:#fff">Énergie/humeur</strong> — note rapide au réveil</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <h3 class="sub-h">Routine de suivi (3 horizons temporels)</h3>
+    <div class="action-grid">
+      <div class="action-card ac-teal">
+        <span class="action-ico">📍</span>
+        <div class="action-label">Aujourd'hui</div>
+        <div class="action-title">Établir la baseline</div>
+        <div class="action-desc">Poids, tour de taille, FC repos, test de pompes max. Ces chiffres sont ton point de départ absolu.</div>
+      </div>
+      <div class="action-card ac-violet">
+        <span class="action-ico">🗓️</span>
+        <div class="action-label">Semaines 1–4</div>
+        <div class="action-title">3 habitudes, rien de plus</div>
+        <div class="action-desc">Choisir 3 actions prioritaires. Les tracker chaque jour — une simple feuille suffit, pas besoin d'app.</div>
+      </div>
+      <div class="action-card" style="background:rgba(99,102,241,.08);border-color:rgba(99,102,241,.2);position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,#6366f1,#a78bfa)"></div>
+        <span class="action-ico">🧪</span>
+        <div class="action-label" style="color:#818cf8">Mois 4–6</div>
+        <div class="action-title">Re-test + bilan complet</div>
+        <div class="action-desc">Comparer baseline vs résultats. Les chiffres racontent une histoire. Ajuste selon les données réelles.</div>
+      </div>
+    </div>
+    <div class="callout callout-green">
+      <span class="callout-ico">✅</span>
+      <div class="callout-content"><p><strong>3 marqueurs prioritaires :</strong> choisis les 3 biomarqueurs les plus pertinents selon ton profil et programme un re-test systématique à 4–6 mois. C'est cette discipline qui sépare la prévention active de la prévention passive.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══ CONCLUSION ═══ -->
+<section class="conclusion-section">
+  <div class="conc-in">
+    <div class="conc-top">
+      <div class="s-eyebrow">Conclusion</div>
+      <h2 class="s-title">La santé adore <em>le rythme</em></h2>
+      <p class="s-sub">Ton corps répond aux signaux : quand tu dors, quand tu manges, quand tu bouges, quand tu récupères. La plupart des gens ne manquent pas d'informations. Ils manquent de :</p>
+    </div>
+    <div class="conc-three">
+      <div class="conc-card">
+        <div class="conc-n">①</div>
+        <div class="conc-title">Structure</div>
+        <div class="conc-desc">Un cadre clair avec peu de variables. La simplicité n'est pas une faiblesse — c'est ce qui crée la cohérence sur la durée.</div>
+      </div>
+      <div class="conc-card">
+        <div class="conc-n">②</div>
+        <div class="conc-title">Feedback</div>
+        <div class="conc-desc">Des données réelles sur ce qui fonctionne. Sans retour, impossible de distinguer le signal du bruit dans tes résultats.</div>
+      </div>
+      <div class="conc-card">
+        <div class="conc-n">③</div>
+        <div class="conc-title">Personnalisation</div>
+        <div class="conc-desc">Des actions adaptées à ton profil spécifique. La biologie est individuelle — les recommandations génériques ne suffisent pas.</div>
+      </div>
+    </div>
+    <div class="cta-finale">
+      <h2>Ton plan : 3 actions → 30 jours → <em>mesure</em> → ajustement</h2>
+      <p>Le bilan PRÉVIO personnalisé est la première étape pour transformer ce guide en stratégie concrète adaptée à tes marqueurs biologiques.</p>
+      <button class="hero-cta" style="font-size:14px;padding:14px 34px">
+        Faire mon bilan personnalisé →
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="section-sep"></div>
+
+<!-- ═══ SOURCES ═══ -->
+<section class="sources-section">
+  <div class="sources-in">
+    <div class="s-eyebrow">Références scientifiques</div>
+    <h2 class="s-title" style="font-size:clamp(20px,3vw,32px);margin-bottom:8px">18 études <em>citées</em></h2>
+    <p style="font-size:13px;color:var(--dark-m);margin-bottom:0">Reformulées depuis les sources originales.</p>
+    <div class="sources-grid">
+      <div class="source-item"><span class="source-n">01</span><div class="source-txt">CHARLS study. Sleep duration & sarcopenia. BMC Geriatrics, 2024.</div></div>
+      <div class="source-item"><span class="source-n">02</span><div class="source-txt">Systematic review: sleep loss & muscular strength. Springer, 2025.</div></div>
+      <div class="source-item"><span class="source-n">03</span><div class="source-txt">Buchmann N, et al. Sleep, Muscle Mass & Function. Dtsch Arztebl Int, 2016.</div></div>
+      <div class="source-item"><span class="source-n">04</span><div class="source-txt">Leproult R, et al. Sleep loss elevates cortisol. Sleep, 1997.</div></div>
+      <div class="source-item"><span class="source-n">05</span><div class="source-txt">Leproult R, Van Cauter E. Sleep restriction lowers testosterone. JAMA, 2011.</div></div>
+      <div class="source-item"><span class="source-n">06</span><div class="source-txt">Spiegel K, et al. Sleep curtailment alters leptin/ghrelin. Ann Intern Med, 2004.</div></div>
+      <div class="source-item"><span class="source-n">07</span><div class="source-txt">Irwin MR, et al. Sleep & inflammation. Nat Rev Immunol, 2019.</div></div>
+      <div class="source-item"><span class="source-n">08</span><div class="source-txt">Okamoto-Mizuno K, Mizuno K. Thermal environment & sleep. J Physiol Anthropol, 2012.</div></div>
+      <div class="source-item"><span class="source-n">09</span><div class="source-txt">Arab A, et al. Magnesium & sleep health review. Biol Trace Elem Res, 2023.</div></div>
+      <div class="source-item"><span class="source-n">10</span><div class="source-txt">Hall KD, et al. Ultra-processed diets cause weight gain. Cell Metab, 2019.</div></div>
+      <div class="source-item"><span class="source-n">11</span><div class="source-txt">Morton RW, et al. Protein supplementation meta-analysis. Br J Sports Med, 2018.</div></div>
+      <div class="source-item"><span class="source-n">12</span><div class="source-txt">Stanhope KL, et al. Fructose beverages ↑ visceral adiposity. J Clin Invest, 2009.</div></div>
+      <div class="source-item"><span class="source-n">13</span><div class="source-txt">Longo VD, Panda S. Fasting & circadian rhythms. Cell Metab, 2016.</div></div>
+      <div class="source-item"><span class="source-n">14</span><div class="source-txt">Wen CP, et al. Physical activity & mortality. Lancet, 2011.</div></div>
+      <div class="source-item"><span class="source-n">15</span><div class="source-txt">Ruiz JR, et al. Muscular strength & mortality. BMJ, 2008.</div></div>
+      <div class="source-item"><span class="source-n">16</span><div class="source-txt">Balban MY, et al. Structured breathing improves mood/arousal. Cell Reports Medicine, 2023.</div></div>
+      <div class="source-item"><span class="source-n">17</span><div class="source-txt">Chandrasekhar K, et al. Ashwagandha & stress trial. Indian J Psychol Med, 2012.</div></div>
+      <div class="source-item"><span class="source-n">18</span><div class="source-txt">Sniderman AD, et al. ApoB & cardiovascular disease. JAMA Cardiol, 2019.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+  <p class="footer-disc">Recommandations à titre informatif et préventif · Ne constituent pas une prescription médicale · Consultez un professionnel de santé pour tout suivi thérapeutique · PRÉVIO — Guide Longévité & Prévention</p>
+</footer>
+
+</body>
+</html>
