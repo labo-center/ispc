@@ -51,7 +51,6 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
   animation:screenFadeIn .22s ease-out forwards;
 }
 /* Iframe screens: instant switch, no fade = no flash */
-#s-profil.active,
 #s-guide.active{
   animation:none;
   opacity:1;
@@ -703,6 +702,40 @@ body{background:var(--dark-1)}
 /* ── Guide & Data screens ── */
 #s-guide{background:var(--dark-1)}
 #s-profil{background:var(--dark-1)}
+
+/* ── Profil module cards ── */
+.profil-modules{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  max-width:820px;margin:0 auto 32px;
+}
+@media(max-width:800px){.profil-modules{grid-template-columns:1fr}}
+.profil-mod{
+  background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
+  border-radius:22px;padding:0;overflow:hidden;cursor:pointer;
+  text-decoration:none;color:inherit;position:relative;
+  transition:transform .3s var(--ease-s),border-color .2s,box-shadow .25s;
+  display:flex;flex-direction:column;
+}
+.profil-mod:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.pm-teal:hover{border-color:rgba(14,165,201,.45)}
+.pm-green:hover{border-color:rgba(16,185,129,.45)}
+.pm-amber:hover{border-color:rgba(245,158,11,.45)}
+.pm-stripe{height:3px;width:100%}
+.pm-ico{font-size:32px;display:block;padding:24px 22px 0}
+.pm-title{font-family:var(--ffd);font-size:17px;font-weight:600;letter-spacing:-.03em;
+  color:#fff;padding:12px 22px 0}
+.pm-desc{font-size:12.5px;color:var(--dark-m);line-height:1.72;padding:6px 22px 0;flex:1}
+.pm-scores{font-size:10.5px;font-weight:600;color:rgba(255,255,255,.28);
+  padding:10px 22px 0;letter-spacing:.01em}
+.pm-foot{display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px 18px;margin-top:10px}
+.pm-steps{font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:99px;
+  background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m)}
+.pm-teal .pm-steps{background:rgba(14,165,201,.12);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.pm-green .pm-steps{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+.pm-amber .pm-steps{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+.pm-arrow{color:var(--dark-m);font-size:16px;transition:transform .2s,color .2s}
+.profil-mod:hover .pm-arrow{transform:translateX(4px);color:#fff}
 .guide-frame-wrap{
   min-height:100vh;padding-top:var(--nav-h);
 }
@@ -939,8 +972,72 @@ body{background:var(--dark-1)}
 </div>
 
 <div id="s-profil" class="screen">
-  <div class="guide-frame-wrap">
-    <iframe id="profil-iframe" src="about:blank" loading="lazy" data-loaded="0"></iframe>
+  <div class="bridge">
+    <div class="br-grid"></div>
+    <div class="bridge-orb" style="position:absolute;width:600px;height:600px;top:-150px;right:-200px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.14),transparent 65%);pointer-events:none"></div>
+    <div class="bridge-orb" style="position:absolute;width:400px;height:400px;bottom:-100px;left:-80px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,201,.1),transparent 65%);pointer-events:none"></div>
+
+    <!-- Shield icon -->
+    <div class="br-ico fu" style="background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(14,165,201,.15));border-color:rgba(124,58,237,.4);position:relative">
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M12 16V9" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 12L12 8.5L15.5 12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h2 class="fu d1">Profil Santé<br><em>Multi-domaines</em></h2>
+    <p class="bridge-sub fu d2">Évaluez votre métabolisme, votre sommeil, votre stress, votre activité physique et votre profil nutritionnel via des questionnaires scientifiquement validés. 3 modules, 22 étapes, 12 scores.</p>
+
+    <!-- 3 Module cards -->
+    <div class="profil-modules fu d3">
+
+      <a href="bilan_coaching_premium.html" class="profil-mod pm-teal">
+        <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-teal),var(--c-green))"></div>
+        <span class="pm-ico">🩺</span>
+        <div class="pm-title">Bilan Métabolique</div>
+        <p class="pm-desc">Analyses sanguines · Risque cardiovasculaire · Chronotype · Inflammation</p>
+        <div class="pm-scores">HOMA-IR · FIB-4 · KFRE · eGFR · NLR · MEQ-5</div>
+        <div class="pm-foot">
+          <span class="pm-steps">6 étapes</span>
+          <span class="pm-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="bilan_coaching_premium.html" class="profil-mod pm-green">
+        <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-green),var(--c-amber))"></div>
+        <span class="pm-ico">🌿</span>
+        <div class="pm-title">Habitudes de Vie</div>
+        <p class="pm-desc">Sommeil · Stress · Humeur · Alcool · Tabac · Écrans · Activité physique</p>
+        <div class="pm-scores">ISI · PSQI · GAD-7 · PHQ-9 · MBI · AUDIT · Fagerström</div>
+        <div class="pm-foot">
+          <span class="pm-steps">9 étapes</span>
+          <span class="pm-arrow">→</span>
+        </div>
+      </a>
+
+      <a href="bilan_coaching_premium.html" class="profil-mod pm-amber">
+        <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-amber),var(--c-violet))"></div>
+        <span class="pm-ico">🥗</span>
+        <div class="pm-title">Profil Nutritionnel</div>
+        <p class="pm-desc">Qualité alimentaire · Micronutriments · Comportements · Rythme</p>
+        <div class="pm-scores">DASH · MedDiet · MIND · Oméga-3 · TFEQ · Rythme</div>
+        <div class="pm-foot">
+          <span class="pm-steps">7 étapes</span>
+          <span class="pm-arrow">→</span>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="bridge-tags fu d4">
+      <span class="btag" style="background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa">🕐 ~15 min par module</span>
+      <span class="btag" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)">22 étapes totales</span>
+      <span class="btag" style="background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)">12 scores validés</span>
+      <span class="btag" style="background:rgba(255,255,255,.06);border-color:var(--dark-b);color:var(--dark-m)">🔒 100% local</span>
+    </div>
+
+    <button class="br-btn-back" onclick="go('dash')" style="margin-top:28px">← Retour au dashboard</button>
   </div>
 </div>
 <div id="s-mon" class="screen">
@@ -1313,10 +1410,8 @@ body{background:var(--dark-1)}
   const uname = document.getElementById('nav-username');
   if(avatar) avatar.textContent = (session.name||'U')[0].toUpperCase();
   if(uname) uname.textContent = session.name||'Mon espace';
-  // Preload iframes in background after page settles
+  // Preload guide iframe in background after page settles
   setTimeout(function(){
-    var pf=document.getElementById('profil-iframe');
-    if(pf&&pf.getAttribute('data-loaded')==='0'){pf.src='bilan_coaching_premium.html';pf.setAttribute('data-loaded','1');}
     var gf=document.getElementById('guide-iframe');
     if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='bilan-biologique-previo.html';gf.setAttribute('data-loaded','1');}
   },1500);
@@ -1357,13 +1452,6 @@ function go(id){
       const iframe=document.getElementById('guide-iframe');
       if(iframe && iframe.getAttribute('data-loaded')==='0'){
         iframe.src='bilan-biologique-previo.html';
-        iframe.setAttribute('data-loaded','1');
-      }
-    }
-    if(id==='profil'){
-      const iframe=document.getElementById('profil-iframe');
-      if(iframe && iframe.getAttribute('data-loaded')==='0'){
-        iframe.src='bilan_coaching_premium.html';
         iframe.setAttribute('data-loaded','1');
       }
     }
