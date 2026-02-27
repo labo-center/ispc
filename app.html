@@ -41,15 +41,21 @@ body{font-family:var(--ff);color:var(--txt);overflow-x:hidden;background:var(--d
 button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 
 /* ── SCREENS ── */
-.screen{display:none}
-.screen.active{display:block;animation:screenIn .4s var(--ease-o) both}
-@keyframes screenIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.screen{
+  display:none;
+  opacity:0;
+}
+.screen.active{
+  display:block;
+  animation:screenFadeIn .28s ease-out forwards;
+}
+@keyframes screenFadeIn{from{opacity:0}to{opacity:1}}
 
 /* ── FADE HELPERS ── */
-.fu{animation:fu .6s var(--ease-o) both}
-@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
-.d4{animation-delay:.32s}.d5{animation-delay:.40s}.d6{animation-delay:.48s}
+.fu{animation:fu .5s ease-out both}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
 
 /* ════════════════════════════════════════
    NAVIGATION
@@ -1292,6 +1298,13 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
   const uname = document.getElementById('nav-username');
   if(avatar) avatar.textContent = (session.name||'U')[0].toUpperCase();
   if(uname) uname.textContent = session.name||'Mon espace';
+  // Preload iframes in background after page settles
+  setTimeout(function(){
+    var pf=document.getElementById('profil-iframe');
+    if(pf&&pf.getAttribute('data-loaded')==='0'){pf.src='bilan_coaching_premium.html';pf.setAttribute('data-loaded','1');}
+    var gf=document.getElementById('guide-iframe');
+    if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='bilan-biologique-previo.html';gf.setAttribute('data-loaded','1');}
+  },1500);
 })();
 
 /* ══ ROUTER ══ */
@@ -1300,11 +1313,27 @@ function go(id){
     // External pages
     if(id==='panels'){window.location.href='bilan-biologique-previo.html';return;}
 
-    // Internal SPA screens
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    // Don't re-trigger if already on this screen
+    const current=document.querySelector('.screen.active');
+    if(current && current.id==='s-'+id) return;
+
+    // Scroll to top first (before switching)
+    window.scrollTo({top:0,behavior:'instant'});
+
+    // Switch screens
+    document.querySelectorAll('.screen').forEach(s=>{
+      s.classList.remove('active');
+      s.style.display='none';
+    });
     document.querySelectorAll('.nl').forEach(l=>l.classList.remove('on'));
+
     const s=document.getElementById('s-'+id);
-    if(s){s.classList.add('active');window.scrollTo({top:0,behavior:'instant'});}
+    if(s){
+      // Force reflow before animation
+      s.style.display='block';
+      void s.offsetHeight;
+      s.classList.add('active');
+    }
     const nl=document.getElementById('nl-'+id);
     if(nl)nl.classList.add('on');
     if(id==='mon') requestAnimationFrame(()=>setTimeout(drawCharts,60));
