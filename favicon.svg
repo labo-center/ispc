@@ -1,0 +1,45 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0c1225"/>
+      <stop offset="1" stop-color="#111a38"/>
+    </linearGradient>
+    <linearGradient id="shieldGrad" x1="100" y1="50" x2="412" y2="462" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="shieldFill" x1="100" y1="50" x2="412" y2="462" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22d3ee" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#a78bfa" stop-opacity="0.2"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="12" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Rounded square background -->
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  
+  <!-- Subtle radial glow -->
+  <circle cx="256" cy="240" r="200" fill="radial-gradient(circle, rgba(14,165,201,0.08), transparent)" opacity="0.5"/>
+  
+  <!-- Shield shape -->
+  <path d="M256 62L108 138V254C108 358.6 173.5 453.4 256 480C338.5 453.4 404 358.6 404 254V138L256 62Z" 
+        fill="url(#shieldFill)" 
+        stroke="url(#shieldGrad)" 
+        stroke-width="12" 
+        stroke-linejoin="round"
+        filter="url(#glow)"/>
+  
+  <!-- Arrow up (vertical line) -->
+  <line x1="256" y1="340" x2="256" y2="195" 
+        stroke="white" stroke-width="24" stroke-linecap="round"/>
+  
+  <!-- Arrow chevron -->
+  <polyline points="196,255 256,195 316,255" 
+           stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
