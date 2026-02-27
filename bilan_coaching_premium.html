@@ -1176,8 +1176,20 @@ function updateAccordion(){
       }
     }
   });
+  // Notify parent (app.html) of progress for live progress bar
+  try{
+    if(window.parent&&window.parent!==window){
+      window.parent.postMessage({
+        type:'previo-progress',
+        mod:ST.mod,
+        answered:answeredAll,
+        total:totalQs,
+        pct:pct,
+        done:allDone
+      },'*');
+    }
+  }catch(e){}
 }
-/* ── QUESTION RENDERER ── */
 function renderQ(q,color,cls,idx){
   if(!isVisible(q)){return`<div class="q-block" id="qb-${q.id}" style="display:none"></div>`;}
   const v=ST.a[q.id];

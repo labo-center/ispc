@@ -1712,11 +1712,32 @@ function updateBridgeBadges(){
   }catch(e){}
 }
 
-// Listen for messages from iframe (module completion)
+// Listen for messages from iframe (progress + completion)
 window.addEventListener('message',function(e){
-  if(e.data&&e.data.type==='previo-module-done'){
+  if(!e.data||!e.data.type)return;
+  if(e.data.type==='previo-module-done'){
     updateProfilProgress();
     updateBridgeBadges();
+  }
+  if(e.data.type==='previo-progress'){
+    // Update progress bar fill
+    var fill=document.getElementById('ppb-fill');
+    var pct=document.getElementById('ppb-pct');
+    // Calculate overall progress: current module progress + completed modules
+    var doneCount=0;
+    try{
+      var raw=localStorage.getItem('previo_profil_state');
+      if(raw){var st=JSON.parse(raw);['meta','life','nutr'].forEach(function(k){if(st.done&&st.done[k])doneCount++;});}
+    }catch(ex){}
+    var overallPct=((doneCount*100)+(e.data.pct||0))/3;
+    if(fill)fill.style.width=Math.min(100,Math.round(overallPct))+'%';
+    if(pct)pct.textContent=e.data.answered+'/'+e.data.total+' ('+e.data.mod+')';
+    // Update active module status
+    var statusEl=document.getElementById('ppb-status-'+e.data.mod);
+    if(statusEl){
+      if(e.data.done){statusEl.textContent='✓';statusEl.parentElement.classList.add('done');}
+      else{statusEl.textContent=e.data.answered+'/'+e.data.total;}
+    }
   }
 });
 
