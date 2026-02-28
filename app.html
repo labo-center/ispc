@@ -1,0 +1,1867 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="theme-color" content="#0ea5c9">
+<title>PRÉVIO — Mon Espace</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   PRÉVIO — DESIGN SYSTEM
+══════════════════════════════════════════ */
+:root{
+  /* Core palette — same charte graphique */
+  --c-teal:#0ea5c9;    --c-teal-d:#0e7490; --c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed;  --c-violet-d:#6d28d9;
+  --c-green:#10b981;   --c-green-d:#047857; --c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b;   --c-amber-d:#d97706;
+  --c-red:#ef4444;
+  /* Dark surfaces */
+  --dark-1:#070c1a; --dark-2:#0f1628; --dark-3:#141c35; --dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08); --dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.42); --dark-t:rgba(255,255,255,.88);
+  /* Light surfaces */
+  --bg:#f4f3ef; --card:#fff; --txt:#111827; --mut:#64748b; --brd:#e5e0d8;
+  /* Type */
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  /* Layout */
+  --nav-h:62px;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh}
+body{font-family:var(--ff);color:var(--txt);overflow-x:hidden;background:var(--dark-1)}
+button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
+
+/* ── SCREENS ── */
+.screen{
+  display:none;
+  opacity:0;
+  min-height:100vh;
+}
+.screen.active{
+  display:block;
+  animation:screenFadeIn .22s ease-out forwards;
+}
+/* Iframe screens: instant switch, no fade = no flash */
+#s-guide.active{
+  animation:none;
+  opacity:1;
+}
+@keyframes screenFadeIn{from{opacity:0}to{opacity:1}}
+
+/* Prevent white flash between screens */
+body{background:var(--dark-1)}
+.nav{border-bottom:1px solid var(--dark-b);box-shadow:0 1px 0 var(--dark-1)}
+
+/* ── FADE HELPERS ── */
+.fu{animation:fu .5s ease-out both}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}
+.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}
+
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:var(--nav-h);
+  background:rgba(7,12,26,.85);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b);
+}
+.nav-in{
+  max-width:1160px;margin:0 auto;height:100%;
+  display:flex;align-items:center;padding:0 24px;gap:0;
+}
+/* Logo */
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:38px;flex-shrink:0}
+.nav-mark{
+  width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;font-size:18px;
+  box-shadow:0 0 22px rgba(14,165,201,.32),0 0 44px rgba(124,58,237,.14);
+  flex-shrink:0;
+}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;
+  margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+/* Links */
+.nav-links{display:flex;align-items:center;gap:2px}
+.nl{padding:7px 14px;border-radius:9px;font-size:13px;font-weight:600;
+  color:var(--dark-m);transition:all .15s;cursor:pointer;white-space:nowrap}
+.nl:hover{color:var(--dark-t);background:rgba(255,255,255,.06)}
+.nl.on{color:#fff;background:rgba(255,255,255,.1)}
+/* Right */
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-live{display:flex;align-items:center;gap:6px;padding:5px 12px;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);
+  border-radius:99px;font-size:11px;font-weight:700;color:var(--c-green)}
+.nav-live-dot{width:6px;height:6px;border-radius:50%;background:var(--c-green);
+  box-shadow:0 0 8px var(--c-green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.38}}
+.nav-btn{padding:9px 20px;border-radius:99px;font-size:13px;font-weight:700;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 4px 18px rgba(14,116,144,.35);transition:transform .18s,box-shadow .18s}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(14,116,144,.48)}
+
+/* ════════════════════════════════════════
+   SCREEN 1 — LANDING
+════════════════════════════════════════ */
+#s-home{background:var(--dark-1)}
+
+/* ── Hero ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(var(--nav-h) + 48px) 24px 64px;
+  position:relative;overflow:hidden;
+}
+/* Blobs */
+.hero-b1{position:absolute;top:-160px;left:-140px;width:680px;height:680px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.13) 0%,transparent 65%);pointer-events:none}
+.hero-b2{position:absolute;bottom:-140px;right:-120px;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 65%);pointer-events:none}
+.hero-b3{position:absolute;top:50%;left:54%;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.07) 0%,transparent 60%);
+  pointer-events:none;transform:translate(-50%,-50%)}
+/* Grid texture */
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);
+  background-size:44px 44px;pointer-events:none}
+/* Scan line */
+.hero-scan{position:absolute;left:0;right:0;height:1px;pointer-events:none;opacity:.22;
+  background:linear-gradient(90deg,transparent,rgba(14,165,201,.7) 35%,rgba(124,58,237,.7) 65%,transparent);
+  animation:scan 9s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+
+.hero-in{max-width:780px;text-align:center;position:relative;z-index:2}
+
+/* Eyebrow pill */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:99px;padding:6px 18px 6px 10px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:30px;
+  backdrop-filter:blur(8px);animation:fu .7s var(--ease-o) .08s both}
+.eyebrow-dot{width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-green));
+  box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite}
+
+.hero h1{
+  font-family:var(--ffd);
+  font-size:clamp(42px,7.5vw,86px);
+  font-weight:700;line-height:1.02;letter-spacing:-.055em;
+  color:#fff;margin-bottom:8px;
+  animation:fu .7s var(--ease-o) .18s both;
+}
+.hero h1 .grad{
+  font-style:italic;font-weight:300;
+  background:linear-gradient(115deg,#22d3ee 0%,#a78bfa 55%,#4ade80 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero h1 .block{display:block}
+.hero-sub{font-size:17px;color:var(--dark-m);max-width:540px;margin:18px auto 44px;
+  line-height:1.9;animation:fu .7s var(--ease-o) .28s both}
+
+/* CTA buttons */
+.cta-row{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;
+  animation:fu .7s var(--ease-o) .38s both;margin-bottom:60px}
+.btn-main{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:16px 38px;border-radius:99px;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 8px 32px rgba(14,116,144,.42),0 0 0 1px rgba(14,165,201,.18);
+  transition:transform .22s var(--ease-s),box-shadow .22s;
+}
+.btn-main:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 52px rgba(14,116,144,.54)}
+.btn-main .arr{font-size:18px;transition:transform .2s}
+.btn-main:hover .arr{transform:translateX(4px)}
+.btn-ghost{padding:15px 28px;border-radius:99px;font-weight:600;font-size:14px;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.72);transition:all .18s}
+.btn-ghost:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28)}
+
+/* Stats bar */
+.hero-stats{
+  display:flex;gap:0;
+  background:rgba(255,255,255,.04);border:1px solid var(--dark-b);
+  border-radius:20px;overflow:hidden;max-width:620px;margin:0 auto;
+  animation:fu .7s var(--ease-o) .48s both;
+}
+.hst{flex:1;padding:20px 16px;border-right:1px solid var(--dark-b);text-align:center;position:relative}
+.hst:last-child{border-right:none}
+.hst::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.65}
+.hst:nth-child(1)::before{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
+.hst:nth-child(2)::before{background:linear-gradient(90deg,var(--c-violet),var(--c-green))}
+.hst:nth-child(3)::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.hst:nth-child(4)::before{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
+.hst-v{font-family:var(--ffd);font-size:26px;font-weight:700;color:#fff;letter-spacing:-.05em;line-height:1}
+.hst-l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--dark-m);margin-top:5px}
+
+/* ── Programme prévention ── */
+.prog-section{padding:88px 24px;position:relative}
+.prog-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.prog-in{max-width:1120px;margin:0 auto}
+.s-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--c-teal);text-align:center;margin-bottom:14px}
+.s-title{font-family:var(--ffd);font-size:clamp(26px,4vw,44px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;text-align:center;line-height:1.08;margin-bottom:14px}
+.s-title em{font-style:italic;font-weight:300;color:rgba(255,255,255,.46)}
+.s-sub{font-size:14.5px;color:var(--dark-m);text-align:center;max-width:510px;
+  margin:0 auto 54px;line-height:1.88}
+/* 3 pillar cards */
+.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:800px){.pillar-grid{grid-template-columns:1fr}}
+.pillar{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:26px;padding:34px 28px 28px;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s var(--ease-s),border-color .2s,background .2s;
+}
+.pillar:hover{transform:translateY(-6px);background:rgba(255,255,255,.056)}
+.p-teal:hover{border-color:rgba(14,165,201,.45)}
+.p-violet:hover{border-color:rgba(124,58,237,.45)}
+.p-green:hover{border-color:rgba(16,185,129,.45)}
+.pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.p-teal::before{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.p-violet::before{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.p-green::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.p-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px}
+.p-teal .p-tag{color:var(--c-teal)}.p-violet .p-tag{color:#a78bfa}.p-green .p-tag{color:var(--c-green)}
+.p-ico{font-size:38px;margin-bottom:18px;display:block}
+.p-title{font-family:var(--ffd);font-size:20px;font-weight:600;letter-spacing:-.03em;
+  color:#fff;margin-bottom:12px}
+.p-desc{font-size:13.5px;color:var(--dark-m);line-height:1.82}
+.p-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:18px}
+.pchip{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:99px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);color:rgba(255,255,255,.45)}
+.p-arrow{position:absolute;bottom:24px;right:24px;width:32px;height:32px;
+  border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--dark-b);
+  display:grid;place-items:center;color:var(--dark-m);font-size:14px;
+  transition:all .2s}
+.pillar:hover .p-arrow{background:rgba(255,255,255,.14);color:#fff;transform:translate(2px,-2px)}
+
+/* ── Parcours ── */
+.parcours{padding:88px 24px;background:rgba(255,255,255,.018);position:relative}
+.parcours::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent)}
+.parcours-in{max-width:1120px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:50px;position:relative}
+.steps::before{content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,var(--c-teal),var(--c-violet),var(--c-green));opacity:.28}
+@media(max-width:700px){.steps{grid-template-columns:1fr 1fr;gap:28px}.steps::before{display:none}}
+.step{text-align:center;padding:0 18px}
+.step-wrap{width:56px;height:56px;border-radius:50%;margin:0 auto 20px;
+  background:rgba(255,255,255,.055);border:1px solid var(--dark-b);
+  display:grid;place-items:center;font-size:24px;position:relative;
+  transition:border-color .2s,box-shadow .2s}
+.step:hover .step-wrap{border-color:var(--c-teal);box-shadow:0 0 22px var(--c-teal-glow)}
+.step-n{position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;
+  background:var(--dark-2);border:1px solid var(--dark-b);
+  font-size:10px;font-weight:700;color:var(--dark-m);display:grid;place-items:center}
+.step-title{font-weight:700;font-size:14.5px;color:#fff;margin-bottom:8px}
+.step-desc{font-size:12.5px;color:var(--dark-m);line-height:1.75}
+
+/* ── Prévention promise ── */
+.promise{padding:88px 24px}
+.promise-in{max-width:1120px;margin:0 auto}
+.promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:700px){.promise-grid{grid-template-columns:1fr}}
+.promise-card{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:22px;padding:28px 24px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.pr-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+  font-size:22px;flex-shrink:0;border:1.5px solid}
+.pr-ico-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
+.pr-ico-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+.pr-ico-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
+.pr-ico-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
+.pr-title{font-weight:700;font-size:15px;color:#fff;margin-bottom:6px}
+.pr-desc{font-size:13px;color:var(--dark-m);line-height:1.78}
+
+/* ── CTA section ── */
+.cta-sect{padding:100px 24px}
+.cta-box{
+  max-width:700px;margin:0 auto;
+  background:linear-gradient(135deg,rgba(14,116,144,.12),rgba(109,40,217,.12));
+  border:1px solid rgba(255,255,255,.1);border-radius:32px;
+  padding:68px 48px;text-align:center;position:relative;overflow:hidden;
+}
+.cta-box::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.024) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.024) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none}
+.cta-box h2{font-family:var(--ffd);font-size:clamp(24px,4vw,38px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;margin-bottom:14px;position:relative}
+.cta-box p{color:var(--dark-m);font-size:15px;line-height:1.88;margin-bottom:34px;position:relative}
+
+/* ════════════════════════════════════════
+   SCREEN 2 — DASHBOARD
+════════════════════════════════════════ */
+#s-dash{background:var(--bg)}
+
+.dash-hero{
+  background:var(--dark-2);padding:52px 24px 0;
+  padding-top:calc(var(--nav-h) + 36px);
+  position:relative;overflow:hidden;
+}
+.dh-b1{position:absolute;top:-120px;right:-80px;width:480px;height:480px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.17),transparent 65%);pointer-events:none}
+.dh-b2{position:absolute;bottom:-80px;left:-40px;width:320px;height:320px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.12),transparent 65%);pointer-events:none}
+.dh-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none}
+.dh-in{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+.dh-crumb{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.dh-crumb a{cursor:pointer;transition:color .15s}.dh-crumb a:hover{color:rgba(255,255,255,.6)}
+.dh-crumb sep{opacity:.3}
+.dh-in h1{font-family:var(--ffd);font-size:clamp(24px,3.5vw,38px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;margin-bottom:7px}
+.dh-in h1 em{font-style:italic;font-weight:300;
+  background:linear-gradient(120deg,var(--c-teal),var(--c-violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.dh-in p{color:var(--dark-m);font-size:13.5px;padding-bottom:28px}
+
+/* KPI strip */
+.kpi-rail{
+  background:rgba(255,255,255,.034);border-top:1px solid var(--dark-b);
+  border-bottom:1px solid rgba(0,0,0,.08);
+  display:flex;overflow-x:auto;scrollbar-width:none;
+  max-width:1160px;margin:0 auto;
+}
+.kpi-rail::-webkit-scrollbar{display:none}
+.kpi{flex:1;min-width:118px;padding:18px 20px;border-right:1px solid var(--dark-b);
+  display:flex;flex-direction:column;gap:4px;position:relative;overflow:hidden}
+.kpi:last-child{border-right:none}
+.kpi-bar{position:absolute;top:0;left:0;right:0;height:2.5px}
+.k1 .kpi-bar{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
+.k2 .kpi-bar{background:linear-gradient(90deg,var(--c-violet),var(--c-green))}
+.k3 .kpi-bar{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.k4 .kpi-bar{background:linear-gradient(90deg,var(--c-amber),var(--c-red))}
+.k5 .kpi-bar{background:linear-gradient(90deg,var(--c-red),var(--c-teal))}
+.kpi-l{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-m)}
+.kpi-v{font-family:var(--ffd);font-size:22px;font-weight:700;color:#fff;letter-spacing:-.04em;line-height:1}
+.kb{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;
+  border-radius:99px;width:fit-content;margin-top:2px}
+.kb-g{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.3);color:var(--c-green)}
+.kb-w{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.3);color:var(--c-amber)}
+.kb-n{background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m)}
+
+/* Dash body */
+.dash-body{max-width:1160px;margin:0 auto;padding:28px 24px 80px;background:var(--bg)}
+.db-row{display:grid;gap:18px;margin-bottom:26px}
+.r3{grid-template-columns:repeat(3,1fr)}
+.r2{grid-template-columns:1fr 1fr}
+.r21{grid-template-columns:2fr 1fr}
+@media(max-width:860px){.r3,.r2,.r21{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.r3,.r2,.r21{grid-template-columns:1fr}}
+
+.blk-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:16px}
+.blk-title{font-family:var(--ffd);font-size:17.5px;font-weight:600;letter-spacing:-.03em}
+.blk-link{font-size:12.5px;font-weight:700;color:var(--c-teal-d);cursor:pointer}
+.blk-link:hover{opacity:.7}
+
+/* Module cards */
+.mcard{
+  background:var(--card);border:1.5px solid var(--brd);border-radius:22px;
+  overflow:hidden;cursor:pointer;
+  box-shadow:0 2px 14px rgba(0,0,0,.04);
+  transition:transform .3s var(--ease-s),box-shadow .25s,border-color .2s;
+}
+.mcard:hover{transform:translateY(-5px);box-shadow:0 22px 60px rgba(0,0,0,.1)}
+.mc-teal:hover{border-color:var(--c-teal)}.mc-violet:hover{border-color:var(--c-violet)}
+.mc-amber:hover{border-color:var(--c-amber)}
+.mc-stripe{height:3px;width:100%}
+.mc-teal .mc-stripe{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.mc-violet .mc-stripe{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.mc-amber .mc-stripe{background:linear-gradient(90deg,var(--c-amber),var(--c-red))}
+.mc-body{padding:20px 20px 14px}
+.mc-ico{font-size:30px;margin-bottom:12px;display:block}
+.mc-title{font-family:var(--ffd);font-size:16px;font-weight:600;letter-spacing:-.025em;margin-bottom:6px}
+.mc-desc{font-size:12.5px;color:var(--mut);line-height:1.72}
+.mc-foot{padding:11px 20px 15px;border-top:1px solid var(--brd);
+  display:flex;align-items:center;justify-content:space-between}
+.ms{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;
+  padding:4px 11px;border-radius:99px}
+.ms-done{background:#dcfce7;color:#166534}
+.ms-partial{background:#fef3c7;color:#92400e}
+.ms-todo{background:var(--bg);color:var(--mut);border:1px solid var(--brd)}
+.mc-arr{color:var(--mut);font-size:16px;transition:transform .2s,color .2s}
+.mcard:hover .mc-arr{transform:translateX(4px);color:var(--txt)}
+
+/* Score gauges */
+.scores-row{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:560px){.scores-row{grid-template-columns:1fr}}
+.score-g{
+  background:var(--dark-3);border:1px solid var(--dark-b);border-radius:18px;
+  padding:20px 16px;text-align:center;position:relative;overflow:hidden;
+}
+.score-g::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:18px 18px;pointer-events:none}
+.sg-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--dark-m);margin-bottom:14px;position:relative}
+.sg-wrap{width:82px;height:82px;margin:0 auto 12px;position:relative}
+.sg-wrap svg{width:82px;height:82px}
+.sg-bg{fill:none;stroke:rgba(255,255,255,.06);stroke-width:7;stroke-linecap:round}
+.sg-arc{fill:none;stroke-width:7;stroke-linecap:round;
+  stroke-dasharray:194;transition:stroke-dashoffset 1.6s var(--ease-o);
+  transform:rotate(-90deg);transform-origin:50% 50%}
+.sg-num{font-family:var(--ffd);font-size:19px;font-weight:700;fill:#fff;
+  text-anchor:middle;dominant-baseline:central}
+.sg-name{font-family:var(--ffd);font-size:13px;font-weight:600;color:#fff;
+  margin-bottom:6px;position:relative}
+.sg-v{font-size:10.5px;font-weight:700;padding:3px 11px;border-radius:99px;display:inline-block;position:relative}
+.sv-g{background:rgba(16,185,129,.18);border:1px solid rgba(16,185,129,.3);color:var(--c-green)}
+.sv-w{background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.3);color:var(--c-amber)}
+.sv-n{background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m)}
+
+/* Insight list */
+.insights{display:flex;flex-direction:column;gap:10px}
+.ins{background:var(--card);border:1px solid var(--brd);border-radius:15px;
+  padding:14px 16px;display:flex;gap:12px;align-items:flex-start;
+  transition:transform .2s,box-shadow .2s}
+.ins:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.07)}
+.ins-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ins-title{font-weight:700;font-size:13px;margin-bottom:3px}
+.ins-txt{font-size:12px;color:var(--mut);line-height:1.65}
+.ins-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;
+  border-radius:99px;margin-top:6px;background:var(--bg);color:var(--mut);border:1px solid var(--brd)}
+
+/* Quick actions */
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qa{background:var(--card);border:1.5px solid var(--brd);border-radius:16px;
+  padding:15px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;
+  transition:all .2s var(--ease-s)}
+.qa:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08);border-color:#94a3b8}
+.qa-ico{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  font-size:18px;flex-shrink:0;border:1.5px solid}
+.qi-t{background:rgba(14,165,201,.09);border-color:rgba(14,165,201,.22)}
+.qi-v{background:rgba(124,58,237,.09);border-color:rgba(124,58,237,.22)}
+.qi-g{background:rgba(16,185,129,.09);border-color:rgba(16,185,129,.22)}
+.qi-a{background:rgba(245,158,11,.09);border-color:rgba(245,158,11,.22)}
+.qa-tit{font-weight:700;font-size:13.5px;margin-bottom:1px}
+.qa-sub{font-size:11.5px;color:var(--mut)}
+
+/* ════════════════════════════════════════
+   BRIDGE SCREENS (3 & 4)
+════════════════════════════════════════ */
+.bridge{
+  min-height:100vh;background:var(--dark-2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(var(--nav-h)+60px) 24px 80px;
+  position:relative;overflow:hidden;text-align:center;
+}
+.br-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:32px 32px;pointer-events:none}
+.br-ico{width:92px;height:92px;border-radius:28px;display:grid;place-items:center;
+  font-size:44px;margin:0 auto 30px;border:2px solid;position:relative}
+.bridge h2{font-family:var(--ffd);font-size:clamp(26px,5vw,44px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;margin-bottom:14px;line-height:1.1}
+.bridge h2 em{font-style:italic;font-weight:300}
+.bridge-sub{color:var(--dark-m);font-size:14.5px;max-width:520px;margin:0 auto 38px;
+  line-height:1.9}
+.bridge-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.btag{font-size:11px;font-weight:700;padding:5px 14px;border-radius:99px;border:1px solid}
+.br-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:28px}
+.br-btn-main{display:inline-flex;align-items:center;gap:8px;padding:15px 34px;border-radius:99px;
+  font-weight:700;font-size:14px;color:#fff;
+  box-shadow:0 8px 28px rgba(0,0,0,.3);transition:transform .2s}
+.br-btn-main:hover{transform:translateY(-2px)}
+.br-btn-back{padding:14px 26px;border-radius:99px;font-weight:600;font-size:13.5px;
+  background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.72);transition:all .18s;cursor:pointer}
+.br-btn-back:hover{background:rgba(255,255,255,.12);color:#fff}
+
+/* ════════════════════════════════════════
+   SCREEN 5 — MONITORING + RECOMMANDATIONS
+════════════════════════════════════════ */
+#s-mon{background:var(--bg)}
+
+.mon-hero{
+  background:var(--dark-1);padding:52px 24px 0;
+  padding-top:calc(var(--nav-h) + 52px);
+  position:relative;overflow:hidden;
+}
+.mh-b1{position:absolute;top:-100px;right:-80px;width:500px;height:500px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,158,11,.11),transparent 65%);pointer-events:none}
+.mh-b2{position:absolute;bottom:-80px;left:-60px;width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.11),transparent 65%);pointer-events:none}
+.mh-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.027) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.027) 1px,transparent 1px);
+  background-size:36px 36px;pointer-events:none}
+.mh-in{max-width:1160px;margin:0 auto;position:relative;z-index:1}
+.mh-ey{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.mh-ey span{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c-amber)}
+.live{display:inline-flex;align-items:center;gap:5px;
+  background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);
+  border-radius:99px;padding:4px 12px;font-size:10.5px;font-weight:700;color:var(--c-green)}
+.live-d{width:6px;height:6px;border-radius:50%;background:var(--c-green);
+  box-shadow:0 0 8px var(--c-green);animation:pulse 2s infinite}
+.mh-in h1{font-family:var(--ffd);font-size:clamp(24px,3.5vw,38px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;margin-bottom:6px}
+.mh-in h1 em{font-style:italic;font-weight:300;
+  background:linear-gradient(120deg,var(--c-amber),var(--c-teal));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mh-in p{color:var(--dark-m);font-size:13px;padding-bottom:24px}
+
+/* Alert strip */
+.alert-rail{
+  background:rgba(245,158,11,.07);
+  border-top:1px solid rgba(245,158,11,.18);border-bottom:1px solid rgba(245,158,11,.18);
+  padding:10px 24px;
+}
+.alert-in{max-width:1160px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.al-txt{font-size:12.5px;font-weight:600;color:var(--c-amber)}
+.al-btn{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;
+  border-radius:99px;background:rgba(245,158,11,.14);border:1px solid rgba(245,158,11,.28);
+  color:var(--c-amber);cursor:pointer}
+
+/* Monitor body */
+.mon-body{max-width:1160px;margin:0 auto;padding:28px 24px 80px}
+
+/* Dark card */
+.dc{background:var(--dark-2);border:1px solid var(--dark-b);border-radius:24px;
+  position:relative;overflow:hidden}
+.dc::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.017) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.017) 1px,transparent 1px);
+  background-size:22px 22px;pointer-events:none}
+.dc-head{padding:22px 24px 0;position:relative;display:flex;align-items:flex-start;justify-content:space-between}
+.dc-title{font-family:var(--ffd);font-size:16px;font-weight:600;color:#fff;letter-spacing:-.025em}
+.dc-sub{font-size:11px;color:var(--dark-m);margin-top:3px}
+.dc-body{padding:16px 24px 24px;position:relative}
+
+/* Two-column monitor layout */
+.mon-cols{display:grid;grid-template-columns:1fr 400px;gap:22px;align-items:start;margin-bottom:26px}
+@media(max-width:960px){.mon-cols{grid-template-columns:1fr}}
+
+/* Radar legend */
+.rleg-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+.rleg-item{display:flex;align-items:center;gap:9px;padding:9px 12px;
+  background:rgba(255,255,255,.04);border:1px solid var(--dark-b);border-radius:11px}
+.rleg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.rleg-name{font-size:12px;font-weight:600;color:rgba(255,255,255,.72);flex:1}
+.rleg-val{font-family:var(--ffd);font-size:16px;font-weight:700;color:#fff}
+.rleg-t{font-size:10px;margin-left:3px}
+
+/* Tabs (bio) */
+.bio-card{background:var(--card);border:1.5px solid var(--brd);border-radius:22px;overflow:hidden}
+.bio-head{background:var(--dark-3);padding:16px 20px;position:relative;overflow:hidden}
+.bio-head::after{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:20px 20px;pointer-events:none}
+.bio-head-in{position:relative;z-index:1;display:flex;align-items:center;gap:12px}
+.bio-head-ico{width:34px;height:34px;border-radius:10px;
+  background:rgba(14,165,201,.18);border:1px solid rgba(14,165,201,.35);
+  display:grid;place-items:center;font-size:17px}
+.bio-head h3{font-family:var(--ffd);font-size:15px;font-weight:600;color:#fff;letter-spacing:-.02em}
+.bio-head p{font-size:11px;color:var(--dark-m)}
+.bio-tabs{display:flex;border-bottom:1px solid var(--brd);overflow-x:auto;scrollbar-width:none}
+.bio-tabs::-webkit-scrollbar{display:none}
+.bio-tab{padding:10px 16px;font-size:12.5px;font-weight:700;color:var(--mut);cursor:pointer;
+  white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s}
+.bio-tab:hover{color:var(--txt)}.bio-tab.on{color:var(--c-teal-d);border-bottom-color:var(--c-teal-d)}
+.bio-panel{display:none}.bio-panel.on{display:block}
+.bio-row{display:grid;grid-template-columns:1fr auto auto auto;align-items:center;
+  gap:8px;padding:13px 20px;border-bottom:1px solid var(--brd);transition:background .1s}
+.bio-row:last-child{border-bottom:none}.bio-row:hover{background:#f8f7f4}
+.bio-name{font-weight:600;font-size:13px}.bio-ref{font-size:11px;color:var(--mut);margin-top:1px}
+.bio-val{font-family:var(--ffd);font-size:16px;font-weight:700;text-align:right}
+.bio-unit{font-size:11px;color:var(--mut);white-space:nowrap;text-align:right}
+.bio-b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700}
+.bb-g{background:#dcfce7;color:#166534}.bb-w{background:#fef3c7;color:#92400e}.bb-b{background:#fee2e2;color:#991b1b}
+
+/* Alertes risk cards */
+.risk-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.rcard{background:var(--card);border:1.5px solid;border-radius:16px;padding:16px;
+  display:flex;gap:11px;align-items:flex-start;transition:transform .2s}
+.rcard:hover{transform:translateY(-2px)}
+.rk-g{border-color:#bbf7d0}.rk-w{border-color:#fde68a}.rk-b{border-color:#fecaca}
+.rk-ico{font-size:20px;flex-shrink:0}
+.rk-title{font-weight:700;font-size:12.5px;margin-bottom:3px}
+.rk-g .rk-title{color:#166534}.rk-w .rk-title{color:#92400e}.rk-b .rk-title{color:#991b1b}
+.rk-desc{font-size:11.5px;color:var(--mut);line-height:1.6}
+
+/* ── RECOMMANDATIONS (nouvelle section clé) ── */
+.reco-section{margin-top:26px}
+.reco-tabs-nav{display:flex;gap:0;background:var(--dark-2);border:1px solid var(--dark-b);
+  border-radius:16px;overflow:hidden;margin-bottom:18px;padding:5px}
+.reco-tab-btn{flex:1;padding:10px 14px;border-radius:12px;font-size:13px;font-weight:700;
+  color:var(--dark-m);transition:all .18s;cursor:pointer;text-align:center}
+.reco-tab-btn.on{background:rgba(255,255,255,.1);color:#fff}
+.reco-panel{display:none}.reco-panel.on{display:grid;gap:14px}
+/* Dietary reco */
+.reco-grid-2{grid-template-columns:1fr 1fr}
+@media(max-width:700px){.reco-grid-2{grid-template-columns:1fr}}
+.reco-grid-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:700px){.reco-grid-3{grid-template-columns:1fr}}
+.reco-card{
+  background:var(--card);border:1.5px solid var(--brd);border-radius:20px;
+  padding:22px 20px;position:relative;overflow:hidden;
+  transition:transform .25s var(--ease-s),box-shadow .2s,border-color .2s;
+}
+.reco-card:hover{transform:translateY(-4px);box-shadow:0 16px 44px rgba(0,0,0,.08)}
+.reco-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.rc-green::before{background:linear-gradient(90deg,var(--c-green),var(--c-teal))}
+.rc-amber::before{background:linear-gradient(90deg,var(--c-amber),var(--c-green))}
+.rc-red::before{background:linear-gradient(90deg,var(--c-red),var(--c-amber))}
+.rc-violet::before{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.rc-teal::before{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
+.rc-green:hover{border-color:rgba(16,185,129,.4)}.rc-amber:hover{border-color:rgba(245,158,11,.4)}
+.rc-violet:hover{border-color:rgba(124,58,237,.4)}.rc-teal:hover{border-color:rgba(14,165,201,.4)}
+.reco-card.priority{box-shadow:0 0 0 2px rgba(245,158,11,.3);border-color:rgba(245,158,11,.4)}
+.reco-prio{position:absolute;top:16px;right:16px;
+  font-size:10px;font-weight:700;padding:3px 9px;border-radius:99px;
+  background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.3);color:var(--c-amber)}
+.rc-ico{font-size:30px;margin-bottom:14px;display:block}
+.rc-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;margin-bottom:6px;color:var(--mut)}
+.rc-title{font-family:var(--ffd);font-size:15px;font-weight:600;letter-spacing:-.025em;margin-bottom:8px}
+.rc-desc{font-size:12.5px;color:var(--mut);line-height:1.78}
+.rc-impact{display:flex;align-items:center;gap:6px;margin-top:12px;padding-top:10px;border-top:1px solid var(--brd)}
+.rc-impact-lbl{font-size:10.5px;font-weight:600;color:var(--mut)}
+.rc-impact-val{font-size:10.5px;font-weight:700;margin-left:auto}
+.rc-impact-val.high{color:var(--c-green)}.rc-impact-val.med{color:var(--c-amber)}
+/* Activity reco with intensity */
+.act-card{
+  background:var(--dark-3);border:1px solid var(--dark-b);border-radius:20px;
+  padding:22px 20px;position:relative;overflow:hidden;
+  transition:transform .25s var(--ease-s),border-color .2s;
+}
+.act-card::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:18px 18px;pointer-events:none}
+.act-card:hover{transform:translateY(-4px);border-color:rgba(16,185,129,.35)}
+.ac-top{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-green),var(--c-teal))}
+.ac-ico{font-size:30px;margin-bottom:12px;display:block;position:relative}
+.ac-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+  color:var(--c-green);margin-bottom:6px;position:relative}
+.ac-title{font-family:var(--ffd);font-size:15px;font-weight:600;letter-spacing:-.025em;
+  color:#fff;margin-bottom:8px;position:relative}
+.ac-desc{font-size:12.5px;color:var(--dark-m);line-height:1.78;position:relative}
+.ac-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;position:relative}
+.ac-tag{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:99px;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:var(--c-green)}
+.ac-tag.amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.22);color:var(--c-amber)}
+.ac-tag.violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.22);color:#a78bfa}
+/* Weekly plan */
+.week-plan{background:var(--dark-2);border:1px solid var(--dark-b);border-radius:18px;
+  overflow:hidden;position:relative}
+.week-plan::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:18px 18px;pointer-events:none}
+.wplan-head{padding:16px 20px;border-bottom:1px solid var(--dark-b);
+  display:flex;align-items:center;gap:10px;position:relative}
+.wplan-head-ico{width:28px;height:28px;border-radius:8px;
+  background:rgba(14,165,201,.18);border:1px solid rgba(14,165,201,.3);
+  display:grid;place-items:center;font-size:14px}
+.wplan-head-title{font-family:var(--ffd);font-size:14px;font-weight:600;color:#fff;letter-spacing:-.025em}
+.wplan-body{padding:14px 20px;position:relative}
+.wday{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--dark-b)}
+.wday:last-child{border-bottom:none}
+.wday-name{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--dark-m);width:32px;flex-shrink:0}
+.wday-blocks{display:flex;gap:5px;flex:1;flex-wrap:wrap}
+.wday-block{font-size:10.5px;font-weight:700;padding:3px 10px;border-radius:99px;border:1px solid}
+.wb-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+.wb-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.wb-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa}
+.wb-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+.wb-rest{background:rgba(255,255,255,.05);border-color:var(--dark-b);color:var(--dark-m)}
+
+/* ══ FOOTER ══ */
+.footer{background:var(--dark-1);border-top:1px solid var(--dark-b);padding:30px 24px;text-align:center}
+.footer-logo{font-family:var(--ffd);font-size:20px;font-weight:700;letter-spacing:-.07em;
+  color:#fff;margin-bottom:7px}
+.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;
+  margin-top:4px;opacity:.45;font-family:var(--ff);text-transform:uppercase}
+.footer-disc{font-size:11.5px;color:var(--dark-m);line-height:1.88;max-width:560px;margin:0 auto}
+
+/* ── Guide & Data screens ── */
+#s-guide{background:var(--dark-1)}
+#s-profil{background:var(--dark-1)}
+
+/* ── Profil: embedded module view ── */
+#profil-active{
+  display:flex;flex-direction:column;
+  height:calc(100vh - var(--nav-h));
+  margin-top:var(--nav-h);
+}
+
+/* ══ PROGRESS DASHBOARD ══ */
+.profil-progress-bar{
+  background:var(--dark-2);border-bottom:1px solid var(--dark-b);
+  padding:10px 24px 12px;flex-shrink:0;
+}
+.ppb-inner{max-width:1060px;margin:0 auto}
+.ppb-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.ppb-back{
+  padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);
+  color:var(--dark-m);cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.ppb-back:hover{background:rgba(255,255,255,.12);color:#fff}
+.ppb-mod-switch{display:flex;gap:3px;margin-left:8px}
+.ppb-sw{
+  padding:5px 12px;border-radius:99px;font-size:11px;font-weight:700;
+  color:var(--dark-m);cursor:pointer;transition:all .15s;
+  border:1px solid transparent;background:transparent;
+}
+.ppb-sw:hover{color:var(--dark-t);background:rgba(255,255,255,.05)}
+.ppb-sw.active{color:#fff;background:rgba(255,255,255,.08);border-color:var(--dark-b2)}
+.ppb-sw.done{color:var(--c-green)}
+
+/* Section bars row */
+.ppb-sections{display:flex;gap:4px;margin-bottom:8px;min-height:28px;flex-wrap:wrap}
+.ppb-sec{
+  flex:1;min-width:60px;
+  background:rgba(255,255,255,.035);border-radius:8px;
+  padding:4px 8px;display:flex;align-items:center;gap:6px;
+  position:relative;overflow:hidden;transition:all .2s;
+}
+.ppb-sec.done-sec{background:rgba(16,185,129,.08)}
+.ppb-sec-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;background:var(--dark-m)}
+.ppb-sec.done-sec .ppb-sec-dot{background:var(--c-green);box-shadow:0 0 6px rgba(16,185,129,.4)}
+.ppb-sec-name{font-size:10px;font-weight:600;color:var(--dark-m);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
+.ppb-sec.done-sec .ppb-sec-name{color:var(--c-green)}
+.ppb-sec-count{font-size:9.5px;font-weight:700;color:rgba(255,255,255,.3)}
+.ppb-sec.done-sec .ppb-sec-count{color:var(--c-green)}
+/* mini bar inside each section pill */
+.ppb-sec-bar{position:absolute;bottom:0;left:0;height:2px;border-radius:0 0 8px 8px;
+  transition:width .3s ease}
+.ppb-sec.s-teal .ppb-sec-bar{background:var(--c-teal)}
+.ppb-sec.s-green .ppb-sec-bar{background:var(--c-green)}
+.ppb-sec.s-amber .ppb-sec-bar{background:var(--c-amber)}
+
+/* Module global bar */
+.ppb-global{display:flex;align-items:center;gap:12px}
+.ppb-global-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--dark-m);white-space:nowrap}
+.ppb-global-track{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.ppb-global-fill{height:100%;width:0%;border-radius:99px;transition:width .4s ease}
+.ppb-global-fill.gf-teal{background:linear-gradient(90deg,var(--c-teal),#22d3ee)}
+.ppb-global-fill.gf-green{background:linear-gradient(90deg,var(--c-green),#34d399)}
+.ppb-global-fill.gf-amber{background:linear-gradient(90deg,var(--c-amber),#fbbf24)}
+.ppb-global-pct{font-family:var(--ffd);font-size:16px;font-weight:700;color:#fff;min-width:38px;text-align:right}
+
+.profil-iframe{
+  flex:1;width:100%;border:none;
+  background:var(--dark-1);color-scheme:dark;
+}
+
+/* ── Bridge module card progress bars ── */
+.pm-progress{margin-top:8px;padding:0 22px 0}
+.pm-progress-track{height:4px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.pm-progress-fill{height:100%;width:0%;border-radius:99px;transition:width .4s ease}
+.pm-teal .pm-progress-fill{background:linear-gradient(90deg,var(--c-teal),#22d3ee)}
+.pm-green .pm-progress-fill{background:linear-gradient(90deg,var(--c-green),#34d399)}
+.pm-amber .pm-progress-fill{background:linear-gradient(90deg,var(--c-amber),#fbbf24)}
+.pm-progress-text{font-size:10px;font-weight:700;color:var(--dark-m);margin-top:4px;text-align:right}
+
+@media(max-width:700px){
+  .ppb-sections{gap:3px}
+  .ppb-sec-name{display:none}
+  .ppb-mod-switch{flex-wrap:wrap}
+}
+
+/* ── Profil module cards ── */
+.profil-modules{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+  max-width:820px;margin:0 auto 32px;
+}
+@media(max-width:800px){.profil-modules{grid-template-columns:1fr}}
+.profil-mod{
+  background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
+  border-radius:22px;padding:0;overflow:hidden;cursor:pointer;
+  text-decoration:none;color:inherit;position:relative;
+  transition:transform .3s var(--ease-s),border-color .2s,box-shadow .25s;
+  display:flex;flex-direction:column;
+}
+.profil-mod:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.pm-teal:hover{border-color:rgba(14,165,201,.45)}
+.pm-green:hover{border-color:rgba(16,185,129,.45)}
+.pm-amber:hover{border-color:rgba(245,158,11,.45)}
+.pm-stripe{height:3px;width:100%}
+.pm-ico{font-size:32px;display:block;padding:24px 22px 0}
+.pm-title{font-family:var(--ffd);font-size:17px;font-weight:600;letter-spacing:-.03em;
+  color:#fff;padding:12px 22px 0}
+.pm-desc{font-size:12.5px;color:var(--dark-m);line-height:1.72;padding:6px 22px 0;flex:1}
+.pm-scores{font-size:10.5px;font-weight:600;color:rgba(255,255,255,.28);
+  padding:10px 22px 0;letter-spacing:.01em}
+.pm-foot{display:flex;align-items:center;justify-content:space-between;
+  padding:14px 22px 18px;margin-top:10px}
+.pm-steps{font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:99px;
+  background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m)}
+.pm-teal .pm-steps{background:rgba(14,165,201,.12);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.pm-green .pm-steps{background:rgba(16,185,129,.12);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+.pm-amber .pm-steps{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+.pm-arrow{color:var(--dark-m);font-size:16px;transition:transform .2s,color .2s}
+.profil-mod:hover .pm-arrow{transform:translateX(4px);color:#fff}
+.guide-frame-wrap{
+  min-height:100vh;padding-top:var(--nav-h);
+}
+.guide-frame-wrap iframe{
+  width:100%;height:calc(100vh - var(--nav-h));border:none;
+  background:var(--dark-1);color-scheme:dark;
+}
+
+#s-data{background:var(--bg)}
+.data-hero{
+  background:var(--dark-2);padding:52px 24px 32px;
+  padding-top:calc(var(--nav-h) + 36px);
+  position:relative;overflow:hidden;
+}
+.data-body{max-width:1160px;margin:0 auto;padding:28px 24px 80px}
+.data-card{background:var(--card);border:1.5px solid var(--brd);border-radius:22px;padding:28px 24px;margin-bottom:18px}
+.data-card h3{font-family:var(--ffd);font-size:17px;font-weight:600;letter-spacing:-.025em;margin-bottom:8px}
+.data-card p{font-size:13px;color:var(--mut);line-height:1.78}
+.data-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.data-btn{padding:10px 20px;border-radius:99px;font-size:13px;font-weight:700;
+  background:rgba(14,116,144,.1);border:1.5px solid rgba(14,165,201,.25);color:var(--c-teal);
+  transition:all .18s}
+.data-btn:hover{background:rgba(14,116,144,.18);border-color:var(--c-teal)}
+.data-btn.danger{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:var(--c-red)}
+.data-btn.danger:hover{background:rgba(239,68,68,.15)}
+
+/* ── User pill in nav ── */
+.nav-user{display:flex;align-items:center;gap:8px;padding:5px 14px 5px 8px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);border-radius:99px;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.72);cursor:pointer;transition:all .15s}
+.nav-user:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-user-avatar{width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;font-size:11px;font-weight:700;color:#fff}
+
+/* ── Bilan sub-nav (Nouveau / CR / Mettre à jour) ── */
+.bio-subnav{display:flex;gap:8px;margin-top:20px}
+.bio-subnav-btn{padding:9px 18px;border-radius:12px;font-size:12.5px;font-weight:700;
+  background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b2);color:var(--dark-m);
+  transition:all .15s}
+.bio-subnav-btn:hover{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(14,165,201,.3)}
+.bio-subnav-btn.active{background:rgba(14,165,201,.15);border-color:rgba(14,165,201,.4);color:var(--c-teal)}
+
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-live{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════════
+     NAV (PRIVATE — ESPACE PERSO)
+════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></div>
+      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+    </a>
+    <div class="nav-links">
+      <div class="nl on" id="nl-dash" onclick="go('dash')">Dashboard</div>
+      <div class="nl" id="nl-bio" onclick="go('bio')">Bilan Biologique</div>
+      <div class="nl" id="nl-profil" onclick="go('profil')">Profil Santé</div>
+      <div class="nl" id="nl-mon" onclick="go('mon')">Monitoring</div>
+      <div class="nl" id="nl-guide" onclick="go('guide')">Guide Analyses</div>
+    </div>
+    <div class="nav-r">
+      <div class="nav-live"><span class="nav-live-dot"></span>Données locales</div>
+      <div class="nav-user" onclick="go('data')" id="nav-user-pill">
+        <div class="nav-user-avatar" id="nav-avatar">?</div>
+        <span id="nav-username">Mon espace</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="s-dash" class="screen active">
+  <div class="dash-hero">
+    <div class="dh-b1"></div><div class="dh-b2"></div><div class="dh-grid"></div>
+    <div class="dh-in">
+      <div class="dh-crumb"><a onclick="go('dash')">prévio</a><sep>/</sep><span style="color:rgba(255,255,255,.7)">Dashboard</span></div>
+      <h1>Bonjour — votre <em>profil prévention</em></h1>
+      <p>2 modules sur 3 complétés · Dernière mise à jour : aujourd'hui · 🔒 Données locales uniquement</p>
+    </div>
+  </div>
+
+  <!-- KPI strip -->
+  <div style="background:var(--dark-2);border-bottom:1px solid rgba(0,0,0,.08)">
+    <div class="kpi-rail">
+      <div class="kpi k1"><div class="kpi-bar"></div><div class="kpi-l">IMC</div><div class="kpi-v">23.4</div><span class="kb kb-g">Normal</span></div>
+      <div class="kpi k2"><div class="kpi-bar"></div><div class="kpi-l">HOMA-IR</div><div class="kpi-v">1.8</div><span class="kb kb-g">Normal</span></div>
+      <div class="kpi k3"><div class="kpi-bar"></div><div class="kpi-l">CRP us</div><div class="kpi-v">2.1</div><span class="kb kb-w">Limite</span></div>
+      <div class="kpi k4"><div class="kpi-bar"></div><div class="kpi-l">ISI Sommeil</div><div class="kpi-v">11</div><span class="kb kb-w">Léger</span></div>
+      <div class="kpi k5"><div class="kpi-bar"></div><div class="kpi-l">Complétion</div><div class="kpi-v">67%</div><span class="kb kb-w">En cours</span></div>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="dash-body">
+    <!-- Modules -->
+    <div class="blk-head"><div class="blk-title">Mes modules</div></div>
+    <div class="db-row r3 fu">
+      <div class="mcard mc-teal" onclick="go('bio')">
+        <div class="mc-stripe"></div>
+        <div class="mc-body"><span class="mc-ico">🩸</span>
+          <div class="mc-title">Bilan Biologique Contextuel</div>
+          <p class="mc-desc">Variables pré-analytiques, cliniques et lifestyle — pour une interprétation juste de vos résultats.</p></div>
+        <div class="mc-foot"><span class="ms ms-done">✓ Complété</span><span class="mc-arr">→</span></div>
+      </div>
+      <div class="mcard mc-violet" onclick="go('profil')">
+        <div class="mc-stripe"></div>
+        <div class="mc-body"><span class="mc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle">
+        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(124,58,237,0.15)" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M12 16V9" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 12L12 8.5L15.5 12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span>
+          <div class="mc-title">Profil Santé Multi-domaines</div>
+          <p class="mc-desc">Bilan métabolique, sommeil, stress, nutrition — 3 modules, 22 étapes, 12 scores.</p></div>
+        <div class="mc-foot"><span class="ms ms-partial">⏳ Partiel (1/3)</span><span class="mc-arr">→</span></div>
+      </div>
+      <div class="mcard mc-amber" onclick="go('mon')">
+        <div class="mc-stripe"></div>
+        <div class="mc-body"><span class="mc-ico">📊</span>
+          <div class="mc-title">Monitoring & Recommandations</div>
+          <p class="mc-desc">Radar 6D, biomarqueurs, recommandations diét. et activité physique personnalisées.</p></div>
+        <div class="mc-foot"><span class="ms ms-todo">Voir l'analyse</span><span class="mc-arr">→</span></div>
+      </div>
+    </div>
+
+    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:26px 0"></div>
+
+    <!-- Scores -->
+    <div class="blk-head"><div class="blk-title">Scores santé</div><span class="blk-link" onclick="go('mon')">Radar complet →</span></div>
+    <div class="scores-row fu d1">
+      <div class="score-g"><div class="sg-lbl">Bilan Métabolique</div>
+        <div class="sg-wrap"><svg viewBox="0 0 82 82"><circle class="sg-bg" cx="41" cy="41" r="31"/><circle class="sg-arc" cx="41" cy="41" r="31" stroke="#a78bfa" style="stroke-dashoffset:68"/><text class="sg-num" x="41" y="43">65</text></svg></div>
+        <div class="sg-name">Métabolique</div><span class="sg-v sv-g">Bon profil</span></div>
+      <div class="score-g"><div class="sg-lbl">Habitudes de Vie</div>
+        <div class="sg-wrap"><svg viewBox="0 0 82 82"><circle class="sg-bg" cx="41" cy="41" r="31"/><circle class="sg-arc" cx="41" cy="41" r="31" stroke="var(--c-teal)" style="stroke-dashoffset:107"/><text class="sg-num" x="41" y="43">45</text></svg></div>
+        <div class="sg-name">Vie & Sommeil</div><span class="sg-v sv-w">À améliorer</span></div>
+      <div class="score-g"><div class="sg-lbl">Profil Nutritionnel</div>
+        <div class="sg-wrap"><svg viewBox="0 0 82 82"><circle class="sg-bg" cx="41" cy="41" r="31"/><circle class="sg-arc" cx="41" cy="41" r="31" stroke="var(--c-green)" style="stroke-dashoffset:49"/><text class="sg-num" x="41" y="43">75</text></svg></div>
+        <div class="sg-name">Nutrition</div><span class="sg-v sv-g">Bon profil</span></div>
+    </div>
+
+    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:26px 0"></div>
+
+    <!-- Bottom 2-col -->
+    <div class="db-row r2 fu d2">
+      <div>
+        <div class="blk-head"><div class="blk-title">Actions rapides</div></div>
+        <div class="qa-grid">
+          <div class="qa" onclick="go('bio')"><div class="qa-ico qi-t">🩸</div><div><div class="qa-tit">Nouveau bilan</div><div class="qa-sub">Contextualiser une analyse</div></div></div>
+          <div class="qa" onclick="go('profil')"><div class="qa-ico qi-v"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle">
+        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(124,58,237,0.15)" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M12 16V9" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 12L12 8.5L15.5 12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></div><div><div class="qa-tit">Profil santé</div><div class="qa-sub">Continuer le module Vie</div></div></div>
+          <div class="qa" onclick="go('mon')"><div class="qa-ico qi-g">🥗</div><div><div class="qa-tit">Recommandations</div><div class="qa-sub">Diét. + activité physique</div></div></div>
+          <div class="qa"><div class="qa-ico qi-a">📑</div><div><div class="qa-tit">Export PDF</div><div class="qa-sub">Rapport complet</div></div></div>
+        </div>
+      </div>
+      <div>
+        <div class="blk-head"><div class="blk-title">Insights récents</div></div>
+        <div class="insights">
+          <div class="ins"><div class="ins-dot" style="background:var(--c-amber);box-shadow:0 0 8px rgba(245,158,11,.4)"></div>
+            <div><div class="ins-title">Insomnie légère détectée</div>
+              <div class="ins-txt">ISI = 11 — TCC-I recommandée. Lever fixe 7j/7 prioritaire. Impact fort sur cortisol et CRP.</div>
+              <span class="ins-tag">Sommeil</span></div></div>
+          <div class="ins"><div class="ins-dot" style="background:var(--c-green);box-shadow:0 0 8px rgba(16,185,129,.4)"></div>
+            <div><div class="ins-title">HOMA-IR normal</div>
+              <div class="ins-txt">Sensibilité à l'insuline préservée. Maintenir l'activité physique post-prandiale (marche 20 min).</div>
+              <span class="ins-tag">Glycémie</span></div></div>
+          <div class="ins"><div class="ins-dot" style="background:var(--c-amber);box-shadow:0 0 8px rgba(245,158,11,.4)"></div>
+            <div><div class="ins-title">HbA1c zone prédiabète</div>
+              <div class="ins-txt">5.8% — Glycémie à jeun 103 mg/dL. Réduire glucides rapides, augmenter fibres solides.</div>
+              <span class="ins-tag">Glycémie</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Données stockées localement dans votre navigateur · Ne remplace pas un avis médical</p></footer>
+</div>
+
+<div id="s-bio" class="screen">
+  <div class="bridge">
+    <div class="br-grid"></div>
+    <div class="bridge-orb" style="position:absolute;width:600px;height:600px;top:-150px;left:-150px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,201,.12),transparent 65%);pointer-events:none"></div>
+    <div class="bridge-orb" style="position:absolute;width:400px;height:400px;bottom:-100px;right:-80px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.1),transparent 65%);pointer-events:none"></div>
+
+    <!-- Logo shield (nouveau) -->
+    <div class="br-ico fu" style="background:linear-gradient(135deg,rgba(14,165,201,.15),rgba(124,58,237,.15));border-color:rgba(14,165,201,.4);position:relative">
+      <svg width="44" height="48" viewBox="0 0 44 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22 2L4 10V22C4 33.1 12.08 43.48 22 46C31.92 43.48 40 33.1 40 22V10L22 2Z" fill="url(#shieldGrad)" fill-opacity="0.25" stroke="url(#shieldGrad)" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M22 14V32" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M14 22H30" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="shieldGrad" x1="4" y1="2" x2="40" y2="46" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#22d3ee"/>
+            <stop offset="1" stop-color="#a78bfa"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <h2 class="fu d1">Questionnaire<br><em>Bilan Biologique Contextuel</em></h2>
+    <p class="bridge-sub fu d2">Contextualiser un bilan biologique est la clé d'une interprétation fiable. Variables pré-analytiques, mode de vie, nutrition et profil hormonal — tout ce qui transforme un résultat de laboratoire en information cliniquement utile.</p>
+
+    <div class="br-ctas fu d3">
+      <a href="questionnaire_contexte_bilan_v6.html" class="br-btn-main" style="background:linear-gradient(135deg,var(--c-teal-d),var(--c-green-d))">Ouvrir le questionnaire →</a>
+      <button class="br-btn-main" style="background:linear-gradient(135deg,#334155,#1e293b);border:1.5px solid rgba(255,255,255,.15)" onclick="alert('Workflow bilan en cours de connexion — disponible prochainement.')">📥 Télécharger votre bilan</button>
+    </div>
+
+    <div class="bridge-tags fu d4">
+      <span class="btag" style="background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)">🕐 ~8 min</span>
+      <span class="btag" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)">18 sections</span>
+      <span class="btag" style="background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa">Pré-analytique · Clinique · Lifestyle</span>
+      <span class="btag" style="background:rgba(255,255,255,.06);border-color:var(--dark-b);color:var(--dark-m)">🔒 100% local</span>
+    </div>
+
+    <div class="bio-subnav" style="margin-top:28px">
+      <a href="questionnaire_contexte_bilan_v6.html" class="bio-subnav-btn active">📝 Nouveau</a>
+      <button class="bio-subnav-btn" onclick="alert('Compte-rendus précédents — disponible prochainement.')">📄 CR précédents</button>
+      <button class="bio-subnav-btn" onclick="alert('Mettre à jour un bilan existant — disponible prochainement.')">🔄 Mettre à jour</button>
+    </div>
+    <button class="br-btn-back" onclick="go('dash')" style="margin-top:20px">← Retour au dashboard</button>
+  </div>
+</div>
+
+<div id="s-profil" class="screen">
+
+  <!-- VUE 1: Choix des modules (bridge) -->
+  <div id="profil-bridge" class="bridge">
+    <div class="br-grid"></div>
+    <div class="bridge-orb" style="position:absolute;width:600px;height:600px;top:-150px;right:-200px;border-radius:50%;background:radial-gradient(circle,rgba(124,58,237,.14),transparent 65%);pointer-events:none"></div>
+    <div class="bridge-orb" style="position:absolute;width:400px;height:400px;bottom:-100px;left:-80px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,201,.1),transparent 65%);pointer-events:none"></div>
+
+    <!-- Shield icon -->
+    <div class="br-ico fu" style="background:linear-gradient(135deg,rgba(124,58,237,.15),rgba(14,165,201,.15));border-color:rgba(124,58,237,.4);position:relative">
+      <svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(167,139,250,0.2)" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M12 16V9" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 12L12 8.5L15.5 12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h2 class="fu d1">Profil Santé<br><em>Multi-domaines</em></h2>
+    <p class="bridge-sub fu d2">Évaluez votre métabolisme, votre sommeil, votre stress, votre activité physique et votre profil nutritionnel via des questionnaires scientifiquement validés. 3 modules, 22 étapes, 12 scores.</p>
+
+    <!-- 3 Module cards -->
+    <div class="profil-modules fu d3">
+
+      <div class="profil-mod pm-teal" onclick="openModule('meta')">
+        <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-teal),var(--c-green))"></div>
+        <span class="pm-ico">🩺</span>
+        <div class="pm-title">Bilan Métabolique</div>
+        <p class="pm-desc">Analyses sanguines · Risque cardiovasculaire · Chronotype · Inflammation</p>
+        <div class="pm-scores">HOMA-IR · FIB-4 · KFRE · eGFR · NLR · MEQ-5</div>
+        <div class="pm-foot">
+          <span class="pm-steps" id="pm-badge-meta">6 étapes</span>
+          <span class="pm-arrow">→</span>
+        </div>
+        <div class="pm-progress"><div class="pm-progress-track"><div class="pm-progress-fill" id="pm-fill-meta"></div></div><div class="pm-progress-text" id="pm-pct-meta"></div></div>
+      </div>
+
+      <div class="profil-mod pm-green" onclick="openModule('life')">
+        <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-green),var(--c-amber))"></div>
+        <span class="pm-ico">🌿</span>
+        <div class="pm-title">Habitudes de Vie</div>
+        <p class="pm-desc">Sommeil · Stress · Humeur · Alcool · Tabac · Écrans · Activité physique</p>
+        <div class="pm-scores">ISI · PSQI · GAD-7 · PHQ-9 · MBI · AUDIT · Fagerström</div>
+        <div class="pm-foot">
+          <span class="pm-steps" id="pm-badge-life">9 étapes</span>
+          <span class="pm-arrow">→</span>
+        </div>
+        <div class="pm-progress"><div class="pm-progress-track"><div class="pm-progress-fill" id="pm-fill-life"></div></div><div class="pm-progress-text" id="pm-pct-life"></div></div>
+      </div>
+
+      <div class="profil-mod pm-amber" onclick="openModule('nutr')">
+        <div class="pm-stripe" style="background:linear-gradient(90deg,var(--c-amber),var(--c-violet))"></div>
+        <span class="pm-ico">🥗</span>
+        <div class="pm-title">Profil Nutritionnel</div>
+        <p class="pm-desc">Qualité alimentaire · Micronutriments · Comportements · Rythme</p>
+        <div class="pm-scores">DASH · MedDiet · MIND · Oméga-3 · TFEQ · Rythme</div>
+        <div class="pm-foot">
+          <span class="pm-steps" id="pm-badge-nutr">7 étapes</span>
+          <span class="pm-arrow">→</span>
+        </div>
+        <div class="pm-progress"><div class="pm-progress-track"><div class="pm-progress-fill" id="pm-fill-nutr"></div></div><div class="pm-progress-text" id="pm-pct-nutr"></div></div>
+      </div>
+
+    </div>
+
+    <div class="bridge-tags fu d4">
+      <span class="btag" style="background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa">🕐 ~15 min par module</span>
+      <span class="btag" style="background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)">22 étapes totales</span>
+      <span class="btag" style="background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)">12 scores validés</span>
+      <span class="btag" style="background:rgba(255,255,255,.06);border-color:var(--dark-b);color:var(--dark-m)">🔒 100% local</span>
+    </div>
+
+    <button class="br-btn-back" onclick="go('dash')" style="margin-top:28px">← Retour au dashboard</button>
+  </div>
+
+  <!-- VUE 2: Module en cours (iframe + progress bar) -->
+  <div id="profil-active" style="display:none">
+    <!-- Progress dashboard -->
+    <div class="profil-progress-bar">
+      <div class="ppb-inner">
+        <div class="ppb-top">
+          <button class="ppb-back" onclick="closeModule()">← Modules</button>
+          <div class="ppb-mod-switch">
+            <div class="ppb-sw active" id="ppb-sw-meta" onclick="openModule('meta')">🩺 Métabolique</div>
+            <div class="ppb-sw" id="ppb-sw-life" onclick="openModule('life')">🌿 Vie</div>
+            <div class="ppb-sw" id="ppb-sw-nutr" onclick="openModule('nutr')">🥗 Nutrition</div>
+          </div>
+        </div>
+        <!-- Per-section bars (dynamically filled) -->
+        <div class="ppb-sections" id="ppb-sections"></div>
+        <!-- Module global bar -->
+        <div class="ppb-global">
+          <span class="ppb-global-label" id="ppb-global-label">Module</span>
+          <div class="ppb-global-track">
+            <div class="ppb-global-fill gf-teal" id="ppb-global-fill"></div>
+          </div>
+          <span class="ppb-global-pct" id="ppb-global-pct">0%</span>
+        </div>
+      </div>
+    </div>
+    <!-- Iframe -->
+    <iframe id="profil-iframe" class="profil-iframe" src="about:blank"></iframe>
+  </div>
+
+</div>
+<div id="s-mon" class="screen">
+
+  <div class="mon-hero">
+    <div class="mh-b1"></div><div class="mh-b2"></div><div class="mh-grid"></div>
+    <div class="mh-in">
+      <div class="mh-ey">
+        <span>Monitoring & Coaching</span>
+        <div class="live"><span class="live-d"></span>LIVE</div>
+      </div>
+      <h1>Tableau de bord <em>prévention</em></h1>
+      <p>Scores santé · Biomarqueurs · Recommandations diététiques & activité physique personnalisées</p>
+    </div>
+  </div>
+
+  <!-- Alert strip -->
+  <div class="alert-rail">
+    <div class="alert-in">
+      <span>⚠️</span>
+      <span class="al-txt">2 alertes actives — HbA1c 5.8% zone prédiabète · Insomnie légère ISI 11 → Voir les recommandations</span>
+      <button class="al-btn" onclick="openReco()">Recommandations →</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="mon-body">
+
+    <!-- Radar + Biomarqueurs -->
+    <div class="mon-cols">
+
+      <!-- Col gauche -->
+      <div style="display:flex;flex-direction:column;gap:18px">
+
+        <!-- Radar -->
+        <div class="dc fu">
+          <div class="dc-head">
+            <div><div class="dc-title">Radar Santé — 6 Dimensions</div>
+              <div class="dc-sub">Scores normalisés /100 · Données partielles (2/3 modules)</div></div>
+            <span style="font-size:10px;font-weight:700;padding:4px 11px;border-radius:99px;background:rgba(245,158,11,.13);border:1px solid rgba(245,158,11,.28);color:var(--c-amber)">Partiel</span>
+          </div>
+          <div class="dc-body">
+            <div style="display:flex;justify-content:center;padding:10px 0">
+              <svg id="radarSvg" width="300" height="300" viewBox="0 0 300 300"></svg>
+            </div>
+            <div class="rleg-grid">
+              <div class="rleg-item"><div class="rleg-dot" style="background:#a78bfa"></div><span class="rleg-name">Métabolique</span><span class="rleg-val">65<span class="rleg-t" style="color:var(--c-green)">↑</span></span></div>
+              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-teal)"></div><span class="rleg-name">Sommeil</span><span class="rleg-val">42<span class="rleg-t" style="color:var(--c-amber)">→</span></span></div>
+              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-amber)"></div><span class="rleg-name">Stress</span><span class="rleg-val">55<span class="rleg-t" style="color:var(--c-green)">↑</span></span></div>
+              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-green)"></div><span class="rleg-name">Nutrition</span><span class="rleg-val">75<span class="rleg-t" style="color:var(--c-green)">↑</span></span></div>
+              <div class="rleg-item"><div class="rleg-dot" style="background:#f472b6"></div><span class="rleg-name">Activité</span><span class="rleg-val">58<span class="rleg-t" style="color:var(--c-amber)">→</span></span></div>
+              <div class="rleg-item"><div class="rleg-dot" style="background:var(--c-red)"></div><span class="rleg-name">Inflammation</span><span class="rleg-val">60<span class="rleg-t" style="color:var(--c-red)">↓</span></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trend chart -->
+        <div class="dc fu d2">
+          <div class="dc-head">
+            <div><div class="dc-title">Évolution des scores — 6 mois</div>
+              <div class="dc-sub">Projection illustrative · Complétez les modules pour les données réelles</div></div>
+          </div>
+          <div class="dc-body">
+            <svg id="trendSvg" width="100%" height="160" viewBox="0 0 540 160" preserveAspectRatio="xMidYMid meet" style="display:block"></svg>
+            <div style="display:flex;gap:16px;margin-top:10px;flex-wrap:wrap">
+              <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:#a78bfa;border-radius:2px"></div><span style="font-size:11.5px;color:var(--dark-m)">Métabolique</span></div>
+              <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:var(--c-green);border-radius:2px"></div><span style="font-size:11.5px;color:var(--dark-m)">Nutrition</span></div>
+              <div style="display:flex;align-items:center;gap:5px"><div style="width:14px;height:3px;background:var(--c-teal);border-radius:2px"></div><span style="font-size:11.5px;color:var(--dark-m)">Sommeil</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Risk signals -->
+        <div>
+          <div class="blk-head" style="margin-bottom:14px"><div class="blk-title">Signaux d'alerte</div></div>
+          <div class="risk-grid fu d3">
+            <div class="rcard rk-w"><div class="rk-ico">😴</div><div><div class="rk-title">Insomnie légère</div><div class="rk-desc">ISI 11 — TCC-I, lever fixe 7j/7, restriction luminosité soir.</div></div></div>
+            <div class="rcard rk-w"><div class="rk-ico">🍬</div><div><div class="rk-title">Prédiabète possible</div><div class="rk-desc">HbA1c 5.8% · Gly 103 mg/dL. Réduire glucides rapides.</div></div></div>
+            <div class="rcard rk-g"><div class="rk-ico">🫀</div><div><div class="rk-title">Risque CV faible</div><div class="rk-desc">Castelli 3.25 · LDL 98 · HDL protecteur 56 mg/dL.</div></div></div>
+            <div class="rcard rk-g"><div class="rk-ico">🫘</div><div><div class="rk-title">Fonction rénale OK</div><div class="rk-desc">eGFR 97 · Créatinine 0.91 · KFRE 5 ans 0.4%.</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col droite — biomarqueurs -->
+      <div>
+        <div class="bio-card fu">
+          <div class="bio-head">
+            <div class="bio-head-in">
+              <div class="bio-head-ico">🩸</div>
+              <div><h3>Biomarqueurs</h3><p>Résultats contextualisés · Dernière analyse</p></div>
+            </div>
+          </div>
+          <div class="bio-tabs">
+            <div class="bio-tab on" onclick="bioCat(this,'lipides')">Lipides</div>
+            <div class="bio-tab" onclick="bioCat(this,'glycemie')">Glycémie</div>
+            <div class="bio-tab" onclick="bioCat(this,'inflam')">Inflammation</div>
+            <div class="bio-tab" onclick="bioCat(this,'renal')">Rénal</div>
+          </div>
+          <div id="bp-lipides" class="bio-panel on">
+            <div class="bio-row"><div><div class="bio-name">Cholestérol total</div><div class="bio-ref">< 200 mg/dL</div></div><div class="bio-val" style="color:var(--c-green)">182</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">LDL-Cholestérol</div><div class="bio-ref">< 130 mg/dL</div></div><div class="bio-val" style="color:var(--c-green)">98</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">HDL-Cholestérol</div><div class="bio-ref">H > 40 · F > 50</div></div><div class="bio-val" style="color:var(--c-green)">56</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">Triglycérides</div><div class="bio-ref">< 150 mg/dL</div></div><div class="bio-val" style="color:var(--c-amber)">138</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-w">!</div></div>
+            <div class="bio-row"><div><div class="bio-name">Castelli CT/HDL</div><div class="bio-ref">< 5.0</div></div><div class="bio-val" style="color:var(--c-green)">3.25</div><div class="bio-unit">ratio</div><div class="bio-b bb-g">✓</div></div>
+          </div>
+          <div id="bp-glycemie" class="bio-panel">
+            <div class="bio-row"><div><div class="bio-name">Glycémie à jeun</div><div class="bio-ref">70–100 mg/dL</div></div><div class="bio-val" style="color:var(--c-amber)">103</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-w">!</div></div>
+            <div class="bio-row"><div><div class="bio-name">Insulinémie à jeun</div><div class="bio-ref">2–20 µU/mL</div></div><div class="bio-val" style="color:var(--c-green)">8.4</div><div class="bio-unit">µU/mL</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">HOMA-IR</div><div class="bio-ref">< 2.5</div></div><div class="bio-val" style="color:var(--c-green)">1.8</div><div class="bio-unit">score</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">HbA1c</div><div class="bio-ref">< 5.7%</div></div><div class="bio-val" style="color:var(--c-amber)">5.8</div><div class="bio-unit">%</div><div class="bio-b bb-w">!</div></div>
+          </div>
+          <div id="bp-inflam" class="bio-panel">
+            <div class="bio-row"><div><div class="bio-name">CRP ultra-sensible</div><div class="bio-ref">< 3 mg/L</div></div><div class="bio-val" style="color:var(--c-amber)">2.1</div><div class="bio-unit">mg/L</div><div class="bio-b bb-w">!</div></div>
+            <div class="bio-row"><div><div class="bio-name">Ferritine</div><div class="bio-ref">H < 300 · F < 150</div></div><div class="bio-val" style="color:var(--c-green)">86</div><div class="bio-unit">µg/L</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">NLR ratio N/L</div><div class="bio-ref">< 3.0</div></div><div class="bio-val" style="color:var(--c-green)">2.1</div><div class="bio-unit">ratio</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">GGT</div><div class="bio-ref">H < 55 · F < 38</div></div><div class="bio-val" style="color:var(--c-green)">28</div><div class="bio-unit">UI/L</div><div class="bio-b bb-g">✓</div></div>
+          </div>
+          <div id="bp-renal" class="bio-panel">
+            <div class="bio-row"><div><div class="bio-name">Créatinine</div><div class="bio-ref">0.7–1.2 mg/dL</div></div><div class="bio-val" style="color:var(--c-green)">0.91</div><div class="bio-unit">mg/dL</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">eGFR (CKD-EPI)</div><div class="bio-ref">> 90 mL/min</div></div><div class="bio-val" style="color:var(--c-green)">97</div><div class="bio-unit">mL/min</div><div class="bio-b bb-g">✓</div></div>
+            <div class="bio-row"><div><div class="bio-name">KFRE 5 ans</div><div class="bio-ref">< 5%</div></div><div class="bio-val" style="color:var(--c-green)">0.4</div><div class="bio-unit">%</div><div class="bio-b bb-g">✓</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ RECOMMANDATIONS PERSONNALISÉES (section clé) ══ -->
+    <div class="reco-section" id="reco-anchor">
+      <div class="blk-head" style="margin-bottom:20px">
+        <div class="blk-title">Recommandations personnalisées</div>
+        <span style="font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);color:var(--c-green)">Basées sur votre profil biologique</span>
+      </div>
+
+      <!-- Tab nav -->
+      <div class="reco-tabs-nav">
+        <div class="reco-tab-btn on" id="rt-diet" onclick="recoTab('diet')">🥗 Alimentation</div>
+        <div class="reco-tab-btn" id="rt-sport" onclick="recoTab('sport')">🏃 Activité physique</div>
+        <div class="reco-tab-btn" id="rt-vie" onclick="recoTab('vie')">💤 Hygiène de vie</div>
+      </div>
+
+      <!-- Panel Alimentation -->
+      <div id="rp-diet" class="reco-panel on reco-grid-2">
+
+        <div class="reco-card rc-amber priority">
+          <div class="reco-prio">⚠️ Priorité</div>
+          <span class="rc-ico">🩸</span>
+          <div class="rc-cat">Glycémie · HbA1c 5.8%</div>
+          <div class="rc-title">Réduire l'index glycémique global</div>
+          <p class="rc-desc">Votre HbA1c à 5.8% et votre glycémie à jeun de 103 mg/dL indiquent une zone prédiabétique. Privilégiez les glucides complexes (légumineuses, céréales complètes), limitez les sucres rapides et les boissons sucrées. Objectif : IG moyen < 55.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact attendu sur HbA1c</span><span class="rc-impact-val high">↓ 0.2–0.4% en 3 mois</span></div>
+        </div>
+
+        <div class="reco-card rc-green">
+          <span class="rc-ico">🫐</span>
+          <div class="rc-cat">Inflammation · CRP 2.1 mg/L</div>
+          <div class="rc-title">Alimentation anti-inflammatoire</div>
+          <p class="rc-desc">CRP à 2.1 mg/L — inflammation de bas grade. Augmentez les oméga-3 (poissons gras 3×/sem), les polyphénols (baies, curcuma, thé vert) et les antioxydants. Réduisez les graisses saturées et les aliments ultra-transformés.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact sur CRP</span><span class="rc-impact-val high">↓ 20–30% en 8 semaines</span></div>
+        </div>
+
+        <div class="reco-card rc-violet">
+          <span class="rc-ico">⏰</span>
+          <div class="rc-cat">Chronobiologie alimentaire</div>
+          <div class="rc-title">Fenêtre alimentaire + jeûne intermittent 16:8</div>
+          <p class="rc-desc">Associé à votre score d'insomnie (ISI 11), la chronobiologie alimentaire améliore simultanément la sensibilité à l'insuline et la qualité du sommeil. Dernier repas avant 19h, fenêtre de 8h. Favorise la régulation circadienne.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact glycémie à jeun</span><span class="rc-impact-val med">↓ 5–8 mg/dL en 4 sem</span></div>
+        </div>
+
+        <div class="reco-card rc-teal">
+          <span class="rc-ico">🫘</span>
+          <div class="rc-cat">Fibres & Microbiote</div>
+          <div class="rc-title">Augmenter les fibres solubles</div>
+          <p class="rc-desc">30g de fibres/jour minimum (vs ~15g en moyenne française). Légumineuses, avoine, graines de chia, légumes crucifères. Les fibres solubles ralentissent l'absorption des glucides et nourrissent le microbiote — bénéfice direct sur HOMA-IR.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact HOMA-IR</span><span class="rc-impact-val high">Maintien < 2.5</span></div>
+        </div>
+      </div>
+
+      <!-- Panel Activité physique -->
+      <div id="rp-sport" class="reco-panel" style="grid-template-columns:1fr 1fr;gap:14px">
+
+        <div class="act-card">
+          <div class="ac-top"></div>
+          <span class="ac-ico">🚶</span>
+          <div class="ac-type">Cardio modéré · Quotidien</div>
+          <div class="ac-title">Marche post-prandiale</div>
+          <p class="ac-desc">20–30 minutes après chaque repas principal. Réduit la glycémie post-prandiale de 15–25%. Simple, applicable immédiatement. Recommandation prioritaire vu HbA1c 5.8%.</p>
+          <div class="ac-tags">
+            <span class="ac-tag">Quotidien</span><span class="ac-tag">20–30 min</span>
+            <span class="ac-tag amber">Impact glycémie +++</span>
+          </div>
+        </div>
+
+        <div class="act-card">
+          <div class="ac-top"></div>
+          <span class="ac-ico">🏋️</span>
+          <div class="ac-type">Renforcement musculaire · 2–3×/sem</div>
+          <div class="ac-title">Musculation ou résistance</div>
+          <p class="ac-desc">La masse musculaire est le principal consommateur de glucose. 2–3 séances de 40 min/semaine améliorent la sensibilité à l'insuline de manière durable. Priorité aux grands groupes musculaires.</p>
+          <div class="ac-tags">
+            <span class="ac-tag">2–3×/sem</span><span class="ac-tag">40 min</span>
+            <span class="ac-tag amber">Impact HOMA-IR +++</span>
+          </div>
+        </div>
+
+        <div class="act-card">
+          <div class="ac-top"></div>
+          <span class="ac-ico">🧘</span>
+          <div class="ac-type">Récupération · CRP + Sommeil</div>
+          <div class="ac-title">Yoga ou Pilates doux</div>
+          <p class="ac-desc">1–2×/semaine. Associé à votre CRP limite (2.1 mg/L) et à l'insomnie légère, les pratiques de récupération active réduisent le cortisol, améliorent la qualité du sommeil et modulent l'inflammation.</p>
+          <div class="ac-tags">
+            <span class="ac-tag">1–2×/sem</span>
+            <span class="ac-tag violet">Impact sommeil ++</span>
+            <span class="ac-tag amber">↓ Cortisol</span>
+          </div>
+        </div>
+
+        <div class="act-card">
+          <div class="ac-top"></div>
+          <span class="ac-ico">🚴</span>
+          <div class="ac-type">Cardio-training · 1–2×/sem</div>
+          <div class="ac-title">Vélo ou natation — Zone 2</div>
+          <p class="ac-desc">45–60 min en zone 2 (60–70% FCmax) — l'intensité idéale pour brûler les graisses, améliorer la VO2max et réduire les triglycérides (actuellement 138 mg/dL). Favorise la mitochondriogenèse.</p>
+          <div class="ac-tags">
+            <span class="ac-tag">1–2×/sem</span><span class="ac-tag">Zone 2</span>
+            <span class="ac-tag amber">Impact TG +++</span>
+          </div>
+        </div>
+
+        <!-- Planning semaine -->
+        <div class="week-plan" style="grid-column:1/-1">
+          <div class="wplan-head">
+            <div class="wplan-head-ico">📅</div>
+            <div class="wplan-head-title">Planning semaine type — Programme PRÉVIO</div>
+          </div>
+          <div class="wplan-body">
+            <div class="wday"><div class="wday-name">Lun</div><div class="wday-blocks"><span class="wday-block wb-green">🏋️ Musculation 40 min</span><span class="wday-block wb-teal">🚶 Marche post-repas</span></div></div>
+            <div class="wday"><div class="wday-name">Mar</div><div class="wday-blocks"><span class="wday-block wb-teal">🚶 Marche 30 min</span><span class="wday-block wb-violet">🧘 Yoga 30 min (soir)</span></div></div>
+            <div class="wday"><div class="wday-name">Mer</div><div class="wday-blocks"><span class="wday-block wb-amber">🚴 Zone 2 — 50 min</span><span class="wday-block wb-teal">🚶 Marche post-repas</span></div></div>
+            <div class="wday"><div class="wday-name">Jeu</div><div class="wday-blocks"><span class="wday-block wb-green">🏋️ Musculation 40 min</span></div></div>
+            <div class="wday"><div class="wday-name">Ven</div><div class="wday-blocks"><span class="wday-block wb-teal">🚶 Marche 30 min</span><span class="wday-block wb-amber">🚴 Zone 2 — 45 min</span></div></div>
+            <div class="wday"><div class="wday-name">Sam</div><div class="wday-blocks"><span class="wday-block wb-violet">🧘 Yoga doux</span><span class="wday-block wb-teal">🚶 Marche 45 min</span></div></div>
+            <div class="wday"><div class="wday-name">Dim</div><div class="wday-blocks"><span class="wday-block wb-rest">Repos actif / Nature</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel Hygiène de vie -->
+      <div id="rp-vie" class="reco-panel reco-grid-3">
+
+        <div class="reco-card rc-violet priority">
+          <div class="reco-prio">⚠️ Priorité</div>
+          <span class="rc-ico">🛏️</span>
+          <div class="rc-cat">Sommeil · ISI 11</div>
+          <div class="rc-title">Lever fixe 7 jours sur 7</div>
+          <p class="rc-desc">La règle N°1 de la TCC-I. Un réveil fixe (même le week-end) régule l'horloge biologique et réduit le temps d'endormissement en 2–3 semaines. Non négociable pour ISI > 8.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact ISI</span><span class="rc-impact-val high">↓ 3–5 pts en 4 sem</span></div>
+        </div>
+
+        <div class="reco-card rc-amber">
+          <span class="rc-ico">📵</span>
+          <div class="rc-cat">Lumière bleue · Mélatonine</div>
+          <div class="rc-title">Écrans off 90 min avant le coucher</div>
+          <p class="rc-desc">La lumière bleue supprime la mélatonine de 50% et retarde l'endormissement de 60–90 min. Mode nuit insuffisant — arrêt complet ou lunettes filtrantes orange. Impact direct sur CRP via cortisol nocturne.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact sommeil</span><span class="rc-impact-val high">Endormissement -30 min</span></div>
+        </div>
+
+        <div class="reco-card rc-teal">
+          <span class="rc-ico">🌡️</span>
+          <div class="rc-cat">Exposition matinale</div>
+          <div class="rc-title">Lumière naturelle le matin (10 min)</div>
+          <p class="rc-desc">Exposition à la lumière naturelle dans les 30 min après le réveil. Synchronise l'horloge circadienne, boost le cortisol matinal (utile vu stress 55/100), améliore la vigilance et prépare l'endormissement nocturne.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact circadien</span><span class="rc-impact-val high">Synchronisation +++</span></div>
+        </div>
+
+        <div class="reco-card rc-green">
+          <span class="rc-ico">🧘</span>
+          <div class="rc-cat">Stress · Score 55/100</div>
+          <div class="rc-title">Cohérence cardiaque 3×5 min/jour</div>
+          <p class="rc-desc">3 sessions de 5 minutes (matin, midi, soir) de respiration 5/5. Réduit le cortisol, la fréquence cardiaque et l'inflammation. Praticable n'importe où — application gratuite (RespiRelax+).</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact cortisol</span><span class="rc-impact-val med">↓ 15–20% chronique</span></div>
+        </div>
+
+        <div class="reco-card rc-violet">
+          <span class="rc-ico">🚫</span>
+          <div class="rc-cat">Alcool · Triglycérides 138</div>
+          <div class="rc-title">Réduire la consommation d'alcool</div>
+          <p class="rc-desc">L'alcool est la première cause d'hypertriglycéridémie (TG 138 mg/dL). Objectif : < 1 verre/jour, jamais en semaine. Chaque verre supplémentaire augmente les TG de ~5 mg/dL et perturbe le sommeil paradoxal.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact triglycérides</span><span class="rc-impact-val high">↓ 15–25 mg/dL</span></div>
+        </div>
+
+        <div class="reco-card rc-amber">
+          <span class="rc-ico">💧</span>
+          <div class="rc-cat">Hydratation · Inflammation</div>
+          <div class="rc-title">1.5–2 L d'eau par jour minimum</div>
+          <p class="rc-desc">L'hydratation insuffisante concentre les biomarqueurs sanguins (fausse élévation de CRP et ferritine), augmente la viscosité et favorise l'inflammation. 2 grands verres d'eau dès le réveil.</p>
+          <div class="rc-impact"><span class="rc-impact-lbl">Impact CRP (faux positif)</span><span class="rc-impact-val med">Correction possible</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Recommandations à titre informatif et préventif · Ne constituent pas une prescription médicale · Consultez un professionnel de santé pour tout suivi thérapeutique · PRÉVIO v1.0 — Proof of Concept</p></footer>
+</div>
+
+
+<!-- ════════════════════════════
+     GUIDE ANALYSES (iframe vers guide-analyses-biologiques.html)
+════════════════════════════ -->
+<div id="s-guide" class="screen">
+  <div class="guide-frame-wrap">
+    <iframe id="guide-iframe" src="about:blank" loading="lazy" data-loaded="0"></iframe>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════
+     DONNÉES LOCALES
+════════════════════════════ -->
+<div id="s-data" class="screen">
+  <div class="data-hero">
+    <div class="dh-b1"></div><div class="dh-b2"></div><div class="dh-grid"></div>
+    <div class="dh-in">
+      <div class="dh-crumb"><a onclick="go('dash')">prévio</a><sep>/</sep><span style="color:rgba(255,255,255,.7)">Données locales</span></div>
+      <h1>Vos <em>données personnelles</em></h1>
+      <p>🔒 Toutes vos données sont stockées localement dans votre navigateur. Aucune donnée n'est envoyée à un serveur.</p>
+    </div>
+  </div>
+  <div class="data-body">
+    <div class="data-card">
+      <h3>🗂️ Données stockées</h3>
+      <p>Votre profil, vos réponses aux questionnaires et vos résultats de bilans sont enregistrés dans le localStorage de votre navigateur. Ces données ne quittent jamais votre appareil.</p>
+      <div id="data-stats" style="margin-top:14px;font-size:13px;color:var(--mut)"></div>
+    </div>
+    <div class="data-card">
+      <h3>📤 Exporter / Importer</h3>
+      <p>Sauvegardez vos données ou restaurez-les depuis un fichier JSON.</p>
+      <div class="data-actions">
+        <button class="data-btn" onclick="exportData()">📥 Exporter mes données</button>
+        <button class="data-btn" onclick="document.getElementById('import-file').click()">📤 Importer un fichier</button>
+        <input type="file" id="import-file" accept=".json" style="display:none" onchange="importData(event)">
+      </div>
+    </div>
+    <div class="data-card">
+      <h3>🗑️ Supprimer mes données</h3>
+      <p>Attention : cette action est irréversible. Toutes vos données PRÉVIO seront supprimées de ce navigateur.</p>
+      <div class="data-actions">
+        <button class="data-btn danger" onclick="clearAllData()">Supprimer toutes mes données</button>
+      </div>
+    </div>
+    <div class="data-card">
+      <h3>🚪 Déconnexion</h3>
+      <p>Vos données restent sur cet appareil. Vous pourrez vous reconnecter avec le même email.</p>
+      <div class="data-actions">
+        <button class="data-btn" onclick="logout()">Se déconnecter</button>
+      </div>
+    </div>
+  </div>
+  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Données stockées localement · Ne remplace pas un avis médical</p></footer>
+</div>
+
+<script>
+/* ══ AUTH GUARD ══ */
+(function(){
+  const session = JSON.parse(localStorage.getItem('previo_session')||'null');
+  if(!session){window.location.href='index.html';return;}
+  // Set user info in nav
+  const avatar = document.getElementById('nav-avatar');
+  const uname = document.getElementById('nav-username');
+  if(avatar) avatar.textContent = (session.name||'U')[0].toUpperCase();
+  if(uname) uname.textContent = session.name||'Mon espace';
+  // Preload guide iframe in background after page settles
+  setTimeout(function(){
+    var gf=document.getElementById('guide-iframe');
+    if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='guide-analyses-biologiques.html';gf.setAttribute('data-loaded','1');}
+  },1500);
+  // Handle hash navigation (e.g. app.html#profil coming back from module)
+  var hash=window.location.hash.replace('#','');
+  if(hash && document.getElementById('s-'+hash)){
+    setTimeout(function(){go(hash);},50);
+  }
+})();
+
+/* ══ ROUTER ══ */
+function go(id){
+  try{
+    // External pages
+    if(id==='panels'){window.location.href='guide-analyses-biologiques.html';return;}
+
+    // Don't re-trigger if already on this screen
+    const current=document.querySelector('.screen.active');
+    if(current && current.id==='s-'+id) return;
+
+    // Scroll to top first (before switching)
+    window.scrollTo({top:0,behavior:'instant'});
+
+    // Switch screens
+    document.querySelectorAll('.screen').forEach(s=>{
+      s.classList.remove('active');
+      s.style.display='none';
+    });
+    document.querySelectorAll('.nl').forEach(l=>l.classList.remove('on'));
+
+    const s=document.getElementById('s-'+id);
+    if(s){
+      // Force reflow before animation
+      s.style.display='block';
+      void s.offsetHeight;
+      s.classList.add('active');
+    }
+    const nl=document.getElementById('nl-'+id);
+    if(nl)nl.classList.add('on');
+    if(id==='mon') requestAnimationFrame(()=>setTimeout(drawCharts,60));
+    // Lazy-load iframes
+    if(id==='guide'){
+      const iframe=document.getElementById('guide-iframe');
+      if(iframe && iframe.getAttribute('data-loaded')==='0'){
+        iframe.src='guide-analyses-biologiques.html';
+        iframe.setAttribute('data-loaded','1');
+      }
+    }
+    // Update data stats
+    if(id==='data') updateDataStats();
+  }catch(e){console.error('Navigation error:',e);}
+}
+
+/* ══ BIO TABS ══ */
+function bioCat(el,id){
+  document.querySelectorAll('.bio-tab').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.bio-panel').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on');
+  const p=document.getElementById('bp-'+id);
+  if(p)p.classList.add('on');
+}
+
+/* ══ RECO TABS ══ */
+function recoTab(id){
+  ['diet','sport','vie'].forEach(k=>{
+    document.getElementById('rt-'+k)?.classList.remove('on');
+    document.getElementById('rp-'+k)?.classList.remove('on');
+  });
+  document.getElementById('rt-'+id)?.classList.add('on');
+  document.getElementById('rp-'+id)?.classList.add('on');
+}
+function openReco(){
+  go('mon');
+  setTimeout(()=>{
+    document.getElementById('reco-anchor')?.scrollIntoView({behavior:'smooth',block:'start'});
+  },200);
+}
+
+/* ══ RADAR ══ */
+function drawRadar(){
+  const svg=document.getElementById('radarSvg');
+  if(!svg)return;
+  const cx=150,cy=150,R=108;
+  const ax=['Métabolique','Sommeil','Stress','Nutrition','Activité','Inflam.'];
+  const vals=[.65,.42,.55,.75,.58,.60];
+  const cols=['#a78bfa','#0ea5c9','#f59e0b','#10b981','#f472b6','#ef4444'];
+  const n=ax.length;
+  let h='';
+  [.2,.4,.6,.8,1].forEach(r=>{
+    const pts=ax.map((_,i)=>{const a=(i/n)*Math.PI*2-Math.PI/2;return`${(cx+Math.cos(a)*R*r).toFixed(1)},${(cy+Math.sin(a)*R*r).toFixed(1)}`;}).join(' ');
+    h+=`<polygon points="${pts}" fill="none" stroke="rgba(255,255,255,.055)" stroke-width="1"/>`;
+  });
+  [40,60,80,100].forEach((v,i)=>{const r=[.4,.6,.8,1][i];h+=`<text x="${cx+6}" y="${(cy-R*r+3).toFixed(1)}" fill="rgba(255,255,255,.18)" font-size="9" font-family="DM Sans,sans-serif">${v}</text>`;});
+  ax.forEach((label,i)=>{
+    const a=(i/n)*Math.PI*2-Math.PI/2;
+    h+=`<line x1="${cx}" y1="${cy}" x2="${(cx+Math.cos(a)*R).toFixed(1)}" y2="${(cy+Math.sin(a)*R).toFixed(1)}" stroke="rgba(255,255,255,.07)" stroke-width="1"/>`;
+    const lx=(cx+Math.cos(a)*(R+21)).toFixed(1),ly=(cy+Math.sin(a)*(R+21)).toFixed(1);
+    h+=`<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="central" fill="rgba(255,255,255,.52)" font-size="11" font-weight="700" font-family="DM Sans,sans-serif">${label}</text>`;
+  });
+  const pts=vals.map((v,i)=>{const a=(i/n)*Math.PI*2-Math.PI/2;return`${(cx+Math.cos(a)*R*v).toFixed(1)},${(cy+Math.sin(a)*R*v).toFixed(1)}`;}).join(' ');
+  h+=`<polygon points="${pts}" fill="rgba(14,165,201,.1)" stroke="rgba(14,165,201,.55)" stroke-width="1.5" stroke-linejoin="round"/>`;
+  vals.forEach((v,i)=>{
+    const a=(i/n)*Math.PI*2-Math.PI/2;
+    const dx=(cx+Math.cos(a)*R*v).toFixed(1),dy=(cy+Math.sin(a)*R*v).toFixed(1);
+    h+=`<circle cx="${dx}" cy="${dy}" r="9" fill="${cols[i]}" opacity="0.14"/>`;
+    h+=`<circle cx="${dx}" cy="${dy}" r="5.5" fill="${cols[i]}" stroke="rgba(15,22,40,.9)" stroke-width="2"/>`;
+  });
+  svg.innerHTML=h;
+}
+
+/* ══ TREND CHART ══ */
+function drawTrend(){
+  const svg=document.getElementById('trendSvg');
+  if(!svg)return;
+  const W=540,H=160,pl=32,pr=14,pt=10,pb=26;
+  const iW=W-pl-pr,iH=H-pt-pb;
+  const M=['Jan','Fév','Mar','Avr','Mai','Jun'];
+  const series=[{c:'#a78bfa',d:[52,56,58,62,64,65]},{c:'#10b981',d:[60,65,68,70,72,75]},{c:'#0ea5c9',d:[55,50,48,44,43,42]}];
+  const xS=i=>pl+i*(iW/(M.length-1));
+  const yS=v=>H-pb-(v/100)*iH;
+  let h='';
+  [0,25,50,75,100].forEach(v=>{const y=yS(v);h+=`<line x1="${pl}" y1="${y.toFixed(1)}" x2="${W-pr}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,.04)" stroke-width="1"/>`;h+=`<text x="${pl-4}" y="${y.toFixed(1)}" fill="rgba(255,255,255,.18)" font-size="8.5" text-anchor="end" dominant-baseline="central" font-family="DM Sans,sans-serif">${v}</text>`;});
+  M.forEach((m,i)=>{h+=`<text x="${xS(i).toFixed(1)}" y="${H-8}" fill="rgba(255,255,255,.28)" font-size="9.5" text-anchor="middle" font-family="DM Sans,sans-serif">${m}</text>`;});
+  series.forEach(({c,d})=>{
+    const ap='M '+d.map((v,i)=>`${xS(i).toFixed(1)},${yS(v).toFixed(1)}`).join(' L ')
+      +` L ${xS(d.length-1).toFixed(1)},${(H-pb)} L ${xS(0).toFixed(1)},${(H-pb)} Z`;
+    h+=`<path d="${ap}" fill="${c}" fill-opacity="0.07"/>`;
+    const lp='M '+d.map((v,i)=>`${xS(i).toFixed(1)},${yS(v).toFixed(1)}`).join(' L ');
+    h+=`<path d="${lp}" fill="none" stroke="${c}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+    d.forEach((v,i)=>{h+=`<circle cx="${xS(i).toFixed(1)}" cy="${yS(v).toFixed(1)}" r="4" fill="${c}" stroke="rgba(15,22,40,.85)" stroke-width="2"/>`;});
+  });
+  svg.innerHTML=h;
+}
+
+function drawCharts(){drawRadar();drawTrend();}
+
+/* ══ PROFIL MODULE MANAGEMENT ══ */
+var currentMod=null;
+var modColors={meta:'teal',life:'green',nutr:'amber'};
+
+function openModule(mod){
+  currentMod=mod;
+  document.getElementById('profil-bridge').style.display='none';
+  var active=document.getElementById('profil-active');
+  active.style.display='flex';
+  var iframe=document.getElementById('profil-iframe');
+  iframe.src='bilan_coaching_premium.html?mod='+mod;
+  // Highlight active switch
+  ['meta','life','nutr'].forEach(function(k){
+    var sw=document.getElementById('ppb-sw-'+k);
+    if(sw)sw.classList.toggle('active',k===mod);
+  });
+  // Set global bar color
+  var gf=document.getElementById('ppb-global-fill');
+  if(gf){gf.className='ppb-global-fill gf-'+modColors[mod];}
+  // Set label
+  var lbl=document.getElementById('ppb-global-label');
+  var names={meta:'Métabolique',life:'Habitudes de Vie',nutr:'Nutrition'};
+  if(lbl)lbl.textContent=names[mod]||'Module';
+  // Clear section bars
+  var sec=document.getElementById('ppb-sections');
+  if(sec)sec.innerHTML='';
+  window.scrollTo({top:0,behavior:'instant'});
+}
+
+function closeModule(){
+  currentMod=null;
+  document.getElementById('profil-active').style.display='none';
+  document.getElementById('profil-bridge').style.display='';
+  // Clear iframe
+  document.getElementById('profil-iframe').src='about:blank';
+  updateProfilProgress();
+  updateBridgeBadges();
+}
+
+function updateProfilProgress(){
+  // Read completion state from localStorage (shared with bilan_coaching_premium)
+  var done=0;
+  try{
+    var raw=localStorage.getItem('previo_profil_state');
+    if(raw){
+      var st=JSON.parse(raw);
+      ['meta','life','nutr'].forEach(function(k){
+        var statusEl=document.getElementById('ppb-status-'+k);
+        if(st.done&&st.done[k]){
+          done++;
+          if(statusEl){statusEl.textContent='✓';statusEl.parentElement.classList.add('done');}
+        } else {
+          if(statusEl){statusEl.textContent='—';statusEl.parentElement.classList.remove('done');}
+        }
+      });
+    }
+  }catch(e){}
+  var fill=document.getElementById('ppb-fill');
+  var pct=document.getElementById('ppb-pct');
+  if(fill)fill.style.width=(done/3*100)+'%';
+  if(pct)pct.textContent=done+'/3';
+}
+
+function updateBridgeBadges(){
+  try{
+    var raw=localStorage.getItem('previo_profil_state');
+    if(raw){
+      var st=JSON.parse(raw);
+      ['meta','life','nutr'].forEach(function(k){
+        var badge=document.getElementById('pm-badge-'+k);
+        if(badge&&st.done&&st.done[k]){
+          badge.textContent='✓ Complété';
+          badge.style.background='rgba(16,185,129,.15)';
+          badge.style.borderColor='rgba(16,185,129,.3)';
+          badge.style.color='var(--c-green)';
+        }
+      });
+    }
+  }catch(e){}
+}
+
+// Progress state per module
+var modProgress={meta:{answered:0,total:34,pct:0,done:false},life:{answered:0,total:0,pct:0,done:false},nutr:{answered:0,total:0,pct:0,done:false}};
+
+// Listen for messages from iframe
+window.addEventListener('message',function(e){
+  if(!e.data||!e.data.type)return;
+  if(e.data.type==='previo-module-done'){
+    updateProfilProgress();
+    updateBridgeBadges();
+  }
+  if(e.data.type==='previo-progress'){
+    var mod=e.data.mod;
+    if(!mod)return;
+    modProgress[mod]=e.data;
+    var col=modColors[mod]||'teal';
+
+    // Render section bars
+    if(e.data.sections){
+      var secEl=document.getElementById('ppb-sections');
+      if(secEl){
+        var h='';
+        e.data.sections.forEach(function(s){
+          var pct=s.total>0?Math.round(s.answered/s.total*100):0;
+          var cls=s.done?'ppb-sec done-sec s-'+col:'ppb-sec s-'+col;
+          h+='<div class="'+cls+'">';
+          h+='<span class="ppb-sec-dot"></span>';
+          h+='<span class="ppb-sec-name">'+s.title+'</span>';
+          h+='<span class="ppb-sec-count">'+(s.done?'✓':s.answered+'/'+s.total)+'</span>';
+          h+='<div class="ppb-sec-bar" style="width:'+pct+'%"></div>';
+          h+='</div>';
+        });
+        secEl.innerHTML=h;
+      }
+    }
+
+    // Module global bar
+    var gf=document.getElementById('ppb-global-fill');
+    var gpct=document.getElementById('ppb-global-pct');
+    if(gf)gf.style.width=e.data.pct+'%';
+    if(gpct)gpct.textContent=e.data.pct+'%';
+
+    // Update switch done state
+    var sw=document.getElementById('ppb-sw-'+mod);
+    if(sw&&e.data.done)sw.classList.add('done');
+
+    // Update bridge card progress bar
+    var bridgeFill=document.getElementById('pm-fill-'+mod);
+    var bridgePct=document.getElementById('pm-pct-'+mod);
+    if(bridgeFill)bridgeFill.style.width=e.data.pct+'%';
+    if(bridgePct)bridgePct.textContent=e.data.answered+'/'+e.data.total+' réponses';
+  }
+});
+
+// Init badges on load
+setTimeout(function(){updateBridgeBadges();updateProfilProgress();},200);
+
+/* ══ DATA MANAGEMENT ══ */
+function updateDataStats(){
+  const el=document.getElementById('data-stats');
+  if(!el)return;
+  let totalKeys=0,totalSize=0;
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k.startsWith('previo')){
+      totalKeys++;
+      totalSize+=localStorage.getItem(k).length;
+    }
+  }
+  el.innerHTML=`<strong>${totalKeys}</strong> clés PRÉVIO · <strong>${(totalSize/1024).toFixed(1)} Ko</strong> utilisés`;
+}
+
+function exportData(){
+  const data={};
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k.startsWith('previo'))data[k]=localStorage.getItem(k);
+  }
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='previo-backup-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+}
+
+function importData(e){
+  const file=e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const data=JSON.parse(ev.target.result);
+      Object.keys(data).forEach(k=>{if(k.startsWith('previo'))localStorage.setItem(k,data[k]);});
+      alert('Données importées avec succès !');
+      updateDataStats();
+    }catch(err){alert('Erreur : fichier invalide.');}
+  };
+  reader.readAsText(file);
+}
+
+function clearAllData(){
+  if(!confirm('Supprimer toutes vos données PRÉVIO ? Cette action est irréversible.'))return;
+  const keysToRemove=[];
+  for(let i=0;i<localStorage.length;i++){
+    const k=localStorage.key(i);
+    if(k.startsWith('previo'))keysToRemove.push(k);
+  }
+  keysToRemove.forEach(k=>localStorage.removeItem(k));
+  window.location.href='index.html';
+}
+
+function logout(){
+  localStorage.removeItem('previo_session');
+  window.location.href='index.html';
+}
+</script>
+</body>
+</html>
