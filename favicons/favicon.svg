@@ -1,0 +1,27 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="shieldStroke" x1="60" y1="20" x2="452" y2="492" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="shieldFill" x1="60" y1="20" x2="452" y2="492" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0e7490" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#6d28d9" stop-opacity="0.85"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Shield - filled with gradient, bright stroke, NO dark background -->
+  <path d="M256 28L60 112V260C60 380 140 478 256 510C372 478 452 380 452 260V112L256 28Z" 
+        fill="url(#shieldFill)" 
+        stroke="url(#shieldStroke)" 
+        stroke-width="20" 
+        stroke-linejoin="round"/>
+  
+  <!-- Arrow up line -->
+  <line x1="256" y1="370" x2="256" y2="195" 
+        stroke="white" stroke-width="40" stroke-linecap="round"/>
+  
+  <!-- Arrow chevron -->
+  <polyline points="176,275 256,195 336,275" 
+           stroke="white" stroke-width="40" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
