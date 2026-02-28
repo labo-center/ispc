@@ -876,7 +876,7 @@ body{background:var(--dark-1)}
 ════════════════════════════ -->
 <nav class="nav">
   <div class="nav-in">
-    <a class="nav-logo" href="#" onclick="go('dash');return false;">
+    <a class="nav-logo" href="index.html">
       <div class="nav-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
         <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -1465,7 +1465,7 @@ body{background:var(--dark-1)}
 
 
 <!-- ════════════════════════════
-     GUIDE ANALYSES (iframe vers bilan-biologique-previo.html)
+     GUIDE ANALYSES (iframe vers guide-analyses-biologiques.html)
 ════════════════════════════ -->
 <div id="s-guide" class="screen">
   <div class="guide-frame-wrap">
@@ -1532,7 +1532,7 @@ body{background:var(--dark-1)}
   // Preload guide iframe in background after page settles
   setTimeout(function(){
     var gf=document.getElementById('guide-iframe');
-    if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='bilan-biologique-previo.html';gf.setAttribute('data-loaded','1');}
+    if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='guide-analyses-biologiques.html';gf.setAttribute('data-loaded','1');}
   },1500);
   // Handle hash navigation (e.g. app.html#profil coming back from module)
   var hash=window.location.hash.replace('#','');
@@ -1545,7 +1545,7 @@ body{background:var(--dark-1)}
 function go(id){
   try{
     // External pages
-    if(id==='panels'){window.location.href='bilan-biologique-previo.html';return;}
+    if(id==='panels'){window.location.href='guide-analyses-biologiques.html';return;}
 
     // Don't re-trigger if already on this screen
     const current=document.querySelector('.screen.active');
@@ -1575,7 +1575,7 @@ function go(id){
     if(id==='guide'){
       const iframe=document.getElementById('guide-iframe');
       if(iframe && iframe.getAttribute('data-loaded')==='0'){
-        iframe.src='bilan-biologique-previo.html';
+        iframe.src='guide-analyses-biologiques.html';
         iframe.setAttribute('data-loaded','1');
       }
     }

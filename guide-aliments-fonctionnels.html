@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PRÉVIO — Guide des Aliments Fonctionnels</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --c-teal:#0ea5c9;--c-teal-d:#0e7490;--c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed;--c-violet-d:#6d28d9;
+  --c-green:#10b981;--c-green-d:#047857;--c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b;--c-amber-d:#d97706;
+  --c-red:#ef4444;
+  --c-rose:#f43f5e;
+  --dark-1:#070c1a;--dark-2:#0f1628;--dark-3:#141c35;--dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08);--dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.42);--dark-t:rgba(255,255,255,.88);
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  --nav-h:62px;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+  --drawer-w:460px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh}
+body{font-family:var(--ff);color:var(--dark-t);background:var(--dark-1);overflow-x:hidden}
+button{font-family:var(--ff);border:none;cursor:pointer;outline:none}
+
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:44px 44px}
+.blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.b1{top:-200px;left:-150px;width:700px;height:700px;background:radial-gradient(circle,rgba(14,165,201,.08),transparent 65%)}
+.b2{bottom:-180px;right:-130px;width:640px;height:640px;background:radial-gradient(circle,rgba(124,58,237,.09),transparent 65%)}
+.scan{position:fixed;left:0;right:0;height:1px;z-index:0;pointer-events:none;opacity:.14;
+  background:linear-gradient(90deg,transparent,var(--c-teal) 35%,var(--c-violet) 65%,transparent);
+  animation:scan 12s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);
+  background:rgba(7,12,26,.88);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b)}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 24px;gap:0}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:28px;flex-shrink:0;text-decoration:none}
+.nav-mark{width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;
+  box-shadow:0 0 22px rgba(14,165,201,.3),0 0 44px rgba(124,58,237,.12);flex-shrink:0}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+.nav-breadcrumb{font-size:13px;color:var(--dark-m);display:flex;align-items:center;gap:7px}
+.nav-breadcrumb a{color:var(--dark-m);cursor:pointer;transition:color .15s;text-decoration:none}
+.nav-breadcrumb a:hover{color:rgba(255,255,255,.7)}
+.nav-breadcrumb sep{opacity:.3}
+.nav-breadcrumb .current{color:rgba(255,255,255,.72);font-weight:600}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-back{padding:9px 18px;border-radius:99px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.65);transition:all .18s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.nav-back:hover{background:rgba(255,255,255,.11);color:#fff}
+
+/* WRAPPER */
+.wrapper{position:relative;z-index:1;max-width:1200px;margin:0 auto;
+  padding:calc(var(--nav-h) + 40px) 24px 80px;transition:margin-right .45s var(--ease-o)}
+body.drawer-open .wrapper{margin-right:var(--drawer-w)}
+
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.fu{animation:fu .65s var(--ease-o) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:44px}
+.ph-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c-teal);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ph-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--c-teal),var(--c-green));box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.page-header h1{font-family:var(--ffd);font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.04;letter-spacing:-.055em;color:#fff;margin-bottom:12px}
+.page-header h1 em{font-style:italic;font-weight:300;background:linear-gradient(115deg,#22d3ee,#a78bfa 50%,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-header p{font-size:15px;color:var(--dark-m);max-width:600px;line-height:1.88}
+
+/* DISCLAIMER BANNER */
+.disclaimer-banner{
+  background:linear-gradient(135deg,rgba(14,165,201,.06),rgba(124,58,237,.06));
+  border:1px solid rgba(14,165,201,.15);border-radius:16px;padding:20px 24px;
+  margin-bottom:36px;display:flex;gap:14px;align-items:flex-start;position:relative;z-index:1;
+}
+.disclaimer-ico{font-size:24px;flex-shrink:0;margin-top:2px}
+.disclaimer-txt{font-size:13px;color:var(--dark-m);line-height:1.88}
+.disclaimer-txt strong{color:var(--c-teal)}
+.disclaimer-txt em{color:rgba(255,255,255,.7);font-style:normal;font-weight:600}
+
+.hint-chip{display:inline-flex;align-items:center;gap:7px;margin-top:18px;
+  background:rgba(14,165,201,.07);border:1px solid rgba(14,165,201,.18);
+  border-radius:99px;padding:7px 16px;font-size:12px;font-weight:600;color:var(--c-teal)}
+
+/* LEGEND */
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.leg{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;border:1px solid}
+.l-teal{background:rgba(14,165,201,.08);border-color:rgba(14,165,201,.22);color:var(--c-teal)}
+.l-amber{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.22);color:var(--c-amber)}
+.l-violet{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.22);color:#a78bfa}
+.l-green{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.22);color:var(--c-green)}
+.leg-dot{width:7px;height:7px;border-radius:50%}
+
+/* GRID */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+
+/* SEC CARD */
+.sec-card{background:rgba(255,255,255,.028);border:1px solid var(--dark-b);border-radius:26px;overflow:hidden;position:relative}
+.sec-card::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:22px 22px}
+
+.sec-stripe{height:3px;width:100%;position:relative;z-index:1}
+.s-teal .sec-stripe{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.s-amber .sec-stripe{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
+.s-violet .sec-stripe{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.s-green .sec-stripe{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+
+.sec-head{padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);
+  display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.sec-ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+  font-size:22px;flex-shrink:0;border:1.5px solid}
+.s-teal .sec-ico{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
+.s-amber .sec-ico{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
+.s-violet .sec-ico{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
+.s-green .sec-ico{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+.sec-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.s-teal .sec-cat{color:var(--c-teal)}.s-amber .sec-cat{color:var(--c-amber)}
+.s-violet .sec-cat{color:#a78bfa}.s-green .sec-cat{color:var(--c-green)}
+.sec-title{font-family:var(--ffd);font-size:18px;font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1.1}
+.sec-sub{font-size:11px;color:var(--dark-m);margin-top:3px}
+.sec-count{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;flex-shrink:0;border:1px solid}
+.s-teal .sec-count{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.s-amber .sec-count{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+.s-violet .sec-count{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa}
+.s-green .sec-count{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+
+.sec-panels{padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+
+.sub-panel{border-radius:13px;overflow:hidden;border:1px solid var(--dark-b)}
+.sub-panel-head{padding:8px 14px;display:flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  cursor:pointer;user-select:none;transition:background .15s}
+.s-teal .sub-panel-head{background:rgba(14,165,201,.08);color:var(--c-teal)}
+.s-amber .sub-panel-head{background:rgba(245,158,11,.08);color:var(--c-amber)}
+.s-violet .sub-panel-head{background:rgba(124,58,237,.08);color:#a78bfa}
+.s-green .sub-panel-head{background:rgba(16,185,129,.08);color:var(--c-green)}
+.s-teal .sub-panel-head:hover{background:rgba(14,165,201,.14)}
+.s-amber .sub-panel-head:hover{background:rgba(245,158,11,.14)}
+.s-violet .sub-panel-head:hover{background:rgba(124,58,237,.14)}
+.s-green .sub-panel-head:hover{background:rgba(16,185,129,.14)}
+.sph-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.sph-count{margin-left:auto;opacity:.6;font-size:10px}
+.sph-chevron{margin-left:4px;font-size:11px;transition:transform .25s var(--ease-o);opacity:.6}
+.sub-panel.open .sph-chevron{transform:rotate(90deg)}
+
+.sub-panel-body{padding:10px 14px 12px;background:rgba(0,0,0,.18);
+  display:flex;flex-wrap:wrap;gap:5px;
+  max-height:0;overflow:hidden;transition:max-height .35s var(--ease-o),padding .25s;
+  padding-top:0;padding-bottom:0}
+.sub-panel.open .sub-panel-body{max-height:400px;padding-top:10px;padding-bottom:12px}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:500;color:var(--dark-t);
+  background:rgba(255,255,255,.052);border:1px solid rgba(255,255,255,.09);
+  border-radius:8px;padding:5px 11px;
+  cursor:pointer;transition:all .18s;user-select:none;position:relative}
+.tag::after{content:'›';opacity:0;margin-left:2px;font-size:14px;transition:opacity .15s,transform .15s;transform:translateX(-4px)}
+.tag:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);padding-right:18px}
+.tag:hover::after{opacity:.5;transform:translateX(0)}
+.tag.active{box-shadow:0 0 0 1.5px currentColor}
+
+.tag.hi-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.22);color:#7dd3fc}
+.tag.hi-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.22);color:#fcd34d}
+.tag.hi-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.22);color:#6ee7b7}
+.tag.hi-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.22);color:#c4b5fd}
+.tag.hi-teal:hover{background:rgba(14,165,201,.18);border-color:rgba(14,165,201,.4)}
+.tag.hi-amber:hover{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.4)}
+.tag.hi-green:hover{background:rgba(16,185,129,.18);border-color:rgba(16,185,129,.4)}
+.tag.hi-violet:hover{background:rgba(124,58,237,.18);border-color:rgba(124,58,237,.4)}
+
+/* DRAWER */
+.drawer-overlay{position:fixed;inset:0;z-index:300;background:rgba(7,12,26,.5);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .35s}
+body.drawer-open .drawer-overlay{opacity:1;pointer-events:all}
+
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:301;
+  width:var(--drawer-w);max-width:95vw;
+  background:var(--dark-2);border-left:1px solid var(--dark-b);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .45s var(--ease-o);overflow:hidden}
+body.drawer-open .drawer{transform:translateX(0)}
+
+.drawer-stripe{height:3px;width:100%;flex-shrink:0;transition:background .3s}
+.drawer-header{padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);flex-shrink:0;position:relative}
+.drawer-close{position:absolute;top:18px;right:20px;width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid var(--dark-b);
+  display:grid;place-items:center;cursor:pointer;color:var(--dark-m);font-size:17px;transition:all .15s}
+.drawer-close:hover{background:rgba(255,255,255,.14);color:#fff}
+.drawer-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--dark-m);margin-bottom:8px}
+.drawer-name{font-family:var(--ffd);font-size:24px;font-weight:600;letter-spacing:-.04em;color:#fff;line-height:1.1;margin-bottom:6px;padding-right:40px}
+.drawer-phonetic{font-size:11.5px;color:var(--dark-m);font-style:italic;font-family:var(--ffd)}
+
+.drawer-body{flex:1;overflow-y:auto;padding:22px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.drawer-body::-webkit-scrollbar{width:4px}
+.drawer-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+.drawer-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:99px;border:1px solid;font-size:11px;font-weight:700;margin-bottom:20px}
+
+.drawer-def{font-size:14px;line-height:1.88;color:var(--dark-m);margin-bottom:24px}
+.drawer-def strong{color:var(--dark-t)}
+
+.val-box{background:rgba(255,255,255,.04);border:1px solid var(--dark-b);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.val-box-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:12px}
+.val-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.val-row:last-child{border-bottom:none}
+.val-label{font-size:12.5px;color:var(--dark-m)}
+.val-num{font-family:var(--ffd);font-size:14px;font-weight:600;color:#fff}
+
+.conds-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.conds-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.cond-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px}
+.cond{font-size:11px;font-weight:700;padding:4px 11px;border-radius:8px;letter-spacing:.03em;border:1px solid}
+
+/* MYTH BOX */
+.myth-section{margin-bottom:22px}
+.myth-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.myth-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.myth-box{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.15);border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.myth-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.myth-txt{font-size:12.5px;color:rgba(239,68,68,.7);line-height:1.78}
+.myth-txt strong{color:rgba(239,68,68,.9)}
+
+.tip{background:rgba(14,165,201,.06);border:1px solid rgba(14,165,201,.15);border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.tip-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.tip-txt{font-size:12.5px;color:var(--dark-m);line-height:1.78}
+.tip-txt strong{color:var(--c-teal)}
+
+/* FOOTER */
+.page-footer{text-align:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--dark-b);position:relative;z-index:1}
+.footer-logo{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;margin-bottom:6px}
+.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:4px;opacity:.45;font-family:var(--ff);text-transform:uppercase}
+.footer-disc{font-size:11.5px;color:var(--dark-m);max-width:560px;margin:0 auto;line-height:1.88}
+
+@media(max-width:600px){
+  :root{--drawer-w:100vw}
+  body.drawer-open .wrapper{margin-right:0}
+}
+body.in-iframe .nav{display:none !important}
+body.in-iframe{padding-top:0 !important}
+body.in-iframe .wrapper{margin-top:0 !important}
+</style>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.self!==window.top)document.body.classList.add('in-iframe');});</script>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="scan"></div>
+
+<div class="drawer-overlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-stripe" id="drawer-stripe"></div>
+  <div class="drawer-header">
+    <div class="drawer-close" onclick="closeDrawer()">✕</div>
+    <div class="drawer-cat" id="d-cat"></div>
+    <div class="drawer-name" id="d-name"></div>
+    <div class="drawer-phonetic" id="d-phonetic"></div>
+  </div>
+  <div class="drawer-body">
+    <div id="d-badge"></div>
+    <div class="drawer-def" id="d-def"></div>
+    <div class="val-box" id="d-valbox"></div>
+    <div class="conds-title" id="d-conds-title">Bienfaits documentés</div>
+    <div class="cond-tags" id="d-conds"></div>
+    <div class="myth-section" id="d-myth-section">
+      <div class="myth-title">⚠️ Idées reçues & fausses affirmations</div>
+      <div class="myth-box" id="d-myth"></div>
+    </div>
+    <div class="tip" id="d-tip"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+    </a>
+    <div class="nav-breadcrumb">
+      <a href="index.html">Accueil</a>
+      <sep>/</sep>
+      <span class="current">Guide des Aliments</span>
+    </div>
+    <div class="nav-r">
+      <a class="nav-back" href="index.html">← Retour</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrapper">
+
+  <!-- PAGE HEADER -->
+  <header class="page-header fu">
+    <div class="ph-eyebrow"><span class="ph-dot"></span>Référentiel · Nutrition Fonctionnelle</div>
+    <h1>Guide des <em>Aliments Fonctionnels</em></h1>
+    <p>Panorama des aliments à haute densité nutritionnelle classés par propriété fonctionnelle. Cliquez sur un aliment pour découvrir ses nutriments, ses bienfaits documentés — et les idées reçues à déconstruire.</p>
+    <div class="hint-chip">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Ouvrez une catégorie · Cliquez sur un aliment pour le détail
+    </div>
+  </header>
+
+  <!-- DISCLAIMER BANNER -->
+  <div class="disclaimer-banner fu d1">
+    <div class="disclaimer-ico">🔬</div>
+    <div class="disclaimer-txt">
+      <strong>Philosophie PRÉVIO :</strong> L'alimentation n'est pas un médicament magique. Aucun aliment isolé ne guérit ou ne prévient une maladie à lui seul. <em>Les bienfaits nutritionnels sont cumulatifs, à petite dose, sur un temps long.</em> C'est la régularité d'une alimentation variée et riche en aliments bruts qui produit des résultats — pas un « super-aliment » pris ponctuellement. Ce guide présente les données scientifiques disponibles, distingue les allégations fondées des idées reçues, et rappelle que seule une alimentation globalement équilibrée, associée à l'activité physique et à un bon sommeil, constitue le socle d'une bonne santé.
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend fu d1">
+    <span class="leg l-teal"><span class="leg-dot" style="background:var(--c-teal)"></span>Anti-inflammatoires & Antioxydants</span>
+    <span class="leg l-amber"><span class="leg-dot" style="background:var(--c-amber)"></span>Riches en Fibres & Prébiotiques</span>
+    <span class="leg l-violet"><span class="leg-dot" style="background:#a78bfa"></span>Acides Gras Essentiels & Lipides</span>
+    <span class="leg l-green"><span class="leg-dot" style="background:var(--c-green)"></span>Protéines, Micronutriments & Superaliments</span>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <!-- ══ 01 ANTI-INFLAMMATOIRES & ANTIOXYDANTS ══ -->
+    <div class="sec-card s-teal fu d1">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🛡️</div>
+        <div>
+          <div class="sec-cat">01 — Protection cellulaire</div>
+          <div class="sec-title">Anti-inflammatoires & Antioxydants</div>
+          <div class="sec-sub">Aliments riches en polyphénols, flavonoïdes et composés anti-inflammatoires</div>
+        </div>
+        <div class="sec-count">3 panels · 8 aliments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Épices & Racines anti-inflammatoires
+            <span class="sph-count">3 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Curcuma','Anti-inflammatoires — Épices','kur-ku-ma','teal')">Curcuma</span>
+            <span class="tag hi-teal" onclick="openDrawer('Gingembre','Anti-inflammatoires — Racines','jin-janbr','teal')">Gingembre</span>
+            <span class="tag" onclick="openDrawer('Épices (Cannelle, Poivre, Clou de Girofle)','Anti-inflammatoires — Épices','é-pis','teal')">Épices variées</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Fruits antioxydants
+            <span class="sph-count">3 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Raisin (& Resvératrol)','Antioxydants — Fruits','rè-zin','teal')">Raisin</span>
+            <span class="tag hi-teal" onclick="openDrawer('Citron','Antioxydants — Fruits','si-tron','teal')">Citron</span>
+            <span class="tag" onclick="openDrawer('Pomme','Antioxydants — Fruits','pom','teal')">Pomme</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Boissons antioxydantes
+            <span class="sph-count">2 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Thé Vert','Antioxydants — Boissons','té vèr','teal')">Thé vert</span>
+            <span class="tag" onclick="openDrawer('Eau citronnée','Antioxydants — Boissons','o si-tro-né','teal')">Eau citronnée</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 02 RICHES EN FIBRES & PRÉBIOTIQUES ══ -->
+    <div class="sec-card s-amber fu d2">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🌾</div>
+        <div>
+          <div class="sec-cat">02 — Fibres & Transit</div>
+          <div class="sec-title">Riches en Fibres & Prébiotiques</div>
+          <div class="sec-sub">Aliments à haute densité en fibres solubles et insolubles</div>
+        </div>
+        <div class="sec-count">2 panels · 4 aliments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Graines & Mucilages
+            <span class="sph-count">2 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('Graines de Chia','Fibres — Graines','chi-a','amber')">Graines de chia</span>
+            <span class="tag hi-amber" onclick="openDrawer('Graines de Chanvre','Fibres — Graines','shanvr','amber')">Graines de chanvre</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Céréales & Sons
+            <span class="sph-count">2 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('Son d\'Avoine','Fibres — Céréales','son da-vwan','amber')">Son d'avoine</span>
+            <span class="tag" onclick="openDrawer('Pomme (Pectine)','Fibres — Fruits','pom pek-tin','amber')">Pomme (pectine)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 03 ACIDES GRAS ESSENTIELS & LIPIDES ══ -->
+    <div class="sec-card s-violet fu d3">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🐟</div>
+        <div>
+          <div class="sec-cat">03 — Bons lipides & Oméga-3</div>
+          <div class="sec-title">Acides Gras Essentiels</div>
+          <div class="sec-sub">Sources marines et végétales d'oméga-3, oméga-6 et lipides fonctionnels</div>
+        </div>
+        <div class="sec-count">2 panels · 6 aliments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Sources marines (EPA / DHA)
+            <span class="sph-count">3 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-violet" onclick="openDrawer('Saumon','Oméga-3 — Poissons gras','so-mon','violet')">Saumon</span>
+            <span class="tag hi-violet" onclick="openDrawer('Sardines','Oméga-3 — Poissons gras','sar-din','violet')">Sardines</span>
+            <span class="tag hi-violet" onclick="openDrawer('Anchois','Oméga-3 — Poissons gras','an-shwa','violet')">Anchois</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Sources végétales (ALA)
+            <span class="sph-count">3 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-violet" onclick="openDrawer('Huile de Lin','Oméga-3 — Huiles végétales','uil de lin','violet')">Huile de lin</span>
+            <span class="tag" onclick="openDrawer('Noix','Oméga-3 — Oléagineux','nwa','violet')">Noix</span>
+            <span class="tag" onclick="openDrawer('Graines de Chanvre (Lipides)','Oméga-3 — Graines','shanvr li-pid','violet')">Chanvre (huile)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 04 PROTÉINES, MICRONUTRIMENTS & SUPERALIMENTS ══ -->
+    <div class="sec-card s-green fu d4">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">💪</div>
+        <div>
+          <div class="sec-cat">04 — Nutriments à haute densité</div>
+          <div class="sec-title">Protéines & Superaliments</div>
+          <div class="sec-sub">Sources protéiques complètes et aliments à densité nutritionnelle exceptionnelle</div>
+        </div>
+        <div class="sec-count">3 panels · 5 aliments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Protéines animales complètes
+            <span class="sph-count">2 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('Œufs','Protéines — Animales','euf','green')">Œufs</span>
+            <span class="tag" onclick="openDrawer('Saumon (Protéines)','Protéines — Poisson','so-mon pro','green')">Saumon</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Superaliments & Micro-algues
+            <span class="sph-count">1 aliment</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('Spiruline','Superaliments — Micro-algues','spi-ru-lin','green')">Spiruline</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Acides aminés via l'alimentation
+            <span class="sph-count">2 aliments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('Glutamine (sources alimentaires)','Acides Aminés — Alimentation','glu-ta-min','green')">Glutamine (sources)</span>
+            <span class="tag" onclick="openDrawer('Noix (Protéines végétales)','Protéines — Végétales','nwa pro','green')">Noix (protéines)</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- FOOTER -->
+  <footer class="page-footer fu d4">
+    <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+    <p class="footer-disc">Ce guide est fourni à titre informatif et ne constitue pas un avis médical. Les bienfaits décrits sont fondés sur la littérature scientifique disponible mais ne garantissent pas un résultat individuel. L'alimentation ne remplace pas un traitement médical. Consultez votre professionnel de santé.</p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+function togglePanel(head){head.parentElement.classList.toggle('open');}
+
+const DATA = {
+
+  /* ══════════════════════════════════════════
+     01 — ANTI-INFLAMMATOIRES & ANTIOXYDANTS
+     ══════════════════════════════════════════ */
+
+  'Curcuma':{
+    def:`Le <strong>curcuma</strong> (<em>Curcuma longa</em>) est un rhizome de la famille du gingembre dont le principe actif est la <strong>curcumine</strong> (2 à 5 % du poids sec). La curcumine inhibe NF-κB, COX-2 et les cytokines pro-inflammatoires (TNF-α, IL-6). Le curcuma est aussi une source de manganèse, de fer et de potassium.`,
+    vals:[['Portion usuelle','1 – 3 g de poudre/jour (= 30 – 90 mg curcumine)'],['Curcumine dans le curcuma','2 – 5 %'],['Biodisponibilité','Très faible — ↑ × 20 avec poivre noir (pipérine)'],['Calories','312 kcal / 100 g (poudre)']],
+    conds:[{t:'Anti-inflammatoire (NF-κB, COX-2)',c:'green'},{t:'Antioxydant (piégeage radicaux)',c:'teal'},{t:'Confort articulaire',c:'amber'},{t:'Soutien digestif (dyspepsie)',c:'teal'}],
+    myth:`<strong>❌ "Le curcuma guérit le cancer"</strong> — La curcumine a des propriétés anticancéreuses <em>in vitro</em>, mais les doses alimentaires sont 100 à 1 000× inférieures aux doses étudiées en oncologie. Aucun essai clinique n'a prouvé qu'il guérit un cancer chez l'homme. <strong>❌ "1 cuillère/jour suffit"</strong> — La biodisponibilité de la curcumine alimentaire est < 1 %. Sans pipérine ou matière grasse, l'essentiel est éliminé.`,
+    tip:"Associez toujours le curcuma à du poivre noir (pipérine) et à un corps gras (huile d'olive, lait de coco) pour multiplier l'absorption par 20. En cuisine, c'est un excellent anti-inflammatoire doux au quotidien — mais pour des effets thérapeutiques, un extrait standardisé de curcumine est nécessaire.",
+    badge:'Épice anti-inflammatoire n°1',badgeC:'teal'},
+
+  'Gingembre':{
+    def:`Le <strong>gingembre</strong> (<em>Zingiber officinale</em>) contient des gingérols et shogaols, composés phénoliques aux propriétés anti-inflammatoires, anti-nauséeuses et antioxydantes. Il inhibe COX-2 et la lipooxygénase (LOX). C'est l'un des rares aliments ayant une allégation santé validée par l'EMA (nausées).`,
+    vals:[['Portion usuelle','2 – 4 g de gingembre frais/jour'],['Gingérols','1,5 – 3 % (frais)'],['Nutriments clés','Manganèse, cuivre, potassium'],['Calories','80 kcal / 100 g (frais)']],
+    conds:[{t:'Anti-nauséeux (grossesse, post-op) — validé EMA',c:'green'},{t:'Anti-inflammatoire (gingérols)',c:'teal'},{t:'Digestion & motilité gastrique',c:'amber'},{t:'Douleurs musculaires post-effort (↓ 25 %)',c:'teal'}],
+    myth:`<strong>❌ "Le gingembre brûle les graisses"</strong> — Il augmente très légèrement la thermogenèse mais l'effet sur la perte de poids est cliniquement négligeable. <strong>❌ "C'est un aphrodisiaque puissant"</strong> — Aucune preuve scientifique solide chez l'homme. L'effet « réchauffant » est souvent confondu avec un effet stimulant sexuel.`,
+    tip:"Le gingembre est l'un des rares aliments avec une allégation santé reconnue par l'Agence Européenne du Médicament (EMA) pour les nausées de grossesse et post-opératoires. Frais, en infusion ou râpé dans les plats — intégrez-le quotidiennement. Le gingembre confit est beaucoup plus calorique (sucres ajoutés).",
+    badge:'Anti-nauséeux reconnu (EMA)',badgeC:'green'},
+
+  'Épices (Cannelle, Poivre, Clou de Girofle)':{
+    def:`Les <strong>épices</strong> concentrent des polyphénols et composés bioactifs en quantité remarquable par gramme. La <strong>cannelle</strong> (cinnamaldéhyde) améliore modestement la sensibilité à l'insuline. Le <strong>poivre noir</strong> (pipérine) augmente la biodisponibilité de nombreux nutriments. Le <strong>clou de girofle</strong> (eugénol) a le score ORAC antioxydant le plus élevé de tous les aliments.`,
+    vals:[['Cannelle','1 – 3 g/jour (de Ceylan de préférence)'],['Poivre noir','Pincée quotidienne (↑ absorption curcumine × 20)'],['Clou de girofle','Score ORAC : 290 000 µmol TE/100g'],['Calories','Négligeables aux doses culinaires']],
+    conds:[{t:'Antioxydants concentrés (ORAC élevé)',c:'green'},{t:'Cannelle : sensibilité insuline (modeste)',c:'amber'},{t:'Pipérine : ↑ biodisponibilité nutriments',c:'teal'},{t:'Eugénol : antiseptique buccal',c:'teal'}],
+    myth:`<strong>❌ "La cannelle guérit le diabète"</strong> — Les études montrent un effet modeste (↓ 0,3 % HbA1c) insuffisant pour remplacer un traitement antidiabétique. <strong>⚠️ Cannelle de Chine (cassia)</strong> — Contient de la coumarine (hépatotoxique à haute dose). Préférez la cannelle de Ceylan (<em>Cinnamomum verum</em>).`,
+    tip:"Les épices sont le moyen le plus simple d'augmenter votre apport en antioxydants sans calories supplémentaires. Utilisez-les généreusement en cuisine. La cannelle de Ceylan (écorce fine, enroulée) est à privilégier sur la cannelle cassia (écorce épaisse) en raison de la coumarine.",
+    badge:'Concentrés antioxydants',badgeC:'teal'},
+
+  'Raisin (& Resvératrol)':{
+    def:`Le <strong>raisin</strong> (<em>Vitis vinifera</em>) est riche en polyphénols : <strong>resvératrol</strong> (peau), quercétine, anthocyanes (raisin rouge/noir) et proanthocyanidines (pépins). Le resvératrol active SIRT1 (sirtuines) et a des effets cardioprotecteurs, anti-inflammatoires et potentiellement pro-longévité.`,
+    vals:[['Portion usuelle','100 – 150 g (une grappe)'],['Resvératrol (raisin noir)','0,2 – 1 mg / 100 g (peau)'],['Glucides','16 g / 100 g (IG modéré : 45)'],['Vitamine C, K, B6','Apports modérés'],['Calories','69 kcal / 100 g']],
+    conds:[{t:'Polyphénols cardioprotecteurs',c:'green'},{t:'Resvératrol (activation SIRT1)',c:'teal'},{t:'Anthocyanes (raisin rouge) — antioxydant',c:'green'},{t:'Proanthocyanidines (pépins) — circulation',c:'violet'}],
+    myth:`<strong>❌ "Un verre de vin rouge = santé"</strong> — Le « paradoxe français » a été surestimé. L'OMS et The Lancet (2018) concluent qu'il n'existe pas de dose d'alcool sans risque. Les polyphénols du raisin sont bénéfiques, mais l'alcool est cancérigène (groupe 1, CIRC). Mangez du raisin, ne buvez pas de vin « pour la santé ». <strong>❌ "Le raisin fait maigrir (cure de raisin)"</strong> — Les monodiètes n'ont aucun fondement scientifique et sont nutritionnellement carencées.`,
+    tip:"Mangez le raisin entier avec la peau (resvératrol) et si possible les pépins (proanthocyanidines). Le raisin noir/rouge est nettement plus riche en polyphénols que le raisin blanc. C'est un fruit relativement sucré — à consommer en portion modérée dans le cadre d'une alimentation équilibrée.",
+    badge:'Polyphénols cardioprotecteurs',badgeC:'teal'},
+
+  'Citron':{
+    def:`Le <strong>citron</strong> (<em>Citrus limon</em>) est source de vitamine C (53 mg/100 mL de jus), de flavonoïdes (hespéridine, naringénine), d'acide citrique et de limonène (zeste). L'acide citrique favorise l'absorption du fer non héminique et participe au cycle de Krebs. Le citron a un PRAL négatif (effet alcalinisant malgré son goût acide).`,
+    vals:[['Vitamine C','53 mg / 100 mL de jus (= 60 % ANC)'],['Acide citrique','5 – 8 g / 100 mL'],['Flavonoïdes','Hespéridine, naringénine'],['Calories','29 kcal / 100 g'],['PRAL','−2,5 (alcalinisant)']],
+    conds:[{t:'Source de vitamine C',c:'green'},{t:'↑ Absorption du fer non héminique (synergie)',c:'amber'},{t:'Flavonoïdes (hespéridine) — vasculoprotecteur',c:'teal'},{t:'Effet alcalinisant (PRAL négatif)',c:'teal'}],
+    myth:`<strong>❌ "L'eau citronnée à jeun détoxifie le foie"</strong> — Le foie se « détoxifie » lui-même en permanence via les cytochromes P450. L'eau citronnée est une boisson agréable et hydratante, mais elle n'a aucun effet « détox » prouvé. <strong>❌ "Le citron alcalinise le sang"</strong> — Le pH sanguin est régulé à 7,40 ± 0,02 par les poumons et les reins. Aucun aliment ne peut le modifier significativement. L'effet « alcalinisant » concerne les urines (PRAL), pas le sang. <strong>❌ "Le citron fait maigrir"</strong> — Aucun aliment n'a d'effet brûle-graisse prouvé.`,
+    tip:"Le citron est un excellent exhausteur de goût qui permet de réduire le sel, et sa vitamine C améliore l'absorption du fer végétal (lentilles, épinards). Pressez un citron frais sur vos plats plutôt que de boire du jus de citron industriel (pasteurisé, vitamine C dégradée). Attention à l'émail dentaire : ne vous brossez pas les dents juste après avoir bu du jus de citron.",
+    badge:'Source de vitamine C',badgeC:'teal'},
+
+  'Pomme':{
+    def:`La <strong>pomme</strong> (<em>Malus domestica</em>) est riche en quercétine (peau), pectine (fibre soluble), vitamine C, potassium et acide chlorogénique. La pectine est un prébiotique qui nourrit les bifidobactéries et ralentit l'absorption du glucose et du cholestérol. C'est le fruit le plus consommé en France.`,
+    vals:[['Portion usuelle','1 pomme moyenne (180 g)'],['Fibres','2,4 g / 100 g (dont pectine)'],['Quercétine','4 – 7 mg / 100 g (peau uniquement)'],['Vitamine C','5 – 12 mg / 100 g (variable)'],['Calories','52 kcal / 100 g'],['IG','36 (bas)']],
+    conds:[{t:'Fibres solubles (pectine) — prébiotique',c:'amber'},{t:'Quercétine (peau) — antihistaminique',c:'teal'},{t:'Régulation glycémique (IG bas)',c:'green'},{t:'Satiété & gestion du poids',c:'green'}],
+    myth:`<strong>❌ "An apple a day keeps the doctor away"</strong> — Ce proverbe populaire simplifie la réalité. La pomme est un bon aliment, mais manger une pomme par jour ne protège pas contre les maladies si le reste de l'alimentation est déséquilibré. <strong>❌ "Le jus de pomme = une pomme"</strong> — Le jus supprime les fibres et concentre les sucres. Un verre de jus de pomme contient autant de sucre qu'un soda.`,
+    tip:"Mangez la pomme entière avec la peau (bio de préférence, car la pomme figure parmi les fruits les plus traités en pesticides). La peau concentre 2 à 6× plus de quercétine et de vitamine C que la chair. La pectine se situe dans la chair — elle nourrit vos bifidobactéries intestinales.",
+    badge:'Fruit prébiotique',badgeC:'teal'},
+
+  'Thé Vert':{
+    def:`Le <strong>thé vert</strong> (<em>Camellia sinensis</em>) est la boisson la plus riche en catéchines, notamment l'<strong>EGCG</strong> (épigallocatéchine gallate), un polyphénol antioxydant puissant. L'EGCG augmente modestement la thermogenèse, a des propriétés anti-inflammatoires (NF-κB) et est associé à une réduction du risque cardiovasculaire dans les études observationnelles.`,
+    vals:[['Portion usuelle','2 – 5 tasses/jour (infusion 2–3 min, 70–80°C)'],['EGCG','30 – 80 mg / tasse (thé vert japonais)'],['Caféine / théine','25 – 50 mg / tasse'],['L-Théanine','20 – 40 mg / tasse (effet calmant)'],['Calories','1 kcal / tasse']],
+    conds:[{t:'Antioxydant majeur (EGCG)',c:'green'},{t:'Santé cardiovasculaire (observationnel)',c:'teal'},{t:'L-théanine : focus calme (synergie caféine)',c:'violet'},{t:'Thermogenèse modeste',c:'amber'}],
+    myth:`<strong>❌ "Le thé vert fait maigrir"</strong> — L'EGCG augmente la thermogenèse de 4 à 5 %, soit environ 50 à 100 kcal/jour. C'est mesurable mais insuffisant pour une perte de poids significative sans régime. <strong>❌ "Le thé vert prévient le cancer"</strong> — Les études observationnelles (Japon, Chine) montrent des associations, mais les essais contrôlés n'ont pas confirmé un effet préventif direct. <strong>⚠️</strong> Les extraits de thé vert à haute dose peuvent être hépatotoxiques.`,
+    tip:"Infusez le thé vert à 70–80°C (pas à 100°C) pendant 2–3 min pour maximiser les catéchines et minimiser l'amertume. Le matcha (poudre de thé vert) est 3× plus concentré en EGCG. La L-théanine du thé vert procure un état de « focus calme » unique (attention sans nervosité), en synergie avec la caféine. Évitez le thé vert pendant les repas (tanins ↓ absorption fer).",
+    badge:'Champion des catéchines',badgeC:'teal'},
+
+  'Eau citronnée':{
+    def:`L'<strong>eau citronnée</strong> (jus d'un demi-citron dans un verre d'eau tiède) est une boisson simple, hydratante, source de vitamine C et d'acide citrique. Son principal bénéfice réel est qu'elle encourage l'hydratation matinale et peut aider à réduire la consommation de boissons sucrées.`,
+    vals:[['Vitamine C','~25 mg / demi-citron'],['Acide citrique','~3 g / demi-citron'],['Calories','~6 kcal'],['Effet réel','Hydratation + vitamine C']],
+    conds:[{t:'Hydratation matinale',c:'green'},{t:'Apport en vitamine C',c:'teal'},{t:'Remplacement boissons sucrées',c:'green'}],
+    myth:`<strong>❌ "Détoxifie l'organisme au réveil"</strong> — Le concept de « détox » par un aliment n'a aucune base scientifique. Le foie et les reins détoxifient en permanence. <strong>❌ "Alcalinise le corps"</strong> — Le pH sanguin ne se modifie pas avec l'alimentation. <strong>❌ "Stimule le métabolisme"</strong> — L'eau froide augmente le métabolisme de 2–3 kcal. Négligeable. <strong>✅ Ce qui est vrai</strong> — C'est une boisson agréable, quasi sans calorie, qui hydrate et apporte de la vitamine C. Rien de plus, rien de moins.`,
+    tip:"Si vous aimez l'eau citronnée, buvez-en — c'est une bonne habitude d'hydratation. Mais ne croyez pas aux vertus « détox » ou « brûle-graisse ». Utilisez une paille pour protéger l'émail dentaire de l'acide citrique et attendez 30 minutes avant de vous brosser les dents.",
+    badge:'Hydratation — pas de magie',badgeC:'amber'},
+
+  /* ══════════════════════════════════════════
+     02 — FIBRES & PRÉBIOTIQUES
+     ══════════════════════════════════════════ */
+
+  'Graines de Chia':{
+    def:`Les <strong>graines de chia</strong> (<em>Salvia hispanica</em>) sont des graines mucilagineuses exceptionnellement riches en fibres (34 g/100 g), en oméga-3 ALA (18 g/100 g), en protéines complètes (17 g/100 g) et en minéraux (calcium, magnésium, phosphore, manganèse). Au contact de l'eau, elles forment un gel (mucilage) qui favorise la satiété et régule le transit.`,
+    vals:[['Portion usuelle','15 – 30 g/jour (1 – 2 c. à soupe)'],['Fibres','34 g / 100 g (solubles + insolubles)'],['Oméga-3 (ALA)','18 g / 100 g (n°1 végétal)'],['Protéines','17 g / 100 g (profil complet)'],['Calcium','631 mg / 100 g (5× le lait)'],['Calories','486 kcal / 100 g']],
+    conds:[{t:'Fibres solubles (mucilage) — satiété & transit',c:'amber'},{t:'Source n°1 d\'ALA végétal',c:'violet'},{t:'Protéines complètes (végétalien)',c:'green'},{t:'Calcium, Mg, Mn, P',c:'teal'},{t:'Régulation glycémique (IG bas)',c:'green'}],
+    myth:`<strong>❌ "Les graines de chia font maigrir"</strong> — Elles sont rassasiantes grâce aux fibres, mais à 486 kcal/100 g, elles sont caloriquement denses. Elles ne brûlent pas les graisses. <strong>❌ "Elles remplacent les oméga-3 marins"</strong> — L'ALA est converti en EPA/DHA à < 10 %. Elles complètent mais ne remplacent pas le poisson gras. <strong>⚠️</strong> Toujours les hydrater avant consommation (risque d'occlusion si consommées sèches en grande quantité).`,
+    tip:"Faites tremper les graines de chia 15 min dans un liquide (eau, lait végétal) pour former le gel mucilagineux — c'est ce gel qui confère les bénéfices digestifs et la satiété. Les graines de chia sèches absorbent 12× leur poids en eau. Commencez par 1 c. à soupe/jour et augmentez progressivement pour éviter les ballonnements.",
+    badge:'Graine n°1 en fibres & ALA',badgeC:'amber'},
+
+  'Graines de Chanvre':{
+    def:`Les <strong>graines de chanvre</strong> (<em>Cannabis sativa</em> — sans THC) sont une source exceptionnelle de protéines complètes (25 g/100 g avec tous les acides aminés essentiels), d'oméga-3 (ALA) et d'oméga-6 (GLA) dans un ratio idéal de 3:1. Elles apportent aussi du magnésium, du zinc, du fer et de la vitamine E.`,
+    vals:[['Portion usuelle','20 – 30 g/jour (2 – 3 c. à soupe)'],['Protéines','25 g / 100 g (tous les AA essentiels)'],['Oméga-3 (ALA)','8 – 10 g / 100 g'],['Oméga-6 (GLA)','Ratio ω6:ω3 = 3:1 (optimal)'],['Fibres','4 g / 100 g (graines décortiquées)'],['Calories','553 kcal / 100 g']],
+    conds:[{t:'Protéine complète végétale',c:'green'},{t:'Ratio ω6:ω3 idéal (3:1)',c:'violet'},{t:'Source de GLA anti-inflammatoire',c:'teal'},{t:'Magnésium, zinc, fer, vitamine E',c:'amber'}],
+    myth:`<strong>❌ "Le chanvre alimentaire rend positif aux tests THC"</strong> — Les graines de chanvre alimentaire contiennent < 0,2 % de THC (seuil légal UE), quantité négligeable et insuffisante pour un test positif. <strong>❌ "La protéine de chanvre est aussi performante que la whey"</strong> — Sa digestibilité (PDCAAS 0,63) est inférieure à la whey (1,0). Elle est bonne, mais pas équivalente pour la synthèse protéique musculaire.`,
+    tip:"Les graines de chanvre décortiquées ont un goût de noisette agréable. Saupoudrez-les sur les salades, yaourts, ou smoothies. C'est l'une des rares sources végétales offrant tous les acides aminés essentiels ET un ratio oméga-6/oméga-3 optimal. L'huile de chanvre (pressée à froid) ne doit pas être chauffée.",
+    badge:'Protéine végétale complète',badgeC:'amber'},
+
+  'Son d\'Avoine':{
+    def:`Le <strong>son d'avoine</strong> est l'enveloppe externe du grain d'avoine, concentrant les <strong>bêta-glucanes</strong> (fibres solubles visqueuses). Les bêta-glucanes sont les seules fibres ayant une allégation santé validée par l'EFSA pour la réduction du cholestérol. Ils forment un gel visqueux qui piège le cholestérol biliaire et ralentit l'absorption du glucose.`,
+    vals:[['Portion usuelle','20 – 40 g/jour (2 – 4 c. à soupe)'],['Bêta-glucanes','8 – 12 g / 100 g'],['Dose efficace (EFSA)','3 g de bêta-glucanes/jour (≈ 30 g de son)'],['Fibres totales','15 g / 100 g'],['Protéines','17 g / 100 g'],['Calories','246 kcal / 100 g']],
+    conds:[{t:'↓ Cholestérol LDL (allégation EFSA validée)',c:'green'},{t:'Régulation glycémique post-prandiale',c:'amber'},{t:'Satiété & gestion du poids',c:'green'},{t:'Prébiotique (butyrate via fermentation)',c:'teal'}],
+    myth:`<strong>❌ "Le son d'avoine fait maigrir tout seul"</strong> — Il augmente la satiété, mais ne « brûle » rien. C'est un outil utile dans un cadre alimentaire globalement équilibré. <strong>⚠️ Gluten</strong> — L'avoine ne contient pas de gluten au sens strict (pas de gliadine) mais peut être contaminée. Les cœliaques doivent choisir du son d'avoine certifié sans gluten.`,
+    tip:"Pour activer l'allégation santé EFSA (↓ cholestérol), il faut 3 g de bêta-glucanes/jour, soit environ 30 g de son d'avoine. Mélangez-le dans un yaourt, un smoothie ou une soupe. Augmentez progressivement la dose pour éviter les ballonnements et buvez suffisamment d'eau (les fibres solubles absorbent l'eau).",
+    badge:'Allégation EFSA cholestérol',badgeC:'green'},
+
+  'Pomme (Pectine)':{
+    def:`La <strong>pectine de pomme</strong> est une fibre soluble fermentescible classée prébiotique. Elle forme un gel visqueux dans l'intestin qui ralentit l'absorption des sucres et du cholestérol, nourrit les bifidobactéries et stimule la production de butyrate (acide gras à chaîne courte protecteur du côlon).`,
+    vals:[['Pectine','0,5 – 1,5 g / pomme moyenne'],['Fibres totales','4,4 g / pomme avec peau'],['Effet prébiotique','↑ Bifidobactéries & Lactobacilles'],['Production de butyrate','Via fermentation colique']],
+    conds:[{t:'Prébiotique (↑ bifidobactéries)',c:'green'},{t:'Production de butyrate',c:'teal'},{t:'Régulation du cholestérol (modeste)',c:'amber'},{t:'Satiété (gel visqueux)',c:'green'}],
+    myth:`<strong>❌ "La pectine de pomme chélate les métaux lourds"</strong> — Certaines études in vitro suggèrent une capacité de liaison, mais les preuves cliniques chez l'homme sont insuffisantes. Ne comptez pas sur la pomme pour une chélation.`,
+    tip:"La pectine est concentrée dans la chair de la pomme (pas dans la peau). Pour maximiser l'effet prébiotique, consommez la pomme crue (la cuisson dégrade partiellement la pectine). La compote conserve néanmoins une partie de la pectine et reste un bon aliment pour le microbiote.",
+    badge:'Fibre prébiotique',badgeC:'amber'},
+
+  /* ══════════════════════════════════════════
+     03 — ACIDES GRAS ESSENTIELS
+     ══════════════════════════════════════════ */
+
+  'Saumon':{
+    def:`Le <strong>saumon</strong> (<em>Salmo salar</em>) est l'un des poissons gras les plus riches en <strong>oméga-3 EPA + DHA</strong> (1,5 – 2,5 g/100 g). C'est aussi une excellente source de protéines de haute qualité (20 g/100 g), de vitamine D (10 – 15 µg/100 g), de sélénium, de vitamine B12 et d'astaxanthine (saumon sauvage). L'ANSES recommande 2 portions de poisson gras par semaine.`,
+    vals:[['Portion usuelle','125 – 150 g (1 pavé)'],['EPA + DHA','1,5 – 2,5 g / 100 g'],['Protéines','20 g / 100 g (PDCAAS 1,0)'],['Vitamine D','10 – 15 µg / 100 g (50–75 % ANC)'],['Sélénium','30 – 40 µg / 100 g'],['Calories','208 kcal / 100 g']],
+    conds:[{t:'Oméga-3 EPA/DHA (cardiovasculaire)',c:'violet'},{t:'Protéine complète de haute qualité',c:'green'},{t:'Source majeure de vitamine D',c:'amber'},{t:'Sélénium & B12',c:'teal'},{t:'Anti-inflammatoire systémique',c:'teal'}],
+    myth:`<strong>❌ "Le saumon d'élevage est toxique"</strong> — Le saumon d'élevage contient des contaminants (PCB, dioxines) à des taux généralement inférieurs aux limites réglementaires UE. Le bénéfice des oméga-3 l'emporte largement sur les risques. Le saumon sauvage a un meilleur profil mais est plus cher. <strong>❌ "Le saumon fumé = le saumon frais"</strong> — Le saumon fumé est riche en sel (3 – 5 g NaCl / 100 g) et a perdu une partie de ses oméga-3.`,
+    tip:"Privilégiez le saumon sauvage d'Alaska (label MSC) ou le saumon bio d'élevage (Label Rouge, ASC). Cuisson douce recommandée (vapeur, papillote) — une cuisson à haute température oxyde les oméga-3. Un pavé de saumon couvre vos besoins en EPA+DHA pour 2 à 3 jours.",
+    badge:'Champion oméga-3 marins',badgeC:'violet'},
+
+  'Sardines':{
+    def:`Les <strong>sardines</strong> (<em>Sardina pilchardus</em>) sont le poisson gras le plus riche en oméga-3 EPA+DHA (1,5 – 2,5 g/100 g), en calcium (lorsqu'elles sont consommées avec les arêtes : 382 mg/100 g), en vitamine D et en sélénium. Leur petite taille les place en bas de la chaîne alimentaire, ce qui minimise l'accumulation de mercure et de polluants.`,
+    vals:[['Portion usuelle','100 – 120 g (1 boîte)'],['EPA + DHA','1,5 – 2,5 g / 100 g'],['Calcium (avec arêtes)','382 mg / 100 g (40 % ANC)'],['Vitamine D','11 µg / 100 g'],['Protéines','25 g / 100 g'],['Calories','208 kcal / 100 g']],
+    conds:[{t:'Oméga-3 EPA/DHA (prix imbattable)',c:'violet'},{t:'Calcium (avec arêtes) — santé osseuse',c:'amber'},{t:'Très faible contamination mercure',c:'green'},{t:'Vitamine D + sélénium + B12',c:'teal'}],
+    myth:`<strong>❌ "Les sardines en conserve sont moins nutritives"</strong> — Les sardines en boîte conservent > 80 % de leurs oméga-3 et leur calcium augmente même (arêtes ramollies, comestibles). C'est un excellent choix nutritionnel, économique et pratique. <strong>⚠️ Huile de la boîte</strong> — Si conservées à l'huile de tournesol, les oméga-6 de l'huile peuvent déséquilibrer le ratio ω6/ω3. Préférez l'huile d'olive ou l'eau.`,
+    tip:"La sardine est le meilleur rapport qualité/prix nutritionnel en protéines et oméga-3. Mangez-les avec les arêtes (ramollies en conserve) pour un apport exceptionnel en calcium. Choisissez des sardines à l'huile d'olive ou au naturel. 2 boîtes par semaine couvrent vos besoins en EPA+DHA.",
+    badge:'Meilleur rapport nutrition/prix',badgeC:'violet'},
+
+  'Anchois':{
+    def:`Les <strong>anchois</strong> (<em>Engraulis encrasicolus</em>) sont des petits poissons gras extrêmement riches en oméga-3 EPA+DHA (1,5 – 2 g/100 g), en protéines (20 g/100 g), en calcium, sélénium et niacine (B3). Comme les sardines, leur petite taille garantit une faible accumulation de métaux lourds.`,
+    vals:[['Portion usuelle','30 – 50 g (filets) ou 100 g (frais)'],['EPA + DHA','1,5 – 2 g / 100 g'],['Protéines','20 g / 100 g'],['Calcium','147 mg / 100 g'],['⚠️ Sodium (conserve)','3 500 – 5 000 mg / 100 g'],['Calories','131 kcal / 100 g (frais)']],
+    conds:[{t:'Oméga-3 EPA/DHA',c:'violet'},{t:'Protéines de haute qualité',c:'green'},{t:'Faible contamination mercure',c:'green'},{t:'Niacine (B3) & sélénium',c:'teal'}],
+    myth:`<strong>⚠️ "Les anchois sont sains sans restriction"</strong> — Les anchois en conserve (salés) sont extrêmement riches en sodium (3 à 5 g/100 g). Une consommation excessive contribue à l'hypertension. Rincez-les avant consommation pour réduire le sel de 30 à 40 %. <strong>❌ "Les anchois sont riches en purines donc dangereux"</strong> — Ils contiennent des purines (comme tous les poissons), mais sauf en cas de goutte active, cela ne justifie pas de les éviter.`,
+    tip:"Rincez les anchois en conserve sous l'eau pour réduire significativement le sel. Les anchois frais (quand disponibles) sont excellents grillés ou marinés au citron. Ils sont une source d'oméga-3 et de protéines à moindre coût et sont souvent la base des compléments d'huile de poisson (petits poissons = moins de polluants).",
+    badge:'Oméga-3 bas de chaîne',badgeC:'violet'},
+
+  'Huile de Lin':{
+    def:`L'<strong>huile de lin</strong> (<em>Linum usitatissimum</em>) est la source végétale la plus concentrée en oméga-3 ALA (55 % des acides gras). Elle contient aussi des lignanes (phytoestrogènes) et de la vitamine E. L'ALA est un acide gras essentiel précurseur de l'EPA, mais avec un taux de conversion faible (5–10 %).`,
+    vals:[['Portion usuelle','1 – 2 c. à soupe/jour (10 – 20 mL)'],['Oméga-3 (ALA)','55 % des AG (= 5,5 g / c. à soupe)'],['Rapport ω6/ω3','0,3:1 (excellent, pro-ω3)'],['Vitamine E','Modérée'],['Calories','884 kcal / 100 mL'],['⚠️ Oxydation','Très sensible — réfrigérer, jamais cuire']],
+    conds:[{t:'Source n°1 d\'ALA végétal',c:'violet'},{t:'Ratio ω6/ω3 excellent',c:'green'},{t:'Lignanes (phytoestrogènes)',c:'teal'},{t:'Anti-inflammatoire (ALA)',c:'teal'}],
+    myth:`<strong>❌ "L'huile de lin remplace l'huile de poisson"</strong> — L'ALA est converti en EPA à 5–10 % et en DHA à < 1 %. L'huile de lin ne peut PAS fournir les mêmes quantités d'EPA/DHA que le poisson gras. Elle complète, mais ne remplace pas. <strong>❌ "L'huile de lin est stable"</strong> — C'est l'huile la plus sensible à l'oxydation (richesse en ALA). Elle rancit très vite à température ambiante. Ne jamais la cuire.`,
+    tip:"Conservez l'huile de lin au réfrigérateur, dans une bouteille opaque, et consommez-la dans les 3 semaines après ouverture. Ne la chauffez JAMAIS (oxydation des oméga-3 → composés toxiques). Utilisez-la crue en assaisonnement (vinaigrettes, sur les salades, les légumes cuits). Les graines de lin moulues sont une alternative intéressante (fibres + lignanes en plus).",
+    badge:'N°1 en ALA végétal',badgeC:'violet'},
+
+  'Noix':{
+    def:`Les <strong>noix</strong> (<em>Juglans regia</em>) sont le seul oléagineux significativement riche en oméga-3 ALA (9 g/100 g). Elles apportent aussi des polyphénols (acide ellagique), du magnésium, du cuivre, du manganèse et de la vitamine B6. L'étude PREDIMED (2013) a montré une réduction de 30 % des événements cardiovasculaires avec un régime méditerranéen enrichi en noix.`,
+    vals:[['Portion usuelle','30 g/jour (une poignée ≈ 7 noix)'],['Oméga-3 (ALA)','9 g / 100 g'],['Protéines','15 g / 100 g'],['Magnésium','158 mg / 100 g'],['Polyphénols','Acide ellagique, catéchines'],['Calories','654 kcal / 100 g']],
+    conds:[{t:'Oméga-3 ALA (n°1 oléagineux)',c:'violet'},{t:'Réduction risque cardiovasculaire (PREDIMED)',c:'green'},{t:'Polyphénols (acide ellagique)',c:'teal'},{t:'Magnésium, cuivre, manganèse',c:'amber'},{t:'Satiété & gestion du poids',c:'green'}],
+    myth:`<strong>❌ "Les noix font grossir"</strong> — Malgré 654 kcal/100 g, les études montrent que la consommation quotidienne de 30 g de noix n'entraîne PAS de prise de poids, grâce à l'effet de satiété, la compensation calorique et la perte fécale de graisses (20 % des lipides des noix ne sont pas absorbés). <strong>❌ "Toutes les noix sont égales"</strong> — Seule la noix commune (Juglans regia) est riche en oméga-3. Les noix de cajou, macadamia et noisettes n'en contiennent quasiment pas.`,
+    tip:"Une poignée de noix par jour (30 g) est la dose associée à la réduction du risque cardiovasculaire dans les études. Conservez-les au réfrigérateur (les oméga-3 s'oxydent). Préférez les noix avec la peau (riche en polyphénols). Les noix activées (trempées 8h) sont plus digestes.",
+    badge:'Oléagineux cardioprotecteur n°1',badgeC:'violet'},
+
+  'Graines de Chanvre (Lipides)':{
+    def:`L'<strong>huile de chanvre</strong> se distingue par son ratio oméga-6/oméga-3 de 3:1, considéré comme optimal pour la santé. Elle contient de l'<strong>acide gamma-linolénique (GLA)</strong>, un oméga-6 anti-inflammatoire rare, en plus de l'ALA (oméga-3). C'est l'une des rares huiles offrant simultanément ALA et GLA.`,
+    vals:[['Portion usuelle','1 – 2 c. à soupe/jour'],['Oméga-3 (ALA)','20 % des AG'],['Oméga-6 (LA + GLA)','60 % des AG (dont 3–4 % GLA)'],['Ratio ω6/ω3','3:1 (optimal)'],['Calories','884 kcal / 100 mL']],
+    conds:[{t:'Ratio ω6/ω3 optimal (3:1)',c:'green'},{t:'GLA anti-inflammatoire (rare)',c:'teal'},{t:'ALA (oméga-3 végétal)',c:'violet'},{t:'Vitamine E (antioxydant)',c:'teal'}],
+    myth:`<strong>❌ "L'huile de chanvre est un médicament"</strong> — C'est une bonne huile alimentaire avec un profil lipidique intéressant, mais elle n'a pas de propriétés thérapeutiques prouvées. Ne la confondez pas avec l'huile de CBD (cannabidiol), qui est un extrait différent.`,
+    tip:"Comme l'huile de lin, l'huile de chanvre est fragile et ne doit jamais être chauffée. Conservez-la au réfrigérateur. Son goût herbacé et de noisette se marie bien avec les salades, les houmous et les smoothies. C'est l'huile végétale avec le meilleur ratio oméga-6/oméga-3 naturel.",
+    badge:'Ratio ω6/ω3 optimal',badgeC:'violet'},
+
+  /* ══════════════════════════════════════════
+     04 — PROTÉINES & SUPERALIMENTS
+     ══════════════════════════════════════════ */
+
+  'Œufs':{
+    def:`L'<strong>œuf</strong> est souvent qualifié d'« aliment le plus complet » de la nature. Il apporte des protéines de référence (PDCAAS 1,0 — la note maximale), tous les acides aminés essentiels, de la choline (125 mg/œuf), de la lutéine/zéaxanthine (santé oculaire), des vitamines A, D, E, B2, B5, B12, du sélénium et de l'iode. Le jaune concentre les micronutriments et les lipides ; le blanc contient les protéines.`,
+    vals:[['Portion usuelle','1 – 3 œufs/jour'],['Protéines','13 g / 100 g (6,5 g / œuf moyen)'],['Choline','125 mg / œuf (25 % ANC)'],['Lutéine + Zéaxanthine','200 µg / œuf (hautement biodisponible)'],['Vitamine D','1 – 2 µg / œuf'],['Calories','155 kcal / 100 g (= 78 kcal / œuf)']],
+    conds:[{t:'Protéine de référence (PDCAAS 1,0)',c:'green'},{t:'Choline (mémoire, foie)',c:'teal'},{t:'Lutéine/Zéaxanthine (santé oculaire)',c:'teal'},{t:'Vitamines A, D, E, B12',c:'amber'},{t:'Satiété élevée (petit-déjeuner)',c:'green'}],
+    myth:`<strong>❌ "Les œufs augmentent le cholestérol"</strong> — La science a définitivement réfuté ce mythe. Le cholestérol alimentaire a un impact marginal sur le cholestérol sanguin chez 75 % de la population (« répondeurs normaux »). L'AHA, l'ANSES et la plupart des sociétés savantes n'imposent plus de limite au nombre d'œufs/semaine. <strong>❌ "Le blanc seul est meilleur"</strong> — Le jaune contient 90 % des micronutriments (vitamines, choline, lutéine). Ne manger que le blanc, c'est jeter l'essentiel de la valeur nutritionnelle.`,
+    tip:"Mangez l'œuf ENTIER (blanc + jaune). 2 à 3 œufs par jour est sans danger pour la majorité de la population. Privilégiez les œufs bio ou plein air (codes 0 ou 1 sur la coquille en France) — ils contiennent davantage d'oméga-3, de vitamines et de caroténoïdes. La cuisson mollet ou poché est idéale : blanc coagulé (protéines biodisponibles) + jaune coulant (préservation des nutriments thermosensibles).",
+    badge:'Aliment le plus complet',badgeC:'green'},
+
+  'Saumon (Protéines)':{
+    def:`Le <strong>saumon</strong> en tant que source protéique apporte 20 g de protéines complètes / 100 g avec un PDCAAS de 1,0 (note maximale). Ses protéines sont riches en leucine (acide aminé clé de la synthèse musculaire), en plus de son profil exceptionnel en oméga-3, vitamine D et sélénium déjà décrit dans la section Acides Gras.`,
+    vals:[['Protéines','20 g / 100 g (PDCAAS 1,0)'],['Leucine','1,6 g / 100 g (seuil anabolique)'],['Score chimique','Tous les AA essentiels couverts'],['Digestibilité','> 95 %']],
+    conds:[{t:'Synthèse protéique musculaire',c:'green'},{t:'Leucine élevée (seuil anabolique)',c:'teal'},{t:'Récupération sportive',c:'amber'},{t:'Prévention sarcopénie (senior)',c:'teal'}],
+    myth:`<strong>❌ "Le saumon n'est pas une bonne source de protéines par rapport à la viande"</strong> — Le saumon a un PDCAAS identique au poulet et au bœuf (1,0) avec l'avantage des oméga-3, de la vitamine D et d'un profil anti-inflammatoire que la viande rouge n'offre pas.`,
+    tip:"Un pavé de saumon de 150 g fournit 30 g de protéines complètes — l'équivalent d'un shake de whey, mais avec de la vitamine D, des oméga-3 et du sélénium en bonus. C'est l'une des meilleures sources protéiques pour les sportifs et les seniors (prévention de la sarcopénie).",
+    badge:'Protéine complète + oméga-3',badgeC:'green'},
+
+  'Spiruline':{
+    def:`La <strong>spiruline</strong> (<em>Arthrospira platensis</em>) est une cyanobactérie (micro-algue bleu-vert) considérée comme un « superaliment » en raison de sa densité nutritionnelle exceptionnelle : 60–70 % de protéines, fer hautement biodisponible (28 mg/100 g), phycocyanine (pigment antioxydant & anti-inflammatoire), bêta-carotène, vitamines B et chlorophylle.`,
+    vals:[['Portion usuelle','3 – 10 g/jour (1 – 2 c. à café)'],['Protéines','60 – 70 g / 100 g'],['Fer','28 mg / 100 g (mais portion = 0,8 mg)'],['Phycocyanine','15 – 20 % (antioxydant majeur)'],['Bêta-carotène','120 mg / 100 g'],['Calories','290 kcal / 100 g'],['⚠️','Pas de B12 active (analogue inactif)']],
+    conds:[{t:'Densité protéique exceptionnelle',c:'green'},{t:'Phycocyanine (anti-inflammatoire unique)',c:'teal'},{t:'Fer (végétaliens — mais dose faible/portion)',c:'amber'},{t:'Bêta-carotène & chlorophylle',c:'green'},{t:'Performance sportive (endurance)',c:'teal'}],
+    myth:`<strong>❌ "La spiruline est riche en B12"</strong> — FAUX. La spiruline contient principalement de la pseudo-B12 (analogue inactif) qui n'est pas utilisable par l'organisme humain et peut même fausser les dosages sanguins. Les végétaliens DOIVENT se supplémenter en B12 par ailleurs. <strong>❌ "La spiruline est un aliment miracle qui suffit à tout"</strong> — À 5 g/jour (dose réaliste), elle apporte 3 g de protéines et 1,4 mg de fer. C'est un bon complément, pas un substitut alimentaire. <strong>❌ "La spiruline détoxifie les métaux lourds"</strong> — Les preuves cliniques chez l'homme sont insuffisantes pour valider cette allégation.`,
+    tip:"Commencez par 1 g/jour et augmentez progressivement (troubles digestifs possibles). Choisissez une spiruline certifiée (analyse métaux lourds, microcystines) car les micro-algues peuvent accumuler des contaminants si le milieu de culture est pollué. La spiruline française (producteurs artisanaux) offre un bon niveau de traçabilité. La phycocyanine est son composant le plus précieux, absent de tout autre aliment.",
+    badge:'Superaliment — avec nuances',badgeC:'green'},
+
+  'Glutamine (sources alimentaires)':{
+    def:`La <strong>glutamine</strong> est l'acide aminé le plus abondant dans le sang et les muscles. Elle est apportée naturellement par les aliments riches en protéines. Les meilleures sources alimentaires sont : viandes (4–5 g/100 g), œufs (0,6 g/œuf), poissons, produits laitiers, légumineuses et chou cru. Un régime varié en protéines couvre largement les besoins en glutamine.`,
+    vals:[['Besoins couverts par l\'alimentation','5 – 10 g/jour (régime occidental)'],['Bœuf','4,7 g / 100 g'],['Œufs','0,6 g / œuf'],['Lait','0,3 g / 100 mL'],['Chou cru','0,6 g / 100 g'],['Tofu','0,6 g / 100 g']],
+    conds:[{t:'Réparation de la barrière intestinale',c:'green'},{t:'Carburant des entérocytes & lymphocytes',c:'teal'},{t:'Récupération musculaire',c:'amber'},{t:'Immunité',c:'green'}],
+    myth:`<strong>❌ "Il faut obligatoirement se supplémenter en glutamine"</strong> — Un régime normal apporte 5 à 10 g de glutamine/jour, suffisant pour la plupart des gens. La supplémentation n'est utile qu'en cas de stress intense (sport de haut niveau, post-chirurgie, maladie grave, dysbiose sévère). <strong>✅ Ce qui est vrai</strong> — En cas de perméabilité intestinale avérée ou de sport intense, une supplémentation de 5–10 g peut être bénéfique.`,
+    tip:"Avant de vous supplémenter en glutamine, vérifiez que votre alimentation contient suffisamment de protéines animales ou végétales (1,2 à 1,6 g de protéines/kg/jour). Le chou cru, les épinards et le persil sont parmi les meilleures sources végétales. La supplémentation n'est justifiée que dans des situations spécifiques.",
+    badge:'Via l\'alimentation d\'abord',badgeC:'green'},
+
+  'Noix (Protéines végétales)':{
+    def:`Les <strong>noix</strong> apportent 15 g de protéines / 100 g avec un profil en acides aminés riche en arginine (vasodilatateur, précurseur du NO). Elles sont déficitaires en lysine, comme la plupart des oléagineux, mais complètent bien les légumineuses (riches en lysine, pauvres en méthionine).`,
+    vals:[['Protéines','15 g / 100 g'],['Arginine','2,3 g / 100 g (précurseur NO)'],['Acide aminé limitant','Lysine (complémentarité avec légumineuses)'],['PDCAAS','0,52 (modéré — nécessite complémentarité)']],
+    conds:[{t:'Source protéique végétale',c:'green'},{t:'Arginine (vasodilatation, NO)',c:'teal'},{t:'Complémentarité légumineuses',c:'amber'}],
+    myth:`<strong>❌ "Les noix sont une source de protéines suffisante"</strong> — Avec un PDCAAS de 0,52 et un déficit en lysine, les noix ne sont pas une source protéique complète à elles seules. Elles doivent être combinées avec des légumineuses (lentilles, pois chiches) pour un profil complet.`,
+    tip:"Combinez noix + légumineuses dans la même journée (pas forcément au même repas) pour une complémentarité protéique optimale. L'arginine des noix est intéressante pour la vasodilatation et la santé vasculaire. 30 g de noix apportent 4,5 g de protéines — un complément, pas une source principale.",
+    badge:'Complément protéique végétal',badgeC:'green'},
+};
+
+/* ══ COLOUR MAPS ══ */
+const STRIPES={teal:'linear-gradient(90deg,var(--c-teal),var(--c-green))',amber:'linear-gradient(90deg,var(--c-amber),var(--c-teal))',violet:'linear-gradient(90deg,var(--c-violet),var(--c-teal))',green:'linear-gradient(90deg,var(--c-green),var(--c-amber))'};
+const BCOLS={teal:{bg:'rgba(14,165,201,.1)',bd:'rgba(14,165,201,.25)',c:'#7dd3fc'},amber:{bg:'rgba(245,158,11,.1)',bd:'rgba(245,158,11,.25)',c:'#fcd34d'},violet:{bg:'rgba(124,58,237,.1)',bd:'rgba(124,58,237,.25)',c:'#c4b5fd'},green:{bg:'rgba(16,185,129,.1)',bd:'rgba(16,185,129,.25)',c:'#6ee7b7'},red:{bg:'rgba(239,68,68,.1)',bd:'rgba(239,68,68,.25)',c:'#fca5a5'}};
+const TIP_RGB={teal:'14,165,201',amber:'245,158,11',violet:'124,58,237',green:'16,185,129'};
+
+let currentTag=null;
+
+function openDrawer(name,cat,phonetic,color){
+  const info=DATA[name]||{def:`<strong>${name}</strong> — Fiche à venir.`,vals:[],conds:[],myth:'',tip:'Consultez un professionnel de santé.',badge:'En cours de documentation',badgeC:'teal'};
+
+  document.getElementById('drawer-stripe').style.background=STRIPES[color]||STRIPES.teal;
+  document.getElementById('d-cat').textContent=cat;
+  document.getElementById('d-name').textContent=name;
+  document.getElementById('d-phonetic').textContent=phonetic?'· '+phonetic+' ·':'';
+
+  const bc=BCOLS[info.badgeC]||BCOLS.teal;
+  document.getElementById('d-badge').innerHTML=`
+    <div class="drawer-badge" style="background:${bc.bg};border-color:${bc.bd};color:${bc.c};margin-bottom:20px">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L1 3.5V6C1 8.8 3.1 11.4 6 12C8.9 11.4 11 8.8 11 6V3.5L6 1Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="0.8"/><path d="M6 3.5V8M6 3.5L4 5.5M6 3.5L8 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ${info.badge}
+    </div>`;
+
+  document.getElementById('d-def').innerHTML=info.def;
+
+  const vb=document.getElementById('d-valbox');
+  if(info.vals&&info.vals.length){
+    vb.style.display='block';
+    vb.innerHTML='<div class="val-box-title">Valeurs nutritionnelles & dosages</div>'
+      +info.vals.map(([l,v])=>`<div class="val-row"><span class="val-label">${l}</span><span class="val-num">${v}</span></div>`).join('');
+  }else{vb.style.display='none';}
+
+  document.getElementById('d-conds').innerHTML=(info.conds||[]).map(({t,c})=>{
+    const col=BCOLS[c]||BCOLS.teal;
+    return `<span class="cond" style="background:${col.bg};border-color:${col.bd};color:${col.c}">${t}</span>`;
+  }).join('');
+
+  // Myth section
+  const mythSection=document.getElementById('d-myth-section');
+  const mythBox=document.getElementById('d-myth');
+  if(info.myth&&info.myth.length>0){
+    mythSection.style.display='block';
+    mythBox.innerHTML=`<span class="myth-ico">🧐</span><span class="myth-txt">${info.myth}</span>`;
+  }else{
+    mythSection.style.display='none';
+  }
+
+  const rgb=TIP_RGB[color]||TIP_RGB.teal;
+  const tip=document.getElementById('d-tip');
+  tip.innerHTML=`<span class="tip-ico">💡</span><span class="tip-txt"><strong>Conseil PRÉVIO :</strong> ${info.tip}</span>`;
+  tip.style.borderColor=`rgba(${rgb},.18)`;
+  tip.style.background=`rgba(${rgb},.05)`;
+
+  document.querySelectorAll('.tag.active').forEach(t=>t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  currentTag=event.currentTarget;
+
+  document.body.classList.add('drawer-open');
+  document.querySelector('.drawer-body').scrollTop=0;
+}
+
+function closeDrawer(){
+  document.body.classList.remove('drawer-open');
+  if(currentTag){currentTag.classList.remove('active');currentTag=null;}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+</script>
+</body>
+</html>
