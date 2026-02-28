@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+<title>PRÉVIO — Politique de confidentialité</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070c1a;--card:rgba(255,255,255,.04);--brd:rgba(255,255,255,.09);--txt:rgba(255,255,255,.82);--mut:rgba(255,255,255,.45);--c-teal:#0ea5c9;--c-green:#10b981;--ff:'DM Sans',system-ui,sans-serif;--ffd:'Fraunces',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--ff);line-height:1.8;min-height:100vh}
+a{color:var(--c-teal);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:680px;margin:0 auto;padding:80px 24px 120px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--mut);margin-bottom:32px;transition:color .15s}
+.back:hover{color:#fff;text-decoration:none}
+h1{font-family:var(--ffd);font-size:clamp(26px,5vw,38px);font-weight:600;letter-spacing:-.04em;color:#fff;margin-bottom:8px}
+.date{font-size:12px;color:var(--mut);margin-bottom:40px}
+h2{font-size:16px;font-weight:700;color:#fff;margin:32px 0 10px;padding-top:16px;border-top:1px solid var(--brd)}
+p,li{font-size:14px;color:var(--txt);line-height:1.85;margin-bottom:12px}
+ul{padding-left:20px;margin-bottom:16px}
+li{margin-bottom:6px}
+.highlight{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:16px 18px;margin:20px 0}
+.highlight strong{color:var(--c-green)}
+.footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--mut);border-top:1px solid var(--brd);margin-top:60px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="back">← Retour à l'accueil</a>
+  <h1>Politique de confidentialité</h1>
+  <p class="date">Dernière mise à jour : février 2026</p>
+
+  <div class="highlight">
+    <p><strong>En résumé : vos données ne quittent jamais votre appareil.</strong> PRÉVIO fonctionne entièrement en local (localStorage du navigateur). Aucune donnée personnelle n'est collectée, transmise ou stockée sur un serveur externe.</p>
+  </div>
+
+  <h2>1. Architecture locale (local-first)</h2>
+  <p>PRÉVIO est conçu selon une architecture « local-first ». Cela signifie que toutes les données que vous saisissez (réponses aux questionnaires, scores, profil) sont stockées exclusivement dans le localStorage de votre navigateur web.</p>
+  <p>Concrètement :</p>
+  <ul>
+    <li>Aucune base de données distante n'est utilisée</li>
+    <li>Aucun compte serveur n'est créé</li>
+    <li>Aucune API de données personnelles n'est appelée</li>
+    <li>Le code s'exécute intégralement côté client (dans votre navigateur)</li>
+  </ul>
+
+  <h2>2. Données stockées</h2>
+  <p>Les données enregistrées dans votre navigateur incluent :</p>
+  <ul>
+    <li><strong>Profil local</strong> : prénom ou pseudo (aucun email, aucun mot de passe)</li>
+    <li><strong>Réponses aux questionnaires</strong> : données contextuelles (âge, taille, poids, habitudes), réponses aux modules santé</li>
+    <li><strong>Scores calculés</strong> : HOMA-IR, ISI, GAD-7, DASH, etc. — calculés localement à partir de vos réponses</li>
+    <li><strong>État de progression</strong> : quels modules ont été complétés</li>
+    <li><strong>Checklist</strong> : état du plan d'action (coché/non coché)</li>
+  </ul>
+
+  <h2>3. Données NON collectées</h2>
+  <p>PRÉVIO ne collecte pas :</p>
+  <ul>
+    <li>Adresse email</li>
+    <li>Mot de passe</li>
+    <li>Adresse IP (pas de tracking serveur)</li>
+    <li>Données de géolocalisation</li>
+    <li>Cookies de tracking ou publicitaires</li>
+  </ul>
+
+  <h2>4. Hébergement et services tiers</h2>
+  <p>Le site est hébergé sur Vercel. Les seules requêtes réseau sont :</p>
+  <ul>
+    <li>Le chargement des pages HTML/CSS/JS (fichiers statiques)</li>
+    <li>Le chargement des polices Google Fonts (DM Sans, Fraunces)</li>
+  </ul>
+  <p>Vercel peut collecter des logs d'accès (adresse IP, user-agent) dans le cadre de son service d'hébergement. Consultez la <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener">politique de confidentialité de Vercel</a> pour plus de détails.</p>
+  <p>Google Fonts peut collecter des données dans le cadre du chargement des polices. Consultez la <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">politique de confidentialité de Google</a>.</p>
+
+  <h2>5. Export et suppression de vos données</h2>
+  <p>Vous avez un contrôle total sur vos données :</p>
+  <ul>
+    <li><strong>Export</strong> : vous pouvez exporter toutes vos données au format JSON depuis la section « Données locales » de l'application</li>
+    <li><strong>Import</strong> : vous pouvez restaurer vos données depuis un fichier JSON exporté précédemment</li>
+    <li><strong>Suppression</strong> : vous pouvez supprimer toutes vos données à tout moment depuis la section « Données locales ». Cette action est irréversible.</li>
+    <li><strong>Effacement navigateur</strong> : vider le cache ou le localStorage de votre navigateur supprimera automatiquement toutes les données PRÉVIO</li>
+  </ul>
+
+  <h2>6. Sécurité</h2>
+  <p>Mesures de sécurité mises en place :</p>
+  <ul>
+    <li>Content Security Policy (CSP) restrictive</li>
+    <li>Protection contre l'injection XSS (sanitization des entrées)</li>
+    <li>Validation stricte à l'import JSON (schéma, types, taille)</li>
+    <li>Aucune donnée sensible en clair (pas de mot de passe stocké)</li>
+    <li>Headers de sécurité : X-Content-Type-Options, X-Frame-Options, Referrer-Policy</li>
+  </ul>
+
+  <h2>7. Mineurs</h2>
+  <p>PRÉVIO n'est pas destiné aux personnes de moins de 16 ans. L'utilisation par un mineur doit se faire sous la supervision d'un parent ou tuteur légal.</p>
+
+  <h2>8. Modifications</h2>
+  <p>Cette politique peut être mise à jour. La date de dernière modification est indiquée en haut de cette page.</p>
+
+  <div class="footer">PRÉVIO® — Proof of Concept · <a href="mentions-legales.html">Mentions légales</a> · <a href="avertissement.html">Avertissement santé</a></div>
+</div>
+</body>
+</html>

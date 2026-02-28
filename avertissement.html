@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+<title>PRÉVIO — Avertissement santé</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,400&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#070c1a;--card:rgba(255,255,255,.04);--brd:rgba(255,255,255,.09);--txt:rgba(255,255,255,.82);--mut:rgba(255,255,255,.45);--c-teal:#0ea5c9;--c-amber:#f59e0b;--c-red:#ef4444;--ff:'DM Sans',system-ui,sans-serif;--ffd:'Fraunces',Georgia,serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:var(--ff);line-height:1.8;min-height:100vh}
+a{color:var(--c-teal);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:680px;margin:0 auto;padding:80px 24px 120px}
+.back{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--mut);margin-bottom:32px;transition:color .15s}
+.back:hover{color:#fff;text-decoration:none}
+h1{font-family:var(--ffd);font-size:clamp(26px,5vw,38px);font-weight:600;letter-spacing:-.04em;color:#fff;margin-bottom:8px}
+.date{font-size:12px;color:var(--mut);margin-bottom:40px}
+h2{font-size:16px;font-weight:700;color:#fff;margin:32px 0 10px;padding-top:16px;border-top:1px solid var(--brd)}
+p,li{font-size:14px;color:var(--txt);line-height:1.85;margin-bottom:12px}
+ul{padding-left:20px;margin-bottom:16px}
+li{margin-bottom:6px}
+.warning{background:rgba(245,158,11,.08);border:1.5px solid rgba(245,158,11,.25);border-radius:14px;padding:20px 22px;margin:24px 0}
+.warning-title{font-weight:700;font-size:15px;color:var(--c-amber);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.critical{background:rgba(239,68,68,.08);border:1.5px solid rgba(239,68,68,.25);border-radius:14px;padding:20px 22px;margin:24px 0}
+.critical-title{font-weight:700;font-size:15px;color:var(--c-red);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.footer{text-align:center;padding:40px 24px;font-size:12px;color:var(--mut);border-top:1px solid var(--brd);margin-top:60px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a href="index.html" class="back">← Retour à l'accueil</a>
+  <h1>Avertissement santé</h1>
+  <p class="date">Dernière mise à jour : février 2026</p>
+
+  <div class="critical">
+    <div class="critical-title">⚠️ PRÉVIO ne remplace pas un avis médical</div>
+    <p>PRÉVIO est un outil d'information et de prévention. Il ne fournit pas de diagnostic médical, de prescription, ni de traitement. Les informations et recommandations présentées sont à titre purement informatif et éducatif.</p>
+  </div>
+
+  <h2>Nature de l'outil</h2>
+  <p>PRÉVIO est un <strong>Proof of Concept</strong> (prototype) qui vise à aider les individus à mieux comprendre leurs données de santé dans une perspective de prévention. Il utilise des questionnaires validés scientifiquement et des algorithmes d'interprétation basés sur la littérature médicale.</p>
+
+  <h2>Ce que PRÉVIO fait</h2>
+  <ul>
+    <li>Contextualiser des résultats d'analyses biologiques en tenant compte de variables pré-analytiques (jeûne, stress, activité physique, heure du prélèvement)</li>
+    <li>Calculer des scores validés (HOMA-IR, ISI, GAD-7, DASH, etc.) à partir de vos réponses</li>
+    <li>Proposer des pistes d'amélioration basées sur des recommandations de sociétés savantes et des méta-analyses</li>
+    <li>Fournir des repères (seuils, interprétations) pour faciliter le dialogue avec votre professionnel de santé</li>
+  </ul>
+
+  <h2>Ce que PRÉVIO ne fait PAS</h2>
+  <ul>
+    <li>Diagnostiquer une maladie</li>
+    <li>Prescrire un traitement ou un médicament</li>
+    <li>Remplacer une consultation médicale, diététique ou psychologique</li>
+    <li>Garantir l'exactitude des résultats (les calculs dépendent de la précision de vos réponses)</li>
+    <li>Prendre en compte l'ensemble de votre historique médical</li>
+  </ul>
+
+  <div class="warning">
+    <div class="warning-title">⚡ Limites des scores et estimations</div>
+    <p>Les scores calculés par PRÉVIO sont des estimations basées sur des questionnaires auto-déclaratifs. Ils sont susceptibles de biais :</p>
+    <ul>
+      <li>La précision dépend de l'exactitude de vos réponses</li>
+      <li>Un score isolé ne suffit jamais à poser un diagnostic — il doit être interprété dans un contexte clinique global</li>
+      <li>Les seuils de référence sont des repères populationnels qui ne tiennent pas compte de votre situation individuelle</li>
+      <li>Les « impacts attendus » des recommandations sont des estimations moyennes tirées d'études cliniques — votre réponse individuelle peut varier considérablement</li>
+    </ul>
+  </div>
+
+  <h2>Quand consulter un professionnel de santé</h2>
+  <p>Consultez un médecin, un diététicien ou un professionnel de santé mentale si :</p>
+  <ul>
+    <li>Vos résultats d'analyses biologiques sont anormaux</li>
+    <li>Un score PRÉVIO indique un niveau « modéré » ou « sévère » (orange ou rouge)</li>
+    <li>Vous ressentez des symptômes inhabituels (fatigue, douleurs, troubles du sommeil, anxiété)</li>
+    <li>Vous souhaitez modifier significativement votre alimentation, votre activité physique ou prendre des compléments alimentaires</li>
+    <li>Vous avez des antécédents médicaux ou prenez des médicaments</li>
+  </ul>
+
+  <div class="critical">
+    <div class="critical-title">🆘 Urgences</div>
+    <p>En cas d'urgence médicale ou de pensées suicidaires, contactez immédiatement :</p>
+    <ul>
+      <li><strong>SAMU</strong> : 15</li>
+      <li><strong>Urgences</strong> : 112</li>
+      <li><strong>Prévention suicide</strong> : 3114 (24h/24, 7j/7)</li>
+      <li><strong>SOS Amitié</strong> : 09 72 39 40 50</li>
+    </ul>
+  </div>
+
+  <h2>Wording et formulations</h2>
+  <p>Les termes utilisés dans PRÉVIO respectent les règles suivantes :</p>
+  <ul>
+    <li>Les résultats sont toujours qualifiés d'« <strong>estimations</strong> » ou de « <strong>repères</strong> »</li>
+    <li>Les recommandations sont formulées comme des « <strong>pistes</strong> » ou « <strong>suggestions</strong> », jamais comme des prescriptions</li>
+    <li>Les impacts attendus sont accompagnés d'un horizon temporel et d'une fourchette (ex : « ↓ 0.2–0.4% en 3 mois »)</li>
+    <li>Les limites de chaque score sont systématiquement mentionnées dans le panneau d'information (bouton ℹ️)</li>
+  </ul>
+
+  <h2>Données scientifiques</h2>
+  <p>Les questionnaires, scores et recommandations utilisés par PRÉVIO sont basés sur des outils validés et des publications peer-reviewed. Exemples : ISI (Morin 2001), GAD-7 (Spitzer 2006), PHQ-9 (Kroenke 2001), PSQI (Buysse 1989), IPAQ (Craig 2003), DASH (Sacks 2001), régime méditerranéen (Trichopoulou 2003), MIND Diet (Morris 2015).</p>
+  <p>Ces outils sont largement utilisés en soins primaires et en recherche clinique, mais ils ne remplacent pas une évaluation clinique individuelle.</p>
+
+  <div class="footer">PRÉVIO® — Proof of Concept · <a href="mentions-legales.html">Mentions légales</a> · <a href="confidentialite.html">Confidentialité</a></div>
+</div>
+</body>
+</html>
