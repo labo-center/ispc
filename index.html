@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicons/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+<link rel="manifest" href="/favicons/site.webmanifest">
+<meta name="theme-color" content="#0ea5c9">
+<title>PRÉVIO — Prévention. Personnalisée.</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   PRÉVIO — DESIGN SYSTEM (Landing)
+══════════════════════════════════════════ */
+:root{
+  --c-teal:#0ea5c9;    --c-teal-d:#0e7490; --c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed;  --c-violet-d:#6d28d9;
+  --c-green:#10b981;   --c-green-d:#047857; --c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b;   --c-amber-d:#d97706;
+  --c-red:#ef4444;
+  --dark-1:#070c1a; --dark-2:#0f1628; --dark-3:#141c35; --dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08); --dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.42); --dark-t:rgba(255,255,255,.88);
+  --bg:#f4f3ef; --card:#fff; --txt:#111827; --mut:#64748b; --brd:#e5e0d8;
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  --nav-h:62px;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh}
+body{font-family:var(--ff);color:var(--txt);overflow-x:hidden;background:var(--dark-1)}
+button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
+:focus-visible{outline:2px solid var(--c-teal);outline-offset:2px;border-radius:4px}
+.skip-link{position:absolute;top:-100px;left:16px;z-index:999;padding:12px 20px;
+  background:var(--c-teal);color:#fff;font-weight:700;font-size:14px;
+  border-radius:0 0 12px 12px;transition:top .2s}
+.skip-link:focus{top:0}
+a{text-decoration:none;color:inherit}
+
+/* ── FADE HELPERS ── */
+.fu{animation:fu .6s var(--ease-o) both}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}
+.d4{animation-delay:.32s}.d5{animation-delay:.40s}.d6{animation-delay:.48s}
+
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  height:var(--nav-h);
+  background:rgba(7,12,26,.85);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b);
+}
+.nav-in{
+  max-width:1160px;margin:0 auto;height:100%;
+  display:flex;align-items:center;padding:0 24px;gap:0;
+}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:38px;flex-shrink:0}
+.nav-mark{
+  width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;font-size:18px;
+  box-shadow:0 0 22px rgba(14,165,201,.32),0 0 44px rgba(124,58,237,.14);
+  flex-shrink:0;
+}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;
+  margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nl{padding:7px 14px;border-radius:9px;font-size:13px;font-weight:600;
+  color:var(--dark-m);transition:all .15s;cursor:pointer;white-space:nowrap}
+.nl:hover{color:var(--dark-t);background:rgba(255,255,255,.06)}
+.nl.on{color:#fff;background:rgba(255,255,255,.1)}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-live{display:flex;align-items:center;gap:6px;padding:5px 12px;
+  background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.22);
+  border-radius:99px;font-size:11px;font-weight:700;color:var(--c-green)}
+.nav-live-dot{width:6px;height:6px;border-radius:50%;background:var(--c-green);
+  box-shadow:0 0 8px var(--c-green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.38}}
+.nav-btn{padding:9px 20px;border-radius:99px;font-size:13px;font-weight:700;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 4px 18px rgba(14,116,144,.35);transition:transform .18s,box-shadow .18s}
+.nav-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(14,116,144,.48)}
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:calc(var(--nav-h) + 48px) 24px 64px;
+  position:relative;overflow:hidden;
+}
+.hero-b1{position:absolute;top:-160px;left:-140px;width:680px;height:680px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.13) 0%,transparent 65%);pointer-events:none}
+.hero-b2{position:absolute;bottom:-140px;right:-120px;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 65%);pointer-events:none}
+.hero-b3{position:absolute;top:50%;left:54%;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.07) 0%,transparent 60%);
+  pointer-events:none;transform:translate(-50%,-50%)}
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);
+  background-size:44px 44px;pointer-events:none}
+.hero-scan{position:absolute;left:0;right:0;height:1px;pointer-events:none;opacity:.22;
+  background:linear-gradient(90deg,transparent,rgba(14,165,201,.7) 35%,rgba(124,58,237,.7) 65%,transparent);
+  animation:scan 9s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+.hero-in{max-width:780px;text-align:center;position:relative;z-index:2}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:99px;padding:6px 18px 6px 10px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);margin-bottom:30px;
+  backdrop-filter:blur(8px);animation:fu .7s var(--ease-o) .08s both}
+.eyebrow-dot{width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-green));
+  box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite}
+.hero h1{
+  font-family:var(--ffd);
+  font-size:clamp(42px,7.5vw,86px);
+  font-weight:700;line-height:1.02;letter-spacing:-.055em;
+  color:#fff;margin-bottom:8px;
+  animation:fu .7s var(--ease-o) .18s both;
+}
+.hero h1 .grad{
+  font-style:italic;font-weight:300;
+  background:linear-gradient(115deg,#22d3ee 0%,#a78bfa 55%,#4ade80 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero h1 .block{display:block}
+.hero-sub{font-size:17px;color:var(--dark-m);max-width:540px;margin:18px auto 44px;
+  line-height:1.9;animation:fu .7s var(--ease-o) .28s both}
+.cta-row{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap;
+  animation:fu .7s var(--ease-o) .38s both;margin-bottom:60px}
+.btn-main{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:16px 38px;border-radius:99px;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 8px 32px rgba(14,116,144,.42),0 0 0 1px rgba(14,165,201,.18);
+  transition:transform .22s var(--ease-s),box-shadow .22s;
+}
+.btn-main:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 16px 52px rgba(14,116,144,.54)}
+.btn-main .arr{font-size:18px;transition:transform .2s}
+.btn-main:hover .arr{transform:translateX(4px)}
+.btn-ghost{padding:15px 28px;border-radius:99px;font-weight:600;font-size:14px;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.14);
+  color:rgba(255,255,255,.72);transition:all .18s}
+.btn-ghost:hover{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.28)}
+.hero-stats{
+  display:flex;gap:0;
+  background:rgba(255,255,255,.04);border:1px solid var(--dark-b);
+  border-radius:20px;overflow:hidden;max-width:620px;margin:0 auto;
+  animation:fu .7s var(--ease-o) .48s both;
+}
+.hst{flex:1;padding:20px 16px;border-right:1px solid var(--dark-b);text-align:center;position:relative}
+.hst:last-child{border-right:none}
+.hst::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:.65}
+.hst:nth-child(1)::before{background:linear-gradient(90deg,var(--c-teal),var(--c-violet))}
+.hst:nth-child(2)::before{background:linear-gradient(90deg,var(--c-violet),var(--c-green))}
+.hst:nth-child(3)::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.hst:nth-child(4)::before{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
+.hst-v{font-family:var(--ffd);font-size:26px;font-weight:700;color:#fff;letter-spacing:-.05em;line-height:1}
+.hst-l{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--dark-m);margin-top:5px}
+
+/* ════════════════════════════════════════
+   SECTIONS
+════════════════════════════════════════ */
+.s-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--c-teal);text-align:center;margin-bottom:14px}
+.s-title{font-family:var(--ffd);font-size:clamp(26px,4vw,44px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;text-align:center;line-height:1.08;margin-bottom:14px}
+.s-title em{font-style:italic;font-weight:300;color:rgba(255,255,255,.46)}
+.s-sub{font-size:14.5px;color:var(--dark-m);text-align:center;max-width:510px;
+  margin:0 auto 54px;line-height:1.88}
+
+/* ── 3 Pillar cards ── */
+.prog-section{padding:88px 24px;position:relative}
+.prog-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.prog-in{max-width:1120px;margin:0 auto}
+.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:800px){.pillar-grid{grid-template-columns:1fr}}
+.pillar{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:26px;padding:34px 28px 28px;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s var(--ease-s),border-color .2s,background .2s;
+}
+.pillar:hover{transform:translateY(-6px);background:rgba(255,255,255,.056)}
+.p-teal:hover{border-color:rgba(14,165,201,.45)}
+.p-violet:hover{border-color:rgba(124,58,237,.45)}
+.p-green:hover{border-color:rgba(16,185,129,.45)}
+.pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.p-teal::before{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.p-violet::before{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.p-green::before{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+.p-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:18px}
+.p-teal .p-tag{color:var(--c-teal)}.p-violet .p-tag{color:#a78bfa}.p-green .p-tag{color:var(--c-green)}
+.p-ico{font-size:38px;margin-bottom:18px;display:block}
+.p-title{font-family:var(--ffd);font-size:20px;font-weight:600;letter-spacing:-.03em;
+  color:#fff;margin-bottom:12px}
+.p-desc{font-size:13.5px;color:var(--dark-m);line-height:1.82}
+.p-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:18px}
+.pchip{font-size:10.5px;font-weight:600;padding:3px 10px;border-radius:99px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);color:rgba(255,255,255,.45)}
+.p-arrow{position:absolute;bottom:24px;right:24px;width:32px;height:32px;
+  border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--dark-b);
+  display:grid;place-items:center;color:var(--dark-m);font-size:14px;
+  transition:all .2s}
+.pillar:hover .p-arrow{background:rgba(255,255,255,.14);color:#fff;transform:translate(2px,-2px)}
+
+/* ── Parcours ── */
+.parcours{padding:88px 24px;background:rgba(255,255,255,.018);position:relative}
+.parcours::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.07),transparent)}
+.parcours-in{max-width:1120px;margin:0 auto}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:50px;position:relative}
+.steps::before{content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,var(--c-teal),var(--c-violet),var(--c-green));opacity:.28}
+@media(max-width:700px){.steps{grid-template-columns:1fr 1fr;gap:28px}.steps::before{display:none}}
+.step{text-align:center;padding:0 18px}
+.step-wrap{width:56px;height:56px;border-radius:50%;margin:0 auto 20px;
+  background:rgba(255,255,255,.055);border:1px solid var(--dark-b);
+  display:grid;place-items:center;font-size:24px;position:relative;
+  transition:border-color .2s,box-shadow .2s}
+.step:hover .step-wrap{border-color:var(--c-teal);box-shadow:0 0 22px var(--c-teal-glow)}
+.step-n{position:absolute;top:-8px;right:-8px;width:20px;height:20px;border-radius:50%;
+  background:var(--dark-2);border:1px solid var(--dark-b);
+  font-size:10px;font-weight:700;color:var(--dark-m);display:grid;place-items:center}
+.step-title{font-weight:700;font-size:14.5px;color:#fff;margin-bottom:8px}
+.step-desc{font-size:12.5px;color:var(--dark-m);line-height:1.75}
+
+/* ── Promise cards ── */
+.promise{padding:88px 24px}
+.promise-in{max-width:1120px;margin:0 auto}
+.promise-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:700px){.promise-grid{grid-template-columns:1fr}}
+.promise-card{
+  background:rgba(255,255,255,.034);border:1px solid var(--dark-b);
+  border-radius:22px;padding:28px 24px;
+  display:flex;gap:18px;align-items:flex-start;
+}
+.pr-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;
+  font-size:22px;flex-shrink:0;border:1.5px solid}
+.pr-ico-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
+.pr-ico-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+.pr-ico-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
+.pr-ico-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
+.pr-title{font-weight:700;font-size:15px;color:#fff;margin-bottom:6px}
+.pr-desc{font-size:13px;color:var(--dark-m);line-height:1.78}
+
+/* ── CTA section ── */
+.cta-sect{padding:100px 24px}
+.cta-box{
+  max-width:700px;margin:0 auto;
+  background:linear-gradient(135deg,rgba(14,116,144,.12),rgba(109,40,217,.12));
+  border:1px solid rgba(255,255,255,.1);border-radius:32px;
+  padding:68px 48px;text-align:center;position:relative;overflow:hidden;
+}
+.cta-box::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.024) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.024) 1px,transparent 1px);
+  background-size:28px 28px;pointer-events:none}
+.cta-box h2{font-family:var(--ffd);font-size:clamp(24px,4vw,38px);font-weight:600;
+  letter-spacing:-.055em;color:#fff;margin-bottom:14px;position:relative}
+.cta-box p{color:var(--dark-m);font-size:15px;line-height:1.88;margin-bottom:34px;position:relative}
+
+/* ══ FOOTER ══ */
+.footer{background:var(--dark-1);border-top:1px solid var(--dark-b);padding:30px 24px;text-align:center}
+.footer-logo{font-family:var(--ffd);font-size:20px;font-weight:700;letter-spacing:-.07em;
+  color:#fff;margin-bottom:7px}
+.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;
+  margin-top:4px;opacity:.45;font-family:var(--ff);text-transform:uppercase}
+.footer-disc{font-size:11.5px;color:var(--dark-m);line-height:1.88;max-width:560px;margin:0 auto}
+.footer-links{margin-top:14px;font-size:11.5px;display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap}
+.footer-links a{color:var(--dark-m);text-decoration:none;transition:color .15s}
+.footer-links a:hover{color:var(--c-teal);text-decoration:underline}
+.footer-sep{color:rgba(255,255,255,.15)}
+
+/* ════════════════════════════════════════
+   LOGIN MODAL
+════════════════════════════════════════ */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(7,12,26,.82);backdrop-filter:blur(12px);
+  align-items:center;justify-content:center;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--dark-2);border:1px solid var(--dark-b2);border-radius:28px;
+  padding:44px 40px;max-width:420px;width:90%;position:relative;
+  animation:fu .4s var(--ease-o) both;
+}
+.modal-close{position:absolute;top:16px;right:18px;width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);color:var(--dark-m);
+  display:grid;place-items:center;font-size:16px;cursor:pointer;transition:all .15s}
+.modal-close:hover{background:rgba(255,255,255,.12);color:#fff}
+.modal h2{font-family:var(--ffd);font-size:26px;font-weight:600;letter-spacing:-.04em;
+  color:#fff;margin-bottom:6px}
+.modal .subtitle{color:var(--dark-m);font-size:13.5px;margin-bottom:28px;line-height:1.6}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;color:var(--dark-m);margin-bottom:7px}
+.form-group input{width:100%;padding:13px 16px;border-radius:12px;font-size:14px;
+  background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b2);color:#fff;
+  transition:border-color .2s}
+.form-group input:focus{border-color:var(--c-teal);background:rgba(14,165,201,.06)}
+.form-group input::placeholder{color:rgba(255,255,255,.25)}
+.form-err{font-size:11.5px;color:var(--c-red);margin-top:6px;display:none}
+.form-err.show{display:block}
+.modal-btn{width:100%;padding:15px;border-radius:99px;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 8px 32px rgba(14,116,144,.35);margin-top:8px;
+  transition:transform .22s var(--ease-s),box-shadow .22s}
+.modal-btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(14,116,144,.5)}
+.modal-switch{text-align:center;margin-top:20px;font-size:13px;color:var(--dark-m)}
+.modal-switch a{color:var(--c-teal);font-weight:700;cursor:pointer}
+.modal-switch a:hover{text-decoration:underline}
+
+/* ── Responsive ── */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-live{display:none}
+  .hero h1{font-size:clamp(36px,10vw,56px)}
+  .hero-stats{flex-wrap:wrap}.hst{min-width:50%}
+  .modal{padding:32px 24px}
+}
+</style>
+</head>
+<body>
+<a href="#hero" class="skip-link">Aller au contenu principal</a>
+
+<!-- ════════════════════════════
+     NAV (PUBLIC)
+════════════════════════════ -->
+<nav class="nav" role="navigation" aria-label="Navigation principale">
+  <div class="nav-in">
+    <a class="nav-logo" href="#">
+      <div class="nav-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></div>
+      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+    </a>
+    <div class="nav-links">
+      <div class="nl on" onclick="scrollToSection('hero')">Accueil</div>
+      <a class="nl" href="#programme">Bilan Biologique</a>
+      <a class="nl" href="#parcours">Profil Santé</a>
+      <a class="nl" href="guide-previo-longevite.html">Guide Longévité</a>
+    </div>
+    <div class="nav-r">
+      <div class="nav-live"><span class="nav-live-dot"></span>Données locales</div>
+      <button class="nav-btn" onclick="goToApp()">Mon espace →</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════
+     HERO
+════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-b1"></div><div class="hero-b2"></div><div class="hero-b3"></div>
+  <div class="hero-grid"></div><div class="hero-scan"></div>
+  <div class="hero-in">
+    <div class="eyebrow"><span class="eyebrow-dot"></span>Coaching santé préventif · Basé sur la biologie</div>
+    <h1>
+      <span class="block">Faites le point</span>
+      <span class="block grad">sur votre santé.</span>
+    </h1>
+    <p class="hero-sub">Interprétez vos bilans biologiques en contexte, construisez votre profil de santé complet et recevez des recommandations personnalisées sur votre alimentation et votre hygiène de vie.</p>
+    <div class="cta-row">
+      <button class="btn-main" onclick="openModal('signup')">Commencer votre bilan <span class="arr">→</span></button>
+      <a class="btn-ghost" href="guide-previo-longevite.html">Guide Longévité</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hst"><div class="hst-v">18</div><div class="hst-l">Biomarqueurs</div></div>
+      <div class="hst"><div class="hst-v">12+</div><div class="hst-l">Scores validés</div></div>
+      <div class="hst"><div class="hst-v">3</div><div class="hst-l">Domaines santé</div></div>
+      <div class="hst"><div class="hst-v">100%</div><div class="hst-l">Données locales</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     3 PILIERS
+════════════════════════════ -->
+<section class="prog-section" id="programme">
+  <div class="prog-in">
+    <div class="s-eyebrow">Le programme PRÉVIO</div>
+    <h2 class="s-title">Trois piliers. <em>Un profil complet.</em></h2>
+    <p class="s-sub">La santé préventive repose sur la biologie, le mode de vie et les habitudes au quotidien. PRÉVIO les analyse ensemble.</p>
+    <div class="pillar-grid">
+      <div class="pillar p-teal fu d1" onclick="openModal('signup')">
+        <div class="p-tag">Étape 01 — Biologie</div>
+        <span class="p-ico">🩸</span>
+        <div class="p-title">Bilan Biologique Contextuel</div>
+        <p class="p-desc">Un résultat de laboratoire sans contexte est une information incomplète. Renseignez les variables pré-analytiques et de mode de vie pour une interprétation cliniquement juste.</p>
+        <div class="p-chips">
+          <span class="pchip">IMC · Jeûne</span><span class="pchip">Pré-analytique</span>
+          <span class="pchip">Hormonal</span><span class="pchip">Nutrition</span>
+        </div>
+        <div class="p-arrow">→</div>
+      </div>
+      <div class="pillar p-violet fu d2" onclick="openModal('signup')">
+        <div class="p-tag">Étape 02 — Profil santé</div>
+        <span class="p-ico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block">
+          <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(14,165,201,0.15)" stroke="#0ea5c9" stroke-width="1.2" stroke-linejoin="round"/>
+          <path d="M12 16V9" stroke="#0ea5c9" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8.5 12L12 8.5L15.5 12" stroke="#0ea5c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg></span>
+        <div class="p-title">Profil Santé Multi-domaines</div>
+        <p class="p-desc">Évaluez votre métabolisme, votre sommeil, votre stress, votre activité physique et votre profil nutritionnel via des questionnaires scientifiquement validés.</p>
+        <div class="p-chips">
+          <span class="pchip">HOMA-IR · ISI · PSQI</span>
+          <span class="pchip">GAD-7 · PHQ-9</span><span class="pchip">DASH · MIND</span>
+        </div>
+        <div class="p-arrow">→</div>
+      </div>
+      <div class="pillar p-green fu d3" onclick="openModal('signup')">
+        <div class="p-tag">Étape 03 — Coaching</div>
+        <span class="p-ico">🥗</span>
+        <div class="p-title">Recommandations Personnalisées</div>
+        <p class="p-desc">Recevez des recommandations diététiques et d'activité physique basées sur votre profil biologique réel — glycémie, inflammation, lipides, sommeil et niveau de stress.</p>
+        <div class="p-chips">
+          <span class="pchip">Diététique</span><span class="pchip">Activité physique</span>
+          <span class="pchip">Hygiène de vie</span><span class="pchip">Suivi continu</span>
+        </div>
+        <div class="p-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     PARCOURS
+════════════════════════════ -->
+<section class="parcours" id="parcours">
+  <div class="parcours-in">
+    <div class="s-eyebrow">Le parcours</div>
+    <h2 class="s-title">De vos résultats <em>à l'action</em></h2>
+    <p class="s-sub">Un flux structuré en 4 étapes pour passer de vos résultats bruts à des recommandations actionnables.</p>
+    <div class="steps">
+      <div class="step fu d1"><div class="step-wrap"><span>🩸</span><div class="step-n">1</div></div>
+        <div class="step-title">Saisissez vos résultats</div>
+        <p class="step-desc">Cholestérol, glycémie, ferritine, CRP… importez les valeurs de votre dernière analyse sanguine.</p></div>
+      <div class="step fu d2"><div class="step-wrap"><span>📋</span><div class="step-n">2</div></div>
+        <div class="step-title">Contextualisez</div>
+        <p class="step-desc">Jeûne, stress, traitements, activité physique — les variables qui transforment l'interprétation.</p></div>
+      <div class="step fu d3"><div class="step-wrap"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle">
+        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" stroke-linejoin="round"/>
+        <path d="M12 16V9" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
+        <path d="M8.5 12L12 8.5L15.5 12" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg></span><div class="step-n">3</div></div>
+        <div class="step-title">Profilez votre santé</div>
+        <p class="step-desc">Questionnaires validés sur le sommeil, le stress, la nutrition et l'activité physique.</p></div>
+      <div class="step fu d4"><div class="step-wrap"><span>🥗</span><div class="step-n">4</div></div>
+        <div class="step-title">Recevez vos recommandations</div>
+        <p class="step-desc">Recommandations diét. et activité physique personnalisées selon votre biologie réelle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     PROMESSES
+════════════════════════════ -->
+<section class="promise">
+  <div class="promise-in">
+    <div class="s-eyebrow">Pourquoi PRÉVIO</div>
+    <h2 class="s-title">La prévention, <em>rendue lisible</em></h2>
+    <p class="s-sub">Des principes de médecine préventive traduits en recommandations concrètes pour chaque jour.</p>
+    <div class="promise-grid fu d1">
+      <div class="promise-card">
+        <div class="pr-ico pr-ico-teal">🔬</div>
+        <div><div class="pr-title">Interprétation contextualisée</div>
+          <p class="pr-desc">Un taux de CRP de 2 mg/L n'a pas le même sens selon votre niveau d'activité, votre jeûne ou vos traitements. PRÉVIO intègre ces variables pour vous donner une lecture juste.</p></div>
+      </div>
+      <div class="promise-card">
+        <div class="pr-ico pr-ico-green">🥗</div>
+        <div><div class="pr-title">Recommandations diététiques</div>
+          <p class="pr-desc">Si votre HbA1c est à 5.8%, vous recevez des recommandations spécifiques sur la gestion des glucides, la chronobiologie alimentaire et les index glycémiques.</p></div>
+      </div>
+      <div class="promise-card">
+        <div class="pr-ico pr-ico-violet">🏃</div>
+        <div><div class="pr-title">Programme d'activité physique</div>
+          <p class="pr-desc">Adapté à votre score d'activité, votre niveau d'inflammation et votre profil de sommeil — intensité, type d'effort et timing dans la journée.</p></div>
+      </div>
+      <div class="promise-card">
+        <div class="pr-ico pr-ico-amber">📈</div>
+        <div><div class="pr-title">Suivi longitudinal</div>
+          <p class="pr-desc">Mesurez l'impact de vos changements d'habitudes sur vos biomarqueurs biologiques au fil des bilans. La prévention se mesure dans le temps.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════
+     CTA FINAL
+════════════════════════════ -->
+<section class="cta-sect">
+  <div class="cta-box">
+    <h2>Prêt à comprendre et agir sur votre santé ?</h2>
+    <p>Commencez par le questionnaire contextuel — 8 minutes qui transforment l'interprétation de vos résultats biologiques et activent vos premières recommandations personnalisées.</p>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative">
+      <button class="btn-main" onclick="openModal('signup')">Créer votre profil <span class="arr">→</span></button>
+      <button class="btn-ghost" onclick="openModal('login')">J'ai déjà un profil</button>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+  <p class="footer-disc">Outil d'aide à l'interprétation et au coaching hygiène de vie. Ne constitue pas un acte médical ni un diagnostic. Toute décision thérapeutique doit être prise avec un professionnel de santé qualifié.</p>
+  <nav class="footer-links" aria-label="Liens légaux">
+    <a href="avertissement.html">Avertissement santé</a>
+    <span class="footer-sep">·</span>
+    <a href="confidentialite.html">Confidentialité</a>
+    <span class="footer-sep">·</span>
+    <a href="mentions-legales.html">Mentions légales</a>
+  </nav>
+</footer>
+
+<!-- ════════════════════════════
+     PROFIL LOCAL MODAL
+════════════════════════════ -->
+<div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-label="Gestion du profil">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+
+    <!-- CREATE PROFILE VIEW -->
+    <div id="view-signup">
+      <h2>Créer un profil</h2>
+      <p class="subtitle">Vos données restent 100 % locales — rien n'est envoyé à un serveur.</p>
+      <div class="form-group">
+        <label for="signup-name">Prénom ou pseudo</label>
+        <input type="text" id="signup-name" placeholder="Comment vous appeler ?" autocomplete="given-name" aria-required="true">
+      </div>
+      <div class="form-err" id="signup-err"></div>
+      <button class="modal-btn" onclick="handleCreateProfile()">Créer mon profil →</button>
+      <div class="modal-switch">Profil existant ? <a onclick="switchView('login')">Charger un profil</a></div>
+    </div>
+
+    <!-- LOAD PROFILE VIEW -->
+    <div id="view-login" style="display:none">
+      <h2>Charger un profil</h2>
+      <p class="subtitle">Retrouvez un profil enregistré sur cet appareil.</p>
+      <div id="profiles-list"></div>
+      <div class="form-err" id="login-err"></div>
+      <div class="modal-switch" style="margin-top:20px">Nouveau ? <a onclick="switchView('signup')">Créer un profil</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══ MODAL ══ */
+function openModal(view){
+  document.getElementById('authModal').classList.add('open');
+  switchView(view||'signup');
+}
+function closeModal(){
+  document.getElementById('authModal').classList.remove('open');
+}
+function switchView(v){
+  document.getElementById('view-login').style.display = v==='login'?'block':'none';
+  document.getElementById('view-signup').style.display = v==='signup'?'block':'none';
+  // Populate profiles list when switching to login
+  if(v==='login') renderProfilesList();
+}
+document.getElementById('authModal').addEventListener('click',function(e){
+  if(e.target===this)closeModal();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+/* ══ LOCAL PROFILE SYSTEM ══ */
+function getProfiles(){
+  try{ return JSON.parse(localStorage.getItem('previo_profiles')||'[]'); }
+  catch(e){ return []; }
+}
+function saveProfiles(profiles){
+  localStorage.setItem('previo_profiles', JSON.stringify(profiles));
+}
+
+function handleCreateProfile(){
+  const name = document.getElementById('signup-name').value.trim();
+  const errEl = document.getElementById('signup-err');
+  errEl.classList.remove('show');
+
+  if(!name || name.length < 1){
+    errEl.textContent = 'Veuillez entrer un prénom ou pseudo.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  const profiles = getProfiles();
+  const id = 'p_' + Date.now();
+  profiles.push({ id:id, name:name, createdAt:Date.now() });
+  saveProfiles(profiles);
+
+  // Set active session
+  localStorage.setItem('previo_session', JSON.stringify({ id:id, name:name, loggedAt:Date.now() }));
+  window.location.href = 'app.html';
+}
+
+function loadProfile(id){
+  const profiles = getProfiles();
+  const p = profiles.find(function(pr){ return pr.id === id; });
+  if(!p){
+    document.getElementById('login-err').textContent = 'Profil introuvable.';
+    document.getElementById('login-err').classList.add('show');
+    return;
+  }
+  localStorage.setItem('previo_session', JSON.stringify({ id:p.id, name:p.name, loggedAt:Date.now() }));
+  window.location.href = 'app.html';
+}
+
+function deleteProfile(id, evt){
+  evt.stopPropagation();
+  if(!confirm('Supprimer ce profil ? Les données associées ne seront pas effacées automatiquement.')) return;
+  const profiles = getProfiles().filter(function(p){ return p.id !== id; });
+  saveProfiles(profiles);
+  renderProfilesList();
+}
+
+function renderProfilesList(){
+  const container = document.getElementById('profiles-list');
+  const profiles = getProfiles();
+  const errEl = document.getElementById('login-err');
+  errEl.classList.remove('show');
+
+  if(profiles.length === 0){
+    container.innerHTML = '';
+    var empty = document.createElement('p');
+    empty.style.cssText = 'color:var(--dark-m);font-size:13.5px;text-align:center;padding:20px 0;';
+    empty.textContent = 'Aucun profil enregistré sur cet appareil.';
+    container.appendChild(empty);
+    return;
+  }
+
+  container.innerHTML = '';
+  profiles.forEach(function(p){
+    var card = document.createElement('div');
+    card.style.cssText = 'display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:8px;background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);border-radius:14px;cursor:pointer;transition:background .15s,border-color .15s;';
+    card.onmouseenter = function(){ card.style.background='rgba(255,255,255,.1)'; card.style.borderColor='rgba(14,165,201,.35)'; };
+    card.onmouseleave = function(){ card.style.background='rgba(255,255,255,.06)'; card.style.borderColor='rgba(255,255,255,.13)'; };
+    card.onclick = function(){ loadProfile(p.id); };
+
+    var avatar = document.createElement('div');
+    avatar.style.cssText = 'width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--c-teal),var(--c-violet));display:grid;place-items:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;';
+    avatar.textContent = (p.name||'?')[0].toUpperCase();
+
+    var info = document.createElement('div');
+    info.style.cssText = 'flex:1;';
+    var nameEl = document.createElement('div');
+    nameEl.style.cssText = 'font-weight:700;font-size:14px;color:#fff;';
+    nameEl.textContent = p.name;
+    var dateEl = document.createElement('div');
+    dateEl.style.cssText = 'font-size:11px;color:var(--dark-m);margin-top:2px;';
+    dateEl.textContent = 'Créé le ' + new Date(p.createdAt).toLocaleDateString('fr-FR');
+    info.appendChild(nameEl);
+    info.appendChild(dateEl);
+
+    var delBtn = document.createElement('button');
+    delBtn.style.cssText = 'width:28px;height:28px;border-radius:50%;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--c-red);font-size:13px;display:grid;place-items:center;cursor:pointer;transition:background .15s;flex-shrink:0;';
+    delBtn.textContent = '✕';
+    delBtn.title = 'Supprimer ce profil';
+    delBtn.onclick = function(evt){ deleteProfile(p.id, evt); };
+
+    card.appendChild(avatar);
+    card.appendChild(info);
+    card.appendChild(delBtn);
+    container.appendChild(card);
+  });
+}
+
+/* ══ AUTO-REDIRECT IF SESSION EXISTS + MIGRATION ══ */
+(function(){
+  // Migration v1.0→v1.1: remove legacy previo_users
+  try{
+    var legacyUsers=localStorage.getItem('previo_users');
+    if(legacyUsers){
+      var users=JSON.parse(legacyUsers);
+      var profiles=[];
+      try{ profiles=JSON.parse(localStorage.getItem('previo_profiles')||'[]'); }catch(e){}
+      if(profiles.length===0 && Array.isArray(users)){
+        users.forEach(function(u,i){
+          profiles.push({id:'migrated_'+i,name:u.name||'Profil',createdAt:Date.now()});
+        });
+        localStorage.setItem('previo_profiles',JSON.stringify(profiles));
+      }
+      localStorage.removeItem('previo_users');
+    }
+  }catch(e){}
+  // Ensure session has id
+  try{
+    var s=JSON.parse(localStorage.getItem('previo_session')||'null');
+    if(s && !s.id){ s.id='migrated_0'; localStorage.setItem('previo_session',JSON.stringify(s)); }
+  }catch(e){}
+})();
+
+/* ══ SMART NAV — Go to app if session, else open modal ══ */
+function goToApp(){
+  var session = null;
+  try { session = JSON.parse(localStorage.getItem('previo_session')||'null'); } catch(e){}
+  if(session && session.name){
+    window.location.href = 'app.html';
+  } else {
+    var profiles = getProfiles();
+    if(profiles.length > 0){
+      openModal('login');
+    } else {
+      openModal('signup');
+    }
+  }
+}
+
+function scrollToSection(id){
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
