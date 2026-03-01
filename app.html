@@ -2182,8 +2182,26 @@ window.addEventListener('message',function(e){
   }
 });
 
-// Init badges on load
-setTimeout(function(){updateBridgeBadges();updateProfilProgress();renderDashboard();},200);
+// Init badges on load — auto-load demo if empty
+setTimeout(function(){
+  var _sc;try{_sc=JSON.parse(localStorage.getItem('previo_scores')||'null');}catch(e){}
+  if(!_sc || Object.keys(_sc).length===0){
+    // Silently load demo data for showcase
+    var demoScores={homaIR:1.8,metsIR:42,hba1c:5.8,gly:103,fib4:0.82,egfr:97,kfre:0.4,
+      castelli:3.25,tgHdl:2.46,nlr:2.1,plr:128,inflamm:5,chronotype:16,hb:14.8,fer:86,
+      isi:11,psqi:8,ess:7,fss:3.2,pss:18,gad:6,phq:4,mbi:14,audit:5,cage:0,fager:0,ecrans:9,
+      ipaq:1800,baecke:3.1,sedent:5,hydra:15,urine:5,
+      dash:22,meddiet:8,mind:9,omega3:11,sel:12,upf:12,tfeq:15,rythme:18};
+    var demoProfil={done:{meta:true,life:true,nutr:false}};
+    var demoCtx={age:'42',sexe:'Homme',taille:'178',poids:'82',tour_taille:'92',
+      activite_freq:'3',sommeil_qualite:'moyen',glycemie_connue:'103 mg/dL',_imc:25.9,_demo:true};
+    localStorage.setItem('previo_scores',JSON.stringify(demoScores));
+    localStorage.setItem('previo_profil_state',JSON.stringify(demoProfil));
+    localStorage.setItem('ctx_bilan_v5b',JSON.stringify(demoCtx));
+    localStorage.setItem('previo_demo','1');
+  }
+  updateBridgeBadges();updateProfilProgress();renderDashboard();
+},200);
 
 /* ══ DATA MANAGEMENT ══ */
 function updateDataStats(){
