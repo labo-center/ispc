@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PRÉVIO — Guide des Compléments Alimentaires</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --c-teal:#0ea5c9;    --c-teal-d:#0e7490; --c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed;  --c-violet-d:#6d28d9;
+  --c-green:#10b981;   --c-green-d:#047857; --c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b;   --c-amber-d:#d97706;
+  --c-red:#ef4444;
+  --dark-1:#070c1a; --dark-2:#0f1628; --dark-3:#141c35; --dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08); --dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.42); --dark-t:rgba(255,255,255,.88);
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  --nav-h:62px;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+  --drawer-w:440px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh}
+body{font-family:var(--ff);color:var(--dark-t);background:var(--dark-1);overflow-x:hidden}
+button{font-family:var(--ff);border:none;cursor:pointer;outline:none}
+
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:44px 44px}
+.blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.b1{top:-200px;left:-150px;width:700px;height:700px;background:radial-gradient(circle,rgba(14,165,201,.08),transparent 65%)}
+.b2{bottom:-180px;right:-130px;width:640px;height:640px;background:radial-gradient(circle,rgba(124,58,237,.09),transparent 65%)}
+.scan{position:fixed;left:0;right:0;height:1px;z-index:0;pointer-events:none;opacity:.14;
+  background:linear-gradient(90deg,transparent,var(--c-teal) 35%,var(--c-violet) 65%,transparent);
+  animation:scan 12s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  height:var(--nav-h);
+  background:rgba(7,12,26,.88);
+  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b);
+}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 24px;gap:0}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:28px;flex-shrink:0;text-decoration:none}
+.nav-mark{
+  width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;
+  box-shadow:0 0 22px rgba(14,165,201,.3),0 0 44px rgba(124,58,237,.12);
+  flex-shrink:0;
+}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+.nav-breadcrumb{font-size:13px;color:var(--dark-m);display:flex;align-items:center;gap:7px}
+.nav-breadcrumb a{color:var(--dark-m);cursor:pointer;transition:color .15s;text-decoration:none}
+.nav-breadcrumb a:hover{color:rgba(255,255,255,.7)}
+.nav-breadcrumb sep{opacity:.3}
+.nav-breadcrumb .current{color:rgba(255,255,255,.72);font-weight:600}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-back{padding:9px 18px;border-radius:99px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.65);transition:all .18s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.nav-back:hover{background:rgba(255,255,255,.11);color:#fff}
+
+.wrapper{
+  position:relative;z-index:1;max-width:1200px;margin:0 auto;
+  padding:calc(var(--nav-h) + 40px) 24px 80px;
+  transition:margin-right .45s var(--ease-o);
+}
+body.drawer-open .wrapper{margin-right:var(--drawer-w)}
+
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.fu{animation:fu .65s var(--ease-o) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+.page-header{margin-bottom:44px}
+.ph-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c-teal);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ph-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--c-teal),var(--c-green));box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.page-header h1{font-family:var(--ffd);font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.04;letter-spacing:-.055em;color:#fff;margin-bottom:12px}
+.page-header h1 em{font-style:italic;font-weight:300;background:linear-gradient(115deg,#22d3ee,#a78bfa 50%,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-header p{font-size:15px;color:var(--dark-m);max-width:540px;line-height:1.88}
+
+.hint-chip{display:inline-flex;align-items:center;gap:7px;margin-top:18px;
+  background:rgba(14,165,201,.07);border:1px solid rgba(14,165,201,.18);
+  border-radius:99px;padding:7px 16px;font-size:12px;font-weight:600;color:var(--c-teal)}
+
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.leg{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;border:1px solid}
+.l-teal{background:rgba(14,165,201,.08);border-color:rgba(14,165,201,.22);color:var(--c-teal)}
+.l-amber{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.22);color:var(--c-amber)}
+.l-violet{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.22);color:#a78bfa}
+.l-green{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.22);color:var(--c-green)}
+.leg-dot{width:7px;height:7px;border-radius:50%}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+
+.sec-card{
+  background:rgba(255,255,255,.028);border:1px solid var(--dark-b);
+  border-radius:26px;overflow:hidden;position:relative;
+}
+.sec-card::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:22px 22px}
+
+.sec-stripe{height:3px;width:100%;position:relative;z-index:1}
+.s-teal .sec-stripe{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.s-amber .sec-stripe{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
+.s-violet .sec-stripe{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.s-green .sec-stripe{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+
+.sec-head{
+  padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);
+  display:flex;align-items:center;gap:14px;position:relative;z-index:1;
+}
+.sec-ico{
+  width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+  font-size:22px;flex-shrink:0;border:1.5px solid;
+}
+.s-teal .sec-ico{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
+.s-amber .sec-ico{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
+.s-violet .sec-ico{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
+.s-green .sec-ico{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+.sec-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.s-teal .sec-cat{color:var(--c-teal)}.s-amber .sec-cat{color:var(--c-amber)}
+.s-violet .sec-cat{color:#a78bfa}.s-green .sec-cat{color:var(--c-green)}
+.sec-title{font-family:var(--ffd);font-size:18px;font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1.1}
+.sec-sub{font-size:11px;color:var(--dark-m);margin-top:3px}
+.sec-count{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;flex-shrink:0;border:1px solid}
+.s-teal .sec-count{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.s-amber .sec-count{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+.s-violet .sec-count{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa}
+.s-green .sec-count{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+
+.sec-panels{padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+
+.sub-panel{border-radius:13px;overflow:hidden;border:1px solid var(--dark-b)}
+.sub-panel-head{
+  padding:8px 14px;display:flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  cursor:pointer;user-select:none;transition:background .15s;
+}
+.s-teal .sub-panel-head{background:rgba(14,165,201,.08);color:var(--c-teal)}
+.s-amber .sub-panel-head{background:rgba(245,158,11,.08);color:var(--c-amber)}
+.s-violet .sub-panel-head{background:rgba(124,58,237,.08);color:#a78bfa}
+.s-green .sub-panel-head{background:rgba(16,185,129,.08);color:var(--c-green)}
+.s-teal .sub-panel-head:hover{background:rgba(14,165,201,.14)}
+.s-amber .sub-panel-head:hover{background:rgba(245,158,11,.14)}
+.s-violet .sub-panel-head:hover{background:rgba(124,58,237,.14)}
+.s-green .sub-panel-head:hover{background:rgba(16,185,129,.14)}
+.sph-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.sph-count{margin-left:auto;opacity:.6;font-size:10px}
+.sph-chevron{margin-left:4px;font-size:11px;transition:transform .25s var(--ease-o);opacity:.6}
+.sub-panel.open .sph-chevron{transform:rotate(90deg)}
+
+.sub-panel-body{
+  padding:10px 14px 12px;background:rgba(0,0,0,.18);
+  display:flex;flex-wrap:wrap;gap:5px;
+  max-height:0;overflow:hidden;transition:max-height .35s var(--ease-o),padding .25s;
+  padding-top:0;padding-bottom:0;
+}
+.sub-panel.open .sub-panel-body{
+  max-height:320px;padding-top:10px;padding-bottom:12px;
+}
+
+.tag{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:500;color:var(--dark-t);
+  background:rgba(255,255,255,.052);border:1px solid rgba(255,255,255,.09);
+  border-radius:8px;padding:5px 11px;
+  cursor:pointer;transition:all .18s;user-select:none;position:relative;
+}
+.tag::after{content:'›';opacity:0;margin-left:2px;font-size:14px;transition:opacity .15s,transform .15s;transform:translateX(-4px)}
+.tag:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);padding-right:18px}
+.tag:hover::after{opacity:.5;transform:translateX(0)}
+.tag.active{box-shadow:0 0 0 1.5px currentColor}
+
+.tag.hi-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.22);color:#7dd3fc}
+.tag.hi-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.22);color:#fcd34d}
+.tag.hi-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.22);color:#6ee7b7}
+.tag.hi-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.22);color:#c4b5fd}
+.tag.hi-teal:hover{background:rgba(14,165,201,.18);border-color:rgba(14,165,201,.4)}
+.tag.hi-amber:hover{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.4)}
+.tag.hi-green:hover{background:rgba(16,185,129,.18);border-color:rgba(16,185,129,.4)}
+.tag.hi-violet:hover{background:rgba(124,58,237,.18);border-color:rgba(124,58,237,.4)}
+
+.drawer-overlay{
+  position:fixed;inset:0;z-index:300;background:rgba(7,12,26,.5);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .35s;
+}
+body.drawer-open .drawer-overlay{opacity:1;pointer-events:all}
+
+.drawer{
+  position:fixed;top:0;right:0;bottom:0;z-index:301;
+  width:var(--drawer-w);max-width:95vw;
+  background:var(--dark-2);border-left:1px solid var(--dark-b);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .45s var(--ease-o);
+  overflow:hidden;
+}
+body.drawer-open .drawer{transform:translateX(0)}
+
+.drawer-stripe{height:3px;width:100%;flex-shrink:0;transition:background .3s}
+.drawer-header{padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);flex-shrink:0;position:relative}
+.drawer-close{
+  position:absolute;top:18px;right:20px;width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid var(--dark-b);
+  display:grid;place-items:center;cursor:pointer;color:var(--dark-m);font-size:17px;
+  transition:all .15s;
+}
+.drawer-close:hover{background:rgba(255,255,255,.14);color:#fff}
+.drawer-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--dark-m);margin-bottom:8px}
+.drawer-name{font-family:var(--ffd);font-size:24px;font-weight:600;letter-spacing:-.04em;color:#fff;line-height:1.1;margin-bottom:6px;padding-right:40px}
+.drawer-phonetic{font-size:11.5px;color:var(--dark-m);font-style:italic;font-family:var(--ffd)}
+
+.drawer-body{flex:1;overflow-y:auto;padding:22px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.drawer-body::-webkit-scrollbar{width:4px}
+.drawer-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+.drawer-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:99px;border:1px solid;font-size:11px;font-weight:700;margin-bottom:20px}
+
+.drawer-def{font-size:14px;line-height:1.88;color:var(--dark-m);margin-bottom:24px}
+.drawer-def strong{color:var(--dark-t)}
+
+.val-box{background:rgba(255,255,255,.04);border:1px solid var(--dark-b);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.val-box-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:12px}
+.val-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.val-row:last-child{border-bottom:none}
+.val-label{font-size:12.5px;color:var(--dark-m)}
+.val-num{font-family:var(--ffd);font-size:14px;font-weight:600;color:#fff}
+
+.conds-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.conds-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.cond-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px}
+.cond{font-size:11px;font-weight:700;padding:4px 11px;border-radius:8px;letter-spacing:.03em;border:1px solid}
+
+.tip{background:rgba(14,165,201,.06);border:1px solid rgba(14,165,201,.15);border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.tip-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.tip-txt{font-size:12.5px;color:var(--dark-m);line-height:1.78}
+.tip-txt strong{color:var(--c-teal)}
+
+.page-footer{text-align:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--dark-b);position:relative;z-index:1}
+.footer-logo{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;margin-bottom:6px}
+.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:4px;opacity:.45;font-family:var(--ff);text-transform:uppercase}
+.footer-disc{font-size:11.5px;color:var(--dark-m);max-width:520px;margin:0 auto;line-height:1.88}
+
+@media(max-width:600px){
+  :root{--drawer-w:100vw}
+  body.drawer-open .wrapper{margin-right:0}
+}
+body.in-iframe .nav{display:none !important}
+body.in-iframe{padding-top:0 !important}
+body.in-iframe .wrapper{margin-top:0 !important}
+</style>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.self!==window.top)document.body.classList.add('in-iframe');});</script>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="scan"></div>
+
+<!-- OVERLAY -->
+<div class="drawer-overlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-stripe" id="drawer-stripe"></div>
+  <div class="drawer-header">
+    <div class="drawer-close" onclick="closeDrawer()">✕</div>
+    <div class="drawer-cat" id="d-cat"></div>
+    <div class="drawer-name" id="d-name"></div>
+    <div class="drawer-phonetic" id="d-phonetic"></div>
+  </div>
+  <div class="drawer-body">
+    <div id="d-badge"></div>
+    <div class="drawer-def" id="d-def"></div>
+    <div class="val-box" id="d-valbox"></div>
+    <div class="conds-title">Indications & bénéfices associés</div>
+    <div class="cond-tags" id="d-conds"></div>
+    <div class="tip" id="d-tip"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-mark">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+    </a>
+    <div class="nav-breadcrumb">
+      <a href="index.html">Accueil</a>
+      <sep>/</sep>
+      <span class="current">Guide des Compléments</span>
+    </div>
+    <div class="nav-r">
+      <a class="nav-back" href="index.html">← Retour</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrapper">
+
+  <!-- PAGE HEADER -->
+  <header class="page-header fu">
+    <div class="ph-eyebrow"><span class="ph-dot"></span>Référentiel · Compléments Alimentaires</div>
+    <h1>Guide des <em>Compléments Alimentaires</em></h1>
+    <p>Panorama complet des compléments alimentaires classés par famille. Ouvrez chaque catégorie et cliquez sur un complément pour accéder à sa définition, ses dosages recommandés et ses indications.</p>
+    <div class="hint-chip">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Ouvrez une catégorie · Cliquez sur un complément pour le détail
+    </div>
+  </header>
+
+  <!-- LEGEND -->
+  <div class="legend fu d1">
+    <span class="leg l-teal"><span class="leg-dot" style="background:var(--c-teal)"></span>Vitamines & Cofacteurs</span>
+    <span class="leg l-amber"><span class="leg-dot" style="background:var(--c-amber)"></span>Minéraux & Oligoéléments</span>
+    <span class="leg l-violet"><span class="leg-dot" style="background:#a78bfa"></span>Acides Gras & Lipides</span>
+    <span class="leg l-green"><span class="leg-dot" style="background:var(--c-green)"></span>Antioxydants, Acides Aminés & Probiotiques</span>
+  </div>
+
+  <!-- GRID -->
+  <div class="grid">
+
+    <!-- ══ 01 VITAMINES & COFACTEURS ══ -->
+    <div class="sec-card s-teal fu d1">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">💊</div>
+        <div>
+          <div class="sec-cat">01 — Vitamines essentielles</div>
+          <div class="sec-title">Vitamines & Cofacteurs</div>
+          <div class="sec-sub">Vitamines liposolubles, hydrosolubles et cofacteurs enzymatiques</div>
+        </div>
+        <div class="sec-count">4 panels · 14 compléments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Vitamines liposolubles
+            <span class="sph-count">4 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Vitamine D (Cholécalciférol)','Vitamines — Liposolubles','vi-ta-mine dé','teal')">Vitamine D</span>
+            <span class="tag hi-teal" onclick="openDrawer('Vitamine A (Rétinol)','Vitamines — Liposolubles','vi-ta-mine a','teal')">Vitamine A</span>
+            <span class="tag" onclick="openDrawer('Vitamine E (Tocophérol)','Vitamines — Liposolubles','vi-ta-mine eu','teal')">Vitamine E</span>
+            <span class="tag" onclick="openDrawer('Vitamine K2 (Ménaquinone)','Vitamines — Liposolubles','vi-ta-mine ka-deux','teal')">Vitamine K2</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Vitamines du groupe B
+            <span class="sph-count">6 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Vitamine B1 (Thiamine)','Vitamines — Groupe B','vi-ta-mine bé-un','teal')">Vitamine B1</span>
+            <span class="tag" onclick="openDrawer('Vitamine B2 (Riboflavine)','Vitamines — Groupe B','vi-ta-mine bé-deux','teal')">Vitamine B2</span>
+            <span class="tag" onclick="openDrawer('Vitamine B3 (Niacine)','Vitamines — Groupe B','vi-ta-mine bé-trwa','teal')">Vitamine B3</span>
+            <span class="tag hi-teal" onclick="openDrawer('Vitamine B6 (Pyridoxine)','Vitamines — Groupe B','vi-ta-mine bé-sis','teal')">Vitamine B6</span>
+            <span class="tag hi-teal" onclick="openDrawer('Vitamine B9 (Folates)','Vitamines — Groupe B','vi-ta-mine bé-neuf','teal')">Vitamine B9</span>
+            <span class="tag hi-teal" onclick="openDrawer('Vitamine B12 (Cobalamine)','Vitamines — Groupe B','vi-ta-mine bé-douz','teal')">Vitamine B12</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Vitamine C
+            <span class="sph-count">1 complément</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Vitamine C (Acide Ascorbique)','Vitamines — Hydrosoluble','vi-ta-mine sé','teal')">Vitamine C</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-teal">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Cofacteurs enzymatiques
+            <span class="sph-count">3 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Coenzyme Q10 (Ubiquinone)','Cofacteurs enzymatiques','ko-an-zim ku-diss','teal')">Coenzyme Q10</span>
+            <span class="tag" onclick="openDrawer('PQQ (Pyrroloquinoline Quinone)','Cofacteurs enzymatiques','pé-ku-ku','teal')">PQQ</span>
+            <span class="tag" onclick="openDrawer('Acide Alpha-Lipoïque (ALA)','Cofacteurs enzymatiques','al-fa li-po-ik','teal')">Acide Alpha-Lipoïque</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 02 MINÉRAUX & OLIGOÉLÉMENTS ══ -->
+    <div class="sec-card s-amber fu d2">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">⚗️</div>
+        <div>
+          <div class="sec-cat">02 — Minéraux & Oligoéléments</div>
+          <div class="sec-title">Minéraux & Oligoéléments</div>
+          <div class="sec-sub">Macro-minéraux essentiels et oligoéléments traces</div>
+        </div>
+        <div class="sec-count">3 panels · 10 compléments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Macro-minéraux
+            <span class="sph-count">4 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('Magnésium','Minéraux — Macro-minéraux','ma-gné-ziom','amber')">Magnésium</span>
+            <span class="tag hi-amber" onclick="openDrawer('Calcium','Minéraux — Macro-minéraux','kal-siom','amber')">Calcium</span>
+            <span class="tag" onclick="openDrawer('Potassium','Minéraux — Macro-minéraux','po-ta-siom','amber')">Potassium</span>
+            <span class="tag" onclick="openDrawer('Sodium (Sel)','Minéraux — Macro-minéraux','so-diom','amber')">Sodium</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Oligoéléments essentiels
+            <span class="sph-count">4 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('Fer','Oligoéléments — Essentiels','fèr','amber')">Fer</span>
+            <span class="tag hi-amber" onclick="openDrawer('Zinc','Oligoéléments — Essentiels','zink','amber')">Zinc</span>
+            <span class="tag hi-amber" onclick="openDrawer('Sélénium','Oligoéléments — Essentiels','sé-lé-niom','amber')">Sélénium</span>
+            <span class="tag" onclick="openDrawer('Iode','Oligoéléments — Essentiels','iod','amber')">Iode</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-amber">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Oligoéléments traces
+            <span class="sph-count">2 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('Chrome','Oligoéléments — Traces','krom','amber')">Chrome</span>
+            <span class="tag" onclick="openDrawer('Cuivre','Oligoéléments — Traces','kuivr','amber')">Cuivre</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 03 ACIDES GRAS & LIPIDES ══ -->
+    <div class="sec-card s-violet fu d3">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🧬</div>
+        <div>
+          <div class="sec-cat">03 — Acides gras essentiels</div>
+          <div class="sec-title">Acides Gras & Lipides</div>
+          <div class="sec-sub">Oméga-3, oméga-6 et phospholipides fonctionnels</div>
+        </div>
+        <div class="sec-count">2 panels · 5 compléments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Oméga-3
+            <span class="sph-count">3 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-violet" onclick="openDrawer('Oméga-3 EPA','Acides Gras — Oméga-3','é-pé-a','violet')">EPA</span>
+            <span class="tag hi-violet" onclick="openDrawer('Oméga-3 DHA','Acides Gras — Oméga-3','dé-ash-a','violet')">DHA</span>
+            <span class="tag" onclick="openDrawer('ALA (Acide Alpha-Linolénique)','Acides Gras — Oméga-3','al-a','violet')">ALA</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-violet">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Oméga-6 & Phospholipides
+            <span class="sph-count">2 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag" onclick="openDrawer('Oméga-6 GLA','Acides Gras — Oméga-6','ji-el-a','violet')">GLA (Oméga-6)</span>
+            <span class="tag" onclick="openDrawer('Lécithine de Soja / Tournesol','Acides Gras — Phospholipides','lé-si-tin','violet')">Lécithine</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ 04 ANTIOXYDANTS, ACIDES AMINÉS & PROBIOTIQUES ══ -->
+    <div class="sec-card s-green fu d4">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🛡️</div>
+        <div>
+          <div class="sec-cat">04 — Protection, Performance & Microbiote</div>
+          <div class="sec-title">Antioxydants, AA & Probiotiques</div>
+          <div class="sec-sub">Antioxydants, acides aminés fonctionnels et probiotiques</div>
+        </div>
+        <div class="sec-count">4 panels · 14 compléments</div>
+      </div>
+      <div class="sec-panels">
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Antioxydants endogènes
+            <span class="sph-count">3 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('Glutathion (GSH)','Antioxydants — Endogènes','glu-ta-tion','green')">Glutathion</span>
+            <span class="tag hi-green" onclick="openDrawer('SOD (Superoxyde Dismutase)','Antioxydants — Endogènes','ess-o-dé','green')">SOD</span>
+            <span class="tag" onclick="openDrawer('NAC (N-Acétylcystéine)','Antioxydants — Endogènes','nak','green')">NAC</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Antioxydants exogènes & Polyphénols
+            <span class="sph-count">4 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('Resvératrol','Antioxydants — Polyphénols','rèz-vé-ra-trol','green')">Resvératrol</span>
+            <span class="tag" onclick="openDrawer('Curcumine','Antioxydants — Polyphénols','kur-ku-min','green')">Curcumine</span>
+            <span class="tag" onclick="openDrawer('Quercétine','Antioxydants — Polyphénols','kèr-sé-tin','green')">Quercétine</span>
+            <span class="tag" onclick="openDrawer('Astaxanthine','Antioxydants — Caroténoïdes','as-ta-zan-tin','green')">Astaxanthine</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Acides aminés fonctionnels
+            <span class="sph-count">4 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('L-Carnitine','Acides Aminés — Fonctionnels','el-kar-ni-tin','green')">L-Carnitine</span>
+            <span class="tag hi-green" onclick="openDrawer('L-Tyrosine','Acides Aminés — Fonctionnels','el-ti-ro-zin','green')">L-Tyrosine</span>
+            <span class="tag" onclick="openDrawer('L-Glutamine','Acides Aminés — Fonctionnels','el-glu-ta-min','green')">L-Glutamine</span>
+            <span class="tag" onclick="openDrawer('Taurine','Acides Aminés — Fonctionnels','to-rin','green')">Taurine</span>
+          </div>
+        </div>
+
+        <div class="sub-panel s-green">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Probiotiques & Prébiotiques
+            <span class="sph-count">3 compléments</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('Probiotiques (Lactobacillus / Bifidobacterium)','Microbiote — Probiotiques','pro-bio-tik','green')">Probiotiques</span>
+            <span class="tag" onclick="openDrawer('Prébiotiques (FOS / Inuline)','Microbiote — Prébiotiques','pré-bio-tik','green')">Prébiotiques</span>
+            <span class="tag" onclick="openDrawer('Postbiotiques (Butyrate)','Microbiote — Postbiotiques','post-bio-tik','green')">Postbiotiques</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+
+  <!-- FOOTER -->
+  <footer class="page-footer fu d4">
+    <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+    <p class="footer-disc">Ce guide est fourni à titre informatif et ne remplace pas l'avis d'un professionnel de santé. Les dosages sont indicatifs et doivent être adaptés individuellement. Consultez toujours votre médecin ou pharmacien avant de débuter une supplémentation.</p>
+  </footer>
+
+</div><!-- /wrapper -->
+
+<script>
+/* ══ TOGGLE SUB-PANELS ══ */
+function togglePanel(head){
+  const panel = head.parentElement;
+  panel.classList.toggle('open');
+}
+
+/* ══ DATA ══ */
+const DATA = {
+
+  /* ─── VITAMINES LIPOSOLUBLES ─── */
+  'Vitamine D (Cholécalciférol)':{
+    def:`La <strong>vitamine D</strong> (cholécalciférol ou D3) est une vitamine liposoluble synthétisée par la peau sous l'action des UVB. Elle joue un rôle central dans l'absorption intestinale du calcium et du phosphore, la minéralisation osseuse, la modulation du système immunitaire et la régulation de l'inflammation. Une carence en vitamine D touche 50 à 80 % de la population française en hiver.`,
+    vals:[['Apport recommandé adulte','1 000 – 2 000 UI/jour'],['Dose d\'attaque (carence)','50 000 – 100 000 UI/semaine × 8 sem.'],['Taux sérique optimal','30 – 60 ng/mL (75 – 150 nmol/L)'],['Seuil de toxicité','> 150 ng/mL']],
+    conds:[{t:'Santé osseuse & prévention ostéoporose',c:'green'},{t:'Immunité innée & adaptative',c:'teal'},{t:'Fatigue & douleurs musculaires',c:'amber'},{t:'Prévention cardiovasculaire',c:'teal'},{t:'Syndrome dépressif saisonnier',c:'violet'}],
+    tip:"La forme D3 (cholécalciférol) est 2 à 3 fois plus efficace que la D2 (ergocalciférol) pour élever le taux sérique. Associez-la à de la vitamine K2 pour optimiser le métabolisme calcique et éviter les calcifications artérielles.",
+    badge:'Complément incontournable',badgeC:'teal'},
+
+  'Vitamine A (Rétinol)':{
+    def:`La <strong>vitamine A</strong> (rétinol, rétinal, acide rétinoïque) est une vitamine liposoluble essentielle pour la vision (rhodopsine), la différenciation cellulaire, l'immunité muqueuse et la santé de la peau. Le bêta-carotène est un précurseur végétal converti en rétinol dans l'intestin avec un rendement variable.`,
+    vals:[['ANC adulte','600 – 900 µg ER/jour'],['Dose max (rétinol)','3 000 µg ER/jour (toxicité hépatique au-delà)'],['Bêta-carotène','6 – 15 mg/jour (pas de toxicité)']],
+    conds:[{t:'Vision nocturne & adaptation visuelle',c:'teal'},{t:'Santé de la peau & muqueuses',c:'green'},{t:'Immunité muqueuse (IgA)',c:'green'},{t:'Grossesse (⚠️ tératogène à haute dose)',c:'red'}],
+    tip:"Le rétinol d'origine animale (foie, huile de foie de morue) est directement actif. Attention : un excès de rétinol préformé est tératogène — la supplémentation est contre-indiquée chez la femme enceinte sauf avis médical. Le bêta-carotène est une alternative sûre.",
+    badge:'Vitamine liposoluble',badgeC:'teal'},
+
+  'Vitamine E (Tocophérol)':{
+    def:`La <strong>vitamine E</strong> regroupe les tocophérols et tocotriénols. L'alpha-tocophérol est la forme la plus active chez l'homme. Elle protège les membranes cellulaires contre la peroxydation lipidique, soutient la fonction immunitaire et joue un rôle dans la signalisation cellulaire.`,
+    vals:[['ANC adulte','12 – 15 mg (18 – 22 UI)/jour'],['Dose max','300 mg/jour (au-delà, risque hémorragique)']],
+    conds:[{t:'Protection membranaire antioxydante',c:'green'},{t:'Santé cardiovasculaire',c:'teal'},{t:'Neuroprotection',c:'violet'},{t:'Fertilité (spermatogenèse)',c:'amber'}],
+    tip:"Privilégiez la forme naturelle d-alpha-tocophérol (RRR) plutôt que la forme synthétique dl-alpha-tocophérol, deux fois moins biodisponible. Les tocotriénols sont particulièrement étudiés pour leur effet neuroprotecteur.",
+    badge:'Antioxydant membranaire',badgeC:'teal'},
+
+  'Vitamine K2 (Ménaquinone)':{
+    def:`La <strong>vitamine K2</strong> (ménaquinone, principalement MK-7) active les protéines dépendantes de la vitamine K : l'ostéocalcine (fixation du calcium dans l'os) et la MGP (Matrix Gla Protein, qui empêche la calcification des artères). Elle agit en synergie avec la vitamine D.`,
+    vals:[['ANC adulte','45 – 200 µg/jour (MK-7)'],['Association recommandée','100 µg MK-7 pour 2 000 UI de vit D']],
+    conds:[{t:'Santé osseuse (synergie vit D)',c:'green'},{t:'Prévention des calcifications artérielles',c:'teal'},{t:'Santé dentaire',c:'green'},{t:'Interaction AVK (⚠️)',c:'red'}],
+    tip:"La forme MK-7 a une demi-vie de 72h contre 2h pour la MK-4, permettant une prise quotidienne unique. Contre-indication formelle chez les patients sous anticoagulants AVK (Coumadine®, Préviscan®) — la vitamine K antagonise les AVK.",
+    badge:'Synergie vitamine D',badgeC:'green'},
+
+  /* ─── VITAMINES GROUPE B ─── */
+  'Vitamine B1 (Thiamine)':{
+    def:`La <strong>vitamine B1</strong> (thiamine) est un cofacteur essentiel de la pyruvate déshydrogénase et de la transcétolase. Elle intervient dans le métabolisme énergétique des glucides et le fonctionnement du système nerveux. Une carence sévère cause le béribéri et le syndrome de Wernicke-Korsakoff.`,
+    vals:[['ANC adulte','1,1 – 1,5 mg/jour'],['Dose thérapeutique','50 – 300 mg/jour (neuropathie, alcoolisme)']],
+    conds:[{t:'Métabolisme énergétique glucidique',c:'green'},{t:'Fonction neurologique',c:'teal'},{t:'Alcoolisme (Wernicke-Korsakoff)',c:'red'},{t:'Fatigue chronique',c:'amber'}],
+    tip:"La benfotiamine est une forme liposoluble de thiamine avec une biodisponibilité 5× supérieure, particulièrement efficace pour protéger les nerfs périphériques chez le diabétique.",
+    badge:'Vitamine du groupe B',badgeC:'teal'},
+
+  'Vitamine B2 (Riboflavine)':{
+    def:`La <strong>vitamine B2</strong> (riboflavine) est le précurseur des coenzymes FAD et FMN, impliqués dans la chaîne respiratoire mitochondriale, le métabolisme des lipides et la régénération du glutathion oxydé. Elle intervient aussi dans le métabolisme du fer et de la vitamine B6.`,
+    vals:[['ANC adulte','1,1 – 1,6 mg/jour'],['Dose thérapeutique (migraine)','400 mg/jour']],
+    conds:[{t:'Production d\'énergie mitochondriale',c:'green'},{t:'Régénération du glutathion (GSSG → GSH)',c:'teal'},{t:'Prévention de la migraine (dose élevée)',c:'violet'},{t:'Santé oculaire',c:'amber'}],
+    tip:"La riboflavine à 400 mg/jour est recommandée par les sociétés de neurologie comme prophylaxie de la migraine. L'urine jaune fluorescent après prise est un phénomène normal et sans danger.",
+    badge:'Cofacteur FAD / FMN',badgeC:'teal'},
+
+  'Vitamine B3 (Niacine)':{
+    def:`La <strong>vitamine B3</strong> existe sous forme de niacine (acide nicotinique) et de nicotinamide. Elle est le précurseur du NAD+ et du NADP+, coenzymes centraux dans plus de 400 réactions enzymatiques du métabolisme énergétique, de la réparation de l'ADN et de la signalisation cellulaire.`,
+    vals:[['ANC adulte','14 – 18 mg EN/jour'],['Dose thérapeutique (niacine)','500 – 2 000 mg/jour (dyslipidémie)'],['Nicotinamide riboside (NR)','300 – 1 000 mg/jour']],
+    conds:[{t:'Production de NAD+ (longévité cellulaire)',c:'green'},{t:'Dyslipidémie (niacine à forte dose)',c:'amber'},{t:'Neuroprotection',c:'violet'},{t:'Flush cutané (niacine, pas nicotinamide)',c:'amber'}],
+    tip:"Les formes NR (nicotinamide riboside) et NMN (nicotinamide mononucléotide) sont les précurseurs de NAD+ les plus étudiés en longévité cellulaire. Ils évitent le flush cutané de l'acide nicotinique.",
+    badge:'Précurseur NAD+',badgeC:'teal'},
+
+  'Vitamine B6 (Pyridoxine)':{
+    def:`La <strong>vitamine B6</strong> (pyridoxine, pyridoxal-5-phosphate / P5P) est cofacteur de plus de 150 réactions enzymatiques, notamment dans le métabolisme des acides aminés, la synthèse des neurotransmetteurs (sérotonine, dopamine, GABA) et la formation de l'hémoglobine.`,
+    vals:[['ANC adulte','1,5 – 2 mg/jour'],['Forme active','Pyridoxal-5-phosphate (P5P)'],['Dose max','25 mg/jour au long cours (neuropathie au-delà)']],
+    conds:[{t:'Synthèse neurotransmetteurs (sérotonine, dopamine)',c:'teal'},{t:'Syndrome prémenstruel',c:'amber'},{t:'Métabolisme de l\'homocystéine',c:'green'},{t:'Neuropathie périphérique (surdosage)',c:'red'}],
+    tip:"Privilégiez la forme P5P (pyridoxal-5-phosphate), directement utilisable par l'organisme. Un excès chronique > 50 mg/jour peut paradoxalement causer une neuropathie périphérique sensorielle.",
+    badge:'Cofacteur neurotransmetteurs',badgeC:'teal'},
+
+  'Vitamine B9 (Folates)':{
+    def:`La <strong>vitamine B9</strong> (folates) est indispensable à la synthèse de l'ADN, à la division cellulaire et au métabolisme de l'homocystéine (avec B12). La forme active est le 5-MTHF (méthyltétrahydrofolate). L'acide folique synthétique doit être converti par l'enzyme MTHFR, polymorphe dans 40 % de la population.`,
+    vals:[['ANC adulte','400 µg DFE/jour'],['Grossesse (conception à 12 SA)','400 – 800 µg/jour'],['Forme active','5-MTHF (méthylfolate)']],
+    conds:[{t:'Prévention anomalies du tube neural',c:'green'},{t:'Anémie mégaloblastique',c:'red'},{t:'Hyperhomocystéinémie',c:'amber'},{t:'Polymorphisme MTHFR (C677T)',c:'violet'}],
+    tip:"40 % de la population porte un polymorphisme MTHFR réduisant la conversion de l'acide folique en 5-MTHF. Privilégiez le 5-MTHF (Quatrefolic®) qui contourne ce déficit enzymatique.",
+    badge:'Essentiel grossesse',badgeC:'green'},
+
+  'Vitamine B12 (Cobalamine)':{
+    def:`La <strong>vitamine B12</strong> (cobalamine) intervient dans la synthèse de l'ADN, le métabolisme de l'homocystéine et la myélinisation nerveuse. Les formes actives sont la méthylcobalamine (cytoplasme) et l'adénosylcobalamine (mitochondrie). La carence touche fréquemment les végétaliens et les personnes âgées.`,
+    vals:[['ANC adulte','4 µg/jour'],['Dose supplémentation','500 – 1 000 µg/jour (sublinguale)'],['Taux sérique optimal','> 400 pg/mL'],['Forme active','Méthylcobalamine']],
+    conds:[{t:'Anémie macrocytaire (anémie de Biermer)',c:'red'},{t:'Neuropathie périphérique & démyélinisation',c:'red'},{t:'Végétalisme (supplémentation obligatoire)',c:'amber'},{t:'Fatigue chronique',c:'teal'}],
+    tip:"La cyanocobalamine est la forme la moins chère mais doit être convertie en forme active. Préférez la méthylcobalamine (sublinguale) ou l'hydroxocobalamine (injectable). Un taux sérique « normal bas » (200–400 pg/mL) peut déjà être symptomatique.",
+    badge:'Indispensable régimes végétaliens',badgeC:'amber'},
+
+  /* ─── VITAMINE C ─── */
+  'Vitamine C (Acide Ascorbique)':{
+    def:`La <strong>vitamine C</strong> (acide ascorbique) est un puissant antioxydant hydrosoluble, cofacteur de la synthèse du collagène, de la carnitine et de la noradrénaline. Elle améliore l'absorption du fer non héminique, régénère la vitamine E oxydée et soutient l'immunité en stimulant les neutrophiles et les lymphocytes.`,
+    vals:[['ANC adulte','110 mg/jour'],['Dose optimale','500 – 1 000 mg/jour (fractionnée)'],['Forme liposomale','Biodisponibilité supérieure'],['Seuil de tolérance intestinale','2 000 – 5 000 mg/jour (diarrhée au-delà)']],
+    conds:[{t:'Immunité & réduction durée rhume',c:'green'},{t:'Synthèse du collagène (peau, tendons)',c:'teal'},{t:'Absorption du fer (synergie)',c:'amber'},{t:'Fatigue & récupération sportive',c:'teal'},{t:'Stress oxydatif',c:'green'}],
+    tip:"La vitamine C liposomale offre une biodisponibilité 2 à 3 fois supérieure et évite les troubles digestifs des doses élevées. Prenez-la en doses fractionnées (matin + midi) car l'excès est excrété rapidement par voie rénale.",
+    badge:'Antioxydant majeur',badgeC:'teal'},
+
+  /* ─── COFACTEURS ENZYMATIQUES ─── */
+  'Coenzyme Q10 (Ubiquinone)':{
+    def:`Le <strong>coenzyme Q10</strong> (ubiquinone/ubiquinol) est un composant essentiel de la chaîne de transport des électrons mitochondriale. Il participe à la production d'ATP dans chaque cellule. Sa forme réduite, l'ubiquinol, est aussi un puissant antioxydant lipophile. La production endogène diminue après 40 ans.`,
+    vals:[['Dose santé générale','100 – 200 mg/jour'],['Dose thérapeutique (cœur, statines)','200 – 400 mg/jour'],['Forme optimale','Ubiquinol (forme réduite, 2× plus absorbée)']],
+    conds:[{t:'Production d\'énergie mitochondriale (ATP)',c:'green'},{t:'Santé cardiovasculaire',c:'teal'},{t:'Myalgies sous statines (compensation)',c:'amber'},{t:'Anti-âge & longévité cellulaire',c:'green'},{t:'Fertilité masculine',c:'violet'}],
+    tip:"Les statines inhibent la voie du mévalonate qui produit aussi le CoQ10 — une supplémentation est recommandée chez tous les patients sous statines pour prévenir les myalgies. Prenez le CoQ10 avec un repas gras pour maximiser l'absorption.",
+    badge:'Énergie mitochondriale',badgeC:'teal'},
+
+  'PQQ (Pyrroloquinoline Quinone)':{
+    def:`La <strong>PQQ</strong> (pyrroloquinoline quinone) est un cofacteur redox qui stimule la biogenèse mitochondriale via l'activation de PGC-1α. Elle favorise la formation de nouvelles mitochondries et protège les neurones contre le stress oxydatif. C'est un complément de nouvelle génération en médecine anti-âge.`,
+    vals:[['Dose recommandée','10 – 20 mg/jour'],['Synergie optimale','PQQ 20 mg + CoQ10 200 mg']],
+    conds:[{t:'Biogenèse mitochondriale',c:'green'},{t:'Neuroprotection & mémoire',c:'violet'},{t:'Synergie avec CoQ10',c:'teal'},{t:'Anti-âge cellulaire',c:'green'}],
+    tip:"La PQQ agit en synergie avec le CoQ10 : la PQQ crée de nouvelles mitochondries tandis que le CoQ10 optimise leur fonctionnement. C'est l'un des rares composés capables de stimuler la biogenèse mitochondriale in vivo.",
+    badge:'Biogenèse mitochondriale',badgeC:'green'},
+
+  'Acide Alpha-Lipoïque (ALA)':{
+    def:`L'<strong>acide alpha-lipoïque</strong> (ALA) est un antioxydant universel (soluble dans l'eau ET les graisses) et cofacteur de la pyruvate déshydrogénase. Il régénère les vitamines C et E, le glutathion et le CoQ10. La forme R-lipoïque est la forme naturelle et la plus bioactive.`,
+    vals:[['Dose antioxydante','300 – 600 mg/jour'],['Dose neuropathie diabétique','600 – 1 200 mg/jour'],['Forme optimale','Acide R-alpha-lipoïque (R-ALA)']],
+    conds:[{t:'Neuropathie diabétique (indication reconnue)',c:'amber'},{t:'Recyclage des antioxydants (C, E, GSH)',c:'green'},{t:'Sensibilité à l\'insuline',c:'teal'},{t:'Chélation légère des métaux lourds',c:'violet'}],
+    tip:"Prenez l'ALA à jeun, 30 min avant le repas, car l'alimentation réduit son absorption de 30 %. La forme R-ALA est la forme naturelle et plus puissante que le mélange R/S racémique souvent vendu.",
+    badge:'Antioxydant universel',badgeC:'green'},
+
+  /* ─── MACRO-MINÉRAUX ─── */
+  'Magnésium':{
+    def:`Le <strong>magnésium</strong> (Mg) est un cofacteur de plus de 600 réactions enzymatiques : production d'ATP, synthèse d'ADN/ARN, contraction musculaire, transmission nerveuse et régulation du rythme cardiaque. Il est le « minéral anti-stress » par excellence. 70 % de la population française ne couvre pas ses besoins.`,
+    vals:[['ANC adulte','360 – 420 mg/jour'],['Dose supplémentation','300 – 600 mg/jour (élément Mg)'],['Formes les mieux absorbées','Bisglycinate, taurate, malate, thréonate'],['Magnésémie (sang)','0,75 – 0,95 mmol/L (peu fiable)']],
+    conds:[{t:'Stress, anxiété, irritabilité',c:'amber'},{t:'Crampes & spasmes musculaires',c:'teal'},{t:'Troubles du sommeil',c:'violet'},{t:'Fatigue chronique',c:'amber'},{t:'Arythmie cardiaque',c:'red'},{t:'Migraine (prophylaxie)',c:'violet'}],
+    tip:"La magnésémie sanguine ne reflète que 1 % du magnésium total (le reste est intracellulaire et osseux). On peut être carencé avec une magnésémie normale. Le bisglycinate de magnésium est la forme la mieux tolérée (pas d'effet laxatif). Le thréonate de magnésium traverse la barrière hémato-encéphalique pour les effets cognitifs.",
+    badge:'Complément n°1 en France',badgeC:'amber'},
+
+  'Calcium':{
+    def:`Le <strong>calcium</strong> (Ca) est le minéral le plus abondant de l'organisme (1 kg chez l'adulte), dont 99 % dans l'os. Il est essentiel à la minéralisation osseuse, la contraction musculaire, la coagulation, la transmission nerveuse et la signalisation intracellulaire. L'absorption dépend de la vitamine D.`,
+    vals:[['ANC adulte','900 – 1 200 mg/jour (alimentation + supplémentation)'],['Dose max en supplément','500 mg par prise (absorption limitée)'],['Forme recommandée','Citrate de calcium (mieux absorbé à jeun)']],
+    conds:[{t:'Ostéoporose & fractures',c:'amber'},{t:'Santé dentaire',c:'green'},{t:'Grossesse & allaitement',c:'teal'},{t:'Calcifications vasculaires (⚠️ excès sans K2)',c:'red'}],
+    tip:"Ne dépassez pas 500 mg de calcium par prise (absorption saturée au-delà). Associez toujours le calcium à la vitamine D et à la vitamine K2 pour éviter le risque de calcification artérielle. Privilégiez les sources alimentaires (produits laitiers, crucifères, amandes).",
+    badge:'Santé osseuse',badgeC:'amber'},
+
+  'Potassium':{
+    def:`Le <strong>potassium</strong> (K) est le principal cation intracellulaire. Il régule le potentiel de membrane, le rythme cardiaque, la pression artérielle (effet natriurétique) et la contraction musculaire. Le ratio sodium/potassium est un déterminant majeur de la santé cardiovasculaire.`,
+    vals:[['ANC adulte','3 500 – 4 700 mg/jour'],['Supplémentation usuelle','200 – 400 mg/jour (complément)'],['⚠️ Risque d\'hyperkaliémie','Insuffisance rénale, IEC, ARA2']],
+    conds:[{t:'Régulation de la pression artérielle',c:'green'},{t:'Prévention AVC',c:'teal'},{t:'Crampes musculaires',c:'amber'},{t:'Hyperkaliémie (⚠️ insuffisance rénale)',c:'red'}],
+    tip:"L'alimentation riche en fruits et légumes (bananes, avocats, patates douces, épinards) est la meilleure source de potassium. La supplémentation est limitée à 200 mg par gélule en raison du risque d'hyperkaliémie. Contre-indiquée en cas d'insuffisance rénale.",
+    badge:'Électrolyte essentiel',badgeC:'amber'},
+
+  'Sodium (Sel)':{
+    def:`Le <strong>sodium</strong> (Na) est le principal cation extracellulaire. Il maintient l'osmolarité plasmatique, le volume sanguin et participe à la transmission de l'influx nerveux. L'excès de sodium est un facteur de risque d'hypertension artérielle. La supplémentation n'est indiquée qu'en situation de déplétion (sport d'endurance, chaleur extrême).`,
+    vals:[['Apport recommandé','< 5 g NaCl/jour (= 2 g Na)'],['Sport d\'endurance (> 2h)','300 – 700 mg Na/h d\'effort'],['Hyponatrémie symptomatique','< 130 mmol/L']],
+    conds:[{t:'Hyponatrémie d\'effort (marathon)',c:'red'},{t:'Électrolytes sport d\'endurance',c:'teal'},{t:'HTA (⚠️ réduction impérative)',c:'red'}],
+    tip:"Le sodium n'est généralement pas à supplémenter — la majorité de la population est en excès. La supplémentation n'a de sens qu'en cas de sport d'endurance prolongé (> 2h), de chaleur extrême ou d'hyponatrémie documentée.",
+    badge:'Attention à l\'excès',badgeC:'red'},
+
+  /* ─── OLIGOÉLÉMENTS ESSENTIELS ─── */
+  'Fer':{
+    def:`Le <strong>fer</strong> (Fe) est un oligoélément essentiel au transport de l'oxygène (hémoglobine), au stockage de l'oxygène musculaire (myoglobine) et à la chaîne respiratoire mitochondriale. La carence en fer est la carence nutritionnelle la plus fréquente au monde, touchant particulièrement les femmes en âge de procréer.`,
+    vals:[['ANC femme non ménopausée','16 mg/jour'],['ANC homme / femme ménopausée','9 mg/jour'],['Ferritine optimale','50 – 150 µg/L'],['Forme recommandée','Bisglycinate de fer (tolérance ++)']],
+    conds:[{t:'Anémie ferriprive',c:'red'},{t:'Fatigue, pâleur, essoufflement',c:'amber'},{t:'Chute de cheveux',c:'amber'},{t:'Grossesse (besoins doublés)',c:'teal'},{t:'Hémochromatose (⚠️ contre-indication)',c:'red'}],
+    tip:"Ne supplémentez jamais en fer sans dosage de la ferritine préalable — un excès de fer est pro-oxydant et toxique (risque d'hémochromatose). Le bisglycinate de fer est la forme la mieux tolérée (peu de troubles digestifs). Prenez-le avec de la vitamine C pour augmenter l'absorption de 67 %.",
+    badge:'Carence n°1 mondiale',badgeC:'amber'},
+
+  'Zinc':{
+    def:`Le <strong>zinc</strong> (Zn) est cofacteur de plus de 300 enzymes et 2 000 facteurs de transcription. Il intervient dans l'immunité (maturation des lymphocytes T), la cicatrisation, la synthèse de testostérone, le métabolisme de l'insuline et la protection antioxydante via la SOD cuivre-zinc.`,
+    vals:[['ANC adulte','8 – 11 mg/jour'],['Dose supplémentation','15 – 30 mg/jour'],['Forme recommandée','Bisglycinate ou picolinate de zinc'],['⚠️ Interaction','Réduit l\'absorption du cuivre']],
+    conds:[{t:'Immunité (réduction durée rhume)',c:'green'},{t:'Santé de la peau (acné)',c:'teal'},{t:'Fertilité masculine (testostérone)',c:'amber'},{t:'Cicatrisation & réparation tissulaire',c:'green'},{t:'Goût & odorat',c:'teal'}],
+    tip:"Une supplémentation prolongée en zinc (> 30 mg/jour) doit être associée à du cuivre (1–2 mg) pour éviter une carence en cuivre secondaire. Le zinc est mieux absorbé à jeun, mais peut être pris au repas en cas de nausées.",
+    badge:'Pilier immunitaire',badgeC:'amber'},
+
+  'Sélénium':{
+    def:`Le <strong>sélénium</strong> (Se) est un oligoélément trace incorporé dans 25 sélénoprotéines : les glutathion peroxydases (GPx), les thiorédoxine réductases et les désiodases thyroïdiennes. Il joue un rôle central dans la défense antioxydante, la conversion T4→T3 et l'immunité antivirale.`,
+    vals:[['ANC adulte','55 – 70 µg/jour'],['Dose optimale','100 – 200 µg/jour'],['Seuil de toxicité (sélénose)','> 400 µg/jour'],['Forme recommandée','Sélénométhionine ou levure séléniée']],
+    conds:[{t:'Antioxydant (glutathion peroxydase)',c:'green'},{t:'Thyroïde (conversion T4→T3)',c:'amber'},{t:'Immunité antivirale',c:'teal'},{t:'Protection contre les métaux lourds',c:'violet'},{t:'Thyroïdite d\'Hashimoto (↓ anticorps)',c:'amber'}],
+    tip:"Les sols européens sont pauvres en sélénium, ce qui rend une supplémentation souvent justifiée. 2 noix du Brésil/jour apportent ~100 µg de sélénium. La sélénométhionine est la forme la mieux absorbée. Ne dépassez pas 200 µg/jour sans suivi biologique.",
+    badge:'Thyroïde & antioxydant',badgeC:'amber'},
+
+  'Iode':{
+    def:`L'<strong>iode</strong> est un oligoélément essentiel à la synthèse des hormones thyroïdiennes T3 et T4. Une carence en iode entraîne un goitre, une hypothyroïdie et, chez la femme enceinte, un retard de développement neurologique du fœtus (crétinisme). La supplémentation est fréquemment justifiée dans les régions non maritimes.`,
+    vals:[['ANC adulte','150 µg/jour'],['Grossesse / allaitement','200 – 250 µg/jour'],['Seuil de toxicité','> 600 µg/jour (risque thyroïdite)']],
+    conds:[{t:'Synthèse hormones thyroïdiennes',c:'green'},{t:'Grossesse (développement cérébral fœtal)',c:'teal'},{t:'Goitre & hypothyroïdie',c:'amber'},{t:'Thyroïdite d\'Hashimoto (⚠️ prudence)',c:'red'}],
+    tip:"En cas de thyroïdite d'Hashimoto, un excès d'iode peut aggraver l'auto-immunité thyroïdienne. Le sel iodé, les algues (kelp, fucus) et les produits de la mer sont les meilleures sources alimentaires. Consultez avant de supplémenter si pathologie thyroïdienne connue.",
+    badge:'Essentiel thyroïde',badgeC:'amber'},
+
+  /* ─── OLIGOÉLÉMENTS TRACES ─── */
+  'Chrome':{
+    def:`Le <strong>chrome</strong> (Cr³⁺) est un oligoélément trace qui potentialise l'action de l'insuline en facilitant la liaison insuline-récepteur. Il intervient dans le métabolisme des glucides et des lipides. Le chrome trivalent alimentaire est très différent du chrome hexavalent industriel (toxique).`,
+    vals:[['ANC adulte','50 – 65 µg/jour'],['Dose supplémentation','200 – 1 000 µg/jour (picolinate)'],['Forme recommandée','Picolinate de chrome']],
+    conds:[{t:'Sensibilité à l\'insuline & glycémie',c:'green'},{t:'Résistance à l\'insuline / prédiabète',c:'amber'},{t:'Envies de sucre (régulation)',c:'teal'},{t:'Syndrome métabolique',c:'amber'}],
+    tip:"Le picolinate de chrome est la forme la plus étudiée et la mieux absorbée. Les études montrent un effet modeste mais significatif sur la glycémie et l'HbA1c chez les prédiabétiques. Il peut aider à réduire les compulsions sucrées.",
+    badge:'Régulation glycémique',badgeC:'amber'},
+
+  'Cuivre':{
+    def:`Le <strong>cuivre</strong> (Cu) est un oligoélément trace cofacteur d'enzymes clés : céruloplasmine (métabolisme du fer), SOD cuivre-zinc (antioxydant), cytochrome c oxydase (respiration mitochondriale) et lysyl oxydase (cross-linking du collagène et de l'élastine).`,
+    vals:[['ANC adulte','0,9 – 1,3 mg/jour'],['⚠️ Supplémentation si zinc > 30 mg/j','1 – 2 mg Cu/jour'],['Seuil de toxicité','> 10 mg/jour']],
+    conds:[{t:'Cofacteur SOD (antioxydant)',c:'green'},{t:'Métabolisme du fer (céruloplasmine)',c:'teal'},{t:'Synthèse du collagène',c:'green'},{t:'Maladie de Wilson (⚠️ excès génétique)',c:'red'}],
+    tip:"La supplémentation en cuivre est rarement nécessaire sauf si vous prenez du zinc à forte dose (> 30 mg/j), car le zinc bloque compétitivement l'absorption du cuivre. Trop de cuivre libre est pro-oxydant — ne supplémentez qu'en cas de besoin documenté.",
+    badge:'Équilibre zinc/cuivre',badgeC:'amber'},
+
+  /* ─── OMÉGA-3 ─── */
+  'Oméga-3 EPA':{
+    def:`L'<strong>EPA</strong> (acide eicosapentaénoïque, C20:5 n-3) est un acide gras oméga-3 à longue chaîne d'origine marine. Il est le précurseur des résolvines et protectines (médiateurs de résolution de l'inflammation). L'EPA a une action anti-inflammatoire puissante et un effet bénéfique documenté sur la dépression et les triglycérides.`,
+    vals:[['Dose santé générale','500 – 1 000 mg EPA/jour'],['Dose anti-inflammatoire','2 000 – 3 000 mg EPA/jour'],['Dose antidépressive','1 000 – 2 000 mg EPA/jour (ratio EPA:DHA ≥ 2:1)'],['Sources','Huile de poisson, huile de krill']],
+    conds:[{t:'Anti-inflammatoire (résolvines)',c:'green'},{t:'Dépression & troubles de l\'humeur',c:'violet'},{t:'Hypertriglycéridémie (↓ 30–40 %)',c:'amber'},{t:'Santé cardiovasculaire',c:'teal'}],
+    tip:"Pour l'effet antidépresseur, les études montrent que l'EPA est plus efficace que le DHA — visez un ratio EPA:DHA ≥ 2:1. Choisissez un produit concentré (> 60 % EPA+DHA) et certifié exempt de métaux lourds (label IFOS 5 étoiles).",
+    badge:'Anti-inflammatoire marin',badgeC:'violet'},
+
+  'Oméga-3 DHA':{
+    def:`Le <strong>DHA</strong> (acide docosahexaénoïque, C22:6 n-3) est l'acide gras oméga-3 le plus abondant dans le cerveau (20 % des lipides cérébraux) et la rétine. Il est essentiel au développement cérébral du fœtus et du nourrisson, à la neurotransmission et à la santé oculaire.`,
+    vals:[['Dose santé générale','250 – 500 mg DHA/jour'],['Grossesse / allaitement','300 – 600 mg DHA/jour'],['Nourrisson','100 mg DHA/jour (lait maternel)'],['Sources','Huile de poisson, huile d\'algues (végétalien)']],
+    conds:[{t:'Développement cérébral (fœtus, nourrisson)',c:'green'},{t:'Santé oculaire (rétine)',c:'teal'},{t:'Neuroprotection & mémoire',c:'violet'},{t:'Grossesse (DHA prioritaire)',c:'green'}],
+    tip:"L'huile d'algues est la seule source végétalienne de DHA préformé. Pour les femmes enceintes, le DHA est prioritaire car c'est le principal oméga-3 qui s'accumule dans le cerveau fœtal au 3ème trimestre.",
+    badge:'Cerveau & vision',badgeC:'violet'},
+
+  'ALA (Acide Alpha-Linolénique)':{
+    def:`L'<strong>ALA</strong> (acide alpha-linolénique, C18:3 n-3) est l'oméga-3 végétal de référence. C'est un acide gras essentiel (non synthétisable) précurseur de l'EPA et du DHA, mais avec un taux de conversion très faible (5–10 % en EPA, < 1 % en DHA). On le trouve dans les graines de lin, de chia et l'huile de colza.`,
+    vals:[['ANC adulte','2 – 2,5 g/jour'],['Sources','Graines de lin (22 %), chia (18 %), huile de colza (9 %)'],['Conversion en EPA','5 – 10 %'],['Conversion en DHA','< 1 %']],
+    conds:[{t:'Acide gras essentiel (non synthétisable)',c:'green'},{t:'Anti-inflammatoire modeste',c:'teal'},{t:'Santé cardiovasculaire',c:'teal'}],
+    tip:"En raison du très faible taux de conversion ALA → DHA (< 1 %), l'ALA ne peut pas remplacer les oméga-3 marins (EPA/DHA). Il reste un excellent apport en tant qu'acide gras essentiel dans l'alimentation quotidienne.",
+    badge:'Oméga-3 végétal',badgeC:'violet'},
+
+  /* ─── OMÉGA-6 & PHOSPHOLIPIDES ─── */
+  'Oméga-6 GLA':{
+    def:`Le <strong>GLA</strong> (acide gamma-linolénique, C18:3 n-6) est un oméga-6 anti-inflammatoire, contrairement à l'acide arachidonique (pro-inflammatoire). Il est converti en DGLA puis en prostaglandines PGE1 (anti-inflammatoires). On le trouve dans l'huile d'onagre et l'huile de bourrache.`,
+    vals:[['Dose recommandée','500 – 1 500 mg GLA/jour'],['Huile d\'onagre','8–10 % GLA'],['Huile de bourrache','20–25 % GLA']],
+    conds:[{t:'Syndrome prémenstruel (SPM)',c:'amber'},{t:'Eczéma atopique (enfant & adulte)',c:'teal'},{t:'Sécheresse cutanée & oculaire',c:'teal'},{t:'Mastodynies (douleurs mammaires)',c:'amber'}],
+    tip:"L'huile de bourrache est 2 à 3 fois plus concentrée en GLA que l'huile d'onagre. Les effets sur le SPM nécessitent 2 à 3 cycles de supplémentation avant d'être perceptibles. Le GLA est le « bon » oméga-6 anti-inflammatoire.",
+    badge:'Oméga-6 anti-inflammatoire',badgeC:'violet'},
+
+  'Lécithine de Soja / Tournesol':{
+    def:`La <strong>lécithine</strong> est un mélange de phospholipides (phosphatidylcholine, phosphatidylsérine, phosphatidyléthanolamine) source de choline. La choline est un précurseur de l'acétylcholine (neurotransmetteur de la mémoire) et du phosphatidylcholine (intégrité des membranes cellulaires et du foie).`,
+    vals:[['Dose recommandée','1 200 – 2 400 mg/jour'],['Apport en choline','Viser 400 – 550 mg choline/jour'],['Formes','Soja (allergène) ou tournesol (sans allergène)']],
+    conds:[{t:'Mémoire & fonction cognitive (acétylcholine)',c:'violet'},{t:'Santé hépatique (stéatose)',c:'amber'},{t:'Intégrité des membranes cellulaires',c:'green'},{t:'Grossesse (développement cérébral fœtal)',c:'teal'}],
+    tip:"Préférez la lécithine de tournesol si allergie au soja. La choline est un nutriment souvent déficitaire, particulièrement chez les femmes enceintes. La phosphatidylsérine (PS) issue de la lécithine est spécifiquement étudiée pour la mémoire et le déclin cognitif.",
+    badge:'Source de choline',badgeC:'violet'},
+
+  /* ─── ANTIOXYDANTS ENDOGÈNES ─── */
+  'Glutathion (GSH)':{
+    def:`Le <strong>glutathion</strong> (GSH, L-γ-glutamyl-L-cystéinyl-glycine) est le « maître antioxydant » de l'organisme. Ce tripeptide est présent dans chaque cellule et joue un rôle central dans la détoxification hépatique (phase II), la neutralisation des radicaux libres, le recyclage des vitamines C et E et l'immunomodulation.`,
+    vals:[['Dose orale (réduit)','250 – 1 000 mg/jour'],['Forme liposomale','Biodisponibilité supérieure'],['Forme sublinguale','Absorption directe (bypass hépatique)'],['Précurseur indirect','NAC 600–1 200 mg/jour']],
+    conds:[{t:'Détoxification hépatique (phase II)',c:'green'},{t:'Stress oxydatif chronique',c:'teal'},{t:'Immunomodulation (lymphocytes NK)',c:'green'},{t:'Vieillissement cellulaire',c:'violet'},{t:'Pollution & métaux lourds',c:'amber'}],
+    tip:"Le glutathion oral classique est largement dégradé dans l'intestin. Privilégiez la forme liposomale ou sublinguale, ou bien le précurseur NAC (N-acétylcystéine) qui fournit la cystéine, acide aminé limitant de la synthèse du GSH. La vitamine C et le sélénium soutiennent aussi le recyclage du glutathion.",
+    badge:'Maître antioxydant',badgeC:'green'},
+
+  'SOD (Superoxyde Dismutase)':{
+    def:`La <strong>SOD</strong> (superoxyde dismutase) est l'enzyme antioxydante de première ligne qui transforme le radical superoxyde O₂⁻ en peroxyde d'hydrogène H₂O₂, ensuite neutralisé par la catalase ou la glutathion peroxydase. Il existe 3 isoformes : SOD1 (Cu/Zn, cytoplasmique), SOD2 (Mn, mitochondriale) et SOD3 (Cu/Zn, extracellulaire).`,
+    vals:[['Dose recommandée','250 – 500 UI/jour (extrait de melon Extramel®)'],['Cofacteurs nécessaires','Zinc, cuivre, manganèse'],['Forme protégée','SOD enrobée (gastro-résistante)']],
+    conds:[{t:'Défense anti-radicalaire de 1ère ligne',c:'green'},{t:'Stress oxydatif & inflammation',c:'teal'},{t:'Sport intense (récupération)',c:'amber'},{t:'Protection cutanée (UV, pollution)',c:'green'}],
+    tip:"La SOD orale native est détruite par les enzymes digestives. Les formes encapsulées ou enrobées (Extramel® / GliSODin® à base de melon) sont protégées de la digestion. La SOD a besoin de zinc, cuivre et manganèse comme cofacteurs — assurez un statut adéquat en ces oligo-éléments.",
+    badge:'1ère ligne antioxydante',badgeC:'green'},
+
+  'NAC (N-Acétylcystéine)':{
+    def:`La <strong>NAC</strong> (N-acétylcystéine) est le précurseur de la cystéine, acide aminé limitant de la synthèse du glutathion. En milieu hospitalier, c'est l'antidote de référence du surdosage en paracétamol. Elle possède aussi des propriétés mucolytiques, antioxydantes et neuroprotectrices.`,
+    vals:[['Dose antioxydante','600 – 1 200 mg/jour'],['Dose mucolytique','600 mg/jour'],['Intoxication paracétamol','IV hospitalière (140 mg/kg)']],
+    conds:[{t:'Précurseur du glutathion',c:'green'},{t:'Mucolytique (bronchite chronique)',c:'teal'},{t:'Détoxification hépatique',c:'amber'},{t:'Neuroprotection (TOC, addictions)',c:'violet'},{t:'Antidote paracétamol',c:'red'}],
+    tip:"La NAC est le moyen le plus économique et le plus étudié pour augmenter le glutathion intracellulaire. Des études prometteuses montrent un intérêt dans les TOC, les comportements compulsifs et l'addictologie. Prenez-la à distance des repas avec de la vitamine C pour optimiser la synthèse de GSH.",
+    badge:'Précurseur du glutathion',badgeC:'green'},
+
+  /* ─── ANTIOXYDANTS EXOGÈNES & POLYPHÉNOLS ─── */
+  'Resvératrol':{
+    def:`Le <strong>resvératrol</strong> est un polyphénol stilbène produit par la vigne, les baies et l'arachide en réponse au stress. Il active les sirtuines (SIRT1), mimes les effets de la restriction calorique, et exerce des effets anti-inflammatoires, antioxydants et cardioprotecteurs. C'est l'une des molécules phares de la longévité.`,
+    vals:[['Dose recommandée','150 – 500 mg/jour (trans-resvératrol)'],['Forme active','Trans-resvératrol (> 98 %)'],['Biodisponibilité','Faible — forme micronisée ou liposomale recommandée']],
+    conds:[{t:'Activation des sirtuines (SIRT1) — longévité',c:'green'},{t:'Anti-inflammatoire (NF-κB)',c:'teal'},{t:'Protection cardiovasculaire',c:'teal'},{t:'Sensibilité à l\'insuline',c:'amber'},{t:'Neuroprotection',c:'violet'}],
+    tip:"Le trans-resvératrol est la forme biologiquement active (et non le cis-resvératrol). Sa biodisponibilité orale est faible (< 1 %) — les formes micronisées ou liposomales améliorent significativement l'absorption. Prenez-le avec un repas contenant des graisses.",
+    badge:'Molécule de longévité',badgeC:'green'},
+
+  'Curcumine':{
+    def:`La <strong>curcumine</strong> est le principal curcuminoïde du curcuma (Curcuma longa). C'est un puissant anti-inflammatoire naturel qui inhibe NF-κB, COX-2 et les cytokines pro-inflammatoires. Elle a aussi des propriétés antioxydantes, neuroprotectrices et anticancéreuses étudiées dans plus de 12 000 publications.`,
+    vals:[['Dose standard','500 – 1 500 mg curcuminoïdes/jour'],['Biodisponibilité native','< 2 % (très faible)'],['Formes optimisées','Meriva® (phospholipides), Longvida®, C3 Reduct® + pipérine']],
+    conds:[{t:'Anti-inflammatoire articulaire',c:'amber'},{t:'Douleurs chroniques (arthrose)',c:'teal'},{t:'Protection hépatique',c:'green'},{t:'Troubles digestifs (dyspepsie)',c:'teal'},{t:'Neuroprotection (Alzheimer)',c:'violet'}],
+    tip:"La curcumine native est très mal absorbée. Il est impératif d'utiliser une forme optimisée : Meriva® (phytosomes), Longvida® (SLCP), NovaSOL® (micelles) ou associée à la pipérine (poivre noir) qui augmente l'absorption de 2 000 %. Attention : la pipérine peut interagir avec certains médicaments.",
+    badge:'Anti-inflammatoire naturel',badgeC:'green'},
+
+  'Quercétine':{
+    def:`La <strong>quercétine</strong> est un flavonoïde ubiquitaire (oignons, pommes, câpres, baies) doté de propriétés anti-inflammatoires, antihistaminiques, antivirales et sénolytiques. Elle stabilise les mastocytes (réduction de la libération d'histamine) et est étudiée comme agent sénolytique en combinaison avec le dasatinib.`,
+    vals:[['Dose recommandée','500 – 1 000 mg/jour'],['Forme optimisée','Quercétine phytosomale (Quercefit®)'],['Biodisponibilité','Améliorée par la vitamine C et la bromélaïne']],
+    conds:[{t:'Anti-histaminique naturel (allergies)',c:'amber'},{t:'Anti-inflammatoire',c:'green'},{t:'Antiviral (synergie zinc)',c:'teal'},{t:'Sénolytique (anti-âge cellulaire)',c:'violet'}],
+    tip:"La quercétine est un ionophore du zinc — elle facilite l'entrée du zinc dans les cellules, potentialisant son effet antiviral. En allergologie fonctionnelle, elle est utilisée comme stabilisateur des mastocytes (alternative naturelle aux antihistaminiques). Associez-la à la vitamine C et à la bromélaïne pour optimiser l'absorption.",
+    badge:'Antihistaminique & sénolytique',badgeC:'green'},
+
+  'Astaxanthine':{
+    def:`L'<strong>astaxanthine</strong> est un caroténoïde rouge produit par la microalgue Haematococcus pluvialis. C'est l'un des antioxydants les plus puissants connus : 6 000× plus puissant que la vitamine C, 800× plus que le CoQ10 et 550× plus que la vitamine E dans certains tests in vitro. Elle protège particulièrement les membranes cellulaires et traverse la barrière hémato-encéphalique.`,
+    vals:[['Dose recommandée','4 – 12 mg/jour'],['Source naturelle','Haematococcus pluvialis'],['⚠️ Synthétique','Moins efficace (à éviter)']],
+    conds:[{t:'Protection cutanée (UV, photovieillissement)',c:'green'},{t:'Santé oculaire (fatigue visuelle, DMLA)',c:'teal'},{t:'Performance sportive & récupération',c:'amber'},{t:'Anti-inflammatoire',c:'green'},{t:'Neuroprotection',c:'violet'}],
+    tip:"L'astaxanthine est liposoluble — prenez-la avec un repas contenant des graisses. C'est un « écran solaire interne » qui protège la peau des dommages UV de l'intérieur (après 4 semaines de prise). Privilégiez la forme naturelle issue de Haematococcus pluvialis.",
+    badge:'Superantioxydant',badgeC:'green'},
+
+  /* ─── ACIDES AMINÉS FONCTIONNELS ─── */
+  'L-Carnitine':{
+    def:`La <strong>L-carnitine</strong> est un acide aminé dérivé de la lysine et de la méthionine, essentiel au transport des acides gras à longue chaîne dans la mitochondrie pour la bêta-oxydation (production d'énergie à partir des graisses). La forme acétylée (ALCAR) traverse la barrière hémato-encéphalique et a des effets nootropiques.`,
+    vals:[['Dose L-carnitine','1 000 – 2 000 mg/jour'],['Dose ALCAR (acétyl-L-carnitine)','500 – 1 500 mg/jour'],['Prise','Avant effort ou le matin']],
+    conds:[{t:'Métabolisme des graisses (bêta-oxydation)',c:'green'},{t:'Performance & récupération sportive',c:'teal'},{t:'Fonction cognitive (ALCAR)',c:'violet'},{t:'Fertilité masculine (qualité spermatique)',c:'amber'},{t:'Insuffisance cardiaque',c:'red'}],
+    tip:"L'acétyl-L-carnitine (ALCAR) est la forme de choix pour les effets cognitifs car elle traverse la barrière hémato-encéphalique. La L-carnitine tartrate est préférée pour la performance sportive. Prenez-la le matin ou avant l'effort, pas le soir (peut être stimulante).",
+    badge:'Transport des graisses',badgeC:'green'},
+
+  'L-Tyrosine':{
+    def:`La <strong>L-tyrosine</strong> est un acide aminé précurseur direct de la dopamine, de la noradrénaline et de l'adrénaline (catécholamines), ainsi que des hormones thyroïdiennes (T3, T4). Elle soutient la résistance au stress, la concentration et la motivation. La forme N-acétyl-L-tyrosine (NALT) est plus soluble mais moins bioconvertie.`,
+    vals:[['Dose recommandée','500 – 2 000 mg/jour'],['Prise','Le matin à jeun (30 min avant repas)'],['Cofacteurs','Fer, B6, B9, cuivre (synthèse des catécholamines)']],
+    conds:[{t:'Synthèse dopamine & noradrénaline',c:'green'},{t:'Focus, motivation, concentration',c:'teal'},{t:'Résistance au stress aigu',c:'amber'},{t:'Hypothyroïdie fonctionnelle',c:'amber'},{t:'Sevrage tabagique',c:'violet'}],
+    tip:"La L-tyrosine est particulièrement efficace en situation de stress, de privation de sommeil ou de froid — elle reconstitue les stocks de catécholamines. Prenez-la le matin à jeun pour une absorption optimale (concurrence avec les autres acides aminés). Ne pas associer aux IMAO.",
+    badge:'Précurseur dopamine',badgeC:'green'},
+
+  'L-Glutamine':{
+    def:`La <strong>L-glutamine</strong> est l'acide aminé le plus abondant du plasma sanguin. C'est le carburant principal des entérocytes (cellules intestinales) et des lymphocytes. Elle joue un rôle central dans l'intégrité de la barrière intestinale (« leaky gut »), la récupération musculaire et l'immunité.`,
+    vals:[['Dose santé intestinale','5 – 10 g/jour'],['Dose récupération sportive','10 – 20 g/jour'],['Prise','À jeun ou post-entraînement']],
+    conds:[{t:'Perméabilité intestinale (« leaky gut »)',c:'green'},{t:'Récupération musculaire',c:'teal'},{t:'Immunité (carburant des lymphocytes)',c:'green'},{t:'Syndrome de l\'intestin irritable (SII)',c:'amber'},{t:'Post-chirurgie & convalescence',c:'teal'}],
+    tip:"La L-glutamine est le complément de référence pour restaurer la barrière intestinale (« leaky gut »). Commencez par 2,5 g/jour et augmentez progressivement. Elle est déconseillée en cas d'épilepsie non contrôlée (converti en glutamate excitateur) et en cas de cancer actif (carburant des cellules tumorales).",
+    badge:'Réparation intestinale',badgeC:'green'},
+
+  'Taurine':{
+    def:`La <strong>taurine</strong> est un acide aminé soufré non protéinogène, abondant dans le cœur, le cerveau, les muscles et la rétine. Elle agit comme osmorégulateur cellulaire, modulateur du GABA (effet calmant), antioxydant intracellulaire et stabilisateur des membranes. Contrairement à la croyance populaire, elle est calmante et non excitante.`,
+    vals:[['Dose recommandée','500 – 2 000 mg/jour'],['Dose thérapeutique','3 000 – 6 000 mg/jour'],['Sources alimentaires','Viandes, poissons, fruits de mer']],
+    conds:[{t:'Effet calmant (modulation GABA)',c:'violet'},{t:'Protection cardiovasculaire',c:'teal'},{t:'Santé oculaire (rétine)',c:'teal'},{t:'Sport (performance & crampes)',c:'amber'},{t:'Longévité cellulaire',c:'green'}],
+    tip:"Contrairement à sa réputation liée aux boissons énergisantes, la taurine est un acide aminé calmant (modulateur GABAergique). Une méta-analyse publiée en 2023 montre un lien entre la supplémentation en taurine et le ralentissement du vieillissement dans plusieurs modèles animaux. Excellente synergie avec le magnésium (taurate de Mg).",
+    badge:'Calmant & cardioprotecteur',badgeC:'green'},
+
+  /* ─── PROBIOTIQUES & PRÉBIOTIQUES ─── */
+  'Probiotiques (Lactobacillus / Bifidobacterium)':{
+    def:`Les <strong>probiotiques</strong> sont des micro-organismes vivants qui, administrés en quantité adéquate, confèrent un bénéfice santé. Les genres les plus étudiés sont Lactobacillus et Bifidobacterium. Chaque souche a des indications spécifiques — un probiotique ne remplace pas un autre.`,
+    vals:[['Dose recommandée','10 – 50 milliards UFC/jour'],['Forme','Gélules gastro-résistantes (survie ++)'],['Souches clés','L. rhamnosus GG, L. plantarum 299v, B. longum, S. boulardii']],
+    conds:[{t:'Dysbiose intestinale',c:'green'},{t:'SII (syndrome de l\'intestin irritable)',c:'amber'},{t:'Diarrhée post-antibiotiques',c:'teal'},{t:'Immunité (70 % dans l\'intestin)',c:'green'},{t:'Axe intestin-cerveau (humeur)',c:'violet'},{t:'Eczéma atopique (enfant)',c:'amber'}],
+    tip:"L'efficacité des probiotiques est souche-spécifique : Lactobacillus rhamnosus GG pour la diarrhée infantile, Saccharomyces boulardii pour la diarrhée sous antibiotiques, L. plantarum 299v pour le SII. Les « psychobiotiques » (L. helveticus R0052 + B. longum R0175) montrent des résultats prometteurs sur l'anxiété.",
+    badge:'Santé intestinale & immunité',badgeC:'green'},
+
+  'Prébiotiques (FOS / Inuline)':{
+    def:`Les <strong>prébiotiques</strong> sont des fibres non digestibles qui nourrissent sélectivement les bactéries bénéfiques du microbiote intestinal (notamment les Bifidobactéries). Les plus courants sont les FOS (fructo-oligosaccharides), l'inuline (chicorée) et le GOS (galacto-oligosaccharides).`,
+    vals:[['Dose recommandée','5 – 15 g/jour'],['Introduction','Progressivement (ballonnements possibles)'],['Sources alimentaires','Chicorée, artichaut, ail, oignon, poireau, banane verte']],
+    conds:[{t:'Croissance des Bifidobactéries',c:'green'},{t:'Production de butyrate (SCFA)',c:'teal'},{t:'Transit intestinal',c:'amber'},{t:'Absorption du calcium (↑ 20 %)',c:'teal'}],
+    tip:"Commencez par 3 g/jour et augmentez sur 2 semaines pour éviter les ballonnements. Les prébiotiques sont le « carburant » des probiotiques — une supplémentation combinée (synbiotique) est souvent plus efficace que l'un ou l'autre seul.",
+    badge:'Nourriture du microbiote',badgeC:'green'},
+
+  'Postbiotiques (Butyrate)':{
+    def:`Les <strong>postbiotiques</strong> sont les métabolites bénéfiques produits par les bactéries intestinales. Le <strong>butyrate</strong> (acide butyrique) est le plus important : c'est la source d'énergie principale des colonocytes, un puissant anti-inflammatoire intestinal et un régulateur épigénétique (inhibiteur d'HDAC).`,
+    vals:[['Dose butyrate','300 – 1 200 mg/jour'],['Forme','Butyrate de sodium gastro-résistant ou tributyrine'],['Production endogène','Via fermentation des fibres par le microbiote']],
+    conds:[{t:'Intégrité de la barrière intestinale',c:'green'},{t:'Anti-inflammatoire colique (MICI)',c:'teal'},{t:'Régulation épigénétique',c:'violet'},{t:'SII & inflammation de bas grade',c:'amber'}],
+    tip:"Le butyrate sous forme de tributyrine est mieux toléré et libéré plus lentement dans le côlon. On peut aussi augmenter la production endogène de butyrate en consommant des fibres fermentescibles (amidons résistants : banane verte, pomme de terre refroidie, flocons d'avoine).",
+    badge:'Métabolite clé du microbiote',badgeC:'green'},
+};
+
+/* ══ COLOUR MAPS ══ */
+const STRIPES = {
+  teal:'linear-gradient(90deg,var(--c-teal),var(--c-green))',
+  amber:'linear-gradient(90deg,var(--c-amber),var(--c-teal))',
+  violet:'linear-gradient(90deg,var(--c-violet),var(--c-teal))',
+  green:'linear-gradient(90deg,var(--c-green),var(--c-amber))',
+};
+const BCOLS = {
+  teal:{bg:'rgba(14,165,201,.1)',bd:'rgba(14,165,201,.25)',c:'#7dd3fc'},
+  amber:{bg:'rgba(245,158,11,.1)',bd:'rgba(245,158,11,.25)',c:'#fcd34d'},
+  violet:{bg:'rgba(124,58,237,.1)',bd:'rgba(124,58,237,.25)',c:'#c4b5fd'},
+  green:{bg:'rgba(16,185,129,.1)',bd:'rgba(16,185,129,.25)',c:'#6ee7b7'},
+  red:{bg:'rgba(239,68,68,.1)',bd:'rgba(239,68,68,.25)',c:'#fca5a5'},
+};
+const TIP_RGB = {teal:'14,165,201',amber:'245,158,11',violet:'124,58,237',green:'16,185,129'};
+
+/* ══ DRAWER ══ */
+let currentTag = null;
+
+function openDrawer(name, cat, phonetic, color){
+  const info = DATA[name] || {
+    def:`<strong>${name}</strong> — Fiche complète à venir.`,
+    vals:[],conds:[],tip:'Consultez votre professionnel de santé pour plus d\'informations.',
+    badge:'Complément en cours de documentation',badgeC:'teal'
+  };
+
+  document.getElementById('drawer-stripe').style.background = STRIPES[color]||STRIPES.teal;
+  document.getElementById('d-cat').textContent = cat;
+  document.getElementById('d-name').textContent = name;
+  document.getElementById('d-phonetic').textContent = phonetic ? '· '+phonetic+' ·' : '';
+
+  const bc = BCOLS[info.badgeC]||BCOLS.teal;
+  document.getElementById('d-badge').innerHTML = `
+    <div class="drawer-badge" style="background:${bc.bg};border-color:${bc.bd};color:${bc.c};margin-bottom:20px">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L1 3.5V6C1 8.8 3.1 11.4 6 12C8.9 11.4 11 8.8 11 6V3.5L6 1Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="0.8"/><path d="M6 3.5V8M6 3.5L4 5.5M6 3.5L8 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      ${info.badge}
+    </div>`;
+
+  document.getElementById('d-def').innerHTML = info.def;
+
+  const vb = document.getElementById('d-valbox');
+  if(info.vals && info.vals.length){
+    vb.style.display = 'block';
+    vb.innerHTML = '<div class="val-box-title">Dosages & formes recommandés</div>'
+      + info.vals.map(([l,v])=>`<div class="val-row"><span class="val-label">${l}</span><span class="val-num">${v}</span></div>`).join('');
+  } else {
+    vb.style.display = 'none';
+  }
+
+  document.getElementById('d-conds').innerHTML = (info.conds||[]).map(({t,c})=>{
+    const col = BCOLS[c]||BCOLS.teal;
+    return `<span class="cond" style="background:${col.bg};border-color:${col.bd};color:${col.c}">${t}</span>`;
+  }).join('');
+
+  const rgb = TIP_RGB[color]||TIP_RGB.teal;
+  const tip = document.getElementById('d-tip');
+  tip.innerHTML = `<span class="tip-ico">💡</span><span class="tip-txt"><strong>Conseil PRÉVIO :</strong> ${info.tip}</span>`;
+  tip.style.borderColor = `rgba(${rgb},.18)`;
+  tip.style.background = `rgba(${rgb},.05)`;
+
+  document.querySelectorAll('.tag.active').forEach(t=>t.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  currentTag = event.currentTarget;
+
+  document.body.classList.add('drawer-open');
+  document.querySelector('.drawer-body').scrollTop = 0;
+}
+
+function closeDrawer(){
+  document.body.classList.remove('drawer-open');
+  if(currentTag){currentTag.classList.remove('active');currentTag=null;}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+</script>
+</body>
+</html>

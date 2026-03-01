@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PRÉVIO — Guide des Métabolismes du Corps</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --c-teal:#0ea5c9;--c-teal-d:#0e7490;--c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed;--c-violet-d:#6d28d9;
+  --c-green:#10b981;--c-green-d:#047857;--c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b;--c-amber-d:#d97706;
+  --c-red:#ef4444;
+  --dark-1:#070c1a;--dark-2:#0f1628;--dark-3:#141c35;--dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08);--dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.42);--dark-t:rgba(255,255,255,.88);
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  --nav-h:62px;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+  --drawer-w:480px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh}
+body{font-family:var(--ff);color:var(--dark-t);background:var(--dark-1);overflow-x:hidden}
+button{font-family:var(--ff);border:none;cursor:pointer;outline:none}
+
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+  background-size:44px 44px}
+.blob{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.b1{top:-200px;left:-150px;width:700px;height:700px;background:radial-gradient(circle,rgba(14,165,201,.08),transparent 65%)}
+.b2{bottom:-180px;right:-130px;width:640px;height:640px;background:radial-gradient(circle,rgba(124,58,237,.09),transparent 65%)}
+.scan{position:fixed;left:0;right:0;height:1px;z-index:0;pointer-events:none;opacity:.14;
+  background:linear-gradient(90deg,transparent,var(--c-teal) 35%,var(--c-violet) 65%,transparent);
+  animation:scan 12s linear infinite}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);
+  background:rgba(7,12,26,.88);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b)}
+.nav-in{max-width:1200px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 24px}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:28px;flex-shrink:0;text-decoration:none}
+.nav-mark{width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;
+  box-shadow:0 0 22px rgba(14,165,201,.3),0 0 44px rgba(124,58,237,.12);flex-shrink:0}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+.nav-breadcrumb{font-size:13px;color:var(--dark-m);display:flex;align-items:center;gap:7px}
+.nav-breadcrumb a{color:var(--dark-m);cursor:pointer;transition:color .15s;text-decoration:none}
+.nav-breadcrumb a:hover{color:rgba(255,255,255,.7)}
+.nav-breadcrumb sep{opacity:.3}
+.nav-breadcrumb .current{color:rgba(255,255,255,.72);font-weight:600}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nav-back{padding:9px 18px;border-radius:99px;font-size:13px;font-weight:600;
+  background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.65);transition:all .18s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.nav-back:hover{background:rgba(255,255,255,.11);color:#fff}
+
+.wrapper{position:relative;z-index:1;max-width:1200px;margin:0 auto;
+  padding:calc(var(--nav-h) + 40px) 24px 80px;transition:margin-right .45s var(--ease-o)}
+body.drawer-open .wrapper{margin-right:var(--drawer-w)}
+
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.fu{animation:fu .65s var(--ease-o) both}
+.d1{animation-delay:.08s}.d2{animation-delay:.16s}.d3{animation-delay:.24s}.d4{animation-delay:.32s}
+
+.page-header{margin-bottom:44px}
+.ph-eyebrow{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--c-teal);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ph-dot{width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--c-teal),var(--c-green));box-shadow:0 0 10px var(--c-teal);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.page-header h1{font-family:var(--ffd);font-size:clamp(32px,5vw,52px);font-weight:700;line-height:1.04;letter-spacing:-.055em;color:#fff;margin-bottom:12px}
+.page-header h1 em{font-style:italic;font-weight:300;background:linear-gradient(115deg,#22d3ee,#a78bfa 50%,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-header p{font-size:15px;color:var(--dark-m);max-width:620px;line-height:1.88}
+
+.disclaimer-banner{
+  background:linear-gradient(135deg,rgba(14,165,201,.06),rgba(124,58,237,.06));
+  border:1px solid rgba(14,165,201,.15);border-radius:16px;padding:20px 24px;
+  margin-bottom:36px;display:flex;gap:14px;align-items:flex-start;position:relative;z-index:1}
+.disclaimer-ico{font-size:24px;flex-shrink:0;margin-top:2px}
+.disclaimer-txt{font-size:13px;color:var(--dark-m);line-height:1.88}
+.disclaimer-txt strong{color:var(--c-teal)}
+.disclaimer-txt em{color:rgba(255,255,255,.7);font-style:normal;font-weight:600}
+
+.hint-chip{display:inline-flex;align-items:center;gap:7px;margin-top:18px;
+  background:rgba(14,165,201,.07);border:1px solid rgba(14,165,201,.18);
+  border-radius:99px;padding:7px 16px;font-size:12px;font-weight:600;color:var(--c-teal)}
+
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.leg{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:99px;font-size:11.5px;font-weight:700;border:1px solid}
+.l-teal{background:rgba(14,165,201,.08);border-color:rgba(14,165,201,.22);color:var(--c-teal)}
+.l-amber{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.22);color:var(--c-amber)}
+.l-violet{background:rgba(124,58,237,.08);border-color:rgba(124,58,237,.22);color:#a78bfa}
+.l-green{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.22);color:var(--c-green)}
+.leg-dot{width:7px;height:7px;border-radius:50%}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+
+.sec-card{background:rgba(255,255,255,.028);border:1px solid var(--dark-b);border-radius:26px;overflow:hidden;position:relative}
+.sec-card::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+  background-size:22px 22px}
+
+.sec-stripe{height:3px;width:100%;position:relative;z-index:1}
+.s-teal .sec-stripe{background:linear-gradient(90deg,var(--c-teal),var(--c-green))}
+.s-amber .sec-stripe{background:linear-gradient(90deg,var(--c-amber),var(--c-teal))}
+.s-violet .sec-stripe{background:linear-gradient(90deg,var(--c-violet),var(--c-teal))}
+.s-green .sec-stripe{background:linear-gradient(90deg,var(--c-green),var(--c-amber))}
+
+.sec-head{padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);
+  display:flex;align-items:center;gap:14px;position:relative;z-index:1}
+.sec-ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;
+  font-size:22px;flex-shrink:0;border:1.5px solid}
+.s-teal .sec-ico{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25)}
+.s-amber .sec-ico{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25)}
+.s-violet .sec-ico{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25)}
+.s-green .sec-ico{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25)}
+.sec-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;margin-bottom:4px}
+.s-teal .sec-cat{color:var(--c-teal)}.s-amber .sec-cat{color:var(--c-amber)}
+.s-violet .sec-cat{color:#a78bfa}.s-green .sec-cat{color:var(--c-green)}
+.sec-title{font-family:var(--ffd);font-size:18px;font-weight:600;letter-spacing:-.03em;color:#fff;line-height:1.1}
+.sec-sub{font-size:11px;color:var(--dark-m);margin-top:3px}
+.sec-count{margin-left:auto;font-size:11px;font-weight:700;padding:4px 12px;border-radius:99px;flex-shrink:0;border:1px solid}
+.s-teal .sec-count{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.25);color:var(--c-teal)}
+.s-amber .sec-count{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.25);color:var(--c-amber)}
+.s-violet .sec-count{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.25);color:#a78bfa}
+.s-green .sec-count{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.25);color:var(--c-green)}
+
+.sec-panels{padding:16px 20px 20px;display:flex;flex-direction:column;gap:12px;position:relative;z-index:1}
+
+.sub-panel{border-radius:13px;overflow:hidden;border:1px solid var(--dark-b)}
+.sub-panel-head{padding:8px 14px;display:flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  cursor:pointer;user-select:none;transition:background .15s}
+.s-teal .sub-panel-head{background:rgba(14,165,201,.08);color:var(--c-teal)}
+.s-amber .sub-panel-head{background:rgba(245,158,11,.08);color:var(--c-amber)}
+.s-violet .sub-panel-head{background:rgba(124,58,237,.08);color:#a78bfa}
+.s-green .sub-panel-head{background:rgba(16,185,129,.08);color:var(--c-green)}
+.s-teal .sub-panel-head:hover{background:rgba(14,165,201,.14)}
+.s-amber .sub-panel-head:hover{background:rgba(245,158,11,.14)}
+.s-violet .sub-panel-head:hover{background:rgba(124,58,237,.14)}
+.s-green .sub-panel-head:hover{background:rgba(16,185,129,.14)}
+.sph-dot{width:5px;height:5px;border-radius:50%;background:currentColor;flex-shrink:0}
+.sph-count{margin-left:auto;opacity:.6;font-size:10px}
+.sph-chevron{margin-left:4px;font-size:11px;transition:transform .25s var(--ease-o);opacity:.6}
+.sub-panel.open .sph-chevron{transform:rotate(90deg)}
+
+.sub-panel-body{padding:10px 14px 12px;background:rgba(0,0,0,.18);
+  display:flex;flex-wrap:wrap;gap:5px;
+  max-height:0;overflow:hidden;transition:max-height .35s var(--ease-o),padding .25s;
+  padding-top:0;padding-bottom:0}
+.sub-panel.open .sub-panel-body{max-height:500px;padding-top:10px;padding-bottom:12px}
+
+.tag{display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:500;color:var(--dark-t);
+  background:rgba(255,255,255,.052);border:1px solid rgba(255,255,255,.09);
+  border-radius:8px;padding:5px 11px;
+  cursor:pointer;transition:all .18s;user-select:none;position:relative}
+.tag::after{content:'›';opacity:0;margin-left:2px;font-size:14px;transition:opacity .15s,transform .15s;transform:translateX(-4px)}
+.tag:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);padding-right:18px}
+.tag:hover::after{opacity:.5;transform:translateX(0)}
+.tag.active{box-shadow:0 0 0 1.5px currentColor}
+
+.tag.hi-teal{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.22);color:#7dd3fc}
+.tag.hi-amber{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.22);color:#fcd34d}
+.tag.hi-green{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.22);color:#6ee7b7}
+.tag.hi-violet{background:rgba(124,58,237,.1);border-color:rgba(124,58,237,.22);color:#c4b5fd}
+.tag.hi-teal:hover{background:rgba(14,165,201,.18);border-color:rgba(14,165,201,.4)}
+.tag.hi-amber:hover{background:rgba(245,158,11,.18);border-color:rgba(245,158,11,.4)}
+.tag.hi-green:hover{background:rgba(16,185,129,.18);border-color:rgba(16,185,129,.4)}
+.tag.hi-violet:hover{background:rgba(124,58,237,.18);border-color:rgba(124,58,237,.4)}
+
+.drawer-overlay{position:fixed;inset:0;z-index:300;background:rgba(7,12,26,.5);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  opacity:0;pointer-events:none;transition:opacity .35s}
+body.drawer-open .drawer-overlay{opacity:1;pointer-events:all}
+
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:301;
+  width:var(--drawer-w);max-width:95vw;
+  background:var(--dark-2);border-left:1px solid var(--dark-b);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .45s var(--ease-o);overflow:hidden}
+body.drawer-open .drawer{transform:translateX(0)}
+
+.drawer-stripe{height:3px;width:100%;flex-shrink:0;transition:background .3s}
+.drawer-header{padding:22px 24px 18px;border-bottom:1px solid var(--dark-b);flex-shrink:0;position:relative}
+.drawer-close{position:absolute;top:18px;right:20px;width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,.07);border:1px solid var(--dark-b);
+  display:grid;place-items:center;cursor:pointer;color:var(--dark-m);font-size:17px;transition:all .15s}
+.drawer-close:hover{background:rgba(255,255,255,.14);color:#fff}
+.drawer-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--dark-m);margin-bottom:8px}
+.drawer-name{font-family:var(--ffd);font-size:22px;font-weight:600;letter-spacing:-.04em;color:#fff;line-height:1.15;margin-bottom:6px;padding-right:40px}
+.drawer-phonetic{font-size:11.5px;color:var(--dark-m);font-style:italic;font-family:var(--ffd)}
+
+.drawer-body{flex:1;overflow-y:auto;padding:22px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.1) transparent}
+.drawer-body::-webkit-scrollbar{width:4px}
+.drawer-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:2px}
+
+.drawer-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 13px;border-radius:99px;border:1px solid;font-size:11px;font-weight:700;margin-bottom:20px}
+
+.drawer-def{font-size:14px;line-height:1.88;color:var(--dark-m);margin-bottom:24px}
+.drawer-def strong{color:var(--dark-t)}
+
+.val-box{background:rgba(255,255,255,.04);border:1px solid var(--dark-b);border-radius:14px;padding:16px 18px;margin-bottom:22px}
+.val-box-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:12px}
+.val-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:12px}
+.val-row:last-child{border-bottom:none}
+.val-label{font-size:12.5px;color:var(--dark-m);flex-shrink:0}
+.val-num{font-family:var(--ffd);font-size:13.5px;font-weight:600;color:#fff;text-align:right}
+
+.conds-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.conds-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.cond-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:22px}
+.cond{font-size:11px;font-weight:700;padding:4px 11px;border-radius:8px;letter-spacing:.03em;border:1px solid}
+
+.myth-section{margin-bottom:22px}
+.myth-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.myth-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.myth-box{background:rgba(239,68,68,.04);border:1px solid rgba(239,68,68,.15);border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.myth-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.myth-txt{font-size:12.5px;color:rgba(239,68,68,.7);line-height:1.78}
+.myth-txt strong{color:rgba(239,68,68,.9)}
+
+/* REFS BOX */
+.refs-section{margin-bottom:22px}
+.refs-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.refs-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.06)}
+.refs-box{background:rgba(124,58,237,.04);border:1px solid rgba(124,58,237,.15);border-radius:12px;padding:14px 16px}
+.refs-box ol{margin:0;padding-left:18px;font-size:11.5px;color:var(--dark-m);line-height:1.88;list-style:decimal}
+.refs-box li{margin-bottom:4px}
+.refs-box em{color:rgba(167,139,250,.8);font-style:italic}
+
+.tip{background:rgba(14,165,201,.06);border:1px solid rgba(14,165,201,.15);border-radius:12px;padding:14px 16px;display:flex;gap:10px;align-items:flex-start}
+.tip-ico{font-size:16px;flex-shrink:0;margin-top:1px}
+.tip-txt{font-size:12.5px;color:var(--dark-m);line-height:1.78}
+.tip-txt strong{color:var(--c-teal)}
+
+.page-footer{text-align:center;margin-top:52px;padding-top:26px;border-top:1px solid var(--dark-b);position:relative;z-index:1}
+.footer-logo{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;margin-bottom:6px}
+.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:4px;opacity:.45;font-family:var(--ff);text-transform:uppercase}
+.footer-disc{font-size:11.5px;color:var(--dark-m);max-width:560px;margin:0 auto;line-height:1.88}
+
+@media(max-width:600px){:root{--drawer-w:100vw}body.drawer-open .wrapper{margin-right:0}}
+body.in-iframe .nav{display:none !important}body.in-iframe .wrapper{margin-top:0 !important}
+</style>
+<script>document.addEventListener('DOMContentLoaded',function(){if(window.self!==window.top)document.body.classList.add('in-iframe');});</script>
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="scan"></div>
+<div class="drawer-overlay" onclick="closeDrawer()"></div>
+
+<!-- DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="drawer-stripe" id="drawer-stripe"></div>
+  <div class="drawer-header">
+    <div class="drawer-close" onclick="closeDrawer()">✕</div>
+    <div class="drawer-cat" id="d-cat"></div>
+    <div class="drawer-name" id="d-name"></div>
+    <div class="drawer-phonetic" id="d-phonetic"></div>
+  </div>
+  <div class="drawer-body">
+    <div id="d-badge"></div>
+    <div class="drawer-def" id="d-def"></div>
+    <div class="val-box" id="d-valbox"></div>
+    <div class="conds-title" id="d-conds-title">Leviers d'action documentés</div>
+    <div class="cond-tags" id="d-conds"></div>
+    <div class="myth-section" id="d-myth-section">
+      <div class="myth-title">⚠️ Idées reçues & fausses affirmations</div>
+      <div class="myth-box" id="d-myth"></div>
+    </div>
+    <div class="refs-section" id="d-refs-section">
+      <div class="refs-title">📚 Références bibliographiques</div>
+      <div class="refs-box" id="d-refs"></div>
+    </div>
+    <div class="tip" id="d-tip"></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav"><div class="nav-in">
+  <a class="nav-logo" href="index.html">
+    <div class="nav-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+    <div class="nav-type">PRÉVIO<sup>®</sup></div>
+  </a>
+  <div class="nav-breadcrumb"><a href="index.html">Accueil</a><sep>/</sep><span class="current">Guide des Métabolismes</span></div>
+  <div class="nav-r"><a class="nav-back" href="index.html">← Retour</a></div>
+</div></nav>
+
+<div class="wrapper">
+
+  <header class="page-header fu">
+    <div class="ph-eyebrow"><span class="ph-dot"></span>Référentiel · Physiologie & Prévention</div>
+    <h1>Guide des <em>Métabolismes du Corps</em></h1>
+    <p>Comprendre les 9 grands équilibres physiologiques du corps humain. Pour chaque système : mécanismes clés, biomarqueurs de suivi, leviers nutritionnels et de mode de vie, idées reçues et références bibliographiques.</p>
+    <div class="hint-chip">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M7 6v4M7 4.5v.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+      Cliquez sur un thème métabolique pour le détail complet
+    </div>
+  </header>
+
+  <div class="disclaimer-banner fu d1">
+    <div class="disclaimer-ico">🔬</div>
+    <div class="disclaimer-txt">
+      <strong>Philosophie PRÉVIO :</strong> Le corps humain fonctionne comme un système intégré — chaque équilibre métabolique influence les autres. <em>L'insulinorésistance aggrave l'inflammation, qui accélère le vieillissement, qui dégrade l'os, qui perturbe les hormones…</em> Il n'existe pas de « pilule magique » pour un seul système. La prévention repose sur des fondamentaux : alimentation variée, activité physique régulière, sommeil de qualité, gestion du stress. Ce guide s'appuie sur des références publiées dans des revues à comité de lecture (PubMed, Cochrane, méta-analyses).
+    </div>
+  </div>
+
+  <div class="legend fu d1">
+    <span class="leg l-teal"><span class="leg-dot" style="background:var(--c-teal)"></span>Énergie & Métabolisme</span>
+    <span class="leg l-amber"><span class="leg-dot" style="background:var(--c-amber)"></span>Hormones & Structure</span>
+    <span class="leg l-violet"><span class="leg-dot" style="background:#a78bfa"></span>Défenses & Inflammation</span>
+    <span class="leg l-green"><span class="leg-dot" style="background:var(--c-green)"></span>Longévité & Résilience</span>
+  </div>
+
+  <div class="grid">
+
+    <!-- ══ 01 ÉNERGIE & MÉTABOLISME ══ -->
+    <div class="sec-card s-teal fu d1">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">⚡</div>
+        <div>
+          <div class="sec-cat">01 — Énergie & Métabolisme</div>
+          <div class="sec-title">Glucides, Protéines, Lipides</div>
+          <div class="sec-sub">Les 3 métabolismes macronutritionnels et l'hydratation</div>
+        </div>
+        <div class="sec-count">4 fiches</div>
+      </div>
+      <div class="sec-panels">
+        <div class="sub-panel s-teal open">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Métabolismes macronutritionnels
+            <span class="sph-count">4 fiches</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-teal" onclick="openDrawer('Équilibre Glycémique','Énergie — Glucides','gli-sé-mik','teal')">Équilibre Glycémique</span>
+            <span class="tag hi-teal" onclick="openDrawer('Équilibre Protéique','Énergie — Protéines','pro-té-ik','teal')">Équilibre Protéique</span>
+            <span class="tag hi-teal" onclick="openDrawer('Équilibre Lipidique','Énergie — Lipides','li-pi-dik','teal')">Équilibre Lipidique</span>
+            <span class="tag" onclick="openDrawer('Équilibre Hydratation','Énergie — Eau','i-dra-ta-sion','teal')">Équilibre Hydratation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 02 HORMONES & STRUCTURE ══ -->
+    <div class="sec-card s-amber fu d2">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🧬</div>
+        <div>
+          <div class="sec-cat">02 — Hormones & Structure</div>
+          <div class="sec-title">Hormonal & Osseux</div>
+          <div class="sec-sub">Équilibres hormonaux (homme/femme) et capital osseux</div>
+        </div>
+        <div class="sec-count">3 fiches</div>
+      </div>
+      <div class="sec-panels">
+        <div class="sub-panel s-amber open">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Systèmes hormonaux & osseux
+            <span class="sph-count">3 fiches</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-amber" onclick="openDrawer('Équilibre Hormonal Homme','Hormones — Homme','or-mo-nal om','amber')">Hormonal Homme</span>
+            <span class="tag hi-amber" onclick="openDrawer('Équilibre Hormonal Femme','Hormones — Femme','or-mo-nal fam','amber')">Hormonal Femme</span>
+            <span class="tag hi-amber" onclick="openDrawer('Équilibre Osseux','Structure — Os','o-seuh','amber')">Équilibre Osseux</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 03 DÉFENSES & INFLAMMATION ══ -->
+    <div class="sec-card s-violet fu d3">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">🛡️</div>
+        <div>
+          <div class="sec-cat">03 — Défenses & Inflammation</div>
+          <div class="sec-title">Inflammatoire & Auto-Immun</div>
+          <div class="sec-sub">Inflammation chronique de bas grade et dysrégulation immunitaire</div>
+        </div>
+        <div class="sec-count">2 fiches</div>
+      </div>
+      <div class="sec-panels">
+        <div class="sub-panel s-violet open">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Systèmes de défense
+            <span class="sph-count">2 fiches</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-violet" onclick="openDrawer('Équilibre Inflammatoire','Défenses — Inflammation','in-fla-ma-twar','violet')">Équilibre Inflammatoire</span>
+            <span class="tag hi-violet" onclick="openDrawer('Équilibre Auto-Immun','Défenses — Immunité','o-to-i-mun','violet')">Équilibre Auto-Immun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 04 LONGÉVITÉ ══ -->
+    <div class="sec-card s-green fu d4">
+      <div class="sec-stripe"></div>
+      <div class="sec-head">
+        <div class="sec-ico">⏳</div>
+        <div>
+          <div class="sec-cat">04 — Longévité & Résilience</div>
+          <div class="sec-title">Vieillissement</div>
+          <div class="sec-sub">Les 12 hallmarks du vieillissement et les leviers de longévité</div>
+        </div>
+        <div class="sec-count">1 fiche</div>
+      </div>
+      <div class="sec-panels">
+        <div class="sub-panel s-green open">
+          <div class="sub-panel-head" onclick="togglePanel(this)">
+            <span class="sph-dot"></span>Science du vieillissement
+            <span class="sph-count">1 fiche</span>
+            <span class="sph-chevron">›</span>
+          </div>
+          <div class="sub-panel-body">
+            <span class="tag hi-green" onclick="openDrawer('Vieillissement','Longévité — Hallmarks','viè-yis-man','green')">Vieillissement & Longévité</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="page-footer fu d4">
+    <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+    <p class="footer-disc">Ce guide est fourni à titre éducatif. Les informations sont fondées sur des publications scientifiques à comité de lecture mais ne constituent pas un avis médical. Consultez votre professionnel de santé pour toute décision thérapeutique.</p>
+  </footer>
+
+</div>
+
+<script>
+function togglePanel(h){h.parentElement.classList.toggle('open');}
+
+const DATA={
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE GLYCÉMIQUE
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Glycémique':{
+  def:`L'<strong>équilibre glycémique</strong> désigne la capacité de l'organisme à maintenir la glycémie entre 0,70 et 1,10 g/L à jeun grâce à l'interaction de deux hormones pancréatiques : l'<strong>insuline</strong> (hypoglycémiante, cellules β) et le <strong>glucagon</strong> (hyperglycémiant, cellules α). Lorsque les cellules deviennent moins sensibles à l'insuline (<strong>insulinorésistance</strong>), le pancréas compense en sécrétant davantage d'insuline (<strong>hyperinsulinisme</strong>), ce qui mène progressivement au prédiabète puis au diabète de type 2. L'insulinorésistance est le mécanisme central du <strong>syndrome métabolique</strong>, qui touche 20 à 25 % de la population adulte occidentale et constitue le facteur de risque n°1 de maladie cardiovasculaire, stéatose hépatique, SOPK et déclin cognitif.<br><br><strong>Mécanisme clé :</strong> Chaque repas riche en glucides à IG élevé provoque un pic glycémique → pic insulinique → stockage lipidique → chute réactionnelle (hypoglycémie réactionnelle) → fringale → nouveau pic. Ce cycle « montagnes russes glycémiques » entretient l'inflammation de bas grade (via NF-κB) et la lipogenèse hépatique.`,
+  vals:[['Glycémie à jeun (normale)','0,70 – 1,10 g/L'],['Prédiabète','1,10 – 1,26 g/L'],['Diabète','≥ 1,26 g/L (2 dosages)'],['HbA1c optimale','< 5,7 %'],['HOMA-IR (insulinorésistance)','< 2,5 (idéal < 1,5)'],['Insuline à jeun','3 – 12 mUI/L']],
+  conds:[{t:'Alimentation IG bas (charge glycémique)',c:'green'},{t:'Activité physique (GLUT4 / sensibilité insuline)',c:'green'},{t:'Fibres solubles (bêta-glucanes, pectine)',c:'teal'},{t:'Chrome (potentialise l\'insuline)',c:'amber'},{t:'Magnésium (cofacteur du récepteur insuline)',c:'amber'},{t:'Sommeil ≥ 7h (privation → ↑ résistance insuline)',c:'violet'},{t:'Vinaigre de cidre (↓ glycémie post-prandiale)',c:'teal'}],
+  myth:`<strong>❌ "Le sucre cause le diabète"</strong> — Le diabète de type 2 est causé par l'insulinorésistance, favorisée par l'excès calorique global, la sédentarité et la graisse viscérale — pas par le sucre en soi. Un sportif mince peut consommer du sucre sans devenir diabétique. <strong>❌ "Les fruits sont à éviter car ils contiennent du sucre"</strong> — Les fruits entiers (avec fibres) ont un IG modéré et les études montrent une association inverse entre consommation de fruits et risque de diabète (Muraki et al., BMJ, 2013). <strong>❌ "Il existe des aliments qui soignent le diabète"</strong> — Aucun aliment ne guérit le diabète. La cannelle, le chrome et le berbérine ont des effets modestes mais ne remplacent pas le traitement.`,
+  refs:`<ol><li>DeFronzo RA. <em>Banting Lecture: From the triumvirate to the ominous octet.</em> Diabetes. 2009;58(11):2545-2559.</li><li>Muraki I et al. <em>Fruit consumption and risk of type 2 diabetes.</em> BMJ. 2013;347:f5001.</li><li>Evert AB et al. <em>Nutrition therapy for adults with diabetes.</em> Diabetes Care. 2019;42(5):731-754. (Consensus ADA)</li><li>Jenkins DJA et al. <em>Glycemic index of foods: a physiological basis for carbohydrate exchange.</em> Am J Clin Nutr. 1981;34:362-366.</li><li>Shang Y et al. <em>Effect of chromium supplementation on glycated hemoglobin — meta-analysis.</em> Diabet Med. 2021;38:e14570.</li></ol>`,
+  tip:"Les 3 piliers de l'équilibre glycémique sont : <strong>1)</strong> manger des glucides à IG bas (légumineuses, céréales complètes) avec des fibres, protéines et graisses à chaque repas ; <strong>2)</strong> bouger après manger (10 min de marche ↓ glycémie post-prandiale de 30 %) ; <strong>3)</strong> dormir ≥ 7h (une nuit de 4h augmente l'insulinorésistance de 30 % le lendemain, Spiegel et al., Lancet 1999). Le dosage de l'HOMA-IR (insuline × glycémie ÷ 22,5) est le marqueur le plus précoce du risque métabolique — bien avant l'HbA1c.",
+  badge:'Pilier n°1 du métabolisme',badgeC:'teal'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE PROTÉIQUE
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Protéique':{
+  def:`L'<strong>équilibre protéique</strong> (ou balance azotée) reflète la dynamique entre la <strong>synthèse protéique musculaire (MPS)</strong> et la <strong>protéolyse</strong> (dégradation). Cet équilibre dépend de l'apport en acides aminés essentiels (AAE), en particulier la <strong>leucine</strong> (seuil anabolique : 2,5 – 3 g par repas), du signal mTOR (mechanistic target of rapamycin) et de la stimulation mécanique (exercice de résistance).<br><br>Avec l'âge, la <strong>résistance anabolique</strong> diminue la réponse de mTOR à un même apport protéique, accélérant la <strong>sarcopénie</strong> (perte de masse musculaire liée à l'âge), qui touche 10 à 50 % des > 80 ans et est un facteur indépendant de mortalité. Le maintien d'un apport protéique suffisant, réparti sur 3 repas, combiné à l'exercice de résistance, est la stratégie la plus efficace pour prévenir la sarcopénie.`,
+  vals:[['Apport recommandé (adulte)','0,83 g/kg/jour (ANSES/OMS)'],['Apport optimal (sport, senior)','1,2 – 1,6 g/kg/jour'],['Seuil leucine / repas','2,5 – 3 g (≈ 25–30 g protéines de qualité)'],['PDCAAS maximum','1,0 (œuf, whey, viande, poisson)'],['Albumine sérique','35 – 50 g/L (marqueur nutritionnel)'],['Préalbumine','200 – 400 mg/L (marqueur précoce de dénutrition)']],
+  conds:[{t:'Leucine (seuil anabolique mTOR)',c:'green'},{t:'Exercice de résistance (stimulus n°1)',c:'green'},{t:'Répartition protéique sur 3 repas',c:'teal'},{t:'Complémentarité protéines végétales',c:'amber'},{t:'Vitamine D (récepteur musculaire)',c:'amber'},{t:'Oméga-3 EPA (sensibilisation mTOR, Smith et al. 2011)',c:'violet'},{t:'Créatine (réserve phosphagène)',c:'teal'}],
+  myth:`<strong>❌ "Les protéines abîment les reins"</strong> — Chez les individus avec des reins sains, un apport allant jusqu'à 2 g/kg/jour n'a pas d'effet néfaste sur la fonction rénale (Devries et al., Br J Sports Med, 2018). La restriction protéique ne concerne que les patients avec insuffisance rénale chronique préexistante. <strong>❌ "On ne peut absorber que 30 g de protéines par repas"</strong> — Faux. Le corps absorbe toutes les protéines ingérées. La notion de « 30 g » vient du seuil de stimulation maximale de la MPS sur une fenêtre de 2–3h, mais les protéines excédentaires sont utilisées pour d'autres fonctions (enzymes, immunité, gluconéogenèse).`,
+  refs:`<ol><li>Phillips SM, Chevalier S, Leidy HJ. <em>Protein "requirements" beyond the RDA: implications for optimizing health.</em> Appl Physiol Nutr Metab. 2016;41(5):565-572.</li><li>Cruz-Jentoft AJ et al. <em>Sarcopenia: European consensus (EWGSOP2).</em> Age Ageing. 2019;48(1):16-31.</li><li>Smith GI et al. <em>Omega-3 polyunsaturated fatty acids augment the muscle protein anabolic response to hyperinsulinaemia-hyperaminoacidaemia.</em> Clin Sci. 2011;121(6):267-278.</li><li>Devries MC et al. <em>Changes in kidney function do not differ between healthy adults consuming higher- vs lower-protein diets: a systematic review.</em> Br J Sports Med. 2018;52:1529-1534.</li><li>Morton RW et al. <em>A systematic review and meta-analysis: protein supplementation and resistance training.</em> Br J Sports Med. 2018;52:376-384.</li></ol>`,
+  tip:"Pour préserver votre masse musculaire, visez <strong>25 à 40 g de protéines de qualité à chaque repas principal</strong> (pas seulement le soir). Chez les > 65 ans, augmentez à 1,2 – 1,6 g/kg/jour (recommandations PROT-AGE, Bauer et al., JAMDA 2013). L'exercice de résistance (musculation) 2 à 3×/semaine est le stimulus le plus puissant pour activer mTOR et contrer la sarcopénie — plus efficace que toute supplémentation isolée.",
+  badge:'Masse musculaire & longévité',badgeC:'teal'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE LIPIDIQUE
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Lipidique':{
+  def:`L'<strong>équilibre lipidique</strong> gouverne le transport, le stockage et l'utilisation des graisses. Les lipoprotéines (LDL, HDL, VLDL) transportent les lipides dans le sang. Le déséquilibre — excès de LDL petites et denses, baisse du HDL, excès de triglycérides — favorise l'athérosclérose. Le ratio <strong>ApoB / ApoA1</strong> est considéré comme le meilleur prédicteur du risque cardiovasculaire (étude INTERHEART, 52 pays).<br><br>Le métabolisme lipidique est étroitement lié à l'insulinorésistance : l'hyperinsulinisme stimule la lipogenèse hépatique (VLDL, triglycérides) et oriente le LDL vers des particules petites et denses (pattern B, le plus athérogène). Le ratio <strong>triglycérides / HDL</strong> (< 2 en mmol/L) est un marqueur simple et fiable de l'insulinorésistance et du profil LDL.`,
+  vals:[['LDL-cholestérol (population générale)','< 1,30 g/L (< 1,0 si haut risque CV)'],['HDL-cholestérol','> 0,40 g/L (H) · > 0,50 g/L (F)'],['Triglycérides','< 1,50 g/L'],['Ratio TG/HDL (mmol)','< 2 = profil favorable'],['ApoB','< 1,30 g/L (< 0,80 si haut risque)'],['Lp(a)','< 50 mg/dL (génétique, non modifiable)']],
+  conds:[{t:'Oméga-3 EPA/DHA (↓ TG 30–40 %, REDUCE-IT)',c:'green'},{t:'Fibres solubles (↓ LDL 5–10 %, bêta-glucanes EFSA)',c:'green'},{t:'Activité physique (↑ HDL, ↓ TG)',c:'green'},{t:'Réduction glucides raffinés (↓ TG, ↓ VLDL)',c:'teal'},{t:'Phytostérols (↓ LDL 7–10 %, EFSA)',c:'amber'},{t:'Noix (↓ LDL 5 %, PREDIMED)',c:'teal'},{t:'Statines si indication médicale',c:'violet'}],
+  myth:`<strong>❌ "Le cholestérol alimentaire élève le cholestérol sanguin"</strong> — Pour 75 % de la population, le cholestérol alimentaire a un impact marginal sur le LDL sanguin. Le foie régule sa production en fonction de l'apport (mécanisme de rétrocontrôle). Ce sont les graisses trans et l'excès de glucides raffinés qui sont les principaux drivers du profil lipidique athérogène. <strong>❌ "Toutes les graisses saturées sont mauvaises"</strong> — La relation graisses saturées–maladie cardiovasculaire est plus nuancée que les recommandations historiques. L'étude PURE (Dehghan et al., Lancet, 2017) montre que les glucides raffinés sont un facteur de risque plus important que les graisses saturées en quantité modérée.`,
+  refs:`<ol><li>Yusuf S et al. <em>INTERHEART: Effect of potentially modifiable risk factors associated with myocardial infarction in 52 countries.</em> Lancet. 2004;364:937-952.</li><li>Bhatt DL et al. <em>REDUCE-IT: Cardiovascular risk reduction with icosapent ethyl.</em> N Engl J Med. 2019;380:11-22.</li><li>Dehghan M et al. <em>PURE: Associations of fats and carbohydrate intake with cardiovascular disease and mortality.</em> Lancet. 2017;390:2050-2062.</li><li>EFSA Panel. <em>Scientific opinion on plant stanols/sterols and blood cholesterol reduction.</em> EFSA J. 2012;10(5):2693.</li><li>Estruch R et al. <em>PREDIMED: Primary prevention of cardiovascular disease with a Mediterranean diet.</em> N Engl J Med. 2018;378:e34 (retracted & republished).</li></ol>`,
+  tip:"Oubliez le cholestérol total — demandez à votre médecin le ratio <strong>TG/HDL</strong> (en mmol/L, < 2 = bon signe) et idéalement le dosage d'<strong>ApoB</strong> et de <strong>Lp(a)</strong> (génétique, à doser une fois dans la vie). Les 3 leviers les plus puissants : <strong>1)</strong> oméga-3 EPA à dose anti-inflammatoire (2 g/jour, REDUCE-IT) ; <strong>2)</strong> remplacer les glucides raffinés par des fibres solubles (son d'avoine, légumineuses) ; <strong>3)</strong> activité physique régulière (↑ HDL, ↓ TG).",
+  badge:'Risque cardiovasculaire n°1',badgeC:'teal'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE HYDRATATION
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Hydratation':{
+  def:`L'<strong>équilibre hydrique</strong> est régulé par l'<strong>ADH (hormone antidiurétique)</strong>, le <strong>système rénine-angiotensine-aldostérone (SRAA)</strong> et le mécanisme de la soif. Le corps adulte contient 60 % d'eau (42 L pour 70 kg), répartie entre compartiments intracellulaire (28 L) et extracellulaire (14 L). L'osmolarité plasmatique est maintenue à 280–295 mOsm/kg.<br><br>Une déshydratation de seulement <strong>2 % du poids corporel</strong> altère déjà les performances cognitives et physiques. Chez les personnes âgées, le mécanisme de la soif est émoussé, rendant la déshydratation chronique fréquente et souvent méconnue. L'hydratation influence directement la viscosité sanguine, la fonction rénale, le transit intestinal et la thermorégulation.`,
+  vals:[['Apport hydrique recommandé (adulte)','30 – 35 mL / kg / jour (≈ 2 – 2,5 L)'],['Couleur urine optimale','Jaune pâle (« paille »)'],['Osmolarité plasmatique','280 – 295 mOsm/kg'],['Natrémie','136 – 145 mmol/L'],['Sport (> 1h)','500 – 800 mL/h + électrolytes'],['Perte hydrique insensible','800 mL/jour (respiration + peau)']],
+  conds:[{t:'Eau plate (source principale)',c:'green'},{t:'Électrolytes en effort prolongé (Na, K, Mg)',c:'amber'},{t:'Aliments riches en eau (concombre, pastèque, soupe)',c:'teal'},{t:'Limiter la caféine (> 400 mg/j = diurétique net)',c:'amber'},{t:'Éviter l\'alcool (inhibe l\'ADH → diurèse)',c:'red'}],
+  myth:`<strong>❌ "Il faut boire 2 L d'eau par jour"</strong> — Ce chiffre est une simplification. Les besoins varient selon le poids, l'activité, la température et l'alimentation (20 % de l'eau vient des aliments). Le meilleur indicateur reste la couleur des urines (jaune pâle). <strong>❌ "Le café déshydrate"</strong> — La caféine a un léger effet diurétique, mais le volume d'eau dans le café compense largement. Jusqu'à 400 mg de caféine/jour (4 tasses), l'effet net est hydratant (Killer et al., PLOS ONE, 2014). <strong>❌ "L'eau alcaline est supérieure"</strong> — Aucune preuve que l'eau alcaline offre des bénéfices supplémentaires par rapport à l'eau plate. Le pH gastrique (1,5–3) neutralise instantanément toute alcalinité.`,
+  refs:`<ol><li>EFSA Panel. <em>Scientific opinion on dietary reference values for water.</em> EFSA J. 2010;8(3):1459.</li><li>Killer SC et al. <em>No evidence of dehydration with moderate daily coffee intake.</em> PLOS ONE. 2014;9(1):e84154.</li><li>Armstrong LE, Johnson EC. <em>Water intake, water balance, and the elusive daily water requirement.</em> Nutrients. 2018;10(12):1928.</li><li>Popkin BM et al. <em>Water, hydration, and health.</em> Nutr Rev. 2010;68(8):439-458.</li></ol>`,
+  tip:"Le meilleur indicateur d'hydratation est la <strong>couleur de vos urines</strong> : jaune pâle = bien hydraté, jaune foncé = buvez davantage. Buvez régulièrement par petites quantités tout au long de la journée plutôt que de grandes quantités d'un coup. En sport > 1h, ajoutez des électrolytes (sodium 300–700 mg/L). Les soupes, fruits et légumes comptent dans l'apport hydrique total.",
+  badge:'60 % du corps humain',badgeC:'teal'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE HORMONAL HOMME
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Hormonal Homme':{
+  def:`L'<strong>équilibre hormonal masculin</strong> repose sur l'axe <strong>hypothalamo-hypophyso-gonadique (HHG)</strong> : la GnRH stimule la LH (→ testostérone dans les cellules de Leydig) et la FSH (→ spermatogenèse dans les cellules de Sertoli). La <strong>testostérone</strong> est l'hormone androgène principale : elle régule la masse musculaire, la densité osseuse, la libido, l'humeur, le métabolisme des graisses et la production d'érythropoïétine.<br><br>La testostérone décline de 1 à 2 % par an après 30 ans (<strong>andropause progressive</strong>). Ce déclin est accéléré par l'obésité viscérale (l'aromatase du tissu adipeux convertit la testostérone en œstradiol), le stress chronique (cortisol inhibe la GnRH), le manque de sommeil, les perturbateurs endocriniens (bisphénols, phtalates) et la sédentarité.`,
+  vals:[['Testostérone totale','3 – 10 ng/mL (10 – 35 nmol/L)'],['Testostérone libre','> 70 pg/mL (calcul de Vermeulen)'],['SHBG','20 – 60 nmol/L'],['Œstradiol (E2) homme','10 – 40 pg/mL (≠ 0)'],['LH','1,5 – 9 UI/L'],['Cortisol matin','6 – 18 µg/dL'],['PSA (> 50 ans)','< 4 ng/mL']],
+  conds:[{t:'Exercice de résistance (↑ testostérone aiguë)',c:'green'},{t:'Sommeil ≥ 7h (Leproult et al., JAMA 2011)',c:'green'},{t:'Zinc (cofacteur 5α-réductase)',c:'amber'},{t:'Vitamine D (récepteur testiculaire)',c:'amber'},{t:'Perte de graisse viscérale (↓ aromatase)',c:'green'},{t:'Magnésium (↑ testostérone biodisponible)',c:'teal'},{t:'Gestion du stress (↓ cortisol)',c:'violet'}],
+  myth:`<strong>❌ "Les boosters de testostérone en vente libre fonctionnent"</strong> — La quasi-totalité des « boosters de testo » (tribulus, fenugrec, acide D-aspartique) n'ont pas d'effet significatif sur la testostérone sérique dans les essais contrôlés. Seuls le zinc (en cas de carence), la vitamine D (en cas de déficit) et la perte de poids ont des effets démontrés. <strong>❌ "Plus de testostérone = mieux"</strong> — Un excès de testostérone (dopage) supprime la GnRH → atrophie testiculaire, infertilité, polyglobulie, risque cardiovasculaire. L'objectif est un taux physiologique optimal, pas maximal.`,
+  refs:`<ol><li>Leproult R, Van Cauter E. <em>Effect of 1 week of sleep restriction on testosterone levels in young healthy men.</em> JAMA. 2011;305(21):2173-2174.</li><li>Travison TG et al. <em>A population-level decline in serum testosterone levels in American men.</em> J Clin Endocrinol Metab. 2007;92(1):196-202.</li><li>Kumagai H et al. <em>Lifestyle modification increases serum testosterone level and decreases central blood pressure in overweight and obese men.</em> Endocr J. 2015;62(5):423-430.</li><li>Pilz S et al. <em>Effect of vitamin D supplementation on testosterone levels in men.</em> Horm Metab Res. 2011;43(3):223-225.</li><li>Bhasin S et al. <em>Testosterone therapy in men with hypogonadism — Endocrine Society guideline.</em> J Clin Endocrinol Metab. 2018;103(5):1715-1744.</li></ol>`,
+  tip:"Les 3 leviers les plus puissants (scientifiquement prouvés) pour maintenir la testostérone : <strong>1)</strong> Dormir ≥ 7h (1 semaine à 5h/nuit ↓ la testostérone de 10–15 %, Leproult 2011) ; <strong>2)</strong> Exercice de résistance (squats, soulevé de terre — les gros mouvements polyarticulaires) ; <strong>3)</strong> Maintenir un tour de taille < 94 cm (graisse viscérale = usine à aromatase qui convertit votre testostérone en œstrogènes). Corrigez un éventuel déficit en zinc, vitamine D et magnésium. Le reste est du marketing.",
+  badge:'Axe HHG & testostérone',badgeC:'amber'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE HORMONAL FEMME
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Hormonal Femme':{
+  def:`L'<strong>équilibre hormonal féminin</strong> est orchestré par l'axe <strong>hypothalamo-hypophyso-ovarien (HHO)</strong> et le <strong>cycle menstruel</strong> de 28 jours (moyenne). La <strong>phase folliculaire</strong> (J1–J14) est dominée par les œstrogènes (E2, produits par les follicules ovariens), tandis que la <strong>phase lutéale</strong> (J15–J28) est dominée par la progestérone (corps jaune). L'équilibre entre œstrogènes et progestérone conditionne la fertilité, l'humeur, la densité osseuse, la peau, le métabolisme lipidique et la santé cardiovasculaire.<br><br>Les perturbations fréquentes incluent : le <strong>SOPK</strong> (hyperandrogénie + insulinorésistance, 8–13 % des femmes), la <strong>dominance œstrogénique</strong> (relative ou absolue), l'<strong>insuffisance en progestérone</strong> (phase lutéale courte), et les troubles de la <strong>périménopause/ménopause</strong> (chute des œstrogènes → bouffées de chaleur, ostéoporose, risque CV).`,
+  vals:[['Œstradiol (E2) — phase folliculaire','30 – 120 pg/mL'],['Œstradiol (E2) — pic ovulatoire','130 – 370 pg/mL'],['Progestérone — phase lutéale (J21)','> 10 ng/mL (signe d\'ovulation)'],['FSH','Phase folliculaire : 3 – 10 UI/L'],['AMH (réserve ovarienne)','1 – 4 ng/mL (variable avec l\'âge)'],['Testostérone totale (femme)','0,15 – 0,7 ng/mL'],['TSH (indissociable du bilan hormonal)','0,5 – 2,5 mUI/L (optimal)']],
+  conds:[{t:'Alimentation anti-inflammatoire (méditerranéenne)',c:'green'},{t:'Activité physique modérée (pas d\'excès)',c:'green'},{t:'Fibres & crucifères (métabolisme des œstrogènes, DIM)',c:'teal'},{t:'Magnésium & B6 (SPM)',c:'amber'},{t:'Vitamine D (récepteurs ovariens)',c:'amber'},{t:'Oméga-3 (dysménorrhée, SOPK)',c:'teal'},{t:'Gestion du stress (cortisol vole la progestérone)',c:'violet'}],
+  myth:`<strong>❌ "Le SOPK est une maladie des ovaires"</strong> — Le SOPK est avant tout un trouble métabolique (insulinorésistance) avec des conséquences ovariennes. L'approche thérapeutique doit cibler l'insulinorésistance (alimentation IG bas, exercice, inositol) et pas seulement les symptômes ovariens. <strong>❌ "La ménopause est une maladie"</strong> — C'est une transition physiologique naturelle. Le THS (traitement hormonal substitutif) a des indications précises (étude WHI 2002, réévaluée) mais n'est pas systématique. <strong>❌ "Les phytoestrogènes (soja) sont dangereux"</strong> — Les données épidémiologiques (population asiatique) montrent un effet protecteur modéré. La consommation alimentaire de soja est sûre ; les suppléments à haute dose méritent prudence.`,
+  refs:`<ol><li>Teede HJ et al. <em>Recommendations from the international evidence-based guideline for the assessment and management of PCOS.</em> Hum Reprod. 2018;33(9):1602-1618.</li><li>Rossouw JE et al. <em>WHI: Risks and benefits of estrogen plus progestin in healthy postmenopausal women.</em> JAMA. 2002;288(3):321-333.</li><li>Unfer V et al. <em>Myo-inositol effects in women with PCOS: a meta-analysis.</em> Reprod Biomed Online. 2017;34(6):616-624.</li><li>Fathizadeh N et al. <em>Evaluating the effect of magnesium and magnesium plus vitamin B6 on PMS.</em> Iran J Nurs Midwifery Res. 2010;15(Suppl1):401-405.</li><li>Messina M. <em>Soy and health update: evaluation of the clinical and epidemiologic literature.</em> Nutrients. 2016;8(12):754.</li></ol>`,
+  tip:"L'équilibre hormonal féminin repose sur 4 piliers : <strong>1)</strong> Alimentation riche en fibres et crucifères (brocoli, chou → DIM/I3C pour le métabolisme des œstrogènes) ; <strong>2)</strong> Gestion du stress (le cortisol utilise la prégnénolone, précurseur de la progestérone → « steal de la progestérone ») ; <strong>3)</strong> Exercice modéré (l'excès de sport ↓ GnRH → aménorrhée hypothalamique) ; <strong>4)</strong> Correction des carences en magnésium, B6, zinc, vitamine D et fer (les règles causent une perte de 15–30 mg de fer/cycle).",
+  badge:'Axe HHO & cycle menstruel',badgeC:'amber'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE OSSEUX
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Osseux':{
+  def:`L'<strong>équilibre osseux</strong> (remodelage osseux) est un processus continu de destruction/reconstruction assuré par les <strong>ostéoclastes</strong> (résorption, stimulés par RANKL) et les <strong>ostéoblastes</strong> (formation, stimulés par Wnt). Le <strong>pic de masse osseuse</strong> est atteint vers 25–30 ans, puis décline de 0,5 à 1 %/an — accéléré à 2–3 %/an dans les 5 ans suivant la ménopause (chute des œstrogènes → ↑ RANKL).<br><br>L'<strong>ostéoporose</strong> touche 1 femme sur 3 et 1 homme sur 5 après 50 ans. C'est une « maladie silencieuse » — la première manifestation est souvent une fracture (vertèbre, col du fémur). Le T-score de l'ostéodensitométrie (DEXA) définit l'ostéoporose : T-score ≤ −2,5.`,
+  vals:[['Calcium (apport total/jour)','900 – 1 200 mg'],['Vitamine D (25-OH)','30 – 60 ng/mL (optimal)'],['Vitamine K2 (MK-7)','100 – 200 µg/jour'],['CTX (marqueur résorption)','Variable selon âge/sexe'],['T-score DEXA','> −1 = normal · −1 à −2,5 = ostéopénie · ≤ −2,5 = ostéoporose']],
+  conds:[{t:'Calcium + Vitamine D + K2 (triade osseuse)',c:'green'},{t:'Exercice en charge (impact, résistance)',c:'green'},{t:'Protéines suffisantes (collagène osseux)',c:'teal'},{t:'Magnésium (incorporation cristalline)',c:'amber'},{t:'Éviter l\'excès de sel, caféine, alcool (calciurie)',c:'red'},{t:'Œstrogènes (THS si indication post-ménopause)',c:'violet'}],
+  myth:`<strong>❌ "Le lait est indispensable pour les os"</strong> — Le lait est une source de calcium, mais les études écologiques montrent que les pays à plus forte consommation de lait n'ont pas moins de fractures (paradoxe du calcium). L'os a besoin de calcium + vitamine D + K2 + magnésium + exercice en charge. Le calcium seul ne suffit pas. <strong>❌ "La supplémentation en calcium prévient les fractures"</strong> — Les méta-analyses (Bolland et al., BMJ 2015) montrent que la supplémentation en calcium seul a un effet modeste (10–15 % réduction fractures) et peut augmenter le risque cardiovasculaire si pris sans K2. L'exercice en charge est plus efficace.`,
+  refs:`<ol><li>Bolland MJ et al. <em>Calcium intake and risk of fracture: systematic review.</em> BMJ. 2015;351:h4580.</li><li>Kanis JA et al. <em>FRAX and the assessment of fracture probability in men and women from the UK.</em> Osteoporos Int. 2008;19:385-397.</li><li>Knapen MHJ et al. <em>Three-year low-dose menaquinone-7 supplementation helps decrease bone loss in healthy postmenopausal women.</em> Osteoporos Int. 2013;24:2499-2507.</li><li>Howe TE et al. <em>Exercise for preventing and treating osteoporosis in postmenopausal women.</em> Cochrane Database Syst Rev. 2011;(7):CD000333.</li><li>Weaver CM et al. <em>Calcium plus vitamin D supplementation and risk of fractures: an updated meta-analysis.</em> Osteoporos Int. 2016;27:367-376.</li></ol>`,
+  tip:"La <strong>triade osseuse</strong> est : calcium (alimentation d'abord : produits laitiers, crucifères, amandes, sardines) + vitamine D (2 000 UI/jour minimum) + vitamine K2 MK-7 (100–200 µg/jour, pour diriger le calcium vers l'os et pas vers les artères). L'exercice en charge avec impact (course, saut, musculation) est le stimulus le plus puissant de la formation osseuse — la natation et le vélo n'ont pas cet effet. Demandez un T-score DEXA à 50 ans (femme) ou 60 ans (homme).",
+  badge:'Prévention ostéoporose',badgeC:'amber'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE INFLAMMATOIRE
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Inflammatoire':{
+  def:`L'<strong>inflammation</strong> est une réponse immunitaire normale et nécessaire (aiguë : infection, blessure). Le problème survient lorsqu'elle devient <strong>chronique de bas grade</strong> (« inflammaging ») : une activation permanente et silencieuse de NF-κB, TNF-α, IL-6 et CRP qui accélère l'athérosclérose, l'insulinorésistance, la neurodégénérescence, le cancer et le vieillissement.<br><br>Les principaux drivers de l'inflammation chronique sont : l'excès de <strong>graisse viscérale</strong> (le tissu adipeux sécrète des cytokines pro-inflammatoires), la <strong>dysbiose intestinale</strong> (LPS bactérien → endotoxémie), le <strong>ratio oméga-6/oméga-3</strong> déséquilibré (15:1 en régime occidental, idéal 2–4:1), le <strong>stress oxydatif</strong>, le <strong>manque de sommeil</strong> et le <strong>stress psychologique</strong> chronique.`,
+  vals:[['CRP ultrasensible (CRPus)','< 1 mg/L (faible risque) · 1–3 mg/L (modéré) · > 3 mg/L (élevé)'],['Ratio oméga-6/oméga-3','Idéal : 2–4:1 (Occident : 15–20:1)'],['Homocystéine','< 10 µmol/L (optimal)'],['Ferritine','50 – 150 µg/L (l\'excès est pro-inflammatoire)'],['Fibrinogène','2 – 4 g/L'],['IL-6','< 7 pg/mL']],
+  conds:[{t:'Oméga-3 EPA (résolvines — résolution de l\'inflammation)',c:'green'},{t:'Régime méditerranéen (Estruch, PREDIMED)',c:'green'},{t:'Curcumine (inhibe NF-κB)',c:'teal'},{t:'Perte de graisse viscérale',c:'green'},{t:'Sommeil ≥ 7h (Irwin et al., Biol Psychiatry 2016)',c:'violet'},{t:'Exercice modéré (anti-inflammatoire via IL-10)',c:'teal'},{t:'Fibres & probiotiques (↓ endotoxémie)',c:'amber'}],
+  myth:`<strong>❌ "L'inflammation est toujours mauvaise"</strong> — L'inflammation aiguë est vitale (cicatrisation, défense anti-infectieuse). Le problème est l'inflammation chronique de bas grade, silencieuse et non résolue. <strong>❌ "Les anti-inflammatoires naturels remplacent les médicaments"</strong> — La curcumine, les oméga-3 et le gingembre ont des effets anti-inflammatoires réels mais modestes comparés aux AINS ou aux corticoïdes. Ils sont des compléments de mode de vie, pas des substituts thérapeutiques. <strong>❌ "L'alimentation alcaline réduit l'inflammation"</strong> — Le concept d'alimentation « acide/alcaline » n'a pas de base physiologique solide. L'effet anti-inflammatoire du régime méditerranéen vient de ses polyphénols et oméga-3, pas de son « pH ».`,
+  refs:`<ol><li>Furman D et al. <em>Chronic inflammation in the etiology of disease across the life span.</em> Nature Medicine. 2019;25:1822-1832.</li><li>Calder PC. <em>Omega-3 fatty acids and inflammatory processes: from molecules to man.</em> Biochem Soc Trans. 2017;45(5):1105-1115.</li><li>Irwin MR, Opp MR. <em>Sleep health: reciprocal regulation of sleep and innate immunity.</em> Neuropsychopharmacology. 2017;42(1):129-155.</li><li>Serhan CN. <em>Pro-resolving lipid mediators are leads for resolution physiology.</em> Nature. 2014;510:92-101.</li><li>Ridker PM et al. <em>CANTOS: Antiinflammatory therapy with canakinumab for atherosclerotic disease.</em> N Engl J Med. 2017;377:1119-1131.</li></ol>`,
+  tip:"L'inflammation chronique est le <strong>dénominateur commun</strong> des maladies de civilisation. Les leviers les plus puissants : <strong>1)</strong> Corriger le ratio oméga-6/oméga-3 (↓ huiles de tournesol/maïs, ↑ poisson gras, huile de colza/lin) ; <strong>2)</strong> Perdre la graisse viscérale (tour de taille < 94 cm homme, < 80 cm femme) ; <strong>3)</strong> Dormir ≥ 7h ; <strong>4)</strong> Manger des polyphénols variés (curcuma, thé vert, fruits rouges). Dosez la <strong>CRP ultrasensible</strong> (CRPus) — c'est le marqueur le plus accessible de l'inflammation systémique.",
+  badge:'Inflammaging — ennemi silencieux',badgeC:'violet'},
+
+/* ═══════════════════════════════════════════════════════
+   ÉQUILIBRE AUTO-IMMUN
+   ═══════════════════════════════════════════════════════ */
+'Équilibre Auto-Immun':{
+  def:`L'<strong>auto-immunité</strong> survient lorsque le système immunitaire perd sa <strong>tolérance au soi</strong> et attaque les propres tissus de l'organisme. On compte plus de 80 maladies auto-immunes (MAI), touchant 5 à 8 % de la population (3/4 de femmes) : Hashimoto, Basedow, polyarthrite rhumatoïde, lupus, Crohn, sclérose en plaques, diabète de type 1, vitiligo, cœliaque…<br><br>Le modèle actuel repose sur une <strong>triade</strong> décrite par Alessio Fasano : <strong>1)</strong> prédisposition génétique (HLA) + <strong>2)</strong> déclencheur environnemental (infection, stress, toxiques, gluten chez le cœliaque) + <strong>3)</strong> perméabilité intestinale accrue (« leaky gut » → passage de macromolécules → activation immunitaire). La <strong>zonuline</strong> est le régulateur clé des jonctions serrées intestinales.`,
+  vals:[['ANA (anticorps anti-nucléaires)','Négatif (< 1/80) ou positif + spécificités'],['Anti-TPO (Hashimoto)','< 35 UI/mL'],['FR + Anti-CCP (polyarthrite)','Négatif'],['Vitamine D (immunomodulation)','40 – 60 ng/mL (cible en MAI)'],['Calprotectine fécale (inflammation intestinale)','< 50 µg/g'],['Zonuline (perméabilité intestinale)','En cours de validation clinique']],
+  conds:[{t:'Vitamine D à dose immunomodulatrice (Hahn et al., VITAL)',c:'green'},{t:'Oméga-3 EPA/DHA (Costenbader, VITAL 2021)',c:'green'},{t:'Glutamine (réparation barrière intestinale)',c:'teal'},{t:'Probiotiques souche-spécifiques',c:'teal'},{t:'Régime d\'éviction ciblé (gluten si cœliaque)',c:'amber'},{t:'Gestion du stress (axe HPA → immunité)',c:'violet'},{t:'Sélénium (Hashimoto — ↓ anti-TPO)',c:'amber'}],
+  myth:`<strong>❌ "Le régime sans gluten guérit toutes les MAI"</strong> — L'éviction du gluten est médicalement justifiée UNIQUEMENT dans la maladie cœliaque (1 % de la population) et la sensibilité au gluten non cœliaque (débattue, 6 %). Pour les autres MAI, les preuves sont insuffisantes pour recommander un régime sans gluten systématique. <strong>❌ "L'auto-immunité est irréversible"</strong> — Certaines MAI peuvent entrer en rémission (Hashimoto précoce, PR traitée tôt). Le modèle de Fasano suggère que la correction de la perméabilité intestinale pourrait théoriquement interrompre la cascade — mais cela reste un domaine de recherche actif. <strong>❌ "Le leaky gut explique toutes les maladies"</strong> — La perméabilité intestinale est un facteur contributif documenté en auto-immunité, mais ce concept est parfois extrapolé de manière excessive par la médecine non conventionnelle.`,
+  refs:`<ol><li>Fasano A. <em>Leaky gut and autoimmune diseases.</em> Clin Rev Allergy Immunol. 2012;42(1):71-78.</li><li>Costenbader KH et al. <em>VITAL: Vitamin D and marine omega-3 fatty acid supplementation and incident autoimmune disease.</em> BMJ. 2022;376:e066452.</li><li>Mazziotti G et al. <em>Effects of selenomethionine on thyroid autoimmunity.</em> Thyroid. 2003;13(10):925-930.</li><li>Mu Q et al. <em>Leaky gut as a danger signal for autoimmune diseases.</em> Front Immunol. 2017;8:598.</li><li>Vojdani A. <em>A potential link between environmental triggers and autoimmunity.</em> Autoimmune Dis. 2014;2014:437231.</li></ol>`,
+  tip:"L'étude <strong>VITAL</strong> (Costenbader et al., BMJ 2022, 25 871 participants, 5 ans de suivi) est la première grande étude randomisée à montrer que la <strong>vitamine D (2 000 UI/jour) + oméga-3 (1 g/jour)</strong> réduit le risque de développer une maladie auto-immune de 25–30 %. C'est une avancée majeure en prévention. Pour les personnes déjà atteintes d'une MAI, les leviers sont : vitamine D à dose immunomodulatrice (40–60 ng/mL), oméga-3, glutamine pour la barrière intestinale, sélénium si Hashimoto, et gestion du stress.",
+  badge:'Tolérance immunitaire',badgeC:'violet'},
+
+/* ═══════════════════════════════════════════════════════
+   VIEILLISSEMENT
+   ═══════════════════════════════════════════════════════ */
+'Vieillissement':{
+  def:`Le <strong>vieillissement biologique</strong> est défini par les <strong>12 Hallmarks of Aging</strong> (López-Otín et al., Cell 2013, mis à jour 2023) : instabilité génomique, raccourcissement des télomères, altérations épigénétiques, perte de protéostase, détection dérégulée des nutriments (mTOR, AMPK, sirtuines, IGF-1), dysfonction mitochondriale, sénescence cellulaire, épuisement des cellules souches, altération de la communication intercellulaire, autophagie déficiente, inflammation chronique (« inflammaging ») et dysbiose du microbiote.<br><br>Le vieillissement n'est pas un processus programmé mais un <strong>cumul de dommages</strong> accélérés par le mode de vie. L'<strong>âge biologique</strong> (horloges épigénétiques de Horvath, GrimAge) peut différer significativement de l'âge chronologique. Les <strong>zones bleues</strong> (Okinawa, Sardaigne, Nicoya, Ikaria, Loma Linda) illustrent que l'environnement et le mode de vie peuvent ralentir considérablement le vieillissement.`,
+  vals:[['Hallmarks du vieillissement','12 mécanismes identifiés (López-Otín 2023)'],['NAD+ (décline avec l\'âge)','↓ 50 % entre 40 et 60 ans'],['Télomères (leucocytaires)','Raccourcissent de 20–50 pb/an'],['Cellules sénescentes','S\'accumulent avec l\'âge (→ SASP pro-inflammatoire)'],['Horloge épigénétique','GrimAge, PhenoAge (âge biologique vs chronologique)'],['IGF-1','Axe mTOR/IGF-1 : l\'inhiber modérément ↑ longévité']],
+  conds:[{t:'Restriction calorique / jeûne intermittent (↑ AMPK, ↑ sirtuines)',c:'green'},{t:'Exercice physique (n°1 anti-âge, Pedersen 2019)',c:'green'},{t:'Sommeil de qualité (réparation ADN nocturne)',c:'green'},{t:'Précurseurs NAD+ (NR, NMN — recherche active)',c:'teal'},{t:'Sénolytiques (quercétine + dasatinib — recherche)',c:'violet'},{t:'Oméga-3 (↓ raccourcissement télomères, Farzaneh-Far 2010)',c:'teal'},{t:'Polyphénols (resvératrol, EGCG — activation SIRT1)',c:'amber'},{t:'Vitamine D (régulation épigénétique)',c:'amber'},{t:'Connexion sociale (zones bleues — ↑ longévité)',c:'green'}],
+  myth:`<strong>❌ "Le vieillissement est inévitable et non modifiable"</strong> — Le vieillissement biologique est modulable. L'exercice physique à lui seul peut rajeunir l'âge biologique de 10 ans (horloges épigénétiques). <strong>❌ "Il existe une pilule anti-âge"</strong> — En 2025, aucun composé n'a prouvé dans un essai randomisé chez l'homme qu'il allonge la durée de vie. La metformine (essai TAME), le NMN et la rapamycine sont en cours d'étude. Les seules interventions avec des preuves solides de ralentissement du vieillissement biologique chez l'homme sont l'exercice, la restriction calorique modérée et le sommeil. <strong>❌ "Les antioxydants en supplément ralentissent le vieillissement"</strong> — Les méta-analyses (Bjelakovic et al., Cochrane 2012) montrent que la supplémentation en antioxydants (vitamines A, C, E, bêta-carotène) ne réduit PAS la mortalité et peut même l'augmenter. Les antioxydants alimentaires (fruits, légumes) sont bénéfiques ; les méga-doses de suppléments ne le sont pas.`,
+  refs:`<ol><li>López-Otín C et al. <em>Hallmarks of aging: An expanding universe.</em> Cell. 2023;186(2):243-278.</li><li>Farzaneh-Far R et al. <em>Association of marine omega-3 fatty acid levels with telomeric aging in patients with coronary heart disease.</em> JAMA. 2010;303(3):250-257.</li><li>Bjelakovic G et al. <em>Antioxidant supplements for prevention of mortality in healthy participants and patients with various diseases.</em> Cochrane Database Syst Rev. 2012;(3):CD007176.</li><li>Buettner D, Skemp S. <em>Blue Zones: Lessons from the world's longest lived.</em> Am J Lifestyle Med. 2016;10(5):318-321.</li><li>Sinclair DA, LaPlante MD. <em>Lifespan: Why We Age — and Why We Don't Have To.</em> Atria Books, 2019.</li><li>Pedersen BK. <em>Physical activity and muscle–brain crosstalk.</em> Nat Rev Endocrinol. 2019;15:383-392.</li></ol>`,
+  tip:"Si le vieillissement avait un « top 3 » d'interventions fondées sur les preuves, ce serait : <strong>1) Exercice physique</strong> — le seul « médicament » qui agit simultanément sur les 12 hallmarks du vieillissement (Pedersen 2019). Combinez aérobie (150 min/sem) + résistance (2×/sem). <strong>2) Restriction calorique modérée ou jeûne intermittent</strong> — active AMPK et les sirtuines, inhibe mTOR, stimule l'autophagie (nettoyage cellulaire). <strong>3) Sommeil de qualité ≥ 7h</strong> — la nuit est le moment où le cerveau élimine les protéines amyloïdes (système glymphatique) et où l'ADN se répare. Tout le reste (NMN, resvératrol, sénolytiques) est prometteur mais encore au stade de la recherche.",
+  badge:'12 Hallmarks of Aging',badgeC:'green'},
+
+};
+
+/* ══ COLOUR MAPS ══ */
+const STRIPES={teal:'linear-gradient(90deg,var(--c-teal),var(--c-green))',amber:'linear-gradient(90deg,var(--c-amber),var(--c-teal))',violet:'linear-gradient(90deg,var(--c-violet),var(--c-teal))',green:'linear-gradient(90deg,var(--c-green),var(--c-amber))'};
+const BCOLS={teal:{bg:'rgba(14,165,201,.1)',bd:'rgba(14,165,201,.25)',c:'#7dd3fc'},amber:{bg:'rgba(245,158,11,.1)',bd:'rgba(245,158,11,.25)',c:'#fcd34d'},violet:{bg:'rgba(124,58,237,.1)',bd:'rgba(124,58,237,.25)',c:'#c4b5fd'},green:{bg:'rgba(16,185,129,.1)',bd:'rgba(16,185,129,.25)',c:'#6ee7b7'},red:{bg:'rgba(239,68,68,.1)',bd:'rgba(239,68,68,.25)',c:'#fca5a5'}};
+const TIP_RGB={teal:'14,165,201',amber:'245,158,11',violet:'124,58,237',green:'16,185,129'};
+
+let currentTag=null;
+
+function openDrawer(name,cat,phonetic,color){
+  const info=DATA[name]||{def:`<strong>${name}</strong> — Fiche à venir.`,vals:[],conds:[],myth:'',refs:'',tip:'Consultez un professionnel de santé.',badge:'En cours',badgeC:'teal'};
+
+  document.getElementById('drawer-stripe').style.background=STRIPES[color]||STRIPES.teal;
+  document.getElementById('d-cat').textContent=cat;
+  document.getElementById('d-name').textContent=name;
+  document.getElementById('d-phonetic').textContent=phonetic?'· '+phonetic+' ·':'';
+
+  const bc=BCOLS[info.badgeC]||BCOLS.teal;
+  document.getElementById('d-badge').innerHTML=`<div class="drawer-badge" style="background:${bc.bg};border-color:${bc.bd};color:${bc.c};margin-bottom:20px"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L1 3.5V6C1 8.8 3.1 11.4 6 12C8.9 11.4 11 8.8 11 6V3.5L6 1Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="0.8"/><path d="M6 3.5V8M6 3.5L4 5.5M6 3.5L8 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg> ${info.badge}</div>`;
+
+  document.getElementById('d-def').innerHTML=info.def;
+
+  const vb=document.getElementById('d-valbox');
+  if(info.vals&&info.vals.length){
+    vb.style.display='block';
+    vb.innerHTML='<div class="val-box-title">Biomarqueurs & valeurs de référence</div>'+info.vals.map(([l,v])=>`<div class="val-row"><span class="val-label">${l}</span><span class="val-num">${v}</span></div>`).join('');
+  }else{vb.style.display='none';}
+
+  document.getElementById('d-conds').innerHTML=(info.conds||[]).map(({t,c})=>{const col=BCOLS[c]||BCOLS.teal;return `<span class="cond" style="background:${col.bg};border-color:${col.bd};color:${col.c}">${t}</span>`;}).join('');
+
+  const ms=document.getElementById('d-myth-section');const mb=document.getElementById('d-myth');
+  if(info.myth&&info.myth.length>0){ms.style.display='block';mb.innerHTML=`<span class="myth-ico">🧐</span><span class="myth-txt">${info.myth}</span>`;}else{ms.style.display='none';}
+
+  const rs=document.getElementById('d-refs-section');const rb=document.getElementById('d-refs');
+  if(info.refs&&info.refs.length>0){rs.style.display='block';rb.innerHTML=info.refs;}else{rs.style.display='none';}
+
+  const rgb=TIP_RGB[color]||TIP_RGB.teal;const tip=document.getElementById('d-tip');
+  tip.innerHTML=`<span class="tip-ico">💡</span><span class="tip-txt"><strong>Conseil PRÉVIO :</strong> ${info.tip}</span>`;
+  tip.style.borderColor=`rgba(${rgb},.18)`;tip.style.background=`rgba(${rgb},.05)`;
+
+  document.querySelectorAll('.tag.active').forEach(t=>t.classList.remove('active'));
+  event.currentTarget.classList.add('active');currentTag=event.currentTarget;
+
+  document.body.classList.add('drawer-open');document.querySelector('.drawer-body').scrollTop=0;
+}
+
+function closeDrawer(){document.body.classList.remove('drawer-open');if(currentTag){currentTag.classList.remove('active');currentTag=null;}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+</script>
+</body>
+</html>
