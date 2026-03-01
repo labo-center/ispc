@@ -1285,7 +1285,7 @@ body{background:var(--dark-1)}
     </div>
   </div>
 
-  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Données stockées localement dans votre navigateur · Ne remplace pas un avis médical</p><nav class="footer-links" aria-label="Liens légaux"><a href="avertissement.html">Avertissement</a><span class="footer-sep">·</span><a href="confidentialite.html">Confidentialité</a><span class="footer-sep">·</span><a href="mentions-legales.html">Mentions légales</a></nav></footer>
+  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Données stockées localement dans votre navigateur · Ne remplace pas un avis médical</p><nav class="footer-links" aria-label="Liens légaux"><a href="legal/avertissement.html">Avertissement</a><span class="footer-sep">·</span><a href="legal/confidentialite.html">Confidentialité</a><span class="footer-sep">·</span><a href="legal/mentions-legales.html">Mentions légales</a></nav></footer>
 </div>
 
 <div id="s-bio" class="screen">
@@ -1738,7 +1738,7 @@ body{background:var(--dark-1)}
     </div>
   </div>
 
-  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Recommandations à titre informatif et préventif · Ne constituent pas une prescription médicale · Consultez un professionnel de santé</p><nav class="footer-links" aria-label="Liens légaux"><a href="avertissement.html">Avertissement</a><span class="footer-sep">·</span><a href="confidentialite.html">Confidentialité</a><span class="footer-sep">·</span><a href="mentions-legales.html">Mentions légales</a></nav></footer>
+  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Recommandations à titre informatif et préventif · Ne constituent pas une prescription médicale · Consultez un professionnel de santé</p><nav class="footer-links" aria-label="Liens légaux"><a href="legal/avertissement.html">Avertissement</a><span class="footer-sep">·</span><a href="legal/confidentialite.html">Confidentialité</a><span class="footer-sep">·</span><a href="legal/mentions-legales.html">Mentions légales</a></nav></footer>
 </div>
 
 
@@ -1822,7 +1822,7 @@ body{background:var(--dark-1)}
       </div>
     </div>
   </div>
-  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Données stockées localement · Ne remplace pas un avis médical</p><nav class="footer-links" aria-label="Liens légaux"><a href="avertissement.html">Avertissement</a><span class="footer-sep">·</span><a href="confidentialite.html">Confidentialité</a><span class="footer-sep">·</span><a href="mentions-legales.html">Mentions légales</a></nav></footer>
+  <footer class="footer"><div class="footer-logo">PRÉVIO<sup>®</sup></div><p class="footer-disc">Données stockées localement · Ne remplace pas un avis médical</p><nav class="footer-links" aria-label="Liens légaux"><a href="legal/avertissement.html">Avertissement</a><span class="footer-sep">·</span><a href="legal/confidentialite.html">Confidentialité</a><span class="footer-sep">·</span><a href="legal/mentions-legales.html">Mentions légales</a></nav></footer>
 </div>
 
 <!-- ════════════════════════════
@@ -1870,7 +1870,7 @@ body{background:var(--dark-1)}
   // Preload guide iframe in background after page settles
   setTimeout(function(){
     var gf=document.getElementById('guide-iframe');
-    if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='guide-analyses-biologiques.html';gf.setAttribute('data-loaded','1');}
+    if(gf&&gf.getAttribute('data-loaded')==='0'){gf.src='guides/guide-analyses-biologiques.html';gf.setAttribute('data-loaded','1');}
   },1500);
   // Handle hash navigation (e.g. app.html#profil coming back from module)
   var hash=window.location.hash.replace('#','');
@@ -1883,7 +1883,7 @@ body{background:var(--dark-1)}
 function go(id){
   try{
     // External pages
-    if(id==='panels'){window.location.href='guide-analyses-biologiques.html';return;}
+    if(id==='panels'){window.location.href='guides/guide-analyses-biologiques.html';return;}
 
     // Don't re-trigger if already on this screen
     const current=document.querySelector('.screen.active');
@@ -1918,28 +1918,28 @@ function go(id){
     if(id==='guide'){
       const iframe=document.getElementById('guide-iframe');
       if(iframe && iframe.getAttribute('data-loaded')==='0'){
-        iframe.src='guide-analyses-biologiques.html';
+        iframe.src='guides/guide-analyses-biologiques.html';
         iframe.setAttribute('data-loaded','1');
       }
     }
     if(id==='guide-meta'){
       const iframe=document.getElementById('guide-meta-iframe');
       if(iframe && iframe.getAttribute('data-loaded')==='0'){
-        iframe.src='guide-metabolismes.html';
+        iframe.src='guides/guide-metabolismes.html';
         iframe.setAttribute('data-loaded','1');
       }
     }
     if(id==='guide-comp'){
       const iframe=document.getElementById('guide-comp-iframe');
       if(iframe && iframe.getAttribute('data-loaded')==='0'){
-        iframe.src='guide-complements-alimentaires.html';
+        iframe.src='guides/guide-complements-alimentaires.html';
         iframe.setAttribute('data-loaded','1');
       }
     }
     if(id==='guide-alim'){
       const iframe=document.getElementById('guide-alim-iframe');
       if(iframe && iframe.getAttribute('data-loaded')==='0'){
-        iframe.src='guide-aliments-fonctionnels.html';
+        iframe.src='guides/guide-aliments-fonctionnels.html';
         iframe.setAttribute('data-loaded','1');
       }
     }
