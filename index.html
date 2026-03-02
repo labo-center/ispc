@@ -336,17 +336,21 @@ a{text-decoration:none;color:inherit}
   .hero-stats{flex-wrap:wrap}.hst{min-width:50%}
   .modal{padding:32px 24px}
 }
+
+/* ══ TAB PAGES ══ */
+.page-view { display: none; }
+.page-view.active { display: block; }
+
 </style>
 </head>
-<body>
-<a href="#hero" class="skip-link">Aller au contenu principal</a>
 
-<!-- ════════════════════════════
-     NAV (PUBLIC)
-════════════════════════════ -->
+<body>
+<a href="#" class="skip-link">Aller au contenu principal</a>
+
+<!-- ════ NAV ════ -->
 <nav class="nav" role="navigation" aria-label="Navigation principale">
   <div class="nav-in">
-    <a class="nav-logo" href="#">
+    <a class="nav-logo" href="#" onclick="showPage('accueil');return false;">
       <div class="nav-mark"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
         <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
@@ -355,9 +359,9 @@ a{text-decoration:none;color:inherit}
       <div class="nav-type">PRÉVIO<sup>®</sup></div>
     </a>
     <div class="nav-links">
-      <div class="nl on" onclick="scrollToSection('hero')">Accueil</div>
-      <a class="nl" href="#parcours">Profil Santé</a>
-      <a class="nl" href="#programme">Bilan Biologique</a>
+      <div class="nl on" id="nl-accueil" onclick="showPage('accueil')">Accueil</div>
+      <div class="nl" id="nl-profil" onclick="showPage('profil')">Profil Santé</div>
+      <div class="nl" id="nl-bilan" onclick="showPage('bilan')">Bilan Biologique</div>
       <a class="nl" href="guides/guide-previo-longevite.html">Guide Longévité</a>
     </div>
     <div class="nav-r">
@@ -367,16 +371,17 @@ a{text-decoration:none;color:inherit}
   </div>
 </nav>
 
-<!-- ════════════════════════════
-     HERO
-════════════════════════════ -->
+<!-- ══════════════════════════════════
+     PAGE : ACCUEIL
+══════════════════════════════════ -->
+<div class="page-view active" id="page-accueil">
 <section class="hero" id="hero">
   <div class="hero-b1"></div><div class="hero-b2"></div><div class="hero-b3"></div>
   <div class="hero-grid"></div><div class="hero-scan"></div>
   <div class="hero-in">
     <div class="eyebrow"><span class="eyebrow-dot"></span>Lifestyle Tracking · Optimisez vos métriques</div>
     <h1>
-      <span class="block">Comprenez vos Analyses.</span>
+      <span class="block">Comprenez vos données.</span>
       <span class="block grad">Optimisez-vous.</span>
     </h1>
     <p class="hero-sub">Suivez vos biomarqueurs, construisez votre profil de well-being et découvrez ce qui booste réellement votre forme au quotidien.</p>
@@ -392,65 +397,62 @@ a{text-decoration:none;color:inherit}
     </div>
   </div>
 </section>
+</div><!-- /page-accueil -->
 
-<!-- ════════════════════════════
-     3 PILIERS
-════════════════════════════ -->
-<section class="prog-section" id="programme">
-  <div class="prog-in">
-    <div class="s-eyebrow">Le programme PRÉVIO</div>
-    <h2 class="s-title">Trois piliers. <em>Un profil complet.</em></h2>
-    <p class="s-sub">La santé préventive repose sur la biologie, le mode de vie et les habitudes au quotidien. PRÉVIO les analyse ensemble.</p>
-    <div class="pillar-grid">
-      <div class="pillar p-teal fu d1" onclick="openModal('signup')">
-        <div class="p-tag">Étape 01 — Biologie</div>
-        <span class="p-ico">🩸</span>
-        <div class="p-title">Bilan Biologique Contextuel</div>
-        <p class="p-desc">Un résultat de laboratoire sans contexte est une information incomplète. Renseignez les variables pré-analytiques et de mode de vie pour une interprétation cliniquement juste.</p>
-        <div class="p-chips">
-          <span class="pchip">IMC · Jeûne</span><span class="pchip">Pré-analytique</span>
-          <span class="pchip">Hormonal</span><span class="pchip">Nutrition</span>
-        </div>
-        <div class="p-arrow">→</div>
-      </div>
-      <div class="pillar p-violet fu d2" onclick="openModal('signup')">
-        <div class="p-tag">Étape 02 — Profil santé</div>
-        <span class="p-ico"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block">
-          <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(14,165,201,0.15)" stroke="#0ea5c9" stroke-width="1.2" stroke-linejoin="round"/>
-          <path d="M12 16V9" stroke="#0ea5c9" stroke-width="2" stroke-linecap="round"/>
-          <path d="M8.5 12L12 8.5L15.5 12" stroke="#0ea5c9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg></span>
-        <div class="p-title">Profil Santé Multi-domaines</div>
-        <p class="p-desc">Évaluez votre métabolisme, votre sommeil, votre stress, votre activité physique et votre profil nutritionnel via des questionnaires scientifiquement validés.</p>
-        <div class="p-chips">
-          <span class="pchip">HOMA-IR · ISI · PSQI</span>
-          <span class="pchip">GAD-7 · PHQ-9</span><span class="pchip">DASH · MIND</span>
-        </div>
-        <div class="p-arrow">→</div>
-      </div>
-      <div class="pillar p-green fu d3" onclick="openModal('signup')">
-        <div class="p-tag">Étape 03 — Coaching</div>
-        <span class="p-ico">🥗</span>
-        <div class="p-title">Recommandations Personnalisées</div>
-        <p class="p-desc">Recevez des recommandations diététiques et d'activité physique basées sur votre profil biologique réel — glycémie, inflammation, lipides, sommeil et niveau de stress.</p>
-        <div class="p-chips">
-          <span class="pchip">Diététique</span><span class="pchip">Activité physique</span>
-          <span class="pchip">Hygiène de vie</span><span class="pchip">Suivi continu</span>
-        </div>
-        <div class="p-arrow">→</div>
-      </div>
+<!-- ══════════════════════════════════
+     PAGE : PROFIL SANTÉ
+══════════════════════════════════ -->
+<div class="page-view" id="page-profil">
+<section class="hero">
+  <div class="hero-b1"></div><div class="hero-b2"></div><div class="hero-b3"></div>
+  <div class="hero-grid"></div><div class="hero-scan"></div>
+  <div class="hero-in">
+    <div class="eyebrow"><span class="eyebrow-dot"></span>Lifestyle Tracking · Optimisez votre hygiène de vie</div>
+    <h1>
+      <span class="block">Votre hygiène de vie,</span>
+      <span class="block grad">enfin maîtrisée.</span>
+    </h1>
+    <p class="hero-sub">Suivez vos biomarqueurs, analysez vos habitudes et obtenez un plan d'action personnalisé pour optimiser votre énergie, votre récupération et vos performances au quotidien.</p>
+    <div class="cta-row">
+      <button class="btn-main" onclick="openModal('signup')">Commencer mon suivi <span class="arr">→</span></button>
+      <a class="btn-ghost" href="guides/guide-previo-longevite.html">Guide Longévité</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hst"><div class="hst-v">18</div><div class="hst-l">Biomarqueurs</div></div>
+      <div class="hst"><div class="hst-v">12+</div><div class="hst-l">Scores validés</div></div>
+      <div class="hst"><div class="hst-v">3</div><div class="hst-l">Domaines santé</div></div>
+      <div class="hst"><div class="hst-v">100%</div><div class="hst-l">Données locales</div></div>
+    </div>
+  </div>
+</section>
+</div><!-- /page-profil -->
+
+<!-- ══════════════════════════════════
+     PAGE : BILAN BIOLOGIQUE
+══════════════════════════════════ -->
+<div class="page-view" id="page-bilan">
+
+<section class="hero" style="min-height:unset;padding:calc(var(--nav-h) + 48px) 24px 56px">
+  <div class="hero-b1"></div><div class="hero-b2"></div>
+  <div class="hero-grid"></div><div class="hero-scan"></div>
+  <div class="hero-in">
+    <div class="eyebrow"><span class="eyebrow-dot"></span>Lifestyle Tracking · Optimisez vos métriques</div>
+    <h1>
+      <span class="block">Décryptez vos analyses.</span>
+      <span class="block grad">Suivez vos données.</span>
+    </h1>
+    <p class="hero-sub">Suivez vos biomarqueurs dans le temps, comparez vos bilans et recevez un compte rendu augmenté avec recommandations personnalisées.</p>
+    <div class="cta-row">
+      <button class="btn-main" onclick="openModal('signup')">Commencer mon suivi <span class="arr">→</span></button>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════
-     PARCOURS
-════════════════════════════ -->
-<section class="parcours" id="parcours">
+<section class="parcours" style="padding-top:48px">
   <div class="parcours-in">
-    <div class="s-eyebrow">Le parcours</div>
-    <h2 class="s-title">De vos résultats <em>à l'action</em></h2>
-    <p class="s-sub">Un flux structuré en 4 étapes pour passer de vos résultats bruts à des recommandations actionnables.</p>
+    <div class="s-eyebrow">Bilan Biologique</div>
+    <h2 class="s-title">Comprenez vos Analyses. <em>Suivez vos données.</em></h2>
+    <p class="s-sub">Un flux structuré en 4 étapes pour passer de vos résultats bruts à des recommandations actionnables et un suivi longitudinal de vos biomarqueurs.</p>
     <div class="steps">
       <div class="step fu d1"><div class="step-wrap"><span>🩸</span><div class="step-n">1</div></div>
         <div class="step-title">Saisissez vos résultats</div>
@@ -458,11 +460,7 @@ a{text-decoration:none;color:inherit}
       <div class="step fu d2"><div class="step-wrap"><span>📋</span><div class="step-n">2</div></div>
         <div class="step-title">Contextualisez</div>
         <p class="step-desc">Jeûne, stress, traitements, activité physique — les variables qui transforment l'interprétation.</p></div>
-      <div class="step fu d3"><div class="step-wrap"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle">
-        <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.6)" stroke-width="1.2" stroke-linejoin="round"/>
-        <path d="M12 16V9" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round"/>
-        <path d="M8.5 12L12 8.5L15.5 12" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg></span><div class="step-n">3</div></div>
+      <div class="step fu d3"><div class="step-wrap"><span>🛡️</span><div class="step-n">3</div></div>
         <div class="step-title">Profilez votre santé</div>
         <p class="step-desc">Questionnaires validés sur le sommeil, le stress, la nutrition et l'activité physique.</p></div>
       <div class="step fu d4"><div class="step-wrap"><span>🥗</span><div class="step-n">4</div></div>
@@ -472,52 +470,57 @@ a{text-decoration:none;color:inherit}
   </div>
 </section>
 
-<!-- ════════════════════════════
-     PROMESSES
-════════════════════════════ -->
-<section class="promise">
-  <div class="promise-in">
-    <div class="s-eyebrow">Pourquoi PRÉVIO</div>
-    <h2 class="s-title">La prévention, <em>rendue lisible</em></h2>
-    <p class="s-sub">Des principes de médecine préventive traduits en recommandations concrètes pour chaque jour.</p>
-    <div class="promise-grid fu d1">
-      <div class="promise-card">
-        <div class="pr-ico pr-ico-teal">🔬</div>
-        <div><div class="pr-title">Interprétation contextualisée</div>
-          <p class="pr-desc">Un taux de CRP de 2 mg/L n'a pas le même sens selon votre niveau d'activité, votre jeûne ou vos traitements. PRÉVIO intègre ces variables pour vous donner une lecture juste.</p></div>
+<section class="prog-section" style="padding-top:20px">
+  <div class="prog-in">
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px">
+      <div class="pillar p-teal">
+        <div class="p-tag">📈 Monitoring longitudinal</div>
+        <div class="p-title">Vos données dans le temps</div>
+        <p class="p-desc">Visualisez l'évolution de chaque biomarqueur bilan après bilan. Identifiez les tendances et mesurez l'impact de vos habitudes.</p>
+        <div class="p-chips">
+          <span class="pchip">Glycémie · HbA1c</span>
+          <span class="pchip">CRP · Ferritine</span>
+          <span class="pchip">Comparatif bilans</span>
+        </div>
       </div>
-      <div class="promise-card">
-        <div class="pr-ico pr-ico-green">🥗</div>
-        <div><div class="pr-title">Recommandations diététiques</div>
-          <p class="pr-desc">Si votre HbA1c est à 5.8%, vous recevez des recommandations spécifiques sur la gestion des glucides, la chronobiologie alimentaire et les index glycémiques.</p></div>
+      <div class="pillar p-violet">
+        <div class="p-tag">✨ Compte rendu augmenté</div>
+        <div class="p-title">Interprétation contextuelle</div>
+        <p class="p-desc">Chaque résultat est croisé avec votre contexte de vie — jeûne, stress, activité — pour une lecture précise et actionnable.</p>
+        <div class="p-chips">
+          <span class="pchip">Scores HOMA-IR</span>
+          <span class="pchip">Recommandations</span>
+          <span class="pchip">Preuves scientifiques</span>
+        </div>
       </div>
-      <div class="promise-card">
-        <div class="pr-ico pr-ico-violet">🏃</div>
-        <div><div class="pr-title">Programme d'activité physique</div>
-          <p class="pr-desc">Adapté à votre score d'activité, votre niveau d'inflammation et votre profil de sommeil — intensité, type d'effort et timing dans la journée.</p></div>
+    </div>
+
+    <!-- Aperçu iframe -->
+    <div style="background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);border-radius:24px;overflow:hidden">
+      <div style="background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 20px;display:flex;align-items:center;gap:10px">
+        <div style="display:flex;gap:6px">
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(239,68,68,.6)"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(245,158,11,.6)"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(16,185,129,.6)"></div>
+        </div>
+        <div style="font-size:11px;color:rgba(255,255,255,.35);font-weight:600;flex:1;text-align:center">Exemple · Bilan Biologique Augmenté</div>
+        <a href="Exemple_Bilan_Augmente.html" target="_blank" style="font-size:11px;font-weight:700;color:var(--c-teal);white-space:nowrap">Ouvrir ↗</a>
       </div>
-      <div class="promise-card">
-        <div class="pr-ico pr-ico-amber">📈</div>
-        <div><div class="pr-title">Suivi longitudinal</div>
-          <p class="pr-desc">Mesurez l'impact de vos changements d'habitudes sur vos biomarqueurs biologiques au fil des bilans. La prévention se mesure dans le temps.</p></div>
+      <div style="position:relative;height:580px;overflow:hidden">
+        <iframe src="Exemple_Bilan_Augmente.html" style="width:100%;height:100%;border:none;pointer-events:none" scrolling="no" title="Exemple Bilan Augmenté"></iframe>
+        <div style="position:absolute;bottom:0;left:0;right:0;height:140px;background:linear-gradient(transparent,rgba(7,12,26,.97));pointer-events:none"></div>
+        <div style="position:absolute;bottom:24px;left:50%;transform:translateX(-50%)">
+          <a href="Exemple_Bilan_Augmente.html" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:13px 32px;border-radius:99px;font-weight:700;font-size:14px;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;box-shadow:0 8px 32px rgba(14,116,144,.42);white-space:nowrap">
+            Voir l'exemple complet →
+          </a>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════
-     CTA FINAL
-════════════════════════════ -->
-<section class="cta-sect">
-  <div class="cta-box">
-    <h2>Prêt à comprendre et agir sur votre santé ?</h2>
-    <p>Commencez par le questionnaire contextuel — 8 minutes qui transforment l'interprétation de vos résultats biologiques et activent vos premières recommandations personnalisées.</p>
-    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;position:relative">
-      <button class="btn-main" onclick="openModal('signup')">Créer votre profil <span class="arr">→</span></button>
-      <button class="btn-ghost" onclick="openModal('login')">J'ai déjà un profil</button>
-    </div>
-  </div>
-</section>
+</div><!-- /page-bilan -->
 
 <footer class="footer">
   <div class="footer-logo">PRÉVIO<sup>®</sup></div>
@@ -724,10 +727,25 @@ function goToApp(){
   }
 }
 
+
+/* ══ TAB NAVIGATION ══ */
+function showPage(page) {
+  ['accueil','profil','bilan'].forEach(function(p) {
+    document.getElementById('page-' + p).classList.remove('active');
+    var nl = document.getElementById('nl-' + p);
+    if(nl) nl.classList.remove('on');
+  });
+  document.getElementById('page-' + page).classList.add('active');
+  var nl = document.getElementById('nl-' + page);
+  if(nl) nl.classList.add('on');
+  window.scrollTo(0,0);
+}
+
 function scrollToSection(id){
   var el = document.getElementById(id);
   if(el) el.scrollIntoView({behavior:'smooth'});
 }
 </script>
+
 </body>
 </html>
