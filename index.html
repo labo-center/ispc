@@ -341,7 +341,6 @@ a{text-decoration:none;color:inherit}
 .page-view { display: none; }
 .page-view.active { display: block; }
 
-
 </style>
 </head>
 
@@ -372,9 +371,7 @@ a{text-decoration:none;color:inherit}
   </div>
 </nav>
 
-<!-- ══════════════════════════════════
-     PAGE : ACCUEIL
-══════════════════════════════════ -->
+<!-- ══════════ PAGE ACCUEIL ══════════ -->
 <div class="page-view active" id="page-accueil">
 <section class="hero" id="hero">
   <div class="hero-b1"></div><div class="hero-b2"></div><div class="hero-b3"></div>
@@ -400,9 +397,7 @@ a{text-decoration:none;color:inherit}
 </section>
 </div><!-- /page-accueil -->
 
-<!-- ══════════════════════════════════
-     PAGE : PROFIL SANTÉ
-══════════════════════════════════ -->
+<!-- ══════════ PAGE PROFIL SANTÉ ══════════ -->
 <div class="page-view" id="page-profil">
 <section class="hero">
   <div class="hero-b1"></div><div class="hero-b2"></div><div class="hero-b3"></div>
@@ -428,9 +423,7 @@ a{text-decoration:none;color:inherit}
 </section>
 </div><!-- /page-profil -->
 
-<!-- ══════════════════════════════════
-     PAGE : BILAN BIOLOGIQUE
-══════════════════════════════════ -->
+<!-- ══════════ PAGE BILAN BIOLOGIQUE ══════════ -->
 <div class="page-view" id="page-bilan">
 
 <section class="hero" style="min-height:unset;padding:calc(var(--nav-h) + 48px) 24px 56px">
@@ -451,9 +444,9 @@ a{text-decoration:none;color:inherit}
 
 <section class="parcours" style="padding-top:48px">
   <div class="parcours-in">
-    <div class="s-eyebrow">Bilan Biologique</div>
+    <div class="s-eyebrow">Le parcours</div>
     <h2 class="s-title">Comprenez vos Analyses. <em>Suivez vos données.</em></h2>
-    <p class="s-sub">Un flux structuré en 4 étapes pour passer de vos résultats bruts à des recommandations actionnables et un suivi longitudinal de vos biomarqueurs.</p>
+    <p class="s-sub">Un flux structuré en 4 étapes pour passer de vos résultats bruts à des recommandations actionnables.</p>
     <div class="steps">
       <div class="step fu d1"><div class="step-wrap"><span>🩸</span><div class="step-n">1</div></div>
         <div class="step-title">Saisissez vos résultats</div>
@@ -473,8 +466,7 @@ a{text-decoration:none;color:inherit}
 
 <section class="prog-section" style="padding-top:20px">
   <div class="prog-in">
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px">
       <div class="pillar p-teal">
         <div class="p-tag">📈 Monitoring longitudinal</div>
         <div class="p-title">Vos données dans le temps</div>
@@ -497,8 +489,8 @@ a{text-decoration:none;color:inherit}
       </div>
     </div>
 
-    <!-- Exemple Bilan Augmenté -->
-    <div style="margin-top:8px;border-radius:24px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 24px 80px rgba(0,0,0,.4)">
+    <!-- Exemple iframe -->
+    <div style="border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:0 24px 80px rgba(0,0,0,.5)">
       <div style="background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.08);padding:13px 20px;display:flex;align-items:center;gap:10px">
         <div style="display:flex;gap:6px">
           <div style="width:11px;height:11px;border-radius:50%;background:#ef4444;opacity:.7"></div>
@@ -507,13 +499,237 @@ a{text-decoration:none;color:inherit}
         </div>
         <div style="font-size:11.5px;color:rgba(255,255,255,.4);font-weight:600;flex:1;text-align:center;letter-spacing:.04em">Exemple · Bilan Biologique Augmenté PRÉVIO</div>
       </div>
-      <iframe 
-        src="exemple_bilan_augmente.html" 
-        style="width:100%;height:900px;border:none;display:block;background:#0a0f1e" 
-        title="Exemple Bilan Biologique Augmenté">
-      </iframe>
+      <iframe src="exemple_bilan_augmente.html" style="width:100%;height:900px;border:none;display:block;background:#0a0f1e" title="Exemple Bilan Biologique Augmenté"></iframe>
     </div>
   </div>
 </section>
 
 </div><!-- /page-bilan -->
+
+<footer class="footer">
+  <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+  <p class="footer-disc">Outil d'aide à l'interprétation et au coaching hygiène de vie. Ne constitue pas un acte médical ni un diagnostic. Toute décision thérapeutique doit être prise avec un professionnel de santé qualifié.</p>
+  <nav class="footer-links" aria-label="Liens légaux">
+    <a href="legal/avertissement.html">Avertissement santé</a>
+    <span class="footer-sep">·</span>
+    <a href="legal/confidentialite.html">Confidentialité</a>
+    <span class="footer-sep">·</span>
+    <a href="legal/mentions-legales.html">Mentions légales</a>
+  </nav>
+</footer>
+
+
+<!-- ════════════════════════════
+     PROFIL LOCAL MODAL
+════════════════════════════ -->
+<div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-label="Gestion du profil">
+  <div class="modal">
+    <div class="modal-close" onclick="closeModal()">✕</div>
+
+    <!-- CREATE PROFILE VIEW -->
+    <div id="view-signup">
+      <h2>Créer un profil</h2>
+      <p class="subtitle">Vos données restent 100 % locales — rien n'est envoyé à un serveur.</p>
+      <div class="form-group">
+        <label for="signup-name">Prénom ou pseudo</label>
+        <input type="text" id="signup-name" placeholder="Comment vous appeler ?" autocomplete="given-name" aria-required="true">
+      </div>
+      <div class="form-err" id="signup-err"></div>
+      <button class="modal-btn" onclick="handleCreateProfile()">Créer mon profil →</button>
+      <div class="modal-switch">Profil existant ? <a onclick="switchView('login')">Charger un profil</a></div>
+    </div>
+
+    <!-- LOAD PROFILE VIEW -->
+    <div id="view-login" style="display:none">
+      <h2>Charger un profil</h2>
+      <p class="subtitle">Retrouvez un profil enregistré sur cet appareil.</p>
+      <div id="profiles-list"></div>
+      <div class="form-err" id="login-err"></div>
+      <div class="modal-switch" style="margin-top:20px">Nouveau ? <a onclick="switchView('signup')">Créer un profil</a></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══ MODAL ══ */
+function openModal(view){
+  document.getElementById('authModal').classList.add('open');
+  switchView(view||'signup');
+}
+function closeModal(){
+  document.getElementById('authModal').classList.remove('open');
+}
+function switchView(v){
+  document.getElementById('view-login').style.display = v==='login'?'block':'none';
+  document.getElementById('view-signup').style.display = v==='signup'?'block':'none';
+  // Populate profiles list when switching to login
+  if(v==='login') renderProfilesList();
+}
+document.getElementById('authModal').addEventListener('click',function(e){
+  if(e.target===this)closeModal();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+
+/* ══ LOCAL PROFILE SYSTEM ══ */
+function getProfiles(){
+  try{ return JSON.parse(localStorage.getItem('previo_profiles')||'[]'); }
+  catch(e){ return []; }
+}
+function saveProfiles(profiles){
+  localStorage.setItem('previo_profiles', JSON.stringify(profiles));
+}
+
+function handleCreateProfile(){
+  const name = document.getElementById('signup-name').value.trim();
+  const errEl = document.getElementById('signup-err');
+  errEl.classList.remove('show');
+
+  if(!name || name.length < 1){
+    errEl.textContent = 'Veuillez entrer un prénom ou pseudo.';
+    errEl.classList.add('show');
+    return;
+  }
+
+  const profiles = getProfiles();
+  const id = 'p_' + Date.now();
+  profiles.push({ id:id, name:name, createdAt:Date.now() });
+  saveProfiles(profiles);
+
+  // Set active session
+  localStorage.setItem('previo_session', JSON.stringify({ id:id, name:name, loggedAt:Date.now() }));
+  window.location.href = 'app.html';
+}
+
+function loadProfile(id){
+  const profiles = getProfiles();
+  const p = profiles.find(function(pr){ return pr.id === id; });
+  if(!p){
+    document.getElementById('login-err').textContent = 'Profil introuvable.';
+    document.getElementById('login-err').classList.add('show');
+    return;
+  }
+  localStorage.setItem('previo_session', JSON.stringify({ id:p.id, name:p.name, loggedAt:Date.now() }));
+  window.location.href = 'app.html';
+}
+
+function deleteProfile(id, evt){
+  evt.stopPropagation();
+  if(!confirm('Supprimer ce profil ? Les données associées ne seront pas effacées automatiquement.')) return;
+  const profiles = getProfiles().filter(function(p){ return p.id !== id; });
+  saveProfiles(profiles);
+  renderProfilesList();
+}
+
+function renderProfilesList(){
+  const container = document.getElementById('profiles-list');
+  const profiles = getProfiles();
+  const errEl = document.getElementById('login-err');
+  errEl.classList.remove('show');
+
+  if(profiles.length === 0){
+    container.innerHTML = '';
+    var empty = document.createElement('p');
+    empty.style.cssText = 'color:var(--dark-m);font-size:13.5px;text-align:center;padding:20px 0;';
+    empty.textContent = 'Aucun profil enregistré sur cet appareil.';
+    container.appendChild(empty);
+    return;
+  }
+
+  container.innerHTML = '';
+  profiles.forEach(function(p){
+    var card = document.createElement('div');
+    card.style.cssText = 'display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:8px;background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);border-radius:14px;cursor:pointer;transition:background .15s,border-color .15s;';
+    card.onmouseenter = function(){ card.style.background='rgba(255,255,255,.1)'; card.style.borderColor='rgba(14,165,201,.35)'; };
+    card.onmouseleave = function(){ card.style.background='rgba(255,255,255,.06)'; card.style.borderColor='rgba(255,255,255,.13)'; };
+    card.onclick = function(){ loadProfile(p.id); };
+
+    var avatar = document.createElement('div');
+    avatar.style.cssText = 'width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--c-teal),var(--c-violet));display:grid;place-items:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;';
+    avatar.textContent = (p.name||'?')[0].toUpperCase();
+
+    var info = document.createElement('div');
+    info.style.cssText = 'flex:1;';
+    var nameEl = document.createElement('div');
+    nameEl.style.cssText = 'font-weight:700;font-size:14px;color:#fff;';
+    nameEl.textContent = p.name;
+    var dateEl = document.createElement('div');
+    dateEl.style.cssText = 'font-size:11px;color:var(--dark-m);margin-top:2px;';
+    dateEl.textContent = 'Créé le ' + new Date(p.createdAt).toLocaleDateString('fr-FR');
+    info.appendChild(nameEl);
+    info.appendChild(dateEl);
+
+    var delBtn = document.createElement('button');
+    delBtn.style.cssText = 'width:28px;height:28px;border-radius:50%;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--c-red);font-size:13px;display:grid;place-items:center;cursor:pointer;transition:background .15s;flex-shrink:0;';
+    delBtn.textContent = '✕';
+    delBtn.title = 'Supprimer ce profil';
+    delBtn.onclick = function(evt){ deleteProfile(p.id, evt); };
+
+    card.appendChild(avatar);
+    card.appendChild(info);
+    card.appendChild(delBtn);
+    container.appendChild(card);
+  });
+}
+
+/* ══ AUTO-REDIRECT IF SESSION EXISTS + MIGRATION ══ */
+(function(){
+  // Migration v1.0→v1.1: remove legacy previo_users
+  try{
+    var legacyUsers=localStorage.getItem('previo_users');
+    if(legacyUsers){
+      var users=JSON.parse(legacyUsers);
+      var profiles=[];
+      try{ profiles=JSON.parse(localStorage.getItem('previo_profiles')||'[]'); }catch(e){}
+      if(profiles.length===0 && Array.isArray(users)){
+        users.forEach(function(u,i){
+          profiles.push({id:'migrated_'+i,name:u.name||'Profil',createdAt:Date.now()});
+        });
+        localStorage.setItem('previo_profiles',JSON.stringify(profiles));
+      }
+      localStorage.removeItem('previo_users');
+    }
+  }catch(e){}
+  // Ensure session has id
+  try{
+    var s=JSON.parse(localStorage.getItem('previo_session')||'null');
+    if(s && !s.id){ s.id='migrated_0'; localStorage.setItem('previo_session',JSON.stringify(s)); }
+  }catch(e){}
+})();
+
+/* ══ SMART NAV — Go to app if session, else open modal ══ */
+function goToApp(){
+  var session = null;
+  try { session = JSON.parse(localStorage.getItem('previo_session')||'null'); } catch(e){}
+  if(session && session.name){
+    window.location.href = 'app.html';
+  } else {
+    var profiles = getProfiles();
+    if(profiles.length > 0){
+      openModal('login');
+    } else {
+      openModal('signup');
+    }
+  }
+}
+
+
+/* ══ TAB NAVIGATION ══ */
+function showPage(page) {
+  ['accueil','profil','bilan'].forEach(function(p) {
+    document.getElementById('page-' + p).classList.remove('active');
+    var nl = document.getElementById('nl-' + p);
+    if(nl) nl.classList.remove('on');
+  });
+  document.getElementById('page-' + page).classList.add('active');
+  var nl = document.getElementById('nl-' + page);
+  if(nl) nl.classList.add('on');
+  window.scrollTo(0,0);
+}
+
+function scrollToSection(id){
+  var el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
