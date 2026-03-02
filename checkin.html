@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+<link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+<link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
+<link rel="manifest" href="/favicons/site.webmanifest">
+<meta name="theme-color" content="#070c1a">
+<title>PRÉVIO — Check-in Quotidien</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════════
+   PRÉVIO — DESIGN SYSTEM (exact match)
+══════════════════════════════════════════ */
+:root{
+  --c-teal:#0ea5c9;--c-teal-d:#0e7490;--c-teal-glow:rgba(14,165,201,.18);
+  --c-violet:#7c3aed;--c-violet-d:#6d28d9;
+  --c-green:#10b981;--c-green-d:#047857;--c-green-glow:rgba(16,185,129,.18);
+  --c-amber:#f59e0b;--c-amber-d:#d97706;
+  --c-red:#ef4444;
+  --dark-1:#070c1a;--dark-2:#0f1628;--dark-3:#141c35;--dark-4:#1a2347;
+  --dark-b:rgba(255,255,255,.08);--dark-b2:rgba(255,255,255,.13);
+  --dark-m:rgba(255,255,255,.42);--dark-t:rgba(255,255,255,.88);
+  --ff:'DM Sans',system-ui,sans-serif;
+  --ffd:'Fraunces',Georgia,serif;
+  --nav-h:62px;
+  --ease-s:cubic-bezier(.34,1.56,.64,1);
+  --ease-o:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;min-height:100dvh}
+body{font-family:var(--ff);background:var(--dark-1);color:#fff;overflow-x:hidden;
+  -webkit-tap-highlight-color:transparent}
+button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:none;
+  -webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--c-teal);outline-offset:2px;border-radius:4px}
+
+/* ── Animations ── */
+.fu{animation:fu .5s ease-out both}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.d1{animation-delay:.06s}.d2{animation-delay:.12s}.d3{animation-delay:.18s}
+.d4{animation-delay:.24s}.d5{animation-delay:.3s}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.38}}
+@keyframes scan{0%{top:-2px}100%{top:100%}}
+@keyframes checkPop{0%{transform:scale(.5);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+@keyframes panelSlideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:none}}
+
+/* ════════════════════════════════════════
+   NAV — Check-in replaces "Données locales"
+════════════════════════════════════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:500;height:var(--nav-h);
+  background:rgba(7,12,26,.85);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+  border-bottom:1px solid var(--dark-b)}
+.nav-in{max-width:1160px;margin:0 auto;height:100%;display:flex;align-items:center;padding:0 24px;gap:0}
+.nav-logo{display:flex;align-items:center;gap:11px;cursor:pointer;margin-right:38px;flex-shrink:0;text-decoration:none}
+.nav-mark{width:36px;height:36px;border-radius:11px;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  display:grid;place-items:center;
+  box-shadow:0 0 22px rgba(14,165,201,.32),0 0 44px rgba(124,58,237,.14);flex-shrink:0}
+.nav-type{font-family:var(--ffd);font-size:19px;font-weight:700;letter-spacing:-.07em;color:#fff;line-height:1}
+.nav-type sup{font-size:10px;font-weight:700;letter-spacing:.04em;vertical-align:top;margin-top:3px;opacity:.5;font-family:var(--ff);text-transform:uppercase}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nl{padding:7px 14px;border-radius:9px;font-size:13px;font-weight:600;
+  color:var(--dark-m);transition:all .15s;cursor:pointer;white-space:nowrap;text-decoration:none}
+.nl:hover{color:var(--dark-t);background:rgba(255,255,255,.06)}
+.nl.on{color:#fff;background:rgba(255,255,255,.1)}
+.nav-r{margin-left:auto;display:flex;align-items:center;gap:10px}
+
+/* ── Check-in nav button ── */
+.nav-checkin{
+  display:flex;align-items:center;gap:7px;padding:6px 16px;
+  background:linear-gradient(135deg,rgba(14,165,201,.15),rgba(124,58,237,.15));
+  border:1px solid rgba(14,165,201,.35);
+  border-radius:99px;font-size:12px;font-weight:700;color:var(--c-teal);
+  cursor:pointer;transition:all .2s;white-space:nowrap;
+}
+.nav-checkin:hover{background:linear-gradient(135deg,rgba(14,165,201,.25),rgba(124,58,237,.25));
+  border-color:rgba(14,165,201,.5);transform:translateY(-1px)}
+.nav-checkin .nc-dot{width:7px;height:7px;border-radius:50%;
+  background:var(--c-teal);box-shadow:0 0 8px var(--c-teal);animation:pulse 2s infinite}
+.nav-checkin.done{background:rgba(16,185,129,.1);border-color:rgba(16,185,129,.3);color:var(--c-green)}
+.nav-checkin.done .nc-dot{background:var(--c-green);box-shadow:0 0 8px var(--c-green)}
+
+.nav-user{display:flex;align-items:center;gap:8px;padding:4px 14px 4px 4px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);
+  border-radius:99px;cursor:pointer;transition:background .15s;text-decoration:none}
+.nav-user:hover{background:rgba(255,255,255,.1)}
+.nav-user-av{width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));
+  display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff}
+.nav-user span{font-size:13px;font-weight:600;color:var(--dark-t)}
+@media(max-width:768px){.nav-links{display:none}}
+
+/* ════════════════════════════════════════
+   MAIN PAGE (placeholder with exact BG)
+════════════════════════════════════════ */
+.page-wrap{min-height:100vh;position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center}
+/* Blobs — exact hero match */
+.bg-b1{position:absolute;top:-160px;left:-140px;width:680px;height:680px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.13) 0%,transparent 65%);pointer-events:none}
+.bg-b2{position:absolute;bottom:-140px;right:-120px;width:560px;height:560px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 65%);pointer-events:none}
+.bg-b3{position:absolute;top:50%;left:54%;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(16,185,129,.07) 0%,transparent 60%);
+  pointer-events:none;transform:translate(-50%,-50%)}
+/* Grid lines — exact */
+.bg-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);
+  background-size:44px 44px;pointer-events:none}
+/* Scan line — exact */
+.bg-scan{position:absolute;left:0;right:0;height:1px;pointer-events:none;opacity:.22;
+  background:linear-gradient(90deg,transparent,rgba(14,165,201,.7) 35%,rgba(124,58,237,.7) 65%,transparent);
+  animation:scan 9s linear infinite}
+
+.page-content{position:relative;z-index:2;text-align:center;padding:24px}
+.page-content h1{font-family:var(--ffd);font-size:clamp(28px,5vw,48px);font-weight:700;
+  letter-spacing:-.055em;color:#fff;margin-bottom:10px}
+.page-content h1 em{font-style:italic;font-weight:300;
+  background:linear-gradient(115deg,#22d3ee 0%,#a78bfa 55%,#4ade80 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.page-content p{font-size:14px;color:var(--dark-m);margin-bottom:28px}
+.cta-main{display:inline-flex;align-items:center;gap:9px;
+  padding:16px 34px;border-radius:99px;font-weight:700;font-size:15px;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 8px 32px rgba(14,116,144,.42);transition:transform .22s var(--ease-s)}
+.cta-main:hover{transform:translateY(-3px) scale(1.02)}
+
+/* ════════════════════════════════════════
+   CHECK-IN OVERLAY + BOTTOM SHEET
+════════════════════════════════════════ */
+.ci-overlay{position:fixed;inset:0;z-index:900;
+  background:rgba(7,12,26,.6);backdrop-filter:blur(6px);display:none}
+.ci-overlay.open{display:block;animation:overlayIn .2s ease-out}
+
+.ci-panel{
+  position:fixed;bottom:0;left:0;right:0;z-index:901;
+  max-height:92vh;max-height:92dvh;
+  background:var(--dark-1);
+  border-top-left-radius:28px;border-top-right-radius:28px;
+  border:1px solid var(--dark-b);border-bottom:none;
+  overflow:hidden;display:none;
+  box-shadow:0 -20px 80px rgba(0,0,0,.6),0 -4px 20px rgba(0,0,0,.3);
+}
+.ci-panel.open{display:flex;flex-direction:column;animation:panelSlideUp .35s var(--ease-o)}
+
+/* ── Panel background textures (same grid+blobs+scan) ── */
+.ci-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:28px 28px 0 0}
+.ci-bg .p-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.026) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.026) 1px,transparent 1px);
+  background-size:44px 44px}
+.ci-bg .p-blob1{position:absolute;top:-100px;right:-80px;width:350px;height:350px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,201,.1) 0%,transparent 65%)}
+.ci-bg .p-blob2{position:absolute;bottom:-60px;left:-60px;width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(124,58,237,.1) 0%,transparent 65%)}
+.ci-bg .p-scan{position:absolute;left:0;right:0;height:1px;opacity:.15;
+  background:linear-gradient(90deg,transparent,rgba(14,165,201,.7) 35%,rgba(124,58,237,.7) 65%,transparent);
+  animation:scan 9s linear infinite}
+
+/* ── Panel header ── */
+.ci-head{padding:14px 20px 12px;position:relative;z-index:2;flex-shrink:0;
+  border-bottom:1px solid var(--dark-b)}
+.ci-handle{width:40px;height:4px;border-radius:99px;background:rgba(255,255,255,.15);margin:0 auto 12px}
+.ci-head-row{display:flex;align-items:center;justify-content:space-between}
+.ci-title{font-family:var(--ffd);font-size:20px;font-weight:600;letter-spacing:-.03em;color:#fff}
+.ci-title em{font-style:italic;font-weight:300;
+  background:linear-gradient(120deg,var(--c-teal),var(--c-violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ci-close{width:36px;height:36px;border-radius:12px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);
+  display:grid;place-items:center;color:var(--dark-m);font-size:18px;transition:all .15s}
+.ci-close:hover{background:rgba(255,255,255,.12);color:#fff}
+.ci-date{font-size:11px;font-weight:700;color:var(--dark-m);margin-top:3px}
+
+/* ── Scrollable body ── */
+.ci-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:18px 16px 32px;position:relative;z-index:2}
+
+/* ════════════════════════════════════════
+   MENU GRID — Signal picker
+════════════════════════════════════════ */
+.ci-menu-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--dark-m);margin-bottom:10px;padding-left:2px}
+.ci-menu-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
+@media(max-width:380px){.ci-menu-grid{grid-template-columns:repeat(2,1fr)}}
+
+.ci-mi{
+  background:rgba(255,255,255,.035);border:1px solid var(--dark-b);
+  border-radius:18px;padding:16px 8px 14px;text-align:center;
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .22s var(--ease-s),border-color .25s,background .2s;
+}
+/* Micro grid inside cards — same pattern */
+.ci-mi::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:16px 16px;pointer-events:none}
+.ci-mi:active{transform:scale(.93)}
+.ci-mi:hover{border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.055)}
+.ci-mi.done{border-color:rgba(14,165,201,.35);background:rgba(14,165,201,.06)}
+.ci-mi.done::after{
+  content:'✓';position:absolute;top:7px;right:9px;
+  width:18px;height:18px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-green));
+  font-size:10px;font-weight:800;color:#fff;
+  display:grid;place-items:center;animation:checkPop .35s var(--ease-s)}
+.mi-ico{font-size:26px;display:block;margin-bottom:5px;position:relative}
+.mi-name{font-size:11px;font-weight:700;color:var(--dark-t);position:relative;line-height:1.3}
+
+/* ── Week strip ── */
+.ci-week-wrap{margin-top:6px;padding-top:16px;border-top:1px solid var(--dark-b)}
+.ci-week-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--dark-m);margin-bottom:10px}
+.ci-week{display:flex;gap:6px}
+.ci-wd{flex:1;text-align:center;padding:8px 4px;border-radius:12px;
+  background:rgba(255,255,255,.025);border:1px solid var(--dark-b);transition:all .15s}
+.ci-wd.done{background:rgba(14,165,201,.08);border-color:rgba(14,165,201,.25)}
+.ci-wd.today{border-color:rgba(14,165,201,.5)}
+.ci-wd-n{font-size:9px;font-weight:700;color:var(--dark-m);text-transform:uppercase}
+.ci-wd-d{font-family:var(--ffd);font-size:15px;font-weight:700;color:var(--dark-m);margin-top:1px}
+.ci-wd.done .ci-wd-d{color:#fff}
+.ci-wd.today .ci-wd-d{color:var(--c-teal)}
+.ci-wd-dot{width:5px;height:5px;border-radius:50%;margin:4px auto 0;background:transparent}
+.ci-wd.done .ci-wd-dot{background:var(--c-teal)}
+
+/* ════════════════════════════════════════
+   INPUT VIEW — Dynamic form per signal
+════════════════════════════════════════ */
+.ci-input{display:none}
+.ci-input.active{display:block;animation:slideUp .3s var(--ease-o)}
+
+.ci-back{display:inline-flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:99px;margin-bottom:16px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);
+  font-size:12px;font-weight:700;color:var(--dark-m);cursor:pointer;transition:all .15s}
+.ci-back:hover{background:rgba(255,255,255,.12);color:#fff}
+
+.ci-sig-head{text-align:center;margin-bottom:22px}
+.ci-sig-ico{font-size:42px;display:block;margin-bottom:8px}
+.ci-sig-title{font-family:var(--ffd);font-size:18px;font-weight:600;color:#fff;letter-spacing:-.02em}
+.ci-sig-hint{font-size:12px;color:var(--dark-m);margin-top:4px}
+
+/* ─── Emoji scale ─── */
+.emo-row{display:flex;gap:0;justify-content:center}
+.emo-opt{flex:1;padding:10px 4px;text-align:center;cursor:pointer;border-radius:14px;
+  transition:all .2s var(--ease-s)}
+.emo-opt:active{transform:scale(.88)}
+.emo-opt .ef{font-size:32px;display:block;
+  filter:grayscale(.6) brightness(.7);transition:filter .25s,transform .25s var(--ease-s)}
+.emo-opt .el{font-size:9px;font-weight:700;color:transparent;margin-top:5px;
+  text-transform:uppercase;letter-spacing:.04em;transition:color .2s}
+.emo-opt.on .ef{filter:none;transform:scale(1.22)}
+.emo-opt.on .el{color:var(--dark-t)}
+.emo-opt.on{background:rgba(255,255,255,.05)}
+
+/* ─── Quick select ─── */
+.qk-row{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.qk-opt{padding:16px 10px;border-radius:16px;
+  background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
+  text-align:center;cursor:pointer;transition:all .2s var(--ease-s)}
+.qk-opt:active{transform:scale(.94)}
+.qk-opt .qi{font-size:24px;display:block;margin-bottom:4px}
+.qk-opt .qt{font-size:11px;font-weight:700;color:var(--dark-m);transition:color .2s}
+.qk-opt.on{background:rgba(14,165,201,.1);border-color:rgba(14,165,201,.4)}
+.qk-opt.on .qt{color:#fff}
+
+/* ─── Color picker ─── */
+.clr-strip{display:flex;gap:8px;justify-content:center;padding:8px 0}
+.clr-opt{width:46px;height:46px;border-radius:13px;border:3px solid transparent;
+  cursor:pointer;transition:transform .2s var(--ease-s),border-color .2s;display:grid;place-items:center}
+.clr-opt:active{transform:scale(.9)}
+.clr-opt.on{border-color:#fff;transform:scale(1.1)}
+.clr-opt.on::after{content:'✓';font-size:16px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
+
+/* ─── Stepper ─── */
+.stp{display:flex;align-items:center;justify-content:center;gap:24px;padding:10px 0}
+.stp-btn{width:56px;height:56px;border-radius:16px;
+  background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b);
+  font-size:26px;font-weight:300;color:var(--dark-t);display:grid;place-items:center;
+  transition:all .15s var(--ease-s)}
+.stp-btn:active{transform:scale(.88);background:rgba(14,165,201,.15);border-color:rgba(14,165,201,.4)}
+.stp-v{font-family:var(--ffd);font-size:42px;font-weight:700;color:#fff;min-width:80px;text-align:center}
+.stp-u{font-size:12px;font-weight:600;color:var(--dark-m);text-align:center;margin-top:2px}
+
+/* ─── Gauge ─── */
+.gau{padding:8px 0}
+.gau-v{font-family:var(--ffd);font-size:28px;font-weight:700;color:#fff;text-align:center;
+  margin-bottom:2px;transition:color .3s}
+.gau-l{font-size:11px;font-weight:700;text-align:center;margin-bottom:12px;
+  text-transform:uppercase;letter-spacing:.06em;transition:color .3s}
+.gau-r{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:99px;
+  background:rgba(255,255,255,.08);outline:none}
+.gau-r::-webkit-slider-thumb{-webkit-appearance:none;width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  box-shadow:0 0 16px rgba(14,165,201,.4),0 4px 12px rgba(0,0,0,.3);cursor:pointer;
+  transition:transform .15s var(--ease-s)}
+.gau-r::-webkit-slider-thumb:active{transform:scale(1.18);
+  box-shadow:0 0 28px rgba(14,165,201,.6),0 6px 20px rgba(0,0,0,.4)}
+.gau-r::-moz-range-thumb{width:40px;height:40px;border-radius:50%;border:none;
+  background:linear-gradient(135deg,var(--c-teal),var(--c-violet));
+  box-shadow:0 0 16px rgba(14,165,201,.4),0 4px 12px rgba(0,0,0,.3);cursor:pointer}
+.gau-ends{display:flex;justify-content:space-between;margin-top:10px}
+.gau-end{font-size:11px;color:var(--dark-m);font-weight:600}
+
+/* ─── Toggle pills ─── */
+.pll-row{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
+.pll{padding:11px 18px;border-radius:99px;
+  background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
+  font-size:12.5px;font-weight:600;color:var(--dark-m);
+  cursor:pointer;transition:all .2s var(--ease-s);white-space:nowrap}
+.pll:active{transform:scale(.94)}
+.pll.on{background:rgba(14,165,201,.12);border-color:rgba(14,165,201,.4);color:#fff}
+
+/* ─── Yes/No ─── */
+.yn{display:flex;gap:10px;max-width:320px;margin:0 auto}
+.yn-b{flex:1;padding:20px 16px;border-radius:18px;
+  background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
+  text-align:center;cursor:pointer;transition:all .2s var(--ease-s)}
+.yn-b:active{transform:scale(.94)}
+.yn-b .yi{font-size:28px;display:block;margin-bottom:4px}
+.yn-b .yt{font-size:13px;font-weight:700;color:var(--dark-m);transition:color .2s}
+.yn-b.on{border-color:rgba(14,165,201,.5);background:rgba(14,165,201,.1)}
+.yn-b.on .yt{color:#fff}
+
+/* ─── Confirm button ─── */
+.ci-confirm{display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;max-width:340px;margin:24px auto 0;padding:16px;border-radius:16px;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));
+  color:#fff;font-size:14px;font-weight:700;
+  box-shadow:0 6px 24px rgba(14,116,144,.35);transition:transform .2s var(--ease-s),opacity .2s}
+.ci-confirm:active{transform:scale(.96)}
+.ci-confirm:disabled{opacity:.3;cursor:not-allowed}
+
+/* ── Success ── */
+.ci-ok{display:none;text-align:center;padding:40px 20px}
+.ci-ok.show{display:block;animation:slideUp .4s var(--ease-o)}
+.ci-ok-ico{font-size:56px;margin-bottom:12px}
+.ci-ok-title{font-family:var(--ffd);font-size:22px;font-weight:600;color:#fff;margin-bottom:6px}
+.ci-ok-sub{font-size:12.5px;color:var(--dark-m);margin-bottom:20px;line-height:1.7}
+.ci-ok-streak{display:inline-flex;align-items:center;gap:7px;
+  padding:8px 20px;border-radius:99px;
+  background:rgba(255,255,255,.06);border:1px solid var(--dark-b);
+  font-size:12px;font-weight:700;color:var(--c-teal);margin-bottom:24px}
+.ci-ok-btn{padding:14px 28px;border-radius:14px;font-size:13px;font-weight:700;
+  background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;
+  box-shadow:0 6px 24px rgba(14,116,144,.35);transition:transform .2s var(--ease-s)}
+.ci-ok-btn:active{transform:scale(.95)}
+
+/* ── Footer ── */
+.footer{background:var(--dark-1);border-top:1px solid var(--dark-b);padding:28px 24px;text-align:center}
+.footer-logo{font-family:var(--ffd);font-size:20px;font-weight:700;letter-spacing:-.07em;color:#fff;margin-bottom:6px}
+.footer-logo sup{font-size:9px;font-weight:700;letter-spacing:.04em;vertical-align:top;opacity:.45;font-family:var(--ff);text-transform:uppercase}
+.footer-disc{font-size:11px;color:var(--dark-m);line-height:1.8;max-width:560px;margin:0 auto}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-in">
+    <a class="nav-logo" href="app.html">
+      <div class="nav-mark"><svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M10 1L2 5v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-4z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="1.2" stroke-linejoin="round"/><path d="M10 14V8" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M7 11l3-3 3 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+    </a>
+    <div class="nav-links">
+      <a class="nl on" href="app.html">Dashboard</a>
+      <a class="nl" href="monitoring.html">Monitoring</a>
+      <a class="nl" href="app.html#profil">Profil Santé</a>
+      <a class="nl" href="app.html#bio">Bilan Bio</a>
+    </div>
+    <div class="nav-r">
+      <button class="nav-checkin" id="navCI" onclick="openCI()">
+        <span class="nc-dot"></span> Check-in
+      </button>
+      <a class="nav-user" href="app.html"><div class="nav-user-av" id="navAv">O</div><span id="navNm">Olivier</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- PAGE (placeholder — your real dashboard) -->
+<div class="page-wrap">
+  <div class="bg-b1"></div><div class="bg-b2"></div><div class="bg-b3"></div>
+  <div class="bg-grid"></div><div class="bg-scan"></div>
+  <div class="page-content fu">
+    <h1>Bonjour — votre <em>routine matinale</em></h1>
+    <p>Cliquez sur Check-in pour renseigner vos signaux du jour</p>
+    <button class="cta-main" onclick="openCI()">☀️ Démarrer le check-in →</button>
+  </div>
+</div>
+
+<!-- OVERLAY -->
+<div class="ci-overlay" id="ciOv" onclick="closeCI()"></div>
+
+<!-- BOTTOM SHEET PANEL -->
+<div class="ci-panel" id="ciPan">
+  <!-- Background textures (grid + blobs + scan) -->
+  <div class="ci-bg">
+    <div class="p-grid"></div>
+    <div class="p-blob1"></div>
+    <div class="p-blob2"></div>
+    <div class="p-scan"></div>
+  </div>
+
+  <div class="ci-head">
+    <div class="ci-handle"></div>
+    <div class="ci-head-row">
+      <div><div class="ci-title">Check-in <em>matinal</em></div><div class="ci-date" id="ciDt"></div></div>
+      <button class="ci-close" onclick="closeCI()">✕</button>
+    </div>
+  </div>
+
+  <div class="ci-body" id="ciBd">
+    <!-- VIEW: Menu -->
+    <div id="vMenu">
+      <div class="ci-menu-label">Que souhaitez-vous renseigner ?</div>
+      <div class="ci-menu-grid" id="mGrid"></div>
+      <div class="ci-week-wrap">
+        <div class="ci-week-label">📅 Cette semaine</div>
+        <div class="ci-week" id="wStrip"></div>
+      </div>
+    </div>
+    <!-- VIEW: Input -->
+    <div class="ci-input" id="vInput">
+      <button class="ci-back" onclick="toMenu()">← Retour</button>
+      <div id="iContent"></div>
+    </div>
+    <!-- VIEW: Success -->
+    <div class="ci-ok" id="vOk">
+      <div class="ci-ok-ico">✅</div>
+      <div class="ci-ok-title">Enregistré !</div>
+      <div class="ci-ok-sub" id="okMsg">Signal sauvegardé</div>
+      <div class="ci-ok-streak" id="okStreak">🔥 1 jour</div>
+      <button class="ci-ok-btn" onclick="toMenu()">Ajouter un autre signal →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   PRÉVIO — CHECK-IN ENGINE
+══════════════════════════════════════════ */
+var SIGS=[
+  {id:'poids',icon:'⚖️',name:'Poids',type:'stepper',unit:'kg',min:30,max:200,step:0.1,dec:1,def:70},
+  {id:'tour',icon:'📏',name:'Tour de taille',type:'stepper',unit:'cm',min:50,max:150,step:0.5,dec:1,def:85},
+  {id:'urines',icon:'💧',name:'Urines',type:'color',hint:'Indicateur d\'hydratation'},
+  {id:'sommeil',icon:'🌙',name:'Qualité sommeil',type:'emoji5',
+    faces:['😵','😕','😐','😌','😴'],labels:['Terrible','Mauvais','Moyen','Bon','Excellent']},
+  {id:'stress',icon:'😰',name:'Stress',type:'gauge',min:0,max:10,def:0,
+    lvl:[{m:0,l:'Zen',c:'var(--c-green)'},{m:2,l:'Calme',c:'var(--c-green)'},{m:4,l:'Léger',c:'var(--c-teal)'},
+         {m:6,l:'Modéré',c:'var(--c-amber)'},{m:8,l:'Élevé',c:'var(--c-amber-d)'},{m:10,l:'Intense',c:'var(--c-red)'}],
+    eL:'🧘 Zen',eR:'Intense 🔥'},
+  {id:'digestion',icon:'🫃',name:'Digestion',type:'quick',
+    opts:[{v:'normal',i:'✅',t:'Normal'},{v:'ballonne',i:'🎈',t:'Ballonné'},{v:'douleurs',i:'😣',t:'Douleurs'},{v:'nausee',i:'🤢',t:'Nausée'}]},
+  {id:'jeune',icon:'⏱️',name:'Jeûne',type:'yn',yTxt:'Oui, j\'ai jeûné',nTxt:'Non'},
+  {id:'repas',icon:'🍽️',name:'Repas riche',type:'yn',yTxt:'Oui, repas riche',nTxt:'Non, repas léger'},
+  {id:'activite',icon:'🏃',name:'Activité physique',type:'pills',hint:'Sélectionnez une ou plusieurs',
+    opts:[{v:'marche',t:'🚶 Marche'},{v:'running',t:'🏃 Running'},{v:'rameur',t:'🚣 Rameur'},
+          {v:'paddle',t:'🏄 Paddle'},{v:'velo',t:'🚴 Vélo'},{v:'muscu',t:'💪 Muscu'},
+          {v:'yoga',t:'🧘 Yoga'},{v:'natation',t:'🏊 Natation'},{v:'autre',t:'⚡ Autre'}]},
+  {id:'humeur',icon:'😊',name:'Humeur',type:'emoji5',
+    faces:['😫','😔','😐','🙂','😄'],labels:['Mal','Bof','Neutre','Bien','Top']}
+];
+
+var td={},_t={};
+
+// Helpers
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function fmtDate(){var d=new Date(),dn=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
+  mn=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  return dn[d.getDay()]+' '+d.getDate()+' '+mn[d.getMonth()]}
+function gH(){try{return JSON.parse(localStorage.getItem('previo_checkins')||'{}')}catch(e){return{}}}
+function sH(h){try{localStorage.setItem('previo_checkins',JSON.stringify(h))}catch(e){}}
+function loadTd(){var h=gH(),k=dk(new Date());td=(h[k]&&h[k].s)?JSON.parse(JSON.stringify(h[k].s)):{}}
+function saveSig(id,v){
+  td[id]=v;var h=gH(),k=dk(new Date());
+  if(!h[k])h[k]={d:k,ts:new Date().toISOString(),s:{}};
+  h[k].s[id]=v;h[k].ts=new Date().toISOString();sH(h);renderMenu();updNav()
+}
+function streak(){var h=gH(),s=0,d=new Date();if(!h[dk(d)])return 0;s=1;
+  for(var i=1;i<365;i++){d.setDate(d.getDate()-1);if(h[dk(d)])s++;else break}return s}
+function getLvl(lvls,v){for(var i=0;i<lvls.length;i++){if(v<=lvls[i].m)return lvls[i]}return lvls[lvls.length-1]}
+
+// Open / Close
+function openCI(){loadTd();renderMenu();renderWeek();
+  document.getElementById('ciOv').classList.add('open');
+  document.getElementById('ciPan').classList.add('open');
+  document.body.style.overflow='hidden';showV('menu')}
+function closeCI(){document.getElementById('ciOv').classList.remove('open');
+  document.getElementById('ciPan').classList.remove('open');document.body.style.overflow=''}
+function showV(v){
+  document.getElementById('vMenu').style.display=v==='menu'?'block':'none';
+  document.getElementById('vInput').className='ci-input'+(v==='input'?' active':'');
+  document.getElementById('vOk').className='ci-ok'+(v==='ok'?' show':'')}
+function toMenu(){showV('menu')}
+
+// Menu
+function renderMenu(){var g=document.getElementById('mGrid');g.innerHTML='';
+  SIGS.forEach(function(s){var d=document.createElement('div');
+    d.className='ci-mi'+(td[s.id]!==undefined?' done':'');
+    d.onclick=function(){openSig(s.id)};
+    d.innerHTML='<span class="mi-ico">'+s.icon+'</span><span class="mi-name">'+s.name+'</span>';
+    g.appendChild(d)})}
+
+// Week
+function renderWeek(){var c=document.getElementById('wStrip');c.innerHTML='';
+  var t=new Date(),dow=t.getDay(),mon=new Date(t);mon.setDate(t.getDate()-((dow+6)%7));
+  var ns=['L','M','M','J','V','S','D'],h=gH();
+  for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(mon.getDate()+i);
+    var k=dk(d),isT=dk(t)===k,dn=!!h[k];
+    var e=document.createElement('div');
+    e.className='ci-wd'+(dn?' done':'')+(isT?' today':'');
+    e.innerHTML='<div class="ci-wd-n">'+ns[i]+'</div><div class="ci-wd-d">'+d.getDate()+'</div><div class="ci-wd-dot"></div>';
+    c.appendChild(e)}}
+
+// Nav
+function updNav(){var h=gH(),k=dk(new Date()),b=document.getElementById('navCI');
+  if(h[k]&&h[k].s&&Object.keys(h[k].s).length>0){b.classList.add('done');b.innerHTML='<span class="nc-dot"></span> Check-in ✓'}}
+
+// ══ Signal Input ══
+function openSig(id){
+  var s=SIGS.find(function(x){return x.id===id});if(!s)return;
+  var c=document.getElementById('iContent'),cv=td[s.id],h='';
+  _t={};
+
+  h+='<div class="ci-sig-head"><span class="ci-sig-ico">'+s.icon+'</span>';
+  h+='<div class="ci-sig-title">'+s.name+'</div>';
+  if(s.hint)h+='<div class="ci-sig-hint">'+s.hint+'</div>';
+  h+='</div>';
+
+  switch(s.type){
+    case 'emoji5':
+      h+='<div class="emo-row">';
+      for(var i=0;i<5;i++){var sel=cv===(i+1)?' on':'';
+        h+='<div class="emo-opt'+sel+'" data-v="'+(i+1)+'" onclick="pEmo(this,\''+id+'\')"><span class="ef">'+s.faces[i]+'</span><span class="el">'+s.labels[i]+'</span></div>'}
+      h+='</div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="cfmEmo(\''+id+'\')" '+(cv?'':'disabled')+'>Valider →</button>';
+      break;
+
+    case 'gauge':
+      var gv=cv!==undefined?cv:s.def,gi=getLvl(s.lvl,gv);
+      h+='<div class="gau"><div class="gau-v" id="gV" style="color:'+gi.c+'">'+gv+'</div>';
+      h+='<div class="gau-l" id="gL" style="color:'+gi.c+'">'+gi.l+'</div>';
+      h+='<input type="range" class="gau-r" id="gR" min="'+s.min+'" max="'+s.max+'" value="'+gv+'" step="1" oninput="uGau(this.value,\''+id+'\')">';
+      h+='<div class="gau-ends"><span class="gau-end">'+s.eL+'</span><span class="gau-end">'+s.eR+'</span></div></div>';
+      h+='<button class="ci-confirm" onclick="cfmGau(\''+id+'\')">Valider →</button>';
+      break;
+
+    case 'stepper':
+      var sv=cv!==undefined?cv:s.def;_t._sv=sv;
+      h+='<div class="stp"><button class="stp-btn" onclick="stp(\''+id+'\',-1)">−</button>';
+      h+='<div><div class="stp-v" id="stV">'+sv.toFixed(s.dec)+'</div><div class="stp-u">'+s.unit+'</div></div>';
+      h+='<button class="stp-btn" onclick="stp(\''+id+'\',1)">+</button></div>';
+      h+='<button class="ci-confirm" onclick="cfmStp(\''+id+'\')">Valider →</button>';
+      break;
+
+    case 'color':
+      var cls=[{bg:'#f5f0d0',l:'Transparent'},{bg:'#f0e68c',l:'Jaune clair'},{bg:'#daa520',l:'Jaune'},
+               {bg:'#cd853f',l:'Jaune foncé'},{bg:'#a0522d',l:'Ambre'},{bg:'#8b4513',l:'Brun'}];
+      h+='<div class="clr-strip">';
+      for(var j=0;j<cls.length;j++){var cs=cv===(j+1)?' on':'';
+        h+='<div class="clr-opt'+cs+'" style="background:'+cls[j].bg+'" data-v="'+(j+1)+'" onclick="pClr(this,\''+id+'\')" title="'+cls[j].l+'"></div>'}
+      h+='</div><div style="display:flex;justify-content:space-between;padding:6px 4px 0"><span style="font-size:10px;font-weight:600;color:var(--c-green)">Bien hydraté</span><span style="font-size:10px;font-weight:600;color:var(--c-amber)">Déshydraté</span></div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="cfmClr(\''+id+'\')" '+(cv?'':'disabled')+'>Valider →</button>';
+      break;
+
+    case 'quick':
+      h+='<div class="qk-row">';
+      s.opts.forEach(function(o){var qs=cv===o.v?' on':'';
+        h+='<div class="qk-opt'+qs+'" data-v="'+o.v+'" onclick="pQk(this,\''+id+'\')"><span class="qi">'+o.i+'</span><span class="qt">'+o.t+'</span></div>'});
+      h+='</div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="cfmQk(\''+id+'\')" '+(cv?'':'disabled')+'>Valider →</button>';
+      break;
+
+    case 'yn':
+      h+='<div class="yn">';
+      h+='<div class="yn-b'+(cv===true?' on':'')+'" data-v="true" onclick="pYn(this,\''+id+'\')"><span class="yi">✅</span><span class="yt">'+s.yTxt+'</span></div>';
+      h+='<div class="yn-b'+(cv===false?' on':'')+'" data-v="false" onclick="pYn(this,\''+id+'\')"><span class="yi">❌</span><span class="yt">'+s.nTxt+'</span></div>';
+      h+='</div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="cfmYn(\''+id+'\')" '+(cv!==undefined?'':'disabled')+'>Valider →</button>';
+      break;
+
+    case 'pills':
+      var ca=Array.isArray(cv)?cv:[];
+      h+='<div class="pll-row">';
+      s.opts.forEach(function(o){var ps=ca.indexOf(o.v)>-1?' on':'';
+        h+='<div class="pll'+ps+'" data-v="'+o.v+'" onclick="pPll(this)">'+o.t+'</div>'});
+      h+='</div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="cfmPll(\''+id+'\')" '+(ca.length?'':'disabled')+'>Valider →</button>';
+      break;
+  }
+  c.innerHTML=h;showV('input');document.getElementById('ciBd').scrollTop=0}
+
+// Interactions
+function vib(){if(navigator.vibrate)navigator.vibrate(12)}
+function enCfm(){var b=document.getElementById('cfm');if(b)b.disabled=false}
+
+function pEmo(el,id){el.parentElement.querySelectorAll('.emo-opt').forEach(function(o){o.classList.remove('on')});
+  el.classList.add('on');_t[id]=parseInt(el.dataset.v);enCfm();vib()}
+function cfmEmo(id){if(_t[id]){saveSig(id,_t[id]);showOk(id)}}
+
+function uGau(v,id){v=parseInt(v);var s=SIGS.find(function(x){return x.id===id}),i=getLvl(s.lvl,v);
+  document.getElementById('gV').textContent=v;document.getElementById('gV').style.color=i.c;
+  document.getElementById('gL').textContent=i.l;document.getElementById('gL').style.color=i.c;_t[id]=v}
+function cfmGau(id){var v=parseInt(document.getElementById('gR').value);saveSig(id,v);showOk(id)}
+
+function stp(id,dir){var s=SIGS.find(function(x){return x.id===id});
+  var cur=_t._sv!==undefined?_t._sv:(td[id]!==undefined?td[id]:s.def);
+  cur+=dir*s.step;cur=Math.max(s.min,Math.min(s.max,cur));cur=Math.round(cur*100)/100;
+  _t._sv=cur;document.getElementById('stV').textContent=cur.toFixed(s.dec);vib()}
+function cfmStp(id){var s=SIGS.find(function(x){return x.id===id});
+  var v=_t._sv!==undefined?_t._sv:(td[id]!==undefined?td[id]:s.def);saveSig(id,v);showOk(id)}
+
+function pClr(el,id){el.parentElement.querySelectorAll('.clr-opt').forEach(function(o){o.classList.remove('on')});
+  el.classList.add('on');_t[id]=parseInt(el.dataset.v);enCfm();vib()}
+function cfmClr(id){if(_t[id]){saveSig(id,_t[id]);showOk(id)}}
+
+function pQk(el,id){el.parentElement.querySelectorAll('.qk-opt').forEach(function(o){o.classList.remove('on')});
+  el.classList.add('on');_t[id]=el.dataset.v;enCfm();vib()}
+function cfmQk(id){if(_t[id]){saveSig(id,_t[id]);showOk(id)}}
+
+function pYn(el,id){el.parentElement.querySelectorAll('.yn-b').forEach(function(o){o.classList.remove('on')});
+  el.classList.add('on');_t[id]=el.dataset.v==='true';enCfm();vib()}
+function cfmYn(id){if(_t[id]!==undefined){saveSig(id,_t[id]);showOk(id)}}
+
+function pPll(el){el.classList.toggle('on');
+  var sel=[];el.parentElement.querySelectorAll('.pll.on').forEach(function(p){sel.push(p.dataset.v)});
+  var b=document.getElementById('cfm');if(b)b.disabled=sel.length===0;_t._pl=sel;vib()}
+function cfmPll(id){var s=_t._pl||[];if(s.length>0){saveSig(id,s);showOk(id)}}
+
+function showOk(id){var s=SIGS.find(function(x){return x.id===id});
+  document.getElementById('okMsg').textContent=s.icon+' '+s.name+' enregistré';
+  var st=streak();document.getElementById('okStreak').textContent='🔥 '+st+' jour'+(st>1?'s':'')+' consécutif'+(st>1?'s':'');
+  showV('ok');if(navigator.vibrate)navigator.vibrate([15,40,15]);renderWeek()}
+
+// Init
+function init(){
+  document.getElementById('ciDt').textContent=fmtDate();loadTd();updNav();
+  try{var ss=JSON.parse(localStorage.getItem('previo_session')||'{}');
+    if(ss&&ss.name){document.getElementById('navNm').textContent=ss.name;
+      document.getElementById('navAv').textContent=ss.name.charAt(0).toUpperCase()}}catch(e){}}
+init();
+</script>
+</body>
+</html>
