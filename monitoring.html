@@ -332,7 +332,6 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .ci-ok-btn{padding:14px 28px;border-radius:14px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;box-shadow:0 6px 24px rgba(14,116,144,.35);transition:transform .2s;cursor:pointer}
 .ci-ok-btn:active{transform:scale(.95)}
 
-/* ══ SUIVI QUOTIDIEN ══ */
 .cq-section{margin-top:28px}
 .cq-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
 .cq-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.02em}
@@ -361,37 +360,38 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .cq-dp{font-size:11px;color:var(--dark-m)}
 .cq-dp strong{color:var(--dark-t)}
 
-/* ══ MODAL SAISIE BILAN ══ */
 .bln-overlay{position:fixed;inset:0;background:rgba(4,8,20,.88);backdrop-filter:blur(10px);z-index:900;display:none;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
 .bln-overlay.open{display:flex}
-.bln-modal{background:var(--dark-2);border:1px solid var(--dark-b2);border-radius:24px;width:100%;max-width:680px;overflow:hidden;animation:blnIn .35s cubic-bezier(.16,1,.3,1);margin:auto}
+.bln-modal{background:var(--dark-2);border:1px solid var(--dark-b2);border-radius:24px;width:100%;max-width:700px;overflow:hidden;animation:blnIn .35s cubic-bezier(.16,1,.3,1);margin:auto}
 @keyframes blnIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 .bln-header{background:linear-gradient(135deg,rgba(14,116,144,.35),rgba(109,40,217,.25));border-bottom:1px solid var(--dark-b);padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.bln-header-title{font-family:var(--ffd);font-size:20px;font-weight:600;color:#fff;letter-spacing:-.02em}
+.bln-header-title{font-family:var(--ffd);font-size:20px;font-weight:600;color:#fff}
 .bln-header-sub{font-size:12px;color:var(--dark-m);margin-top:3px}
-.bln-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m);font-size:16px;display:grid;place-items:center;cursor:pointer;flex-shrink:0;transition:all .15s}
+.bln-close{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid var(--dark-b);color:var(--dark-m);font-size:16px;display:grid;place-items:center;cursor:pointer;flex-shrink:0;transition:all .15s}
 .bln-close:hover{background:rgba(255,255,255,.14);color:#fff}
-.bln-date-row{padding:18px 24px 0;display:flex;align-items:center;gap:12px}
+.bln-date-row{padding:18px 24px 14px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--dark-b)}
 .bln-date-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-m);flex-shrink:0}
-.bln-date-input{background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);border-radius:10px;color:#fff;font-size:14px;font-weight:600;padding:8px 14px;font-family:var(--ff);max-width:200px;transition:border-color .15s;color-scheme:dark}
+.bln-date-input{background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b2);border-radius:10px;color:#fff;font-size:14px;font-weight:600;padding:9px 16px;font-family:var(--ff);transition:border-color .15s;color-scheme:dark}
 .bln-date-input:focus{border-color:var(--c-teal);outline:none}
-.bln-body{padding:20px 24px;display:flex;flex-direction:column;gap:14px;max-height:54vh;overflow-y:auto}
+.bln-body{padding:16px 20px;display:flex;flex-direction:column;gap:12px;max-height:52vh;overflow-y:auto}
 .bln-body::-webkit-scrollbar{width:4px}.bln-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:99px}
-.bln-cat{background:rgba(255,255,255,.025);border:1px solid var(--dark-b);border-radius:14px;overflow:hidden}
-.bln-cat-head{padding:9px 14px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--dark-b);font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dark-m)}
-.bln-fields{display:grid;grid-template-columns:repeat(2,1fr)}
-.bln-field{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:8px}
-.bln-field:nth-child(even){border-left:1px solid rgba(255,255,255,.04)}
+.bln-cat{border:1px solid var(--dark-b);border-radius:14px;overflow:hidden}
+.bln-cat-head{padding:10px 16px;background:linear-gradient(90deg,rgba(14,165,201,.12),rgba(124,58,237,.08));border-bottom:1px solid var(--dark-b);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.65)}
+.bln-fields{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--dark-b)}
+.bln-field{padding:13px 16px;background:var(--dark-3);display:flex;align-items:center;gap:10px}
 .bln-field-info{flex:1;min-width:0}
-.bln-field-name{font-size:12px;font-weight:600;color:var(--dark-t)}
-.bln-field-ref{font-size:10px;color:var(--dark-m);margin-top:1px}
-.bln-field-input{width:70px;background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b);border-radius:8px;color:#fff;font-size:13px;font-weight:600;padding:5px 7px;text-align:right;font-family:var(--ff);transition:border-color .15s;flex-shrink:0}
-.bln-field-input:focus{border-color:var(--c-teal);background:rgba(14,165,201,.08);outline:none}
-.bln-field-input.filled{border-color:rgba(14,165,201,.45);background:rgba(14,165,201,.07)}
-.bln-field-unit{font-size:9px;color:var(--dark-m);width:30px;flex-shrink:0;line-height:1.3}
+.bln-field-name{font-size:13px;font-weight:600;color:var(--dark-t);margin-bottom:3px}
+.bln-field-ref{font-size:11px;color:var(--dark-m)}
+.bln-field-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.bln-field-input{width:86px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.12);border-radius:10px;color:#fff;font-size:15px;font-weight:700;padding:9px 12px;text-align:center;font-family:var(--ff);transition:all .2s;-moz-appearance:textfield}
+.bln-field-input::-webkit-inner-spin-button,.bln-field-input::-webkit-outer-spin-button{-webkit-appearance:none}
+.bln-field-input::placeholder{color:rgba(255,255,255,.18);font-weight:300}
+.bln-field-input:focus{border-color:var(--c-teal);background:rgba(14,165,201,.1);outline:none;box-shadow:0 0 0 3px rgba(14,165,201,.15)}
+.bln-field-input.filled{border-color:rgba(14,165,201,.55);background:rgba(14,165,201,.1)}
+.bln-field-unit{font-size:11px;color:var(--dark-m);font-weight:600;min-width:30px}
 .bln-footer{padding:18px 24px;border-top:1px solid var(--dark-b);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .bln-footer-note{font-size:11px;color:var(--dark-m);line-height:1.6}
-.bln-save{padding:12px 24px;border-radius:12px;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .15s;box-shadow:0 6px 24px rgba(14,116,144,.3)}
+.bln-save{padding:13px 28px;border-radius:13px;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .15s;box-shadow:0 6px 20px rgba(14,116,144,.3)}
 .bln-save:active{transform:scale(.96)}
 .bln-ok{display:none;text-align:center;padding:52px 24px}
 .bln-ok.show{display:block}
@@ -399,8 +399,8 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .bln-ok-title{font-family:var(--ffd);font-size:22px;font-weight:600;color:#fff;margin-bottom:8px}
 .bln-ok-sub{font-size:13px;color:var(--dark-m);margin-bottom:24px;line-height:1.7}
 .bln-ok-btn{padding:12px 26px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid var(--dark-b2);color:#fff;font-size:13px;font-weight:700;cursor:pointer}
-.mh-bilan-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);color:rgba(255,255,255,.85);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px}
-.mh-bilan-btn:hover{background:rgba(14,165,201,.18);border-color:rgba(14,165,201,.45);color:#fff}
+.mh-bilan-btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:13px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.18);color:rgba(255,255,255,.85);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:16px}
+.mh-bilan-btn:hover{background:rgba(14,165,201,.2);border-color:rgba(14,165,201,.5);color:#fff}
 
 </style>
 
@@ -495,13 +495,10 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     <div class="bio-card"><div class="bc-head"><div class="bc-title">Ferritine</div><div class="bc-unit">ng/mL</div></div><div class="bc-vals"><div class="bc-current">86</div><div class="bc-trend stable">→ stable</div></div><div class="bc-ref">Réf homme : 30–300</div><div class="bc-chart"><svg id="c-fer" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 84</div><div class="bc-dp"><strong>06/02</strong> 86</div></div></div>
   </div>
 
-  <!-- ══ SUIVI QUOTIDIEN (check-in) ══ -->
+  <!-- SUIVI QUOTIDIEN -->
   <div class="cq-section fu d3" id="cqSection">
     <div class="cq-head">
-      <div>
-        <div class="cq-title">📅 Suivi quotidien</div>
-        <div class="cq-sub">Evolution des signaux enregistrés via le check-in matinal</div>
-      </div>
+      <div><div class="cq-title">📅 Suivi quotidien</div><div class="cq-sub">Évolution des signaux enregistrés via le check-in matinal</div></div>
       <div class="cq-filters">
         <button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button>
         <button class="tf-btn" onclick="switchCqTf(this,30)">30j</button>
@@ -611,20 +608,21 @@ try{
 }catch(e){}
 
 
-/* ══ SUIVI QUOTIDIEN ══ */
+/* CQ SECTION */
 var CQ_DAYS=30;
 var CQ_SIGS=[
-  {id:'poids',      label:'Poids',           ico:'⚖️', unit:'kg',  color:'#0ea5c9'},
-  {id:'tour_taille',label:'Tour de taille',  ico:'📏', unit:'cm',  color:'#7c3aed'},
-  {id:'sommeil',    label:'Qualité sommeil', ico:'🌙', unit:'/5',  color:'#7c3aed'},
-  {id:'stress',     label:'Stress',          ico:'😰', unit:'/5',  color:'#f59e0b'},
-  {id:'fatigue',    label:'Fatigue',         ico:'🔋', unit:'/5',  color:'#ef4444'},
-  {id:'ecran',      label:"Temps d'écran",  ico:'📱', unit:'h',   color:'#f59e0b'},
-  {id:'humeur',     label:'Humeur',          ico:'😊', unit:'/5',  color:'#10b981'},
+  {id:'poids',label:'Poids',ico:'[scale]',unit:'kg',color:'#0ea5c9'},
+  {id:'tour_taille',label:'Tour de taille',ico:'[ruler]',unit:'cm',color:'#7c3aed'},
+  {id:'sommeil',label:'Qualite sommeil',ico:'[moon]',unit:'/5',color:'#7c3aed'},
+  {id:'stress',label:'Stress',ico:'[face]',unit:'/5',color:'#f59e0b'},
+  {id:'fatigue',label:'Fatigue',ico:'[battery]',unit:'/5',color:'#ef4444'},
+  {id:'ecran',label:"Temps d ecran",ico:'[phone]',unit:'h',color:'#f59e0b'},
+  {id:'humeur',label:'Humeur',ico:'[smile]',unit:'/5',color:'#10b981'},
 ];
 function ciGetHistory(){try{return JSON.parse(localStorage.getItem('previo_checkins')||'{}')}catch(e){return{}}}
 function cqGetSeries(sigId,days){
-  var h=ciGetHistory(),cutoff=new Date();cutoff.setDate(cutoff.getDate()-days);
+  var h=ciGetHistory(),cutoff=new Date();
+  cutoff.setDate(cutoff.getDate()-days);
   var pts=[];
   Object.keys(h).sort().forEach(function(d){
     if(new Date(d)<cutoff)return;
@@ -644,9 +642,9 @@ function cqFmt(d){var x=new Date(d);return x.getDate()+'/'+(x.getMonth()+1);}
 function cqTrend(pts){
   if(pts.length<2)return null;
   var diff=+(pts[pts.length-1].v-pts[pts.length-2].v).toFixed(1);
-  if(diff>0)return{cls:'cq-trend-up',txt:'↑ +'+diff};
-  if(diff<0)return{cls:'cq-trend-down',txt:'↓ '+diff};
-  return{cls:'cq-trend-stable',txt:'→ stable'};
+  if(diff>0)return{cls:'cq-trend-up',txt:'+'+diff};
+  if(diff<0)return{cls:'cq-trend-down',txt:''+diff};
+  return{cls:'cq-trend-stable',txt:'stable'};
 }
 function cqDrawLine(svgEl,pts,color){
   var W=400,H=70,pt=10,pb=6;
@@ -657,10 +655,9 @@ function cqDrawLine(svgEl,pts,color){
   function yS(v){return pt+(1-(v-mn)/(mx-mn))*(H-pt-pb);}
   var h='';
   if(pts.length>1){
-    var ap='M '+pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1)}).join(' L ')
-      +' L '+xS(pts.length-1).toFixed(1)+','+(H-pb)+' L '+xS(0).toFixed(1)+','+(H-pb)+' Z';
-    h+='<path d="'+ap+'" fill="'+color+'" fill-opacity=".12"/>';
-    h+='<path d="M '+pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1)}).join(' L ')+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+    var coords=pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1);}).join(' L ');
+    h+='<path d="M '+coords+' L '+xS(pts.length-1).toFixed(1)+','+(H-pb)+' L 0,'+(H-pb)+' Z" fill="'+color+'" fill-opacity=".12"/>';
+    h+='<path d="M '+coords+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
   }
   pts.forEach(function(p,i){
     var cx=xS(i).toFixed(1),cy=yS(p.v).toFixed(1);
@@ -671,27 +668,21 @@ function cqDrawLine(svgEl,pts,color){
   svgEl.innerHTML=h;
 }
 function cqRender(days){
-  var grid=document.getElementById('cqGrid');
-  var empty=document.getElementById('cqEmpty');
+  var grid=document.getElementById('cqGrid'),empty=document.getElementById('cqEmpty');
   if(!grid)return;
   grid.innerHTML='';
   var cards=[];
-  CQ_SIGS.forEach(function(sig){
-    var pts=cqGetSeries(sig.id,days);
-    if(pts.length>0)cards.push({sig:sig,pts:pts});
-  });
+  CQ_SIGS.forEach(function(sig){var pts=cqGetSeries(sig.id,days);if(pts.length>0)cards.push({sig:sig,pts:pts});});
   if(!cards.length){if(empty)empty.style.display='block';return;}
   if(empty)empty.style.display='none';
   cards.forEach(function(c){
     var last=c.pts[c.pts.length-1];
     var trend=cqTrend(c.pts);
     var tHtml=trend?'<span class="cq-trend '+trend.cls+'">'+trend.txt+'</span>':'';
-    var footPts=c.pts.slice(-3);
-    var foot=footPts.map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(c.sig.unit||'')+'</div>';}).join('');
+    var foot=c.pts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(c.sig.unit||'')+'</div>';}).join('');
     var div=document.createElement('div');div.className='cq-card';
-    var svgId='cqsvg-'+c.sig.id;
-    div.innerHTML=
-      '<div class="cq-card-head"><div class="cq-card-title">'+c.sig.ico+' '+c.sig.label+'</div></div>'+
+    var svgId='cqsvg'+c.sig.id;
+    div.innerHTML='<div class="cq-card-head"><div class="cq-card-title">'+c.sig.label+'</div></div>'+
       '<div class="cq-card-vals"><div class="cq-card-current" style="color:'+c.sig.color+'">'+last.v+'</div><div class="cq-card-unit">'+c.sig.unit+'</div>'+tHtml+'</div>'+
       '<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>'+
       '<div class="cq-card-foot">'+foot+'</div>';
@@ -704,45 +695,45 @@ function switchCqTf(btn,days){
   btn.classList.add('active');CQ_DAYS=days;cqRender(days);
 }
 
-/* ══ SAISIE BILAN BIOLOGIQUE ══ */
+/* BILAN BIOLOGIQUE */
 var BLN_CATS=[
-  {label:'🔥 Métabolisme Glucidique',fields:[
-    {id:'glycemie',name:'Glycémie à jeun',unit:'mg/dL',ref:'70-100'},
-    {id:'hba1c',name:'HbA1c',unit:'%',ref:'< 5.7%'},
-    {id:'insulin',name:'Insuline à jeun',unit:'µUI/mL',ref:'2-20'},
+  {label:'Metabolisme Glucidique',fields:[
+    {id:'glycemie',name:'Glycemie a jeun',unit:'mg/dL',ref:'70-100'},
+    {id:'hba1c',name:'HbA1c',unit:'%',ref:'< 5.7'},
+    {id:'insulin',name:'Insuline a jeun',unit:'uUI/mL',ref:'2-20'},
     {id:'homa_ir',name:'HOMA-IR',unit:'',ref:'< 2.5'},
   ]},
-  {label:'🫀 Cardiovasculaire',fields:[
+  {label:'Cardiovasculaire',fields:[
     {id:'ldl',name:'LDL',unit:'g/L',ref:'< 1.3'},
     {id:'hdl',name:'HDL',unit:'g/L',ref:'> 0.4 H'},
-    {id:'trig',name:'Triglycérides',unit:'g/L',ref:'< 1.5'},
+    {id:'trig',name:'Triglycerides',unit:'g/L',ref:'< 1.5'},
     {id:'apoB',name:'ApoB',unit:'g/L',ref:'< 1.2'},
   ]},
-  {label:'🔥 Inflammatoires',fields:[
+  {label:'Inflammatoires',fields:[
     {id:'crp',name:'CRP',unit:'mg/L',ref:'< 3.0'},
     {id:'crp_hs',name:'CRP ultrasensible',unit:'mg/L',ref:'< 1.0'},
   ]},
-  {label:'🫁 Fonction Hépatique',fields:[
+  {label:'Fonction Hepatique',fields:[
     {id:'asat',name:'ASAT',unit:'UI/L',ref:'< 40'},
     {id:'alat',name:'ALAT',unit:'UI/L',ref:'< 40'},
     {id:'ggt',name:'GGT',unit:'UI/L',ref:'< 55'},
     {id:'fib4',name:'FIB-4',unit:'',ref:'< 1.30'},
   ]},
-  {label:'🫘 Fonction Rénale',fields:[
-    {id:'creat',name:'Créatinine',unit:'mg/L',ref:'7-13 H'},
+  {label:'Fonction Renale',fields:[
+    {id:'creat',name:'Creatinine',unit:'mg/L',ref:'7-13 H'},
     {id:'egfr',name:'eGFR',unit:'mL/min',ref:'> 90'},
-    {id:'uree',name:'Urée',unit:'g/L',ref:'0.15-0.45'},
+    {id:'uree',name:'Uree',unit:'g/L',ref:'0.15-0.45'},
   ]},
-  {label:'🦴 Nutrition & Hormones',fields:[
+  {label:'Nutrition Hormones',fields:[
     {id:'vitd',name:'Vitamine D',unit:'ng/mL',ref:'30-100'},
     {id:'b12',name:'Vitamine B12',unit:'pg/mL',ref:'200-900'},
     {id:'ferritine',name:'Ferritine',unit:'ng/mL',ref:'30-300 H'},
     {id:'tsh',name:'TSH',unit:'mUI/L',ref:'0.4-4.0'},
   ]},
-  {label:'🧬 Lignées Sanguines',fields:[
+  {label:'Lignees Sanguines',fields:[
     {id:'nfs_gb',name:'Globules blancs',unit:'G/L',ref:'4-10'},
     {id:'nfs_gr',name:'Globules rouges',unit:'T/L',ref:'4.5-5.9'},
-    {id:'nfs_hb',name:'Hémoglobine',unit:'g/dL',ref:'13-18 H'},
+    {id:'nfs_hb',name:'Hemoglobine',unit:'g/dL',ref:'13-18 H'},
     {id:'nfs_plaq',name:'Plaquettes',unit:'G/L',ref:'150-400'},
   ]},
 ];
@@ -764,24 +755,44 @@ function closeBilan(){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBilan();});
 function renderBlnFields(date){
-  var body=document.getElementById('blnBody');if(!body)return;
-  var stored=blnLS();var dayData=(stored[date]&&stored[date].values)||{};
+  var body=document.getElementById('blnBody');
+  if(!body)return;
+  var stored=blnLS();
+  var dayData=(stored[date]&&stored[date].values)||{};
   body.innerHTML='';
   BLN_CATS.forEach(function(cat){
-    var catEl=document.createElement('div');catEl.className='bln-cat';
-    var head=document.createElement('div');head.className='bln-cat-head';head.textContent=cat.label;
+    var catEl=document.createElement('div');
+    catEl.className='bln-cat';
+    var head=document.createElement('div');
+    head.className='bln-cat-head';
+    head.textContent=cat.label;
     catEl.appendChild(head);
-    var grid=document.createElement('div');grid.className='bln-fields';
+    var grid=document.createElement('div');
+    grid.className='bln-fields';
     cat.fields.forEach(function(f){
       var ex=dayData[f.id]!==undefined?dayData[f.id]:'';
-      var row=document.createElement('div');row.className='bln-field';
-      row.innerHTML=
-        '<div class="bln-field-info"><div class="bln-field-name">'+f.name+'</div><div class="bln-field-ref">'+f.ref+'</div></div>'+
-        '<input type="number" step="any" class="bln-field-input'+(ex!==''?' filled':'')+'" id="bf-'+f.id+'" placeholder="—" value="'+(ex!==''?ex:'')+'" oninput="this.classList.toggle(&quot;filled&quot;,this.value!==&quot;&quot;)"/>'+
-        '<div class="bln-field-unit">'+f.unit+'</div>';
+      var row=document.createElement('div');
+      row.className='bln-field';
+      var info=document.createElement('div');
+      info.className='bln-field-info';
+      var nm=document.createElement('div');nm.className='bln-field-name';nm.textContent=f.name;
+      var rf=document.createElement('div');rf.className='bln-field-ref';rf.textContent=f.ref;
+      info.appendChild(nm);info.appendChild(rf);
+      var right=document.createElement('div');
+      right.className='bln-field-right';
+      var inp=document.createElement('input');
+      inp.type='number';inp.step='any';inp.id='bf-'+f.id;inp.placeholder='--';
+      inp.className='bln-field-input'+(ex!==''?' filled':'');
+      if(ex!=='')inp.value=ex;
+      inp.addEventListener('input',function(){this.classList.toggle('filled',this.value!=='');});
+      var un=document.createElement('div');
+      un.className='bln-field-unit';un.textContent=f.unit;
+      right.appendChild(inp);right.appendChild(un);
+      row.appendChild(info);row.appendChild(right);
       grid.appendChild(row);
     });
-    catEl.appendChild(grid);body.appendChild(catEl);
+    catEl.appendChild(grid);
+    body.appendChild(catEl);
   });
 }
 function saveBilan(){
@@ -796,14 +807,13 @@ function saveBilan(){
       if(inp&&inp.value!==''){stored[date].values[f.id]=parseFloat(inp.value);count++;}
     });
   });
-  if(count===0){alert('Aucune valeur renseignée.');return;}
-  stored[date].savedAt=new Date().toISOString();blnSaveLS(stored);
+  if(count===0){alert('Aucune valeur renseignee.');return;}
+  stored[date].savedAt=new Date().toISOString();
+  blnSaveLS(stored);
   var liveEl=document.querySelector('.mh-live');
   if(liveEl){var nb=Object.keys(stored).length;liveEl.innerHTML='<span class="mh-live-d"></span>'+nb+' bilan'+(nb>1?'s':'');}
   document.getElementById('blnForm').style.display='none';
-  var sub=count+' valeur'+(count>1?'s':'')+' enregistrée'+(count>1?'s':'')+' pour le '+
-    new Date(date+'T12:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+'.';
-  document.getElementById('blnOkSub').textContent=sub;
+  document.getElementById('blnOkSub').textContent=count+' valeur'+(count>1?'s':'')+' enregistree'+(count>1?'s':'')+' pour le '+new Date(date+'T12:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+'.';
   document.getElementById('blnOk').classList.add('show');
 }
 function updateBioCardsFromLS(){
@@ -815,10 +825,7 @@ function updateBioCardsFromLS(){
   var map={glycemie:{svgId:'c-gly',color:'#f59e0b',refMin:70,refMax:100},hba1c:{svgId:'c-hba',color:'#f59e0b',refMin:0,refMax:5.7},
     creat:{svgId:'c-crea',color:'#0ea5c9',refMin:7,refMax:13},asat:{svgId:'c-asat',color:'#f59e0b',refMin:0,refMax:40},
     crp:{svgId:'c-crp',color:'#10b981',refMin:0,refMax:3},ferritine:{svgId:'c-fer',color:'#0ea5c9',refMin:30,refMax:300}};
-  Object.keys(map).forEach(function(mid){
-    var pts=series[mid];if(pts&&pts.length)drawLine(map[mid].svgId,pts,map[mid].color,map[mid].refMin,map[mid].refMax);
-  });
-  var latest=stored[dates[dates.length-1]].values||{};
+  Object.keys(map).forEach(function(mid){var pts=series[mid];if(pts&&pts.length)drawLine(map[mid].svgId,pts,map[mid].color,map[mid].refMin,map[mid].refMax);});
   var liveEl=document.querySelector('.mh-live');
   if(liveEl){var nb=dates.length;liveEl.innerHTML='<span class="mh-live-d"></span>'+nb+' bilan'+(nb>1?'s':'');}
 }
@@ -978,15 +985,12 @@ function ciShowOk(id){var s=CI_SIGS.find(function(x){return x.id===id});document
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('ciPan').classList.contains('open'))closeCI();});
 </script>
 
-<!-- ══ MODAL SAISIE BILAN ══ -->
+<!-- MODAL SAISIE BILAN -->
 <div class="bln-overlay" id="blnOverlay" onclick="if(event.target===this)closeBilan()">
   <div class="bln-modal">
     <div id="blnForm">
       <div class="bln-header">
-        <div>
-          <div class="bln-header-title">🧪 Saisie bilan biologique</div>
-          <div class="bln-header-sub">Renseignez les valeurs — laissez vide ce que vous n'avez pas</div>
-        </div>
+        <div><div class="bln-header-title">🧪 Saisie bilan biologique</div><div class="bln-header-sub">Renseignez les valeurs — laissez vide ce que vous n’avez pas</div></div>
         <button class="bln-close" onclick="closeBilan()">✕</button>
       </div>
       <div class="bln-date-row">
@@ -1007,6 +1011,5 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.ge
     </div>
   </div>
 </div>
-
 </body>
 </html>
