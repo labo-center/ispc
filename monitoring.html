@@ -332,10 +332,39 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .ci-ok-btn{padding:14px 28px;border-radius:14px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;box-shadow:0 6px 24px rgba(14,116,144,.35);transition:transform .2s;cursor:pointer}
 .ci-ok-btn:active{transform:scale(.95)}
 
+/* ══ SUIVI QUOTIDIEN ══ */
+.cq-section{margin-top:28px}
+.cq-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.cq-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.cq-sub{font-size:12px;color:var(--dark-m);margin-top:3px}
+.cq-filters{display:flex;gap:6px}
+.cq-empty{text-align:center;padding:44px 20px;background:rgba(255,255,255,.025);border:1px dashed rgba(255,255,255,.1);border-radius:20px}
+.cq-empty-ico{font-size:36px;margin-bottom:10px}
+.cq-empty-t{font-size:14px;font-weight:600;color:var(--dark-t);margin-bottom:4px}
+.cq-empty-s{font-size:12px;color:var(--dark-m)}
+.cq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:700px){.cq-grid{grid-template-columns:1fr}}
+.cq-card{background:var(--dark-3);border:1px solid var(--dark-b);border-radius:20px;padding:18px 20px;overflow:hidden;transition:border-color .2s}
+.cq-card:hover{border-color:rgba(14,165,201,.25)}
+.cq-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.cq-card-title{font-size:13px;font-weight:600;color:var(--dark-t)}
+.cq-card-vals{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+.cq-card-current{font-family:var(--ffd);font-size:28px;font-weight:700;color:#fff;line-height:1}
+.cq-card-unit{font-size:12px;color:var(--dark-m);font-weight:600}
+.cq-trend{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px}
+.cq-trend-up{color:#f59e0b;background:rgba(245,158,11,.1)}
+.cq-trend-down{color:#10b981;background:rgba(16,185,129,.1)}
+.cq-trend-stable{color:var(--dark-m);background:rgba(255,255,255,.06)}
+.cq-card-chart{margin-top:10px}
+.cq-card-chart svg{width:100%;height:70px;display:block}
+.cq-card-foot{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.cq-dp{font-size:11px;color:var(--dark-m)}
+.cq-dp strong{color:var(--dark-t)}
+
 /* ══ MODAL SAISIE BILAN ══ */
-.bln-overlay{position:fixed;inset:0;background:rgba(4,8,20,.85);backdrop-filter:blur(8px);z-index:800;display:none;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
+.bln-overlay{position:fixed;inset:0;background:rgba(4,8,20,.88);backdrop-filter:blur(10px);z-index:900;display:none;align-items:flex-start;justify-content:center;padding:24px 16px;overflow-y:auto}
 .bln-overlay.open{display:flex}
-.bln-modal{background:var(--dark-2);border:1px solid var(--dark-b2);border-radius:24px;width:100%;max-width:680px;overflow:hidden;animation:blnIn .35s cubic-bezier(.16,1,.3,1)}
+.bln-modal{background:var(--dark-2);border:1px solid var(--dark-b2);border-radius:24px;width:100%;max-width:680px;overflow:hidden;animation:blnIn .35s cubic-bezier(.16,1,.3,1);margin:auto}
 @keyframes blnIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 .bln-header{background:linear-gradient(135deg,rgba(14,116,144,.35),rgba(109,40,217,.25));border-bottom:1px solid var(--dark-b);padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
 .bln-header-title{font-family:var(--ffd);font-size:20px;font-weight:600;color:#fff;letter-spacing:-.02em}
@@ -362,7 +391,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .bln-field-unit{font-size:9px;color:var(--dark-m);width:30px;flex-shrink:0;line-height:1.3}
 .bln-footer{padding:18px 24px;border-top:1px solid var(--dark-b);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .bln-footer-note{font-size:11px;color:var(--dark-m);line-height:1.6}
-.bln-save{padding:12px 24px;border-radius:12px;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;font-size:13px;font-weight:700;box-shadow:0 6px 24px rgba(14,116,144,.35);cursor:pointer;white-space:nowrap;transition:transform .15s}
+.bln-save{padding:12px 24px;border-radius:12px;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:transform .15s;box-shadow:0 6px 24px rgba(14,116,144,.3)}
 .bln-save:active{transform:scale(.96)}
 .bln-ok{display:none;text-align:center;padding:52px 24px}
 .bln-ok.show{display:block}
@@ -411,7 +440,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     </div>
     <h1>Monitoring — <em>vos données dans le temps</em></h1>
     <p>Explorez chaque biomarqueur, comparez vos bilans, identifiez les tendances. ← <a href="app.html">Retour dashboard</a></p>
-    <button class="mh-bilan-btn" onclick="openBilan()">&#x1F9EA; Saisir un bilan biologique</button>
+    <button class="mh-bilan-btn" onclick="openBilan()">🧪 Saisir un bilan biologique</button>
   </div>
 </div>
 
@@ -464,6 +493,27 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     <div class="bio-card"><div class="bc-head"><div class="bc-title">CRP</div><div class="bc-unit">mg/L</div></div><div class="bc-vals"><div class="bc-current" style="color:var(--c-amber-d)">2.1</div><div class="bc-trend down">↓ -0.4</div></div><div class="bc-ref">Optimal < 1.0 · Normal < 3.0</div><div class="bc-chart"><svg id="c-crp" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 2.5</div><div class="bc-dp"><strong>06/02</strong> 2.1</div></div></div>
 
     <div class="bio-card"><div class="bc-head"><div class="bc-title">Ferritine</div><div class="bc-unit">ng/mL</div></div><div class="bc-vals"><div class="bc-current">86</div><div class="bc-trend stable">→ stable</div></div><div class="bc-ref">Réf homme : 30–300</div><div class="bc-chart"><svg id="c-fer" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 84</div><div class="bc-dp"><strong>06/02</strong> 86</div></div></div>
+  </div>
+
+  <!-- ══ SUIVI QUOTIDIEN (check-in) ══ -->
+  <div class="cq-section fu d3" id="cqSection">
+    <div class="cq-head">
+      <div>
+        <div class="cq-title">📅 Suivi quotidien</div>
+        <div class="cq-sub">Evolution des signaux enregistrés via le check-in matinal</div>
+      </div>
+      <div class="cq-filters">
+        <button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button>
+        <button class="tf-btn" onclick="switchCqTf(this,30)">30j</button>
+        <button class="tf-btn" onclick="switchCqTf(this,90)">90j</button>
+      </div>
+    </div>
+    <div class="cq-empty" id="cqEmpty" style="display:none">
+      <div class="cq-empty-ico">📋</div>
+      <div class="cq-empty-t">Aucune donnée de check-in</div>
+      <div class="cq-empty-s">Commencez votre suivi quotidien via le bouton Check-in</div>
+    </div>
+    <div class="cq-grid" id="cqGrid"></div>
   </div>
 
   <!-- Comparison table -->
@@ -561,45 +611,138 @@ try{
 }catch(e){}
 
 
+/* ══ SUIVI QUOTIDIEN ══ */
+var CQ_DAYS=30;
+var CQ_SIGS=[
+  {id:'poids',      label:'Poids',           ico:'⚖️', unit:'kg',  color:'#0ea5c9'},
+  {id:'tour_taille',label:'Tour de taille',  ico:'📏', unit:'cm',  color:'#7c3aed'},
+  {id:'sommeil',    label:'Qualité sommeil', ico:'🌙', unit:'/5',  color:'#7c3aed'},
+  {id:'stress',     label:'Stress',          ico:'😰', unit:'/5',  color:'#f59e0b'},
+  {id:'fatigue',    label:'Fatigue',         ico:'🔋', unit:'/5',  color:'#ef4444'},
+  {id:'ecran',      label:"Temps d'écran",  ico:'📱', unit:'h',   color:'#f59e0b'},
+  {id:'humeur',     label:'Humeur',          ico:'😊', unit:'/5',  color:'#10b981'},
+];
+function ciGetHistory(){try{return JSON.parse(localStorage.getItem('previo_checkins')||'{}')}catch(e){return{}}}
+function cqGetSeries(sigId,days){
+  var h=ciGetHistory(),cutoff=new Date();cutoff.setDate(cutoff.getDate()-days);
+  var pts=[];
+  Object.keys(h).sort().forEach(function(d){
+    if(new Date(d)<cutoff)return;
+    var val=h[d]&&h[d].s&&h[d].s[sigId];
+    if(val===undefined||val===null)return;
+    var num=null;
+    if(typeof val==='number')num=val;
+    else if(typeof val==='string'){
+      var m={zen:1,calme:2,bien:2,moyen:3,normal:3,neutre:3,tendu:4,fatigue:4,triste:4,surcharge:5,epuise:5,super:5,excellent:5};
+      num=parseInt(val)||m[val.toLowerCase()]||null;
+    }
+    if(num!==null)pts.push({date:d,v:num});
+  });
+  return pts;
+}
+function cqFmt(d){var x=new Date(d);return x.getDate()+'/'+(x.getMonth()+1);}
+function cqTrend(pts){
+  if(pts.length<2)return null;
+  var diff=+(pts[pts.length-1].v-pts[pts.length-2].v).toFixed(1);
+  if(diff>0)return{cls:'cq-trend-up',txt:'↑ +'+diff};
+  if(diff<0)return{cls:'cq-trend-down',txt:'↓ '+diff};
+  return{cls:'cq-trend-stable',txt:'→ stable'};
+}
+function cqDrawLine(svgEl,pts,color){
+  var W=400,H=70,pt=10,pb=6;
+  var vals=pts.map(function(p){return p.v});
+  var mn=Math.min.apply(null,vals)*.92,mx=Math.max.apply(null,vals)*1.08;
+  if(mx===mn){mx+=1;mn-=1;}
+  function xS(i){return i*(W/Math.max(pts.length-1,1));}
+  function yS(v){return pt+(1-(v-mn)/(mx-mn))*(H-pt-pb);}
+  var h='';
+  if(pts.length>1){
+    var ap='M '+pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1)}).join(' L ')
+      +' L '+xS(pts.length-1).toFixed(1)+','+(H-pb)+' L '+xS(0).toFixed(1)+','+(H-pb)+' Z';
+    h+='<path d="'+ap+'" fill="'+color+'" fill-opacity=".12"/>';
+    h+='<path d="M '+pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1)}).join(' L ')+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+  }
+  pts.forEach(function(p,i){
+    var cx=xS(i).toFixed(1),cy=yS(p.v).toFixed(1);
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="'+color+'"/>';
+    h+='<text x="'+cx+'" y="'+(parseFloat(cy)-8).toFixed(1)+'" text-anchor="middle" fill="'+color+'" font-size="9.5" font-weight="700" font-family="DM Sans,sans-serif">'+p.v+'</text>';
+  });
+  svgEl.setAttribute('viewBox','0 0 400 70');svgEl.setAttribute('preserveAspectRatio','none');
+  svgEl.innerHTML=h;
+}
+function cqRender(days){
+  var grid=document.getElementById('cqGrid');
+  var empty=document.getElementById('cqEmpty');
+  if(!grid)return;
+  grid.innerHTML='';
+  var cards=[];
+  CQ_SIGS.forEach(function(sig){
+    var pts=cqGetSeries(sig.id,days);
+    if(pts.length>0)cards.push({sig:sig,pts:pts});
+  });
+  if(!cards.length){if(empty)empty.style.display='block';return;}
+  if(empty)empty.style.display='none';
+  cards.forEach(function(c){
+    var last=c.pts[c.pts.length-1];
+    var trend=cqTrend(c.pts);
+    var tHtml=trend?'<span class="cq-trend '+trend.cls+'">'+trend.txt+'</span>':'';
+    var footPts=c.pts.slice(-3);
+    var foot=footPts.map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(c.sig.unit||'')+'</div>';}).join('');
+    var div=document.createElement('div');div.className='cq-card';
+    var svgId='cqsvg-'+c.sig.id;
+    div.innerHTML=
+      '<div class="cq-card-head"><div class="cq-card-title">'+c.sig.ico+' '+c.sig.label+'</div></div>'+
+      '<div class="cq-card-vals"><div class="cq-card-current" style="color:'+c.sig.color+'">'+last.v+'</div><div class="cq-card-unit">'+c.sig.unit+'</div>'+tHtml+'</div>'+
+      '<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>'+
+      '<div class="cq-card-foot">'+foot+'</div>';
+    grid.appendChild(div);
+    requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLine(s,c.pts,c.sig.color);});
+  });
+}
+function switchCqTf(btn,days){
+  btn.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');CQ_DAYS=days;cqRender(days);
+}
+
 /* ══ SAISIE BILAN BIOLOGIQUE ══ */
 var BLN_CATS=[
-  {label:'Metabolisme Glucidique',emoji:'&#x1F525;',fields:[
-    {id:'glycemie',name:'Glycemie a jeun',unit:'mg/dL',ref:'70-100'},
+  {label:'🔥 Métabolisme Glucidique',fields:[
+    {id:'glycemie',name:'Glycémie à jeun',unit:'mg/dL',ref:'70-100'},
     {id:'hba1c',name:'HbA1c',unit:'%',ref:'< 5.7%'},
-    {id:'insulin',name:'Insuline a jeun',unit:'uUI/mL',ref:'2-20'},
+    {id:'insulin',name:'Insuline à jeun',unit:'µUI/mL',ref:'2-20'},
     {id:'homa_ir',name:'HOMA-IR',unit:'',ref:'< 2.5'},
   ]},
-  {label:'Cardiovasculaire',emoji:'&#x1FAC0;',fields:[
+  {label:'🫀 Cardiovasculaire',fields:[
     {id:'ldl',name:'LDL',unit:'g/L',ref:'< 1.3'},
     {id:'hdl',name:'HDL',unit:'g/L',ref:'> 0.4 H'},
-    {id:'trig',name:'Triglycerides',unit:'g/L',ref:'< 1.5'},
+    {id:'trig',name:'Triglycérides',unit:'g/L',ref:'< 1.5'},
     {id:'apoB',name:'ApoB',unit:'g/L',ref:'< 1.2'},
   ]},
-  {label:'Inflammatoires',emoji:'&#x1F525;',fields:[
+  {label:'🔥 Inflammatoires',fields:[
     {id:'crp',name:'CRP',unit:'mg/L',ref:'< 3.0'},
     {id:'crp_hs',name:'CRP ultrasensible',unit:'mg/L',ref:'< 1.0'},
   ]},
-  {label:'Fonction Hepatique',emoji:'&#x1FAC1;',fields:[
+  {label:'🫁 Fonction Hépatique',fields:[
     {id:'asat',name:'ASAT',unit:'UI/L',ref:'< 40'},
     {id:'alat',name:'ALAT',unit:'UI/L',ref:'< 40'},
     {id:'ggt',name:'GGT',unit:'UI/L',ref:'< 55'},
     {id:'fib4',name:'FIB-4',unit:'',ref:'< 1.30'},
   ]},
-  {label:'Fonction Renale',emoji:'&#x1FAD8;',fields:[
-    {id:'creat',name:'Creatinine',unit:'mg/L',ref:'7-13 H'},
+  {label:'🫘 Fonction Rénale',fields:[
+    {id:'creat',name:'Créatinine',unit:'mg/L',ref:'7-13 H'},
     {id:'egfr',name:'eGFR',unit:'mL/min',ref:'> 90'},
-    {id:'uree',name:'Uree',unit:'g/L',ref:'0.15-0.45'},
+    {id:'uree',name:'Urée',unit:'g/L',ref:'0.15-0.45'},
   ]},
-  {label:'Nutrition & Hormones',emoji:'&#x1F9B4;',fields:[
+  {label:'🦴 Nutrition & Hormones',fields:[
     {id:'vitd',name:'Vitamine D',unit:'ng/mL',ref:'30-100'},
     {id:'b12',name:'Vitamine B12',unit:'pg/mL',ref:'200-900'},
     {id:'ferritine',name:'Ferritine',unit:'ng/mL',ref:'30-300 H'},
     {id:'tsh',name:'TSH',unit:'mUI/L',ref:'0.4-4.0'},
   ]},
-  {label:'Lignees Sanguines',emoji:'&#x1F9EC;',fields:[
+  {label:'🧬 Lignées Sanguines',fields:[
     {id:'nfs_gb',name:'Globules blancs',unit:'G/L',ref:'4-10'},
     {id:'nfs_gr',name:'Globules rouges',unit:'T/L',ref:'4.5-5.9'},
-    {id:'nfs_hb',name:'Hemoglobine',unit:'g/dL',ref:'13-18 H'},
+    {id:'nfs_hb',name:'Hémoglobine',unit:'g/dL',ref:'13-18 H'},
     {id:'nfs_plaq',name:'Plaquettes',unit:'G/L',ref:'150-400'},
   ]},
 ];
@@ -621,31 +764,24 @@ function closeBilan(){
 }
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBilan();});
 function renderBlnFields(date){
-  var body=document.getElementById('blnBody');
-  var stored=blnLS();
-  var dayData=(stored[date]&&stored[date].values)||{};
+  var body=document.getElementById('blnBody');if(!body)return;
+  var stored=blnLS();var dayData=(stored[date]&&stored[date].values)||{};
   body.innerHTML='';
   BLN_CATS.forEach(function(cat){
     var catEl=document.createElement('div');catEl.className='bln-cat';
-    var head=document.createElement('div');head.className='bln-cat-head';head.innerHTML=cat.emoji+' '+cat.label;
+    var head=document.createElement('div');head.className='bln-cat-head';head.textContent=cat.label;
     catEl.appendChild(head);
     var grid=document.createElement('div');grid.className='bln-fields';
     cat.fields.forEach(function(f){
       var ex=dayData[f.id]!==undefined?dayData[f.id]:'';
       var row=document.createElement('div');row.className='bln-field';
       row.innerHTML=
-        '<div class="bln-field-info">'+
-          '<div class="bln-field-name">'+f.name+'</div>'+
-          '<div class="bln-field-ref">'+f.ref+'</div>'+
-        '</div>'+
-        '<input type="number" step="any" class="bln-field-input'+(ex!==''?' filled':'')+'" '+
-          'id="bf-'+f.id+'" placeholder="—" value="'+(ex!==''?ex:'')+'" '+
-          'oninput="this.classList.toggle('filled',this.value!=='')"/>'+
+        '<div class="bln-field-info"><div class="bln-field-name">'+f.name+'</div><div class="bln-field-ref">'+f.ref+'</div></div>'+
+        '<input type="number" step="any" class="bln-field-input'+(ex!==''?' filled':'')+'" id="bf-'+f.id+'" placeholder="—" value="'+(ex!==''?ex:'')+'" oninput="this.classList.toggle('filled',this.value!=='')"/>'+
         '<div class="bln-field-unit">'+f.unit+'</div>';
       grid.appendChild(row);
     });
-    catEl.appendChild(grid);
-    body.appendChild(catEl);
+    catEl.appendChild(grid);body.appendChild(catEl);
   });
 }
 function saveBilan(){
@@ -660,56 +796,35 @@ function saveBilan(){
       if(inp&&inp.value!==''){stored[date].values[f.id]=parseFloat(inp.value);count++;}
     });
   });
-  if(count===0){alert('Aucune valeur renseignee.');return;}
-  stored[date].savedAt=new Date().toISOString();
-  blnSaveLS(stored);
+  if(count===0){alert('Aucune valeur renseignée.');return;}
+  stored[date].savedAt=new Date().toISOString();blnSaveLS(stored);
   var liveEl=document.querySelector('.mh-live');
   if(liveEl){var nb=Object.keys(stored).length;liveEl.innerHTML='<span class="mh-live-d"></span>'+nb+' bilan'+(nb>1?'s':'');}
   document.getElementById('blnForm').style.display='none';
-  var sub=count+' valeur'+(count>1?'s':'')+' enregistree'+(count>1?'s':'')+' pour le '+
+  var sub=count+' valeur'+(count>1?'s':'')+' enregistrée'+(count>1?'s':'')+' pour le '+
     new Date(date+'T12:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'})+'.';
   document.getElementById('blnOkSub').textContent=sub;
   document.getElementById('blnOk').classList.add('show');
 }
 function updateBioCardsFromLS(){
-  var stored=blnLS();
-  var dates=Object.keys(stored).sort();
-  if(!dates.length)return;
+  var stored=blnLS();var dates=Object.keys(stored).sort();if(!dates.length)return;
   var series={};
-  dates.forEach(function(d){
-    var vals=stored[d].values||{};
-    Object.keys(vals).forEach(function(mid){
-      if(!series[mid])series[mid]=[];
-      series[mid].push({v:vals[mid]});
-    });
-  });
-  var map={
-    'glycemie':{svgId:'c-gly',color:'#f59e0b',refMin:70,refMax:100},
-    'hba1c':{svgId:'c-hba',color:'#f59e0b',refMin:0,refMax:5.7},
-    'creat':{svgId:'c-crea',color:'#0ea5c9',refMin:7,refMax:13},
-    'asat':{svgId:'c-asat',color:'#f59e0b',refMin:0,refMax:40},
-    'crp':{svgId:'c-crp',color:'#10b981',refMin:0,refMax:3},
-    'ferritine':{svgId:'c-fer',color:'#0ea5c9',refMin:30,refMax:300},
-  };
+  dates.forEach(function(d){Object.keys(stored[d].values||{}).forEach(function(mid){
+    if(!series[mid])series[mid]=[];series[mid].push({v:stored[d].values[mid]});
+  });});
+  var map={glycemie:{svgId:'c-gly',color:'#f59e0b',refMin:70,refMax:100},hba1c:{svgId:'c-hba',color:'#f59e0b',refMin:0,refMax:5.7},
+    creat:{svgId:'c-crea',color:'#0ea5c9',refMin:7,refMax:13},asat:{svgId:'c-asat',color:'#f59e0b',refMin:0,refMax:40},
+    crp:{svgId:'c-crp',color:'#10b981',refMin:0,refMax:3},ferritine:{svgId:'c-fer',color:'#0ea5c9',refMin:30,refMax:300}};
   Object.keys(map).forEach(function(mid){
-    var cfg=map[mid];var pts=series[mid];
-    if(pts&&pts.length)drawLine(cfg.svgId,pts,cfg.color,cfg.refMin,cfg.refMax);
+    var pts=series[mid];if(pts&&pts.length)drawLine(map[mid].svgId,pts,map[mid].color,map[mid].refMin,map[mid].refMax);
   });
-  // Update current value display
   var latest=stored[dates[dates.length-1]].values||{};
-  [['glycemie','c-gly'],['hba1c','c-hba'],['creat','c-crea'],['asat','c-asat'],['crp','c-crp'],['ferritine','c-fer']].forEach(function(pair){
-    if(latest[pair[0]]!==undefined){
-      var svg=document.getElementById(pair[1]);
-      if(svg){var cur=svg.closest('.bio-card').querySelector('.bc-current');if(cur)cur.textContent=latest[pair[0]];}
-    }
-  });
-  // Update bilan count
   var liveEl=document.querySelector('.mh-live');
   if(liveEl){var nb=dates.length;liveEl.innerHTML='<span class="mh-live-d"></span>'+nb+' bilan'+(nb>1?'s':'');}
 }
-(function(){if(Object.keys(blnLS()).length)requestAnimationFrame(function(){setTimeout(updateBioCardsFromLS,300);});})();
+(function(){if(Object.keys(blnLS()).length)requestAnimationFrame(function(){setTimeout(updateBioCardsFromLS,350);});})();
 
-requestAnimationFrame(function(){setTimeout(drawAllCharts,120)});
+requestAnimationFrame(function(){setTimeout(drawAllCharts,120);setTimeout(function(){cqRender(CQ_DAYS);},220);});
 </script>
 
 <div class="ci-overlay" id="ciOv" onclick="closeCI()"></div>
@@ -869,26 +984,26 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.ge
     <div id="blnForm">
       <div class="bln-header">
         <div>
-          <div class="bln-header-title">&#x1F9EA; Saisie bilan biologique</div>
-          <div class="bln-header-sub">Renseignez les valeurs de votre analyse — laissez vide ce que vous n'avez pas</div>
+          <div class="bln-header-title">🧪 Saisie bilan biologique</div>
+          <div class="bln-header-sub">Renseignez les valeurs — laissez vide ce que vous n'avez pas</div>
         </div>
-        <button class="bln-close" onclick="closeBilan()">&#x2715;</button>
+        <button class="bln-close" onclick="closeBilan()">✕</button>
       </div>
       <div class="bln-date-row">
-        <div class="bln-date-label">&#x1F4C5; Date du prélèvement</div>
+        <div class="bln-date-label">📅 Date du prélèvement</div>
         <input type="date" class="bln-date-input" id="blnDate" onchange="renderBlnFields(this.value)"/>
       </div>
       <div class="bln-body" id="blnBody"></div>
       <div class="bln-footer">
         <div class="bln-footer-note">Seules les cases remplies seront enregistrées.<br>Vous pouvez compléter un bilan en plusieurs fois.</div>
-        <button class="bln-save" onclick="saveBilan()">Enregistrer le bilan &#x2192;</button>
+        <button class="bln-save" onclick="saveBilan()">Enregistrer le bilan →</button>
       </div>
     </div>
     <div class="bln-ok" id="blnOk">
-      <div class="bln-ok-ico">&#x2705;</div>
+      <div class="bln-ok-ico">✅</div>
       <div class="bln-ok-title">Bilan enregistré !</div>
       <div class="bln-ok-sub" id="blnOkSub"></div>
-      <button class="bln-ok-btn" onclick="closeBilan();updateBioCardsFromLS();drawAllCharts()">Voir les courbes &#x2192;</button>
+      <button class="bln-ok-btn" onclick="closeBilan();updateBioCardsFromLS();drawAllCharts()">Voir les courbes →</button>
     </div>
   </div>
 </div>
