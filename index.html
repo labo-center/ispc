@@ -2049,47 +2049,66 @@
       id="authModal"
       role="dialog"
       aria-modal="true"
-      aria-label="Gestion du profil"
+      aria-label="Connexion Prévio"
     >
       <div class="modal">
         <div class="modal-close" onclick="closeModal()">✕</div>
 
-        <!-- CREATE PROFILE VIEW -->
+        <!-- INSCRIPTION -->
         <div id="view-signup">
-          <h2>Créer un profil</h2>
-          <p class="subtitle">
-            Vos données restent 100 % locales — rien n'est envoyé à un serveur.
-          </p>
+          <h2>Créer mon compte</h2>
+          <p class="subtitle">Vos données sont chiffrées et sécurisées.</p>
           <div class="form-group">
             <label for="signup-name">Prénom ou pseudo</label>
-            <input
-              type="text"
-              id="signup-name"
-              placeholder="Comment vous appeler ?"
-              autocomplete="given-name"
-              aria-required="true"
-            />
+            <input type="text" id="signup-name" placeholder="Olivier" autocomplete="given-name" aria-required="true"/>
+          </div>
+          <div class="form-group">
+            <label for="signup-email">Email</label>
+            <input type="email" id="signup-email" placeholder="olivier@email.com" autocomplete="email" aria-required="true"/>
+          </div>
+          <div class="form-group">
+            <label for="signup-password">Mot de passe</label>
+            <input type="password" id="signup-password" placeholder="8 caractères minimum" autocomplete="new-password" aria-required="true"/>
           </div>
           <div class="form-err" id="signup-err"></div>
-          <button class="modal-btn" onclick="handleCreateProfile()">
-            Créer mon profil →
+          <button class="modal-btn" id="signup-btn" onclick="handleSignUp()">
+            Créer mon compte →
           </button>
           <div class="modal-switch">
-            Profil existant ?
-            <a onclick="switchView('login')">Charger un profil</a>
+            Déjà un compte ? <a onclick="switchView('login')">Se connecter</a>
           </div>
         </div>
 
-        <!-- LOAD PROFILE VIEW -->
-        <div id="view-login" style="display: none">
-          <h2>Charger un profil</h2>
-          <p class="subtitle">
-            Retrouvez un profil enregistré sur cet appareil.
-          </p>
-          <div id="profiles-list"></div>
+        <!-- CONNEXION -->
+        <div id="view-login" style="display:none">
+          <h2>Se connecter</h2>
+          <p class="subtitle">Retrouvez votre espace personnel.</p>
+          <div class="form-group">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" placeholder="olivier@email.com" autocomplete="email" aria-required="true"/>
+          </div>
+          <div class="form-group">
+            <label for="login-password">Mot de passe</label>
+            <input type="password" id="login-password" placeholder="Votre mot de passe" autocomplete="current-password" aria-required="true"/>
+          </div>
           <div class="form-err" id="login-err"></div>
-          <div class="modal-switch" style="margin-top: 20px">
-            Nouveau ? <a onclick="switchView('signup')">Créer un profil</a>
+          <button class="modal-btn" id="login-btn" onclick="handleSignIn()">
+            Se connecter →
+          </button>
+          <div class="modal-switch">
+            Nouveau ? <a onclick="switchView('signup')">Créer un compte</a>
+          </div>
+        </div>
+
+        <!-- EMAIL DE CONFIRMATION -->
+        <div id="view-confirm" style="display:none">
+          <div style="text-align:center;padding:20px 0">
+            <div style="font-size:52px;margin-bottom:16px">📬</div>
+            <h2 style="margin-bottom:10px">Vérifiez vos emails</h2>
+            <p class="subtitle">Un lien de confirmation a été envoyé à <strong id="confirm-email"></strong>.<br>Cliquez dessus pour activer votre compte.</p>
+            <div style="margin-top:24px;font-size:12px;color:var(--dark-m)">
+              Pas reçu ? <a onclick="resendConfirm()" style="color:var(--c-teal);cursor:pointer">Renvoyer</a>
+            </div>
           </div>
         </div>
       </div>
@@ -2105,230 +2124,135 @@
         document.getElementById("authModal").classList.remove("open");
       }
       function switchView(v) {
-        document.getElementById("view-login").style.display =
-          v === "login" ? "block" : "none";
-        document.getElementById("view-signup").style.display =
-          v === "signup" ? "block" : "none";
-        // Populate profiles list when switching to login
-        if (v === "login") renderProfilesList();
-      }
-      document
-        .getElementById("authModal")
-        .addEventListener("click", function (e) {
-          if (e.target === this) closeModal();
+        ["signup","login","confirm"].forEach(function(id){
+          document.getElementById("view-"+id).style.display = "none";
         });
-      document.addEventListener("keydown", function (e) {
+        document.getElementById("view-"+v).style.display = "block";
+      }
+      document.getElementById("authModal").addEventListener("click", function(e){
+        if (e.target === this) closeModal();
+      });
+      document.addEventListener("keydown", function(e){
         if (e.key === "Escape") closeModal();
       });
 
-      /* ══ LOCAL PROFILE SYSTEM ══ */
-      function getProfiles() {
+      function setLoading(btnId, loading) {
+        var btn = document.getElementById(btnId);
+        if (!btn) return;
+        btn.disabled = loading;
+        btn.style.opacity = loading ? ".6" : "1";
+      }
+      function showErr(id, msg) {
+        var el = document.getElementById(id);
+        el.textContent = msg;
+        el.classList.add("show");
+      }
+      function clearErr(id) {
+        var el = document.getElementById(id);
+        el.textContent = "";
+        el.classList.remove("show");
+      }
+
+      /* ══ SUPABASE AUTH ══ */
+      async function handleSignUp() {
+        clearErr("signup-err");
+        var name  = document.getElementById("signup-name").value.trim();
+        var email = document.getElementById("signup-email").value.trim();
+        var pass  = document.getElementById("signup-password").value;
+
+        if (!name)            return showErr("signup-err","Veuillez entrer votre prénom.");
+        if (!email)           return showErr("signup-err","Veuillez entrer votre email.");
+        if (pass.length < 8)  return showErr("signup-err","Mot de passe : 8 caractères minimum.");
+
+        setLoading("signup-btn", true);
         try {
-          return JSON.parse(localStorage.getItem("previo_profiles") || "[]");
-        } catch (e) {
-          return [];
+          await PrevioAuth.signUp(email, pass, name);
+          document.getElementById("confirm-email").textContent = email;
+          switchView("confirm");
+        } catch(err) {
+          var msg = err.message || "Erreur lors de l'inscription.";
+          if (msg.includes("already registered")) msg = "Cet email est déjà utilisé. Connectez-vous.";
+          showErr("signup-err", msg);
         }
-      }
-      function saveProfiles(profiles) {
-        localStorage.setItem("previo_profiles", JSON.stringify(profiles));
+        setLoading("signup-btn", false);
       }
 
-      function handleCreateProfile() {
-        const name = document.getElementById("signup-name").value.trim();
-        const errEl = document.getElementById("signup-err");
-        errEl.classList.remove("show");
+      async function handleSignIn() {
+        clearErr("login-err");
+        var email = document.getElementById("login-email").value.trim();
+        var pass  = document.getElementById("login-password").value;
 
-        if (!name || name.length < 1) {
-          errEl.textContent = "Veuillez entrer un prénom ou pseudo.";
-          errEl.classList.add("show");
-          return;
-        }
+        if (!email) return showErr("login-err","Veuillez entrer votre email.");
+        if (!pass)  return showErr("login-err","Veuillez entrer votre mot de passe.");
 
-        const profiles = getProfiles();
-        const id = "p_" + Date.now();
-        profiles.push({ id: id, name: name, createdAt: Date.now() });
-        saveProfiles(profiles);
-
-        // Set active session
-        localStorage.setItem(
-          "previo_session",
-          JSON.stringify({ id: id, name: name, loggedAt: Date.now() }),
-        );
-        window.location.href = "app.html";
-      }
-
-      function loadProfile(id) {
-        const profiles = getProfiles();
-        const p = profiles.find(function (pr) {
-          return pr.id === id;
-        });
-        if (!p) {
-          document.getElementById("login-err").textContent =
-            "Profil introuvable.";
-          document.getElementById("login-err").classList.add("show");
-          return;
-        }
-        localStorage.setItem(
-          "previo_session",
-          JSON.stringify({ id: p.id, name: p.name, loggedAt: Date.now() }),
-        );
-        window.location.href = "app.html";
-      }
-
-      function deleteProfile(id, evt) {
-        evt.stopPropagation();
-        if (
-          !confirm(
-            "Supprimer ce profil ? Les données associées ne seront pas effacées automatiquement.",
-          )
-        )
-          return;
-        const profiles = getProfiles().filter(function (p) {
-          return p.id !== id;
-        });
-        saveProfiles(profiles);
-        renderProfilesList();
-      }
-
-      function renderProfilesList() {
-        const container = document.getElementById("profiles-list");
-        const profiles = getProfiles();
-        const errEl = document.getElementById("login-err");
-        errEl.classList.remove("show");
-
-        if (profiles.length === 0) {
-          container.innerHTML = "";
-          var empty = document.createElement("p");
-          empty.style.cssText =
-            "color:var(--dark-m);font-size:13.5px;text-align:center;padding:20px 0;";
-          empty.textContent = "Aucun profil enregistré sur cet appareil.";
-          container.appendChild(empty);
-          return;
-        }
-
-        container.innerHTML = "";
-        profiles.forEach(function (p) {
-          var card = document.createElement("div");
-          card.style.cssText =
-            "display:flex;align-items:center;gap:12px;padding:14px 16px;margin-bottom:8px;background:rgba(255,255,255,.06);border:1px solid var(--dark-b2);border-radius:14px;cursor:pointer;transition:background .15s,border-color .15s;";
-          card.onmouseenter = function () {
-            card.style.background = "rgba(255,255,255,.1)";
-            card.style.borderColor = "rgba(14,165,201,.35)";
-          };
-          card.onmouseleave = function () {
-            card.style.background = "rgba(255,255,255,.06)";
-            card.style.borderColor = "rgba(255,255,255,.13)";
-          };
-          card.onclick = function () {
-            loadProfile(p.id);
-          };
-
-          var avatar = document.createElement("div");
-          avatar.style.cssText =
-            "width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--c-teal),var(--c-violet));display:grid;place-items:center;font-size:15px;font-weight:700;color:#fff;flex-shrink:0;";
-          avatar.textContent = (p.name || "?")[0].toUpperCase();
-
-          var info = document.createElement("div");
-          info.style.cssText = "flex:1;";
-          var nameEl = document.createElement("div");
-          nameEl.style.cssText = "font-weight:700;font-size:14px;color:#fff;";
-          nameEl.textContent = p.name;
-          var dateEl = document.createElement("div");
-          dateEl.style.cssText =
-            "font-size:11px;color:var(--dark-m);margin-top:2px;";
-          dateEl.textContent =
-            "Créé le " + new Date(p.createdAt).toLocaleDateString("fr-FR");
-          info.appendChild(nameEl);
-          info.appendChild(dateEl);
-
-          var delBtn = document.createElement("button");
-          delBtn.style.cssText =
-            "width:28px;height:28px;border-radius:50%;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:var(--c-red);font-size:13px;display:grid;place-items:center;cursor:pointer;transition:background .15s;flex-shrink:0;";
-          delBtn.textContent = "✕";
-          delBtn.title = "Supprimer ce profil";
-          delBtn.onclick = function (evt) {
-            deleteProfile(p.id, evt);
-          };
-
-          card.appendChild(avatar);
-          card.appendChild(info);
-          card.appendChild(delBtn);
-          container.appendChild(card);
-        });
-      }
-
-      /* ══ AUTO-REDIRECT IF SESSION EXISTS + MIGRATION ══ */
-      (function () {
-        // Migration v1.0→v1.1: remove legacy previo_users
+        setLoading("login-btn", true);
         try {
-          var legacyUsers = localStorage.getItem("previo_users");
-          if (legacyUsers) {
-            var users = JSON.parse(legacyUsers);
-            var profiles = [];
-            try {
-              profiles = JSON.parse(
-                localStorage.getItem("previo_profiles") || "[]",
-              );
-            } catch (e) {}
-            if (profiles.length === 0 && Array.isArray(users)) {
-              users.forEach(function (u, i) {
-                profiles.push({
-                  id: "migrated_" + i,
-                  name: u.name || "Profil",
-                  createdAt: Date.now(),
-                });
-              });
-              localStorage.setItem("previo_profiles", JSON.stringify(profiles));
-            }
-            localStorage.removeItem("previo_users");
-          }
-        } catch (e) {}
-        // Ensure session has id
-        try {
-          var s = JSON.parse(localStorage.getItem("previo_session") || "null");
-          if (s && !s.id) {
-            s.id = "migrated_0";
-            localStorage.setItem("previo_session", JSON.stringify(s));
-          }
-        } catch (e) {}
-      })();
-
-      /* ══ SMART NAV — Go to app if session, else open modal ══ */
-      function goToApp() {
-        var session = null;
-        try {
-          session = JSON.parse(
-            localStorage.getItem("previo_session") || "null",
-          );
-        } catch (e) {}
-        if (session && session.name) {
+          await PrevioAuth.signIn(email, pass);
           window.location.href = "app.html";
-        } else {
-          var profiles = getProfiles();
-          if (profiles.length > 0) {
-            openModal("login");
-          } else {
-            openModal("signup");
-          }
+        } catch(err) {
+          var msg = err.message || "Identifiants incorrects.";
+          if (msg.includes("Invalid login")) msg = "Email ou mot de passe incorrect.";
+          if (msg.includes("Email not confirmed")) msg = "Confirmez votre email avant de vous connecter.";
+          showErr("login-err", msg);
         }
+        setLoading("login-btn", false);
       }
+
+      var _lastEmail = "";
+      async function resendConfirm() {
+        var email = document.getElementById("signup-email").value.trim() || _lastEmail;
+        if (!email) return;
+        try {
+          await sb.auth.resend({ type: "signup", email });
+          alert("Email de confirmation renvoyé !");
+        } catch(e) {}
+      }
+
+      // Permettre Entrée pour valider
+      document.addEventListener("keydown", function(e) {
+        if (e.key !== "Enter") return;
+        var su = document.getElementById("view-signup");
+        var li = document.getElementById("view-login");
+        if (su && su.style.display !== "none") handleSignUp();
+        else if (li && li.style.display !== "none") handleSignIn();
+      });
+
+      /* ══ SMART NAV — Go to app if already logged in ══ */
+      async function goToApp() {
+        try {
+          var user = await PrevioAuth.getUser();
+          if (user) {
+            window.location.href = "app.html";
+            return;
+          }
+        } catch(e) {}
+        openModal("signup");
+      }
+
+      /* ══ AUTO-REDIRECT IF SESSION ACTIVE ══ */
+      (async function() {
+        try {
+          var user = await PrevioAuth.getUser();
+          if (user) window.location.href = "app.html";
+        } catch(e) {}
+      })();
 
       /* ══ TAB NAVIGATION ══ */
       function showPage(page) {
-        ["accueil", "profil", "bilan"].forEach(function (p) {
-          document.getElementById("page-" + p).classList.remove("active");
-          var nl = document.getElementById("nl-" + p);
+        ["accueil","profil","bilan"].forEach(function(p){
+          document.getElementById("page-"+p).classList.remove("active");
+          var nl = document.getElementById("nl-"+p);
           if (nl) nl.classList.remove("on");
         });
-        document.getElementById("page-" + page).classList.add("active");
-        var nl = document.getElementById("nl-" + page);
+        document.getElementById("page-"+page).classList.add("active");
+        var nl = document.getElementById("nl-"+page);
         if (nl) nl.classList.add("on");
-        window.scrollTo(0, 0);
+        window.scrollTo(0,0);
       }
 
       function scrollToSection(id) {
         var el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
+        if (el) el.scrollIntoView({behavior:"smooth"});
       }
     </script>
 
@@ -2566,5 +2490,9 @@
       if(e.key==='Escape'&&document.getElementById('ciPan').classList.contains('open'))closeCI();
     });
     </script>
+
+    <!-- ══ SUPABASE ══ -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="previo-supabase.js"></script>
   </body>
 </html>
