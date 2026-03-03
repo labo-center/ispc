@@ -1238,12 +1238,33 @@ body{background:var(--dark-1)}
   .clr-opt.on{border-color:#fff;transform:scale(1.1)}
   .clr-opt.on::after{content:'✓';font-size:16px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.5)}
 
-  .stp{display:flex;align-items:center;justify-content:center;gap:24px;padding:10px 0}
-  .stp-btn{width:56px;height:56px;border-radius:16px;background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b);
-    font-size:26px;font-weight:300;color:var(--dark-t);display:grid;place-items:center;transition:all .15s cubic-bezier(.34,1.56,.64,1)}
-  .stp-btn:active{transform:scale(.88);background:rgba(14,165,201,.15);border-color:rgba(14,165,201,.4)}
-  .stp-v{font-family:var(--ffd);font-size:42px;font-weight:700;color:#fff;min-width:80px;text-align:center}
-  .stp-u{font-size:12px;font-weight:600;color:var(--dark-m);text-align:center;margin-top:2px}
+  /* ── Rotary dial stepper ── */
+  .rdial-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;padding:8px 0}
+  .rdial-display{display:flex;align-items:baseline;gap:6px;justify-content:center}
+  .rdial-v{font-family:var(--ffd);font-size:52px;font-weight:700;color:#fff;min-width:100px;text-align:center;line-height:1}
+  .rdial-u{font-size:14px;font-weight:600;color:var(--dark-m)}
+  .rdial-canvas-wrap{position:relative;width:200px;height:200px;cursor:grab;user-select:none;touch-action:none}
+  .rdial-canvas-wrap:active{cursor:grabbing}
+  .rdial-svg{width:200px;height:200px;display:block}
+  .rdial-fine{display:flex;align-items:center;gap:12px;margin-top:4px}
+  .rdial-fine-btn{width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b);
+    font-size:22px;font-weight:300;color:var(--dark-t);display:grid;place-items:center;transition:all .15s cubic-bezier(.34,1.56,.64,1)}
+  .rdial-fine-btn:active{transform:scale(.88);background:rgba(14,165,201,.15);border-color:rgba(14,165,201,.4)}
+  .rdial-fine-label{font-size:11px;font-weight:600;color:var(--dark-m);text-align:center;min-width:40px}
+
+  /* ── Repas double ── */
+  .repas-wrap{display:flex;flex-direction:column;gap:14px}
+  .repas-meal{background:rgba(255,255,255,.03);border:1px solid var(--dark-b);border-radius:18px;padding:14px 16px}
+  .repas-meal-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--dark-m);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .repas-opts{display:flex;gap:8px}
+  .repas-opt{flex:1;padding:12px 8px;border-radius:14px;background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
+    text-align:center;cursor:pointer;transition:all .2s cubic-bezier(.34,1.56,.64,1)}
+  .repas-opt:active{transform:scale(.94)}
+  .repas-opt .ro-i{font-size:22px;display:block;margin-bottom:4px}
+  .repas-opt .ro-t{font-size:11px;font-weight:700;color:var(--dark-m);transition:color .2s}
+  .repas-opt.on{border-color:rgba(14,165,201,.5);background:rgba(14,165,201,.1)}
+  .repas-opt.on .ro-t{color:#fff}
+
 
   .gau{padding:8px 0}
   .gau-v{font-family:var(--ffd);font-size:28px;font-weight:700;color:#fff;text-align:center;margin-bottom:2px;transition:color .3s}
@@ -3263,19 +3284,25 @@ function renderPlan(){
     <script>
     /* ══ CHECK-IN ENGINE ══ */
     var CI_SIGS=[
-      {id:'poids',icon:'⚖️',name:'Poids',type:'stepper',unit:'kg',min:30,max:200,step:0.1,dec:1,def:70},
-      {id:'tour',icon:'📏',name:'Tour de taille',type:'stepper',unit:'cm',min:50,max:150,step:0.5,dec:1,def:85},
+      {id:'poids',icon:'⚖️',name:'Poids',type:'dial',unit:'kg',min:30,max:200,step:0.1,dec:1,def:70},
+      {id:'tour',icon:'📏',name:'Tour de taille',type:'dial',unit:'cm',min:50,max:150,step:0.5,dec:1,def:85},
       {id:'urines',icon:'💧',name:'Urines',type:'color',hint:"Indicateur d'hydratation"},
       {id:'sommeil',icon:'🌙',name:'Qualité sommeil',type:'emoji5',
         faces:['😵','😕','😐','😌','😴'],labels:['Terrible','Mauvais','Moyen','Bon','Excellent']},
+      {id:'fatigue',icon:'😴',name:'Fatigue',type:'emoji5',
+        faces:['🔋','🟡','😐','😪','💀'],labels:['Top forme','Correct','Moyen','Fatigué','Épuisé']},
       {id:'stress',icon:'😰',name:'Stress',type:'gauge',min:0,max:10,def:0,
         lvl:[{m:0,l:'Zen',c:'var(--c-green)'},{m:2,l:'Calme',c:'var(--c-green)'},{m:4,l:'Léger',c:'var(--c-teal)'},
              {m:6,l:'Modéré',c:'var(--c-amber)'},{m:8,l:'Élevé',c:'var(--c-amber-d)'},{m:10,l:'Intense',c:'var(--c-red)'}],
         eL:'🧘 Zen',eR:'Intense 🔥'},
-      {id:'digestion',icon:'🫃',name:'Digestion',type:'quick',
+      {id:'digestion',icon:'🌿',name:'Digestion',type:'quick',
         opts:[{v:'normal',i:'✅',t:'Normal'},{v:'ballonne',i:'🎈',t:'Ballonné'},{v:'douleurs',i:'😣',t:'Douleurs'},{v:'nausee',i:'🤢',t:'Nausée'}]},
       {id:'jeune',icon:'⏱️',name:'Jeûne',type:'yn',yTxt:"Oui, j'ai jeûné",nTxt:'Non'},
-      {id:'repas',icon:'🍽️',name:'Repas riche',type:'yn',yTxt:'Oui, repas riche',nTxt:'Non, repas léger'},
+      {id:'repas',icon:'🍽️',name:'Repas',type:'repas'},
+      {id:'ecran',icon:'📱',name:'Temps d\'écran',type:'gauge',min:0,max:12,def:2,
+        lvl:[{m:2,l:'Minimal',c:'var(--c-green)'},{m:4,l:'Modéré',c:'var(--c-green)'},{m:6,l:'Élevé',c:'var(--c-teal)'},
+             {m:8,l:'Excessif',c:'var(--c-amber)'},{m:10,l:'Très excessif',c:'var(--c-amber-d)'},{m:12,l:'Addiction',c:'var(--c-red)'}],
+        eL:'0h',eR:'12h+'},
       {id:'activite',icon:'🏃',name:'Activité physique',type:'pills',hint:'Sélectionnez une ou plusieurs',
         opts:[{v:'marche',t:'🚶 Marche'},{v:'running',t:'🏃 Running'},{v:'rameur',t:'🚣 Rameur'},
               {v:'paddle',t:'🏄 Paddle'},{v:'velo',t:'🚴 Vélo'},{v:'muscu',t:'💪 Muscu'},
@@ -3357,12 +3384,47 @@ function renderPlan(){
           h+='<div class="gau-ends"><span class="gau-end">'+s.eL+'</span><span class="gau-end">'+s.eR+'</span></div></div>';
           h+='<button class="ci-confirm" onclick="ciCfmGau(\''+id+'\')">Valider →</button>';
           break;
-        case 'stepper':
-          var sv=cv!==undefined?cv:s.def;ciT._sv=sv;
-          h+='<div class="stp"><button class="stp-btn" onclick="ciStp(\''+id+'\',-1)">−</button>';
-          h+='<div><div class="stp-v" id="stV">'+sv.toFixed(s.dec)+'</div><div class="stp-u">'+s.unit+'</div></div>';
-          h+='<button class="stp-btn" onclick="ciStp(\''+id+'\',1)">+</button></div>';
-          h+='<button class="ci-confirm" onclick="ciCfmStp(\''+id+'\')">Valider →</button>';
+        case 'dial':
+          var dv=cv!==undefined?cv:s.def;ciT._sv=dv;
+          h+='<div class="rdial-wrap">';
+          h+='<div class="rdial-display"><div class="rdial-v" id="stV">'+dv.toFixed(s.dec)+'</div><div class="rdial-u">'+s.unit+'</div></div>';
+          h+='<div class="rdial-canvas-wrap" id="dialWrap_'+id+'">';
+          h+='<svg class="rdial-svg" viewBox="0 0 200 200" id="dialSvg_'+id+'">';
+          h+='<defs><linearGradient id="dialGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--c-teal)"/><stop offset="100%" stop-color="var(--c-violet)"/></linearGradient></defs>';
+          h+='<circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="16"/>';
+          h+='<circle cx="100" cy="100" r="80" fill="none" stroke="url(#dialGrad)" stroke-width="16" stroke-linecap="round" stroke-dasharray="502" stroke-dashoffset="502" id="dialArc_'+id+'" style="transform:rotate(-90deg);transform-origin:100px 100px;transition:stroke-dashoffset .1s"/>';
+          h+='<circle cx="100" cy="100" r="54" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+          h+='<text x="100" y="93" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="11" font-family="inherit" font-weight="700" letter-spacing="1">GLISSER</text>';
+          h+='<text x="100" y="112" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="10" font-family="inherit">↕ pour ajuster</text>';
+          h+='</svg></div>';
+          h+='<div class="rdial-fine">';
+          h+='<button class="rdial-fine-btn" onclick="ciDialFine(\''+id+'\',-1)">−</button>';
+          h+='<span class="rdial-fine-label">Précision ±'+s.step+' '+s.unit+'</span>';
+          h+='<button class="rdial-fine-btn" onclick="ciDialFine(\''+id+'\',1)">+</button>';
+          h+='</div></div>';
+          h+='<button class="ci-confirm" onclick="ciCfmDial(\''+id+'\')">Valider →</button>';
+          break;
+        case 'repas':
+          var rv=cv||{};
+          h+='<div class="repas-wrap">';
+          // Déjeuner
+          h+='<div class="repas-meal">';
+          h+='<div class="repas-meal-title">☀️ Déjeuner</div>';
+          h+='<div class="repas-opts">';
+          h+='<div class="repas-opt'+(rv.dej==='riche'?' on':'')+'" onclick="ciPRepas(this,\'dej\',\'riche\')"><span class="ro-i">🍖</span><span class="ro-t">Riche</span></div>';
+          h+='<div class="repas-opt'+(rv.dej==='normal'?' on':'')+'" onclick="ciPRepas(this,\'dej\',\'normal\')"><span class="ro-i">🥗</span><span class="ro-t">Normal</span></div>';
+          h+='<div class="repas-opt'+(rv.dej==='saute'?' on':'')+'" onclick="ciPRepas(this,\'dej\',\'saute\')"><span class="ro-i">⏭️</span><span class="ro-t">Sauté</span></div>';
+          h+='</div></div>';
+          // Dîner
+          h+='<div class="repas-meal">';
+          h+='<div class="repas-meal-title">🌙 Dîner</div>';
+          h+='<div class="repas-opts">';
+          h+='<div class="repas-opt'+(rv.din==='riche'?' on':'')+'" onclick="ciPRepas(this,\'din\',\'riche\')"><span class="ro-i">🍖</span><span class="ro-t">Riche</span></div>';
+          h+='<div class="repas-opt'+(rv.din==='normal'?' on':'')+'" onclick="ciPRepas(this,\'din\',\'normal\')"><span class="ro-i">🥗</span><span class="ro-t">Normal</span></div>';
+          h+='<div class="repas-opt'+(rv.din==='saute'?' on':'')+'" onclick="ciPRepas(this,\'din\',\'saute\')"><span class="ro-i">⏭️</span><span class="ro-t">Sauté</span></div>';
+          h+='</div></div>';
+          h+='</div>';
+          h+='<button class="ci-confirm" id="cfm" onclick="ciCfmRepas()" '+(rv.dej||rv.din?'':'disabled')+'>Valider →</button>';
           break;
         case 'color':
           var cls=[{bg:'#f5f0d0',l:'Transparent'},{bg:'#f0e68c',l:'Jaune clair'},{bg:'#daa520',l:'Jaune'},
@@ -3396,7 +3458,12 @@ function renderPlan(){
           h+='<button class="ci-confirm" id="cfm" onclick="ciCfmPll(\''+id+'\')" '+(ca.length?'':'disabled')+'>Valider →</button>';
           break;
       }
-      c.innerHTML=h;ciShowV('input');document.getElementById('ciBd').scrollTop=0}
+      c.innerHTML=h;ciShowV('input');document.getElementById('ciBd').scrollTop=0;
+      // Init dial if needed
+      if(s.type==='dial') setTimeout(function(){ciDialInit(id);},0);
+      // Init repas temp state
+      if(s.type==='repas'){ciT._repas=cv?JSON.parse(JSON.stringify(cv)):{};}
+    }
 
     function ciVib(){if(navigator.vibrate)navigator.vibrate(12)}
     function ciEnCfm(){var b=document.getElementById('cfm');if(b)b.disabled=false}
@@ -3407,12 +3474,79 @@ function renderPlan(){
       document.getElementById('gV').textContent=v;document.getElementById('gV').style.color=i.c;
       document.getElementById('gL').textContent=i.l;document.getElementById('gL').style.color=i.c;ciT[id]=v}
     function ciCfmGau(id){var v=parseInt(document.getElementById('gR').value);ciSaveSig(id,v);ciShowOk(id)}
-    function ciStp(id,dir){var s=CI_SIGS.find(function(x){return x.id===id});
+
+    /* ── Rotary dial ── */
+    function ciDialInit(id){
+      var s=CI_SIGS.find(function(x){return x.id===id});
+      var wrap=document.getElementById('dialWrap_'+id);if(!wrap)return;
+      var startY=null,startV=null,range=s.max-s.min;
+      function updDial(v){
+        ciT._sv=v;
+        document.getElementById('stV').textContent=v.toFixed(s.dec);
+        var arc=document.getElementById('dialArc_'+id);if(!arc)return;
+        var pct=(v-s.min)/range;
+        arc.style.strokeDashoffset=(502-(502*Math.min(pct,1))).toFixed(1);
+        ciVib();
+      }
+      function onStart(e){
+        e.preventDefault();
+        startY=(e.touches?e.touches[0].clientY:e.clientY);
+        startV=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);
+      }
+      function onMove(e){
+        if(startY===null)return;e.preventDefault();
+        var cy=(e.touches?e.touches[0].clientY:e.clientY);
+        var dy=startY-cy; // drag up = increase
+        var sensitivity=range/200; // 200px = full range
+        var nv=startV+dy*sensitivity;
+        nv=Math.max(s.min,Math.min(s.max,nv));
+        nv=Math.round(nv/s.step)*s.step;
+        nv=Math.round(nv*100)/100;
+        updDial(nv);
+      }
+      function onEnd(){startY=null;}
+      wrap.addEventListener('mousedown',onStart);
+      wrap.addEventListener('mousemove',onMove);
+      wrap.addEventListener('mouseup',onEnd);
+      wrap.addEventListener('mouseleave',onEnd);
+      wrap.addEventListener('touchstart',onStart,{passive:false});
+      wrap.addEventListener('touchmove',onMove,{passive:false});
+      wrap.addEventListener('touchend',onEnd);
+      // Init arc
+      var iv=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);
+      var arc=document.getElementById('dialArc_'+id);
+      if(arc){var pct=(iv-s.min)/range;arc.style.strokeDashoffset=(502-(502*Math.min(pct,1))).toFixed(1);}
+    }
+    function ciDialFine(id,dir){
+      var s=CI_SIGS.find(function(x){return x.id===id});
       var cur=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);
       cur+=dir*s.step;cur=Math.max(s.min,Math.min(s.max,cur));cur=Math.round(cur*100)/100;
-      ciT._sv=cur;document.getElementById('stV').textContent=cur.toFixed(s.dec);ciVib()}
-    function ciCfmStp(id){var s=CI_SIGS.find(function(x){return x.id===id});
-      var v=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);ciSaveSig(id,v);ciShowOk(id)}
+      ciT._sv=cur;
+      document.getElementById('stV').textContent=cur.toFixed(s.dec);
+      var arc=document.getElementById('dialArc_'+id);
+      if(arc){var range=s.max-s.min,pct=(cur-s.min)/range;arc.style.strokeDashoffset=(502-(502*Math.min(pct,1))).toFixed(1);}
+      ciVib();
+    }
+    function ciCfmDial(id){
+      var s=CI_SIGS.find(function(x){return x.id===id});
+      var v=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);
+      ciSaveSig(id,v);ciShowOk(id);
+    }
+
+    /* ── Repas ── */
+    function ciPRepas(el,meal,val){
+      el.parentElement.querySelectorAll('.repas-opt').forEach(function(o){o.classList.remove('on')});
+      el.classList.add('on');
+      if(!ciT._repas)ciT._repas={};
+      ciT._repas[meal]=val;
+      var b=document.getElementById('cfm');if(b)b.disabled=false;
+      ciVib();
+    }
+    function ciCfmRepas(){
+      var v=ciT._repas||{};
+      ciSaveSig('repas',v);ciShowOk('repas');
+    }
+
     function ciPClr(el,id){el.parentElement.querySelectorAll('.clr-opt').forEach(function(o){o.classList.remove('on')});
       el.classList.add('on');ciT[id]=parseInt(el.dataset.v);ciEnCfm();ciVib()}
     function ciCfmClr(id){if(ciT[id]){ciSaveSig(id,ciT[id]);ciShowOk(id)}}
