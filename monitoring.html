@@ -331,6 +331,36 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .ci-ok-streak{display:inline-flex;align-items:center;gap:7px;padding:8px 20px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--dark-b);font-size:12px;font-weight:700;color:var(--c-teal);margin-bottom:24px}
 .ci-ok-btn{padding:14px 28px;border-radius:14px;font-size:13px;font-weight:700;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;box-shadow:0 6px 24px rgba(14,116,144,.35);transition:transform .2s;cursor:pointer}
 .ci-ok-btn:active{transform:scale(.95)}
+
+/* ══ SECTION SUIVI QUOTIDIEN ══ */
+.cq-section{margin-top:28px}
+.cq-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:12px;flex-wrap:wrap}
+.cq-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.02em}
+.cq-sub{font-size:12px;color:var(--dark-m);margin-top:3px}
+.cq-filters{display:flex;gap:6px}
+.cq-empty{text-align:center;padding:44px 20px;background:rgba(255,255,255,.025);border:1px dashed rgba(255,255,255,.1);border-radius:20px}
+.cq-empty-ico{font-size:36px;margin-bottom:10px}
+.cq-empty-t{font-size:14px;font-weight:600;color:var(--dark-t);margin-bottom:4px}
+.cq-empty-s{font-size:12px;color:var(--dark-m)}
+.cq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+@media(max-width:700px){.cq-grid{grid-template-columns:1fr}}
+.cq-card{background:var(--dark-3);border:1px solid var(--dark-b);border-radius:20px;padding:18px 20px;overflow:hidden;transition:border-color .2s}
+.cq-card:hover{border-color:rgba(14,165,201,.25)}
+.cq-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.cq-card-title{font-size:13px;font-weight:600;color:var(--dark-t)}
+.cq-card-ico{font-size:16px}
+.cq-card-vals{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+.cq-card-current{font-family:var(--ffd);font-size:28px;font-weight:700;color:#fff;line-height:1}
+.cq-card-unit{font-size:12px;color:var(--dark-m);font-weight:600}
+.cq-trend{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px}
+.cq-trend-up{color:#f59e0b;background:rgba(245,158,11,.1)}
+.cq-trend-down{color:#10b981;background:rgba(16,185,129,.1)}
+.cq-trend-stable{color:var(--dark-m);background:rgba(255,255,255,.06)}
+.cq-card-chart{margin-top:10px}
+.cq-card-foot{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
+.cq-dp{font-size:11px;color:var(--dark-m)}
+.cq-dp strong{color:var(--dark-t)}
+.cq-no-data{font-size:12px;color:var(--dark-m);font-style:italic;padding:8px 0}
 </style>
 
 </head>
@@ -421,6 +451,27 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     <div class="bio-card"><div class="bc-head"><div class="bc-title">CRP</div><div class="bc-unit">mg/L</div></div><div class="bc-vals"><div class="bc-current" style="color:var(--c-amber-d)">2.1</div><div class="bc-trend down">↓ -0.4</div></div><div class="bc-ref">Optimal < 1.0 · Normal < 3.0</div><div class="bc-chart"><svg id="c-crp" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 2.5</div><div class="bc-dp"><strong>06/02</strong> 2.1</div></div></div>
 
     <div class="bio-card"><div class="bc-head"><div class="bc-title">Ferritine</div><div class="bc-unit">ng/mL</div></div><div class="bc-vals"><div class="bc-current">86</div><div class="bc-trend stable">→ stable</div></div><div class="bc-ref">Réf homme : 30–300</div><div class="bc-chart"><svg id="c-fer" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 84</div><div class="bc-dp"><strong>06/02</strong> 86</div></div></div>
+  </div>
+
+  <!-- ══ SUIVI QUOTIDIEN ══ -->
+  <div class="cq-section fu d3" id="cqSection">
+    <div class="cq-head">
+      <div>
+        <div class="cq-title">📅 Suivi quotidien</div>
+        <div class="cq-sub">Évolution des signaux enregistrés via le check-in matinal</div>
+      </div>
+      <div class="cq-filters">
+        <button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button>
+        <button class="tf-btn" onclick="switchCqTf(this,30)">30j</button>
+        <button class="tf-btn" onclick="switchCqTf(this,90)">90j</button>
+      </div>
+    </div>
+    <div class="cq-empty" id="cqEmpty" style="display:none">
+      <div class="cq-empty-ico">📋</div>
+      <div class="cq-empty-t">Aucune donnée de check-in</div>
+      <div class="cq-empty-s">Commencez votre suivi quotidien via le bouton Check-in</div>
+    </div>
+    <div class="cq-grid" id="cqGrid"></div>
   </div>
 
   <!-- Comparison table -->
@@ -517,7 +568,173 @@ try{
   }
 }catch(e){}
 
-requestAnimationFrame(function(){setTimeout(drawAllCharts,120)});
+
+/* ══ SUIVI QUOTIDIEN — moteur ══ */
+var CQ_DAYS = 30;
+
+var CQ_SIGS = [
+  {id:'poids',       label:'Poids',           ico:'⚖️',  unit:'kg',    color:'#0ea5c9', type:'num'},
+  {id:'tour_taille', label:'Tour de taille',  ico:'📏',  unit:'cm',    color:'#7c3aed', type:'num'},
+  {id:'sommeil',     label:'Qualité sommeil', ico:'🌙',  unit:'/5',    color:'#7c3aed', type:'emo5',
+   map:['Terrible','Mauvais','Moyen','Bon','Excellent']},
+  {id:'stress',      label:'Stress',          ico:'😰',  unit:'/5',    color:'#f59e0b', type:'emo5',
+   map:['Zen','Calme','Moyen','Tendu','Surchargé']},
+  {id:'fatigue',     label:'Fatigue',         ico:'🔋',  unit:'/5',    color:'#ef4444', type:'emo5',
+   map:['Top forme','Bien','Normal','Fatigué','Épuisé']},
+  {id:'ecran',       label:"Temps d'écran",   ico:'📱',  unit:'h',     color:'#f59e0b', type:'num'},
+  {id:'humeur',      label:'Humeur',          ico:'😊',  unit:'/5',    color:'#10b981', type:'emo5',
+   map:['Terrible','Triste','Neutre','Bien','Super']},
+  {id:'activite',    label:'Activité physique',ico:'🏃', unit:'',      color:'#10b981', type:'qk',
+   map:{leger:'Léger',modere:'Modéré',intense:'Intense',repos:'Repos'}},
+];
+
+function ciGetHistory() {
+  try { return JSON.parse(localStorage.getItem('previo_checkins') || '{}'); } catch(e) { return {}; }
+}
+
+function cqGetDates(days) {
+  var dates = [];
+  var h = ciGetHistory();
+  var cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  Object.keys(h).sort().forEach(function(d) {
+    if (new Date(d) >= cutoff) dates.push(d);
+  });
+  return dates;
+}
+
+function cqGetSeries(sigId, days) {
+  var h = ciGetHistory();
+  var cutoff = new Date(); cutoff.setDate(cutoff.getDate() - days);
+  var pts = [];
+  Object.keys(h).sort().forEach(function(d) {
+    if (new Date(d) < cutoff) return;
+    var val = h[d] && h[d].s && h[d].s[sigId];
+    if (val === undefined || val === null) return;
+    var num = null;
+    if (typeof val === 'number') { num = val; }
+    else if (typeof val === 'string') {
+      var maps = {'terrible':1,'mauvais':1,'bad':1,'zen':1,'top':1,
+                  'calme':2,'bien':2,'good':2,'moyen':3,'normal':3,'neutre':3,
+                  'tendu':4,'fatigué':4,'triste':4,'surcharge':5,'epuise':5,'super':5,
+                  'excellent':5,'leger':1,'léger':1,'modere':2,'modéré':2,'intense':3,'repos':0};
+      num = parseInt(val) || maps[val.toLowerCase()] || null;
+    }
+    if (num !== null) pts.push({ date: d, v: num, raw: val });
+  });
+  return pts;
+}
+
+function cqFmt(date) {
+  var d = new Date(date);
+  return (d.getDate()) + '/' + (d.getMonth()+1);
+}
+
+function cqTrend(pts) {
+  if (pts.length < 2) return null;
+  var last = pts[pts.length-1].v, prev = pts[pts.length-2].v;
+  var diff = +(last - prev).toFixed(1);
+  if (diff > 0) return {cls:'cq-trend-up', txt:'↑ +'+diff};
+  if (diff < 0) return {cls:'cq-trend-down', txt:'↓ '+diff};
+  return {cls:'cq-trend-stable', txt:'→ stable'};
+}
+
+function cqDrawLine(svgEl, pts, color) {
+  var W=400, H=70, pt=10, pb=6;
+  if (!pts.length) { svgEl.innerHTML=''; return; }
+  var vals = pts.map(function(p){return p.v});
+  var mn = Math.min.apply(null,vals) * 0.92;
+  var mx = Math.max.apply(null,vals) * 1.08;
+  if (mx === mn) { mx += 1; mn -= 1; }
+  function xS(i){ return i*(W/Math.max(pts.length-1,1)); }
+  function yS(v){ return pt+(1-(v-mn)/(mx-mn))*(H-pt-pb); }
+  var h='';
+  if (pts.length > 1) {
+    var ap='M '+pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1)}).join(' L ')
+      +' L '+xS(pts.length-1).toFixed(1)+','+(H-pb)+' L '+xS(0).toFixed(1)+','+(H-pb)+' Z';
+    h+='<path d="'+ap+'" fill="'+color+'" fill-opacity=".10"/>';
+    var lp='M '+pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1)}).join(' L ');
+    h+='<path d="'+lp+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
+  }
+  pts.forEach(function(p,i){
+    var cx=xS(i).toFixed(1), cy=yS(p.v).toFixed(1);
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="'+color+'" stroke="'+color+'" stroke-width="1.5" stroke-opacity=".4"/>';
+    h+='<text x="'+cx+'" y="'+(parseFloat(cy)-8).toFixed(1)+'" text-anchor="middle" fill="'+color+'" font-size="9.5" font-weight="700" font-family="DM Sans,sans-serif">'+p.v+'</text>';
+  });
+  svgEl.setAttribute('viewBox','0 0 '+W+' '+H);
+  svgEl.setAttribute('preserveAspectRatio','none');
+  svgEl.innerHTML=h;
+}
+
+function cqRenderCard(sig, pts) {
+  var last = pts.length ? pts[pts.length-1] : null;
+  var trend = cqTrend(pts);
+  var trendHtml = trend ? '<span class="cq-trend '+trend.cls+'">'+trend.txt+'</span>' : '';
+  var currentVal = last ? last.v : '—';
+  var svgId = 'cq-svg-'+sig.id;
+
+  // Last few data points footer
+  var footPts = pts.slice(-3);
+  var footHtml = footPts.length
+    ? footPts.map(function(p){ return '<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(sig.unit||'')+'</div>'; }).join('')
+    : '<div class="cq-no-data">Pas encore de données</div>';
+
+  var card = document.createElement('div');
+  card.className = 'cq-card';
+  card.innerHTML =
+    '<div class="cq-card-head"><div class="cq-card-title">'+sig.label+'</div><div class="cq-card-ico">'+sig.ico+'</div></div>'+
+    '<div class="cq-card-vals">'+
+      '<div class="cq-card-current" style="color:'+sig.color+'">'+currentVal+'</div>'+
+      '<div class="cq-card-unit">'+sig.unit+'</div>'+
+      trendHtml+
+    '</div>'+
+    '<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>'+
+    '<div class="cq-card-foot">'+footHtml+'</div>';
+
+  return card;
+}
+
+function cqRender(days) {
+  var grid = document.getElementById('cqGrid');
+  var empty = document.getElementById('cqEmpty');
+  if (!grid) return;
+  grid.innerHTML = '';
+  var hasAny = false;
+  var cards = [];
+
+  CQ_SIGS.forEach(function(sig) {
+    var pts = cqGetSeries(sig.id, days);
+    if (pts.length > 0) {
+      hasAny = true;
+      cards.push({sig:sig, pts:pts});
+    }
+  });
+
+  if (!hasAny) {
+    if (empty) empty.style.display = 'block';
+    return;
+  }
+  if (empty) empty.style.display = 'none';
+
+  cards.forEach(function(c) {
+    var card = cqRenderCard(c.sig, c.pts);
+    grid.appendChild(card);
+    // Draw chart after DOM insertion
+    requestAnimationFrame(function(){
+      var svg = document.getElementById('cq-svg-'+c.sig.id);
+      if (svg) cqDrawLine(svg, c.pts, c.sig.color);
+    });
+  });
+}
+
+function switchCqTf(btn, days) {
+  document.querySelectorAll('.cq-filters .tf-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  CQ_DAYS = days;
+  cqRender(days);
+}
+
+requestAnimationFrame(function(){setTimeout(drawAllCharts,120);setTimeout(function(){cqRender(CQ_DAYS);},200);});
 </script>
 
 <div class="ci-overlay" id="ciOv" onclick="closeCI()"></div>
