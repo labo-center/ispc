@@ -2068,20 +2068,32 @@ body{background:var(--dark-1)}
     }
   }catch(e){}
 
-  // Migration: ensure session has an id field
+  // ── Supabase Auth guard ──
   var session=null;
   try{ session=JSON.parse(localStorage.getItem('previo_session')||'null'); }catch(e){}
-  if(session && !session.id){
-    session.id='migrated_0';
-    localStorage.setItem('previo_session',JSON.stringify(session));
-  }
-
-  if(!session){window.location.href='index.html';return;}
-  // Set user info in nav
   const avatar = document.getElementById('nav-avatar');
-  const uname = document.getElementById('nav-username');
-  if(avatar) avatar.textContent = (session.name||'U')[0].toUpperCase();
-  if(uname) uname.textContent = session.name||'Mon espace';
+  const uname  = document.getElementById('nav-username');
+  // Affiche le nom en cache immédiatement (évite le flash)
+  if(session && session.name){
+    if(avatar) avatar.textContent = session.name[0].toUpperCase();
+    if(uname)  uname.textContent  = session.name;
+  }
+  // Vérification async Supabase — redirige si vraiment non connecté
+  (async function(){
+    try{
+      var attempts=0;
+      while(!window.PrevioAuth && attempts<30){ await new Promise(r=>setTimeout(r,100)); attempts++; }
+      if(!window.PrevioAuth){ if(!session) window.location.href='index.html'; return; }
+      var user = await PrevioAuth.getUser();
+      if(!user){ window.location.href='index.html'; return; }
+      var profile = await PrevioAuth.getProfile(user.id);
+      var name = (profile && profile.name) ? profile.name : (user.email||'Utilisateur');
+      if(avatar) avatar.textContent = name[0].toUpperCase();
+      if(uname)  uname.textContent  = name;
+      localStorage.setItem('previo_session', JSON.stringify({id:user.id, name:name, email:user.email}));
+    }catch(e){ console.warn('Auth check:', e); }
+  })();
+
   // Preload guide iframe in background after page settles
   setTimeout(function(){
     var gf=document.getElementById('guide-iframe');
@@ -2535,8 +2547,12 @@ function clearAllData(){
 }
 
 function switchProfile(){
-  localStorage.removeItem('previo_session');
-  window.location.href='index.html';
+  if(window.PrevioAuth){
+    PrevioAuth.signOut().catch(function(){ window.location.href='index.html'; });
+  } else {
+    localStorage.removeItem('previo_session');
+    window.location.href='index.html';
+  }
 }
 
 /* ═══════════════════════════════════════
@@ -3322,7 +3338,10 @@ function renderPlan(){
     function ciSaveSig(id,v){
       ciTd[id]=v;var h=ciGH(),k=ciDk(new Date());
       if(!h[k])h[k]={d:k,ts:new Date().toISOString(),s:{}};
-      h[k].s[id]=v;h[k].ts=new Date().toISOString();ciSH(h);ciRenderMenu();ciUpdNav()}
+      h[k].s[id]=v;h[k].ts=new Date().toISOString();ciSH(h);
+      // Sync Supabase en arrière-plan
+      if(window.PrevioCheckin) PrevioCheckin.save(id,v).catch(function(e){console.warn('CI sync:',e)});
+      ciRenderMenu();ciUpdNav()}
     function ciStreak(){var h=ciGH(),s=0,d=new Date();if(!h[ciDk(d)])return 0;s=1;
       for(var i=1;i<365;i++){d.setDate(d.getDate()-1);if(h[ciDk(d)])s++;else break}return s}
     function ciGetLvl(lvls,v){for(var i=0;i<lvls.length;i++){if(v<=lvls[i].m)return lvls[i]}return lvls[lvls.length-1]}
@@ -3573,5 +3592,8 @@ function renderPlan(){
       if(e.key==='Escape'&&document.getElementById('ciPan').classList.contains('open'))closeCI();
     });
     </script>
+    <!-- ══ SUPABASE ══ -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="previo-supabase.js"></script>
 </body>
 </html>
