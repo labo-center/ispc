@@ -339,15 +339,14 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .cq-sub{font-size:12px;color:rgba(255,255,255,.45);margin-top:3px}
 .cq-filters{display:flex;gap:6px}
 .cq-empty{text-align:center;padding:44px 20px;background:rgba(255,255,255,.025);border:1px dashed rgba(255,255,255,.1);border-radius:20px}
-.cq-empty-ico{font-size:36px;margin-bottom:10px}
 .cq-empty-t{font-size:14px;font-weight:600;color:rgba(255,255,255,.88);margin-bottom:4px}
 .cq-empty-s{font-size:12px;color:rgba(255,255,255,.45)}
 .cq-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 @media(max-width:700px){.cq-grid{grid-template-columns:1fr}}
-.cq-card{background:#141c35;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px 20px;overflow:hidden}
+.cq-card{background:#141c35;border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:18px 20px}
 .cq-card-title{font-size:13px;font-weight:600;color:rgba(255,255,255,.88);margin-bottom:4px}
 .cq-card-vals{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
-.cq-card-current{font-family:var(--ffd);font-size:28px;font-weight:700;color:#fff;line-height:1}
+.cq-card-current{font-family:var(--ffd);font-size:28px;font-weight:700;line-height:1}
 .cq-card-unit{font-size:12px;color:rgba(255,255,255,.45);font-weight:600}
 .cq-trend{font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px}
 .cq-trend-up{color:#f59e0b;background:rgba(245,158,11,.1)}
@@ -480,19 +479,24 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
   </div>
 
   <!-- Biomarker cards -->
-  <div class="bio-empty" id="bioEmpty" style="display:none">
-    <div style="text-align:center;padding:52px 20px;border:1px dashed rgba(255,255,255,.12);border-radius:20px">
-      <div style="font-size:40px;margin-bottom:12px">🧪</div>
-      <div style="font-size:15px;font-weight:700;color:#fff;margin-bottom:6px">Aucun bilan enregistré</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.45)">Cliquez sur « Saisir un bilan biologique » pour commencer</div>
-    </div>
+  <div class="bio-grid fu d2" id="bioGrid">
+    <div class="bio-card"><div class="bc-head"><div class="bc-title">Glycémie à jeun</div><div class="bc-unit">mg/dL</div></div><div class="bc-vals"><div class="bc-current">103</div><div class="bc-trend up">↑ +5</div></div><div class="bc-ref">Réf : 70–100</div><div class="bc-chart"><svg id="c-gly" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 98</div><div class="bc-dp"><strong>20/01</strong> 101</div><div class="bc-dp"><strong>06/02</strong> 103</div></div></div>
+
+    <div class="bio-card"><div class="bc-head"><div class="bc-title">HbA1c</div><div class="bc-unit">%</div></div><div class="bc-vals"><div class="bc-current" style="color:var(--c-amber-d)">5.8</div><div class="bc-trend up">↑ +0.2</div></div><div class="bc-ref">Normal < 5.7% · Prédiabète 5.7–6.4%</div><div class="bc-chart"><svg id="c-hba" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 5.6%</div><div class="bc-dp"><strong>06/02</strong> 5.8%</div></div></div>
+
+    <div class="bio-card"><div class="bc-head"><div class="bc-title">Créatinine</div><div class="bc-unit">mg/L</div></div><div class="bc-vals"><div class="bc-current">9.1</div><div class="bc-trend stable">→ stable</div></div><div class="bc-ref">Réf homme : 7–13</div><div class="bc-chart"><svg id="c-crea" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 9.2</div><div class="bc-dp"><strong>20/01</strong> 8.8</div><div class="bc-dp"><strong>06/02</strong> 9.1</div></div></div>
+
+    <div class="bio-card"><div class="bc-head"><div class="bc-title">ASAT</div><div class="bc-unit">UI/L</div></div><div class="bc-vals"><div class="bc-current">25</div><div class="bc-trend up">↑ +3</div></div><div class="bc-ref">Réf : < 35</div><div class="bc-chart"><svg id="c-asat" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 22</div><div class="bc-dp"><strong>20/01</strong> 25</div></div></div>
+
+    <div class="bio-card"><div class="bc-head"><div class="bc-title">CRP</div><div class="bc-unit">mg/L</div></div><div class="bc-vals"><div class="bc-current" style="color:var(--c-amber-d)">2.1</div><div class="bc-trend down">↓ -0.4</div></div><div class="bc-ref">Optimal < 1.0 · Normal < 3.0</div><div class="bc-chart"><svg id="c-crp" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 2.5</div><div class="bc-dp"><strong>06/02</strong> 2.1</div></div></div>
+
+    <div class="bio-card"><div class="bc-head"><div class="bc-title">Ferritine</div><div class="bc-unit">ng/mL</div></div><div class="bc-vals"><div class="bc-current">86</div><div class="bc-trend stable">→ stable</div></div><div class="bc-ref">Réf homme : 30–300</div><div class="bc-chart"><svg id="c-fer" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 84</div><div class="bc-dp"><strong>06/02</strong> 86</div></div></div>
   </div>
-  <div class="bio-grid fu d2" id="bioGrid"></div>
 
   <!-- SUIVI QUOTIDIEN -->
   <div class="cq-section fu d3" id="cqSection">
     <div class="cq-head"><div><div class="cq-title">📅 Suivi quotidien</div><div class="cq-sub">Évolution des signaux du check-in matinal</div></div><div class="cq-filters"><button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button><button class="tf-btn" onclick="switchCqTf(this,30)">30j</button><button class="tf-btn" onclick="switchCqTf(this,90)">90j</button></div></div>
-    <div class="cq-empty" id="cqEmpty" style="display:none"><div class="cq-empty-ico">📋</div><div class="cq-empty-t">Aucune donnée de check-in</div><div class="cq-empty-s">Commencez via le bouton Check-in</div></div>
+    <div id="cqEmpty" style="display:none;text-align:center;padding:40px;border:1px dashed rgba(255,255,255,.1);border-radius:16px"><div style="font-size:13px;color:rgba(255,255,255,.4)">Aucune donnée de check-in pour cette période</div></div>
     <div class="cq-grid" id="cqGrid"></div>
   </div>
 
@@ -538,7 +542,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 
 <script>
 function switchCat(el){document.querySelectorAll('.cat-pill').forEach(function(p){p.classList.remove('active')});el.classList.add('active')}
-function switchTf(el){el.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active')});el.classList.add('active');var txt=el.textContent.trim();var days=txt==='3 mois'?90:txt==='6 mois'?180:txt==='1 an'?365:9999;renderBioCards(days);}
+function switchTf(el){el.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active')});el.classList.add('active');var txt=el.textContent.trim();var days=txt==='3 mois'?90:txt==='6 mois'?180:txt==='1 an'?365:9999;if(Object.keys(blnLS()).length)renderBioCards(days);}
 
 function drawLine(svgId,data,color,refMin,refMax){
   var svg=document.getElementById(svgId);if(!svg)return;
@@ -591,107 +595,100 @@ try{
 }catch(e){}
 
 
-/* ══ BIO MARKERS CONFIG ══ */
+/* ══ BILAN DATA ══ */
 var BIO_DAYS = 90;
-var BIO_MARKERS = [
-  {id:'glycemie',  title:'Glycémie à jeun',  unit:'mg/dL', color:'#f59e0b', refMin:70,   refMax:100,  refLabel:'70–100',     warn:function(v){return v>100?'Élevé':v<70?'Bas':'Normal';}},
-  {id:'hba1c',     title:'HbA1c',            unit:'%',     color:'#f59e0b', refMin:0,    refMax:5.7,  refLabel:'< 5.7%',        warn:function(v){return v>=6.5?'Diabète':v>=5.7?'Prédiab.':'Normal';}},
-  {id:'insulin',   title:'Insuline à jeun',  unit:'µUI/mL',color:'#f59e0b', refMin:2,    refMax:20,   refLabel:'2–20',         warn:function(v){return v>20?'Élevé':'Normal';}},
-  {id:'homa_ir',   title:'HOMA-IR',          unit:'',      color:'#f59e0b', refMin:0,    refMax:2.5,  refLabel:'< 2.5',         warn:function(v){return v>2.5?'Résistance':'Normal';}},
-  {id:'chol_tot',  title:'Cholestérol total',unit:'g/L',  color:'#ef4444', refMin:0,    refMax:2.0,  refLabel:'< 2.0',         warn:function(v){return v>2?'Élevé':'Normal';}},
-  {id:'ldl',       title:'LDL',              unit:'g/L',   color:'#ef4444', refMin:0,    refMax:1.3,  refLabel:'< 1.3',         warn:function(v){return v>1.6?'Élevé':v>1.3?'Limite':'Normal';}},
-  {id:'hdl',       title:'HDL',              unit:'g/L',   color:'#10b981', refMin:0.4,  refMax:2.0,  refLabel:'> 0.4 H',       warn:function(v){return v<0.4?'Bas':'Normal';}},
-  {id:'trig',      title:'Triglycérides',    unit:'g/L',   color:'#f59e0b', refMin:0,    refMax:1.5,  refLabel:'< 1.5',         warn:function(v){return v>1.5?'Élevé':'Normal';}},
-  {id:'apoB',      title:'ApoB',             unit:'g/L',   color:'#ef4444', refMin:0,    refMax:1.2,  refLabel:'< 1.2',         warn:function(v){return v>1.2?'Élevé':'Normal';}},
-  {id:'crp',       title:'CRP',              unit:'mg/L',  color:'#10b981', refMin:0,    refMax:3.0,  refLabel:'Optimal < 1.0 · Normal < 3.0', warn:function(v){return v>3?'Élevé':v>1?'Limite':'Optimal';}},
-  {id:'crp_hs',    title:'CRP ultrasensible',unit:'mg/L',  color:'#10b981', refMin:0,    refMax:1.0,  refLabel:'< 1.0',         warn:function(v){return v>1?'Élevé':'Normal';}},
-  {id:'alb',       title:'Albumine',         unit:'g/L',   color:'#0ea5c9', refMin:38,   refMax:48,   refLabel:'38–48',       warn:function(v){return v<38?'Bas':v>48?'Élevé':'Normal';}},
-  {id:'asat',      title:'ASAT',             unit:'UI/L',  color:'#f59e0b', refMin:0,    refMax:40,   refLabel:'< 40',          warn:function(v){return v>40?'Élevé':'Normal';}},
-  {id:'alat',      title:'ALAT',             unit:'UI/L',  color:'#f59e0b', refMin:0,    refMax:40,   refLabel:'< 40',          warn:function(v){return v>40?'Élevé':'Normal';}},
-  {id:'ggt',       title:'GGT',              unit:'UI/L',  color:'#f59e0b', refMin:0,    refMax:55,   refLabel:'< 55',          warn:function(v){return v>55?'Élevé':'Normal';}},
-  {id:'pal',       title:'Phosphatases alc.',unit:'UI/L',  color:'#f59e0b', refMin:40,   refMax:130,  refLabel:'40–130',      warn:function(v){return v>130||v<40?'Anormal':'Normal';}},
-  {id:'bili',      title:'Bilirubine totale',unit:'mg/L',  color:'#f59e0b', refMin:0,    refMax:12,   refLabel:'< 12',          warn:function(v){return v>12?'Élevé':'Normal';}},
-  {id:'fib4',      title:'FIB-4',            unit:'',      color:'#10b981', refMin:0,    refMax:1.3,  refLabel:'< 1.30',        warn:function(v){return v>2.67?'Élevé':v>1.3?'Intermédiaire':'Normal';}},
-  {id:'creat',     title:'Créatinine',       unit:'mg/L',  color:'#0ea5c9', refMin:7,    refMax:13,   refLabel:'Réf H: 7–13', warn:function(v){return v>13?'Élevé':v<7?'Bas':'Normal';}},
-  {id:'egfr',      title:'eGFR',             unit:'mL/min',color:'#0ea5c9', refMin:90,   refMax:200,  refLabel:'> 90',          warn:function(v){return v<60?'Réduit':v<90?'Limite':'Normal';}},
-  {id:'uree',      title:'Urée',             unit:'g/L',   color:'#0ea5c9', refMin:0.15, refMax:0.45, refLabel:'0.15–0.45', warn:function(v){return v>0.45?'Élevé':v<0.15?'Bas':'Normal';}},
-  {id:'na',        title:'Sodium (Na)',       unit:'mmol/L',color:'#0ea5c9', refMin:136,  refMax:145,  refLabel:'136–145',     warn:function(v){return v<136||v>145?'Anormal':'Normal';}},
-  {id:'k',         title:'Potassium (K)',     unit:'mmol/L',color:'#0ea5c9', refMin:3.5,  refMax:5.0,  refLabel:'3.5–5.0',    warn:function(v){return v<3.5||v>5?'Anormal':'Normal';}},
-  {id:'ca',        title:'Calcium (Ca)',      unit:'mmol/L',color:'#0ea5c9', refMin:2.2,  refMax:2.6,  refLabel:'2.2–2.6',    warn:function(v){return v<2.2||v>2.6?'Anormal':'Normal';}},
-  {id:'phos',      title:'Phosphore',         unit:'mmol/L',color:'#0ea5c9', refMin:0.8,  refMax:1.5,  refLabel:'0.8–1.5',    warn:function(v){return v<0.8||v>1.5?'Anormal':'Normal';}},
-  {id:'vitd',      title:'Vitamine D',        unit:'ng/mL', color:'#f59e0b', refMin:30,   refMax:80,   refLabel:'30–80',       warn:function(v){return v<20?'Carénce':v<30?'Insuffisant':'Normal';}},
-  {id:'b9',        title:'Vitamine B9',       unit:'ng/mL', color:'#f59e0b', refMin:3,    refMax:17,   refLabel:'3–17',         warn:function(v){return v<3?'Carénce':'Normal';}},
-  {id:'b12',       title:'Vitamine B12',      unit:'pg/mL', color:'#f59e0b', refMin:200,  refMax:900,  refLabel:'200–900',     warn:function(v){return v<200?'Carénce':v>900?'Élevé':'Normal';}},
-  {id:'fer',       title:'Fer sérique',       unit:'µg/dL', color:'#f59e0b', refMin:65,   refMax:175,  refLabel:'65–175 H',   warn:function(v){return v<65?'Bas':v>175?'Élevé':'Normal';}},
-  {id:'ferritine', title:'Ferritine',         unit:'ng/mL', color:'#0ea5c9', refMin:30,   refMax:300,  refLabel:'30–300 H',    warn:function(v){return v<30?'Bas':v>300?'Élevé':'Normal';}},
-  {id:'tsh',       title:'TSH',               unit:'mUI/L', color:'#7c3aed', refMin:0.4,  refMax:4.0,  refLabel:'0.4–4.0',    warn:function(v){return v<0.4||v>4?'Anormal':'Normal';}},
-  {id:'hb',        title:'Hémoglobine (HB)',  unit:'g/dL',  color:'#ef4444', refMin:13,   refMax:18,   refLabel:'13–18 H',     warn:function(v){return v<13?'Anémie':v>18?'Élevé':'Normal';}},
-  {id:'nfs_gr',    title:'Globules rouges',   unit:'T/L',   color:'#ef4444', refMin:4.5,  refMax:5.9,  refLabel:'4.5–5.9',    warn:function(v){return v<4.5||v>5.9?'Anormal':'Normal';}},
-  {id:'nfs_gb',    title:'Globules blancs',   unit:'G/L',   color:'#0ea5c9', refMin:4,    refMax:10,   refLabel:'4–10',         warn:function(v){return v<4||v>10?'Anormal':'Normal';}},
-  {id:'plaq',      title:'Plaquettes',        unit:'G/L',   color:'#0ea5c9', refMin:150,  refMax:400,  refLabel:'150–400',     warn:function(v){return v<150||v>400?'Anormal':'Normal';}},
-];
-var STRIP_MARKERS = [
-  {id:'hba1c',    label:'HbA1c',    fmt:function(v){return v+'%';},  warn:function(v){return v>=6.5?'msb-r':v>=5.7?'msb-a':'msb-g';}, wlabel:function(v){return v>=6.5?'Diabète':v>=5.7?'Prédiab.':'Normal';}},
-  {id:'glycemie', label:'Glycémie',fmt:function(v){return v;},     warn:function(v){return v>100?'msb-a':'msb-g';},                   wlabel:function(v){return v>100?'Élevé':'Normal';}},
-  {id:'crp',      label:'CRP',      fmt:function(v){return v;},      warn:function(v){return v>3?'msb-r':v>1?'msb-a':'msb-g';},         wlabel:function(v){return v>3?'Élevé':v>1?'Limite':'Optimal';}},
-  {id:'ldl',      label:'LDL',      fmt:function(v){return v;},      warn:function(v){return v>1.6?'msb-r':v>1.3?'msb-a':'msb-g';},     wlabel:function(v){return v>1.6?'Élevé':v>1.3?'Limite':'Normal';}},
-  {id:'egfr',     label:'eGFR',     fmt:function(v){return v;},      warn:function(v){return v<60?'msb-r':v<90?'msb-a':'msb-g';},        wlabel:function(v){return v<60?'Réduit':v<90?'Limite':'Normal';}},
-  {id:'ferritine',label:'Ferritine',fmt:function(v){return v;},      warn:function(v){return v<30||v>300?'msb-a':'msb-g';},              wlabel:function(v){return v<30?'Bas':v>300?'Élevé':'Normal';}},
-  {id:'vitd',     label:'Vit. D',   fmt:function(v){return v;},      warn:function(v){return v<20?'msb-r':v<30?'msb-a':'msb-g';},        wlabel:function(v){return v<20?'Carénce':v<30?'Insuffisant':'Normal';}},
-  {id:'tsh',      label:'TSH',      fmt:function(v){return v;},      warn:function(v){return v<0.4||v>4?'msb-a':'msb-g';},               wlabel:function(v){return v<0.4||v>4?'Anormal':'Normal';}},
-];
-
 function blnLS(){try{return JSON.parse(localStorage.getItem('previo_bilans')||'{}')}catch(e){return{}}}
 function blnSaveLS(d){try{localStorage.setItem('previo_bilans',JSON.stringify(d))}catch(e){}}
 
-function bioGetSeries(markerId,days){
-  var stored=blnLS(),dates=Object.keys(stored).sort();
-  var cutoff=new Date();cutoff.setDate(cutoff.getDate()-days);
+var BIO_MARKERS = [
+  {id:'glycemie',  svgId:'c-gly',  title:'Glycémie à jeun',  unit:'mg/dL', color:'#f59e0b', refMin:70,   refMax:100,  refLabel:'70–100',    warn:function(v){return v>100?'Élevé':v<70?'Bas':'Normal';}},
+  {id:'hba1c',     svgId:'c-hba',  title:'HbA1c',            unit:'%',     color:'#f59e0b', refMin:0,    refMax:5.7,  refLabel:'< 5.7%',       warn:function(v){return v>=6.5?'Diabète':v>=5.7?'Prédiab.':'Normal';}},
+  {id:'insulin',   svgId:null,     title:'Insuline à jeun',  unit:'µUI/mL',color:'#f59e0b', refMin:2,    refMax:20,   refLabel:'2–20',        warn:function(v){return v>20?'Élevé':'Normal';}},
+  {id:'homa_ir',   svgId:null,     title:'HOMA-IR',          unit:'',      color:'#f59e0b', refMin:0,    refMax:2.5,  refLabel:'< 2.5',        warn:function(v){return v>2.5?'Résistance':'Normal';}},
+  {id:'chol_tot',  svgId:null,     title:'Cholestérol total',unit:'g/L',  color:'#ef4444', refMin:0,    refMax:2.0,  refLabel:'< 2.0',        warn:function(v){return v>2?'Élevé':'Normal';}},
+  {id:'ldl',       svgId:null,     title:'LDL',              unit:'g/L',   color:'#ef4444', refMin:0,    refMax:1.3,  refLabel:'< 1.3',        warn:function(v){return v>1.6?'Élevé':v>1.3?'Limite':'Normal';}},
+  {id:'hdl',       svgId:null,     title:'HDL',              unit:'g/L',   color:'#10b981', refMin:0.4,  refMax:2.0,  refLabel:'> 0.4 H',      warn:function(v){return v<0.4?'Bas':'Normal';}},
+  {id:'trig',      svgId:null,     title:'Triglycérides',    unit:'g/L',   color:'#f59e0b', refMin:0,    refMax:1.5,  refLabel:'< 1.5',        warn:function(v){return v>1.5?'Élevé':'Normal';}},
+  {id:'apoB',      svgId:null,     title:'ApoB',             unit:'g/L',   color:'#ef4444', refMin:0,    refMax:1.2,  refLabel:'< 1.2',        warn:function(v){return v>1.2?'Élevé':'Normal';}},
+  {id:'crp',       svgId:'c-crp',  title:'CRP',              unit:'mg/L',  color:'#10b981', refMin:0,    refMax:3.0,  refLabel:'Optimal < 1 · Normal < 3', warn:function(v){return v>3?'Élevé':v>1?'Limite':'Optimal';}},
+  {id:'crp_hs',    svgId:null,     title:'CRP ultrasensible',unit:'mg/L',  color:'#10b981', refMin:0,    refMax:1.0,  refLabel:'< 1.0',        warn:function(v){return v>1?'Élevé':'Normal';}},
+  {id:'alb',       svgId:null,     title:'Albumine',         unit:'g/L',   color:'#0ea5c9', refMin:38,   refMax:48,   refLabel:'38–48',     warn:function(v){return v<38?'Bas':v>48?'Élevé':'Normal';}},
+  {id:'asat',      svgId:'c-asat', title:'ASAT',             unit:'UI/L',  color:'#f59e0b', refMin:0,    refMax:40,   refLabel:'< 40',         warn:function(v){return v>40?'Élevé':'Normal';}},
+  {id:'alat',      svgId:null,     title:'ALAT',             unit:'UI/L',  color:'#f59e0b', refMin:0,    refMax:40,   refLabel:'< 40',         warn:function(v){return v>40?'Élevé':'Normal';}},
+  {id:'ggt',       svgId:null,     title:'GGT',              unit:'UI/L',  color:'#f59e0b', refMin:0,    refMax:55,   refLabel:'< 55',         warn:function(v){return v>55?'Élevé':'Normal';}},
+  {id:'pal',       svgId:null,     title:'Phosphatases alc.',unit:'UI/L',  color:'#f59e0b', refMin:40,   refMax:130,  refLabel:'40–130',    warn:function(v){return v>130||v<40?'Anormal':'Normal';}},
+  {id:'bili',      svgId:null,     title:'Bilirubine totale',unit:'mg/L',  color:'#f59e0b', refMin:0,    refMax:12,   refLabel:'< 12',         warn:function(v){return v>12?'Élevé':'Normal';}},
+  {id:'fib4',      svgId:null,     title:'FIB-4',            unit:'',      color:'#10b981', refMin:0,    refMax:1.3,  refLabel:'< 1.30',       warn:function(v){return v>2.67?'Élevé':v>1.3?'Interm.':'Normal';}},
+  {id:'creat',     svgId:'c-crea', title:'Créatinine',       unit:'mg/L',  color:'#0ea5c9', refMin:7,    refMax:13,   refLabel:'Réf H: 7–13', warn:function(v){return v>13?'Élevé':v<7?'Bas':'Normal';}},
+  {id:'egfr',      svgId:null,     title:'eGFR',             unit:'mL/min',color:'#0ea5c9', refMin:90,   refMax:200,  refLabel:'> 90',         warn:function(v){return v<60?'Réduit':v<90?'Limite':'Normal';}},
+  {id:'uree',      svgId:null,     title:'Urée',             unit:'g/L',   color:'#0ea5c9', refMin:0.15, refMax:0.45, refLabel:'0.15–0.45', warn:function(v){return v>0.45?'Élevé':v<0.15?'Bas':'Normal';}},
+  {id:'na',        svgId:null,     title:'Sodium (Na)',       unit:'mmol/L',color:'#0ea5c9', refMin:136,  refMax:145,  refLabel:'136–145',   warn:function(v){return v<136||v>145?'Anormal':'Normal';}},
+  {id:'k',         svgId:null,     title:'Potassium (K)',     unit:'mmol/L',color:'#0ea5c9', refMin:3.5,  refMax:5.0,  refLabel:'3.5–5.0',  warn:function(v){return v<3.5||v>5?'Anormal':'Normal';}},
+  {id:'ca',        svgId:null,     title:'Calcium (Ca)',      unit:'mmol/L',color:'#0ea5c9', refMin:2.2,  refMax:2.6,  refLabel:'2.2–2.6',  warn:function(v){return v<2.2||v>2.6?'Anormal':'Normal';}},
+  {id:'phos',      svgId:null,     title:'Phosphore',         unit:'mmol/L',color:'#0ea5c9', refMin:0.8,  refMax:1.5,  refLabel:'0.8–1.5',  warn:function(v){return v<0.8||v>1.5?'Anormal':'Normal';}},
+  {id:'vitd',      svgId:null,     title:'Vitamine D',        unit:'ng/mL', color:'#f59e0b', refMin:30,   refMax:80,   refLabel:'30–80',     warn:function(v){return v<20?'Carénce':v<30?'Insuffisant':'Normal';}},
+  {id:'b9',        svgId:null,     title:'Vitamine B9',       unit:'ng/mL', color:'#f59e0b', refMin:3,    refMax:17,   refLabel:'3–17',       warn:function(v){return v<3?'Carénce':'Normal';}},
+  {id:'b12',       svgId:null,     title:'Vitamine B12',      unit:'pg/mL', color:'#f59e0b', refMin:200,  refMax:900,  refLabel:'200–900',   warn:function(v){return v<200?'Carénce':v>900?'Élevé':'Normal';}},
+  {id:'fer',       svgId:null,     title:'Fer sérique',       unit:'µg/dL', color:'#f59e0b', refMin:65,   refMax:175,  refLabel:'65–175 H', warn:function(v){return v<65?'Bas':v>175?'Élevé':'Normal';}},
+  {id:'ferritine', svgId:'c-fer',  title:'Ferritine',         unit:'ng/mL', color:'#0ea5c9', refMin:30,   refMax:300,  refLabel:'30–300 H',  warn:function(v){return v<30?'Bas':v>300?'Élevé':'Normal';}},
+  {id:'tsh',       svgId:null,     title:'TSH',               unit:'mUI/L', color:'#7c3aed', refMin:0.4,  refMax:4.0,  refLabel:'0.4–4.0',  warn:function(v){return v<0.4||v>4?'Anormal':'Normal';}},
+  {id:'hb',        svgId:null,     title:'Hémoglobine (HB)',  unit:'g/dL',  color:'#ef4444', refMin:13,   refMax:18,   refLabel:'13–18 H',   warn:function(v){return v<13?'Anémie':v>18?'Élevé':'Normal';}},
+  {id:'nfs_gr',    svgId:null,     title:'Globules rouges',   unit:'T/L',   color:'#ef4444', refMin:4.5,  refMax:5.9,  refLabel:'4.5–5.9',  warn:function(v){return v<4.5||v>5.9?'Anormal':'Normal';}},
+  {id:'nfs_gb',    svgId:null,     title:'Globules blancs',   unit:'G/L',   color:'#0ea5c9', refMin:4,    refMax:10,   refLabel:'4–10',       warn:function(v){return v<4||v>10?'Anormal':'Normal';}},
+  {id:'plaq',      svgId:null,     title:'Plaquettes',        unit:'G/L',   color:'#0ea5c9', refMin:150,  refMax:400,  refLabel:'150–400',   warn:function(v){return v<150||v>400?'Anormal':'Normal';}},
+];
+
+var STRIP_MARKERS = [
+  {id:'hba1c',    label:'HbA1c',    fmt:function(v){return v+'%';},  wCls:function(v){return v>=6.5?'msb-r':v>=5.7?'msb-a':'msb-g';}, wLbl:function(v){return v>=6.5?'Diabète':v>=5.7?'Prédiab.':'Normal';}},
+  {id:'glycemie', label:'Glycémie',fmt:function(v){return v;},     wCls:function(v){return v>100?'msb-a':'msb-g';},                   wLbl:function(v){return v>100?'Élevé':'Normal';}},
+  {id:'crp',      label:'CRP',      fmt:function(v){return v;},      wCls:function(v){return v>3?'msb-r':v>1?'msb-a':'msb-g';},         wLbl:function(v){return v>3?'Élevé':v>1?'Limite':'Optimal';}},
+  {id:'ldl',      label:'LDL',      fmt:function(v){return v;},      wCls:function(v){return v>1.6?'msb-r':v>1.3?'msb-a':'msb-g';},     wLbl:function(v){return v>1.6?'Élevé':v>1.3?'Limite':'Normal';}},
+  {id:'egfr',     label:'eGFR',     fmt:function(v){return v;},      wCls:function(v){return v<60?'msb-r':v<90?'msb-a':'msb-g';},        wLbl:function(v){return v<60?'Réduit':v<90?'Limite':'Normal';}},
+  {id:'ferritine',label:'Ferritine',fmt:function(v){return v;},      wCls:function(v){return v<30||v>300?'msb-a':'msb-g';},              wLbl:function(v){return v<30?'Bas':v>300?'Élevé':'Normal';}},
+  {id:'vitd',     label:'Vit. D',   fmt:function(v){return v;},      wCls:function(v){return v<20?'msb-r':v<30?'msb-a':'msb-g';},        wLbl:function(v){return v<20?'Carénce':v<30?'Insuffisant':'Normal';}},
+  {id:'tsh',      label:'TSH',      fmt:function(v){return v;},      wCls:function(v){return v<0.4||v>4?'msb-a':'msb-g';},               wLbl:function(v){return v<0.4||v>4?'Anormal':'Normal';}},
+];
+
+/* Build time-filtered series */
+function bioGetSeries(markerId, days){
+  var stored=blnLS(), dates=Object.keys(stored).sort();
+  var cutoff=new Date(); cutoff.setDate(cutoff.getDate()-days);
   var pts=[];
   dates.forEach(function(d){
-    if(days<9999&&new Date(d)<cutoff)return;
+    if(days<9999&&new Date(d)<cutoff) return;
     var v=stored[d]&&stored[d].values&&stored[d].values[markerId];
-    if(v!==undefined)pts.push({date:d,v:v});
+    if(v!==undefined) pts.push({date:d,v:v});
   });
   return pts;
 }
 function bioFmt(d){var x=new Date(d+'T12:00');return x.getDate()+'/'+(x.getMonth()+1);}
 function bioTrend(pts){
-  if(pts.length<2)return null;
+  if(pts.length<2) return null;
   var diff=+(pts[pts.length-1].v-pts[pts.length-2].v).toFixed(2);
   return diff>0?{cls:'up',txt:'↑ +'+diff}:diff<0?{cls:'down',txt:'↓ '+diff}:{cls:'stable',txt:'→ stable'};
 }
 
+/* Replace static grid with dynamic cards (called only when bilans exist) */
 function renderBioCards(days){
   BIO_DAYS=days;
-  var stored=blnLS();
-  var empty=document.getElementById('bioEmpty');
   var grid=document.getElementById('bioGrid');
-  if(!grid)return;
-  if(!Object.keys(stored).length){
-    grid.innerHTML='';
-    if(empty)empty.style.display='block';
-    return;
-  }
-  if(empty)empty.style.display='none';
+  if(!grid) return;
   grid.innerHTML='';
-  var activePill=document.querySelector('.cat-pill.active');
-  var catFilter=activePill?activePill.textContent.trim().replace(/[^ -ÿ\w\séèàôî]/g,'').trim():'Tous';
   var rendered=0;
   BIO_MARKERS.forEach(function(m){
     var pts=bioGetSeries(m.id,days);
-    if(!pts.length)return;
+    if(!pts.length) return;
     var last=pts[pts.length-1];
     var trend=bioTrend(pts);
     var wLabel=m.warn(last.v);
     var isOk=wLabel==='Normal'||wLabel==='Optimal';
-    var card=document.createElement('div');card.className='bio-card';
-    var svgId='bcsvg'+m.id;
-    var trendHtml=trend?'<div class="bc-trend '+trend.cls+'">'+trend.txt+'</div>':'';
+    var svgId='bcsvg-'+m.id;
+    var tHtml=trend?'<div class="bc-trend '+trend.cls+'">'+trend.txt+'</div>':'';
     var foot=pts.slice(-4).map(function(p){return'<div class="bc-dp"><strong>'+bioFmt(p.date)+'</strong> '+p.v+'</div>';}).join('');
+    var card=document.createElement('div'); card.className='bio-card';
     card.innerHTML=
       '<div class="bc-head"><div class="bc-title">'+m.title+'</div><div class="bc-unit">'+m.unit+'</div></div>'+
-      '<div class="bc-vals"><div class="bc-current"'+(isOk?'':' style="color:var(--c-amber-d)"')+'>'+last.v+'</div>'+trendHtml+'</div>'+
+      '<div class="bc-vals"><div class="bc-current"'+(isOk?'':' style="color:var(--c-amber-d)"')+'>'+last.v+'</div>'+tHtml+'</div>'+
       '<div class="bc-ref">Réf : '+m.refLabel+'</div>'+
       '<div class="bc-chart"><svg id="'+svgId+'" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div>'+
       '<div class="bc-foot">'+foot+'</div>';
@@ -702,33 +699,42 @@ function renderBioCards(days){
     })(svgId,pts,m.color,m.refMin,m.refMax);
   });
   if(!rendered){
-    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:32px;color:rgba(255,255,255,.4);font-size:13px">Aucune donnée disponible pour cette période.</div>';
+    grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:32px;color:rgba(0,0,0,.4);font-size:13px">Aucune donnée pour cette période.</div>';
   }
 }
 
+/* Update score strip from latest bilan */
 function updateStripFromLS(){
-  var stored=blnLS();var dates=Object.keys(stored).sort();if(!dates.length)return;
+  var stored=blnLS();
+  var dates=Object.keys(stored).sort();
+  if(!dates.length) return;
   var latest=stored[dates[dates.length-1]].values||{};
-  var strip=document.getElementById('monStrip');if(!strip)return;
+  var strip=document.getElementById('monStrip');
+  if(!strip) return;
+  /* Only update if we have at least one STRIP_MARKER in latest */
+  var hasAny=STRIP_MARKERS.some(function(sm){return latest[sm.id]!==undefined;});
+  if(!hasAny) return;
   strip.innerHTML='';
   STRIP_MARKERS.forEach(function(sm){
-    if(latest[sm.id]===undefined)return;
+    if(latest[sm.id]===undefined) return;
     var v=latest[sm.id];
-    var mss=document.createElement('div');mss.className='mss';
-    mss.innerHTML='<div class="mss-label">'+sm.label+'</div><div class="mss-val">'+sm.fmt(v)+'</div><div class="mss-badge '+sm.warn(v)+'">'+sm.wlabel(v)+'</div>';
+    var mss=document.createElement('div'); mss.className='mss';
+    mss.innerHTML='<div class="mss-label">'+sm.label+'</div><div class="mss-val">'+sm.fmt(v)+'</div><div class="mss-badge '+sm.wCls(v)+'">'+sm.wLbl(v)+'</div>';
     strip.appendChild(mss);
   });
-  var nb=dates.length;var liveEl=document.querySelector('.mh-live');
-  if(liveEl)liveEl.innerHTML='<span class="mh-live-d"></span>'+nb+' bilan'+(nb>1?'s':'');
+  var nb=dates.length;
+  var liveEl=document.querySelector('.mh-live');
+  if(liveEl) liveEl.innerHTML='<span class="mh-live-d"></span>'+nb+' bilan'+(nb>1?'s':'');
 }
 
+/* Override switchCat to also re-render */
 function switchCat(el){
   document.querySelectorAll('.cat-pill').forEach(function(p){p.classList.remove('active')});
   el.classList.add('active');
-  renderBioCards(BIO_DAYS);
+  if(Object.keys(blnLS()).length) renderBioCards(BIO_DAYS);
 }
 
-/* CQ SECTION */
+/* ══ CQ SECTION ══ */
 var CQ_DAYS=30;
 var CQ_SIGS=[
   {id:'poids',label:'Poids',unit:'kg',color:'#0ea5c9'},
@@ -759,7 +765,7 @@ function cqTrend(pts){
 }
 function cqDrawLine(svgEl,pts,color){
   var W=400,H=70,pt=10,pb=6;
-  var vals=pts.map(function(p){return p.v});
+  var vals=pts.map(function(p){return p.v;});
   var mn=Math.min.apply(null,vals)*.92,mx=Math.max.apply(null,vals)*1.08;
   if(mx===mn){mx+=1;mn-=1;}
   function xS(i){return i*(W/Math.max(pts.length-1,1));}
@@ -798,11 +804,11 @@ function cqRender(days){
   });
 }
 function switchCqTf(btn,days){
-  btn.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active')});
+  btn.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active');});
   btn.classList.add('active');CQ_DAYS=days;cqRender(days);
 }
 
-/* SAISIE */
+/* ══ SAISIE BILAN ══ */
 var BLN_CATS=[
   {label:'Métabolisme Glucidique',fields:[
     {id:'glycemie',name:'Glycémie à jeun',unit:'mg/dL',ref:'70–100'},
@@ -851,8 +857,8 @@ var BLN_CATS=[
   ]},
   {label:'NFS',fields:[
     {id:'hb',name:'Hémoglobine (HB)',unit:'g/dL',ref:'13–18 H'},
-    {id:'nfs_gr',name:'Globules rouges (GR)',unit:'T/L',ref:'4.5–5.9'},
-    {id:'nfs_gb',name:'Globules blancs (GB)',unit:'G/L',ref:'4–10'},
+    {id:'nfs_gr',name:'Globules rouges',unit:'T/L',ref:'4.5–5.9'},
+    {id:'nfs_gb',name:'Globules blancs',unit:'G/L',ref:'4–10'},
     {id:'plaq',name:'Plaquettes',unit:'G/L',ref:'150–400'},
   ]},
 ];
@@ -880,12 +886,12 @@ function renderBlnFields(date){
     var head=document.createElement('div');head.className='bln-cat-head';head.textContent=cat.label;
     catEl.appendChild(head);
     cat.fields.forEach(function(f){
-      var ex=dayData[f.id]!==undefined?dayData[f.id]:'';
+      var ex=dayData[f.id]!==undefined?String(dayData[f.id]):'';
       var row=document.createElement('div');row.className='bln-field';
-      var infoDiv=document.createElement('div');infoDiv.style.flex='1';
+      var info=document.createElement('div');info.style.flex='1';
       var nm=document.createElement('div');nm.className='bln-field-name';nm.textContent=f.name;
       var rf=document.createElement('div');rf.className='bln-field-ref';rf.textContent='Ref: '+f.ref;
-      infoDiv.appendChild(nm);infoDiv.appendChild(rf);
+      info.appendChild(nm);info.appendChild(rf);
       var wrap=document.createElement('div');wrap.className='bln-inp-wrap';
       var inp=document.createElement('input');
       inp.type='number';inp.step='any';inp.id='bf-'+f.id;inp.placeholder='--';
@@ -894,7 +900,7 @@ function renderBlnFields(date){
       inp.addEventListener('input',function(){this.classList.toggle('filled',this.value!=='');});
       var un=document.createElement('div');un.className='bln-unit';un.textContent=f.unit;
       wrap.appendChild(inp);wrap.appendChild(un);
-      row.appendChild(infoDiv);row.appendChild(wrap);
+      row.appendChild(info);row.appendChild(wrap);
       catEl.appendChild(row);
     });
     body.appendChild(catEl);
@@ -917,20 +923,19 @@ function saveBilan(){
   document.getElementById('blnOk').classList.add('show');
 }
 
-/* INIT */
-(function(){
-  var stored=blnLS();
-  var hasBilans=Object.keys(stored).length>0;
-  requestAnimationFrame(function(){
-    setTimeout(function(){
-      if(hasBilans){renderBioCards(BIO_DAYS);updateStripFromLS();}
-      else{var e=document.getElementById('bioEmpty');if(e)e.style.display='block';}
-      cqRender(CQ_DAYS);
-    },150);
-  });
-})();
+/* INIT: draw static charts always; replace with real data if bilans exist */
+requestAnimationFrame(function(){
+  setTimeout(function(){
+    drawAllCharts();
+    cqRender(CQ_DAYS);
+    var stored = blnLS();
+    if(Object.keys(stored).length > 0){
+      renderBioCards(BIO_DAYS);
+      updateStripFromLS();
+    }
+  }, 150);
+});
 
-function drawAllCharts(){}
 </script>
 
 <div class="ci-overlay" id="ciOv" onclick="closeCI()"></div>
