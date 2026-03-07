@@ -80,3 +80,12 @@ const PROFILYS = {
 
 /* Rendre disponible globalement */
 window.PROFILYS = PROFILYS;
+
+/* ═══════════════════════════════════════════════════════════
+   Supabase — credentials
+   (clé anon publique, sécurité gérée par RLS côté Supabase)
+═══════════════════════════════════════════════════════════ */
+PROFILYS.supabase = {
+  url:  'https://nwkgiabchkaabfixxgla.supabase.co',
+  anon: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im53a2dpYWJjaGthYWJmaXh4Z2xhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI1MjgxNzgsImV4cCI6MjA4ODEwNDE3OH0.vOFGsvR9sJZMZ0K_wLxkDiAE0BgF_vVZvrSOGYZAj5g',
+};
