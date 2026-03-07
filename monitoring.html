@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
 <link rel="manifest" href="/favicons/site.webmanifest">
 <meta name="theme-color" content="#0ea5c9">
-<title>PRÉVIO — Monitoring</title>
+<title>Profilys — Monitoring</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
 <style>
 :root{
@@ -410,7 +410,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
   <div class="nav-in">
     <a class="nav-logo" href="app.html">
       <div class="nav-mark"><svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M10 1L2 5v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-4z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="1.2" stroke-linejoin="round"/><path d="M10 14V8" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M7 11l3-3 3 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+      <div class="nav-type">Profilys</div>
     </a>
     <div class="nav-links">
       <a class="nl" href="app.html">Dashboard</a>
@@ -531,7 +531,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 </div>
 
 <footer class="footer">
-  <div class="footer-logo">PRÉVIO<sup>®</sup></div>
+  <div class="footer-logo">Profilys</div>
   <p class="footer-disc">Données stockées localement dans votre navigateur · Ne remplace pas un avis médical</p>
   <nav class="footer-links" aria-label="Liens légaux">
     <a href="legal/avertissement.html">Avertissement</a><span class="footer-sep">·</span>
@@ -585,7 +585,7 @@ function drawAllCharts(){
 
 // Load user name from localStorage
 try{
-  var sess=JSON.parse(localStorage.getItem('previo_session')||'{}');
+  var sess=JSON.parse(localStorage.getItem('profilys_session')||'{}');
   if(sess&&sess.name){
     var uEl=document.querySelector('.nav-user span');
     var avEl=document.querySelector('.nav-user-av');
@@ -597,8 +597,8 @@ try{
 
 /* ══ BILAN DATA ══ */
 var BIO_DAYS = 90;
-function blnLS(){try{return JSON.parse(localStorage.getItem('previo_bilans')||'{}')}catch(e){return{}}}
-function blnSaveLS(d){try{localStorage.setItem('previo_bilans',JSON.stringify(d))}catch(e){}}
+function blnLS(){try{return JSON.parse(localStorage.getItem('profilys_bilans')||'{}')}catch(e){return{}}}
+function blnSaveLS(d){try{localStorage.setItem('profilys_bilans',JSON.stringify(d))}catch(e){}}
 
 var BIO_MARKERS = [
   {id:'glycemie',  svgId:'c-gly',  title:'Glycémie à jeun',  unit:'mg/dL', color:'#f59e0b', refMin:70,   refMax:100,  refLabel:'70–100',    warn:function(v){return v>100?'Élevé':v<70?'Bas':'Normal';}},
@@ -745,7 +745,7 @@ var CQ_SIGS=[
   {id:'ecran',label:'Temps écran',unit:'h',color:'#f59e0b'},
   {id:'humeur',label:'Humeur',unit:'/5',color:'#10b981'},
 ];
-function ciGetHistory(){try{return JSON.parse(localStorage.getItem('previo_checkins')||'{}')}catch(e){return{}}}
+function ciGetHistory(){try{return JSON.parse(localStorage.getItem('profilys_checkins')||'{}')}catch(e){return{}}}
 function cqGetSeries(sigId,days){
   var h=ciGetHistory(),cutoff=new Date();cutoff.setDate(cutoff.getDate()-days);
   var pts=[];
@@ -994,8 +994,8 @@ var CI_SIGS=[
 var ciTd={},ciT={};
 function ciDk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function ciFmtDate(){var d=new Date(),dn=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],mn=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];return dn[d.getDay()]+' '+d.getDate()+' '+mn[d.getMonth()]}
-function ciGH(){try{return JSON.parse(localStorage.getItem('previo_checkins')||'{}')}catch(e){return{}}}
-function ciSH(h){try{localStorage.setItem('previo_checkins',JSON.stringify(h))}catch(e){}}
+function ciGH(){try{return JSON.parse(localStorage.getItem('profilys_checkins')||'{}')}catch(e){return{}}}
+function ciSH(h){try{localStorage.setItem('profilys_checkins',JSON.stringify(h))}catch(e){}}
 function ciLoadTd(){var h=ciGH(),k=ciDk(new Date());ciTd=(h[k]&&h[k].s)?JSON.parse(JSON.stringify(h[k].s)):{}}
 function ciSaveSig(id,v){ciTd[id]=v;var h=ciGH(),k=ciDk(new Date());if(!h[k])h[k]={d:k,ts:new Date().toISOString(),s:{}};h[k].s[id]=v;h[k].ts=new Date().toISOString();ciSH(h);ciRenderMenu();ciUpdNav()}
 function ciStreak(){var h=ciGH(),s=0,d=new Date();if(!h[ciDk(d)])return 0;s=1;for(var i=1;i<365;i++){d.setDate(d.getDate()-1);if(h[ciDk(d)])s++;else break}return s}

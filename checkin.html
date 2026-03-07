@@ -8,11 +8,11 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicons/apple-touch-icon.png">
 <link rel="manifest" href="/favicons/site.webmanifest">
 <meta name="theme-color" content="#070c1a">
-<title>PRÉVIO — Check-in Quotidien</title>
+<title>Profilys — Check-in Quotidien</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet"/>
 <style>
 /* ══════════════════════════════════════════
-   PRÉVIO — DESIGN SYSTEM (exact match)
+   Profilys — DESIGN SYSTEM (exact match)
 ══════════════════════════════════════════ */
 :root{
   --c-teal:#0ea5c9;--c-teal-d:#0e7490;--c-teal-glow:rgba(14,165,201,.18);
@@ -366,7 +366,7 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
   <div class="nav-in">
     <a class="nav-logo" href="app.html">
       <div class="nav-mark"><svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M10 1L2 5v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-4z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="1.2" stroke-linejoin="round"/><path d="M10 14V8" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M7 11l3-3 3 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="nav-type">PRÉVIO<sup>®</sup></div>
+      <div class="nav-type">Profilys</div>
     </a>
     <div class="nav-links">
       <a class="nl on" href="app.html">Dashboard</a>
@@ -443,7 +443,7 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 
 <script>
 /* ══════════════════════════════════════════
-   PRÉVIO — CHECK-IN ENGINE
+   Profilys — CHECK-IN ENGINE
 ══════════════════════════════════════════ */
 var SIGS=[
   {id:'poids',icon:'⚖️',name:'Poids',type:'stepper',unit:'kg',min:30,max:200,step:0.1,dec:1,def:70},
@@ -474,8 +474,8 @@ function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')
 function fmtDate(){var d=new Date(),dn=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
   mn=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
   return dn[d.getDay()]+' '+d.getDate()+' '+mn[d.getMonth()]}
-function gH(){try{return JSON.parse(localStorage.getItem('previo_checkins')||'{}')}catch(e){return{}}}
-function sH(h){try{localStorage.setItem('previo_checkins',JSON.stringify(h))}catch(e){}}
+function gH(){try{return JSON.parse(localStorage.getItem('profilys_checkins')||'{}')}catch(e){return{}}}
+function sH(h){try{localStorage.setItem('profilys_checkins',JSON.stringify(h))}catch(e){}}
 function loadTd(){var h=gH(),k=dk(new Date());td=(h[k]&&h[k].s)?JSON.parse(JSON.stringify(h[k].s)):{}}
 function saveSig(id,v){
   td[id]=v;var h=gH(),k=dk(new Date());
@@ -641,7 +641,7 @@ function showOk(id){var s=SIGS.find(function(x){return x.id===id});
 // Init
 function init(){
   document.getElementById('ciDt').textContent=fmtDate();loadTd();updNav();
-  try{var ss=JSON.parse(localStorage.getItem('previo_session')||'{}');
+  try{var ss=JSON.parse(localStorage.getItem('profilys_session')||'{}');
     if(ss&&ss.name){document.getElementById('navNm').textContent=ss.name;
       document.getElementById('navAv').textContent=ss.name.charAt(0).toUpperCase()}}catch(e){}}
 init();
