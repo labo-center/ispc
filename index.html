@@ -3,7 +3,7 @@
   <head>
     <!-- ══ SUPABASE — chargé en premier ══ -->
     <script src="supabase.min.js"></script>
-    <script src="supabase-client.js"></script>
+    <script src="assets/js/supabase-client.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <!-- Favicon -->
@@ -1357,6 +1357,11 @@
         box-shadow:0 6px 24px rgba(14,116,144,.35);transition:transform .2s}
       .ci-ok-btn:active{transform:scale(.95)}
     </style>
+  
+  <!-- Profilys shared assets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/components.js"></script>
   </head>
 
   <body>
@@ -2270,8 +2275,8 @@
     function ciFmtDate(){var d=new Date(),dn=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
       mn=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
       return dn[d.getDay()]+' '+d.getDate()+' '+mn[d.getMonth()]}
-    function ciGH(){try{return JSON.parse(localStorage.getItem('profilys_checkins')||'{}')}catch(e){return{}}}
-    function ciSH(h){try{localStorage.setItem('profilys_checkins',JSON.stringify(h))}catch(e){}}
+    function ciGH(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.checkins)||'{}')}catch(e){return{}}}
+    function ciSH(h){try{localStorage.setItem(PROFILYS.keys.checkins,JSON.stringify(h))}catch(e){}}
     function ciLoadTd(){var h=ciGH(),k=ciDk(new Date());ciTd=(h[k]&&h[k].s)?JSON.parse(JSON.stringify(h[k].s)):{}}
     function ciSaveSig(id,v){
       ciTd[id]=v;var h=ciGH(),k=ciDk(new Date());
