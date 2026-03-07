@@ -2281,7 +2281,10 @@
     function ciSaveSig(id,v){
       ciTd[id]=v;var h=ciGH(),k=ciDk(new Date());
       if(!h[k])h[k]={d:k,ts:new Date().toISOString(),s:{}};
-      h[k].s[id]=v;h[k].ts=new Date().toISOString();ciSH(h);ciRenderMenu();ciUpdNav()}
+      h[k].s[id]=v;h[k].ts=new Date().toISOString();ciSH(h);
+      // Sync Supabase en arrière-plan (ne bloque pas l'UI)
+      if(window.ProfilysDB) ProfilysDB.saveCheckinSignal(k,id,v).catch(function(e){console.warn('CI sync:',e)});
+      ciRenderMenu();ciUpdNav()}
     function ciStreak(){var h=ciGH(),s=0,d=new Date();if(!h[ciDk(d)])return 0;s=1;
       for(var i=1;i<365;i++){d.setDate(d.getDate()-1);if(h[ciDk(d)])s++;else break}return s}
     function ciGetLvl(lvls,v){for(var i=0;i<lvls.length;i++){if(v<=lvls[i].m)return lvls[i]}return lvls[lvls.length-1]}
