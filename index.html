@@ -3,7 +3,6 @@
   <head>
     <!-- ══ SUPABASE — chargé en premier ══ -->
     <script src="supabase.min.js"></script>
-    <script src="assets/js/supabase-client.js"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <!-- Favicon -->
@@ -1361,6 +1360,7 @@
   <!-- Profilys shared assets -->
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/config.js"></script>
+  <script src="assets/js/supabase-client.js"></script>
   <script src="assets/js/components.js"></script>
   </head>
 
@@ -2112,7 +2112,7 @@
 
         setLoading("signup-btn", true);
         try {
-          await PrevioAuth.signUp(email, pass, name);
+          await ProfilysAuth.signUp(email, pass, name);
           document.getElementById("confirm-email").textContent = email;
           switchView("confirm");
         } catch(err) {
@@ -2133,7 +2133,7 @@
 
         setLoading("login-btn", true);
         try {
-          await PrevioAuth.signIn(email, pass);
+          await ProfilysAuth.signIn(email, pass);
           window.location.href = "app.html";
         } catch(err) {
           var msg = err.message || "Identifiants incorrects.";
@@ -2149,7 +2149,7 @@
         var email = document.getElementById("signup-email").value.trim() || _lastEmail;
         if (!email) return;
         try {
-          await sb.auth.resend({ type: "signup", email });
+          await _sb.auth.resend({ type: "signup", email });
           alert("Email de confirmation renvoyé !");
         } catch(e) {}
       }
@@ -2166,7 +2166,7 @@
       /* ══ SMART NAV — Go to app if already logged in ══ */
       async function goToApp() {
         try {
-          var user = await PrevioAuth.getUser();
+          var user = await ProfilysAuth.getUser();
           if (user) {
             window.location.href = "app.html";
             return;
@@ -2178,7 +2178,7 @@
       /* ══ AUTO-REDIRECT IF SESSION ACTIVE ══ */
       (async function() {
         try {
-          var user = await PrevioAuth.getUser();
+          var user = await ProfilysAuth.getUser();
           if (user) window.location.href = "app.html";
         } catch(e) {}
       })();

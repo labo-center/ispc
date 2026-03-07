@@ -3,7 +3,6 @@
 <head>
   <!-- ══ SUPABASE — chargé en premier ══ -->
   <script src="supabase.min.js"></script>
-  <script src="assets/js/supabase-client.js"></script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
@@ -1326,6 +1325,7 @@ body{background:var(--dark-1)}
   <!-- Profilys shared assets -->
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/config.js"></script>
+  <script src="assets/js/supabase-client.js"></script>
   <script src="assets/js/components.js"></script>
   </head>
 <body>
@@ -2056,49 +2056,41 @@ body{background:var(--dark-1)}
 </div>
 
 <script>
-/* ══ AUTH GUARD + MIGRATION ══ */
+/* ══ AUTH GUARD ══ */
 (function(){
-  // Migration v1.0→v1.1: remove legacy profilys_users (contained passwords in clear)
-  try{
-    var legacyUsers=localStorage.getItem('profilys_users');
-    if(legacyUsers){
-      var users=JSON.parse(legacyUsers);
-      // Migrate to profiles list if not already done
-      var profiles=[];
-      try{ profiles=JSON.parse(localStorage.getItem(PROFILYS.keys.profiles)||'[]'); }catch(e){}
-      if(profiles.length===0 && Array.isArray(users)){
-        users.forEach(function(u,i){
-          profiles.push({id:'migrated_'+i,name:u.name||'Profil',createdAt:Date.now()});
-        });
-        localStorage.setItem(PROFILYS.keys.profiles,JSON.stringify(profiles));
-      }
-      localStorage.removeItem('profilys_users');
-    }
-  }catch(e){}
-
-  // ── Supabase Auth guard ──
-  var session=null;
-  try{ session=JSON.parse(localStorage.getItem(PROFILYS.keys.session)||'null'); }catch(e){}
   const avatar = document.getElementById('nav-avatar');
   const uname  = document.getElementById('nav-username');
-  // Affiche le nom en cache immédiatement (évite le flash)
-  if(session && session.name){
-    if(avatar) avatar.textContent = session.name[0].toUpperCase();
-    if(uname)  uname.textContent  = session.name;
+
+  // Affiche le nom en cache immédiatement (évite le flash pendant la vérif async)
+  var cached = null;
+  try{ cached = JSON.parse(localStorage.getItem(PROFILYS.keys.session)||'null'); }catch(e){}
+  if(cached && cached.name){
+    if(avatar) avatar.textContent = cached.name[0].toUpperCase();
+    if(uname)  uname.textContent  = cached.name;
   }
-  // Vérification async Supabase — redirige si vraiment non connecté
+
+  // Vérification Supabase — redirige si session expirée ou absente
   (async function(){
     try{
-      var attempts=0;
-      while(!window.PrevioAuth && attempts<30){ await new Promise(r=>setTimeout(r,100)); attempts++; }
-      if(!window.PrevioAuth){ if(!session) window.location.href='index.html'; return; }
-      var user = await PrevioAuth.getUser();
-      if(!user){ window.location.href='index.html'; return; }
-      var profile = await PrevioAuth.getProfile(user.id);
-      var name = (profile && profile.name) ? profile.name : (user.email||'Utilisateur');
+      // Attendre que ProfilysAuth soit disponible (chargement async supabase.min.js)
+      var attempts = 0;
+      while(!window.ProfilysAuth && attempts < 30){
+        await new Promise(r => setTimeout(r, 100));
+        attempts++;
+      }
+      if(!window.ProfilysAuth){
+        if(!cached) window.location.href = 'index.html';
+        return;
+      }
+      var user = await ProfilysAuth.getUser();
+      if(!user){ window.location.href = 'index.html'; return; }
+
+      var profil = await ProfilysDB.getProfil();
+      var name = (profil && profil.name) ? profil.name : (user.email || 'Utilisateur');
       if(avatar) avatar.textContent = name[0].toUpperCase();
       if(uname)  uname.textContent  = name;
-      localStorage.setItem(PROFILYS.keys.session, JSON.stringify({id:user.id, name:name, email:user.email}));
+      // Mise à jour du cache local
+      localStorage.setItem(PROFILYS.keys.session, JSON.stringify({id:user.id, name, email:user.email}));
     }catch(e){ console.warn('Auth check:', e); }
   })();
 
@@ -2554,13 +2546,12 @@ function clearAllData(){
   window.location.href='index.html';
 }
 
-function switchProfile(){
-  if(window.PrevioAuth){
-    PrevioAuth.signOut().catch(function(){ window.location.href='index.html'; });
-  } else {
-    localStorage.removeItem(PROFILYS.keys.session);
-    window.location.href='index.html';
-  }
+async function switchProfile(){
+  try{
+    if(window.ProfilysAuth) await ProfilysAuth.signOut();
+    else localStorage.removeItem(PROFILYS.keys.session);
+  }catch(e){ console.warn('signOut:', e); }
+  window.location.href = 'index.html';
 }
 
 /* ═══════════════════════════════════════
