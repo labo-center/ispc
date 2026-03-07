@@ -475,7 +475,11 @@ details.step-acc.done-acc .sec-dark-banner{background:linear-gradient(135deg,var
   .res-summary{gap:7px}
 }
 </style>
-</head>
+
+  <!-- Profilys shared assets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/config.js"></script>
+  </head>
 <body>
 <style>
 .profilys-bar{
@@ -539,7 +543,7 @@ function debounceSaveScores(){
   _saveTimer=setTimeout(function(){
     try{
       var R=computeScores();
-      localStorage.setItem('profilys_scores',JSON.stringify(R));
+      localStorage.setItem(PROFILYS.keys.scores,JSON.stringify(R));
       if(ST.mod)localStorage.setItem('profilys_answers_'+ST.mod,JSON.stringify(ST.a));
     }catch(e){}
   },800);
@@ -1195,7 +1199,7 @@ function updateAccordion(){
         return {id:step.id,title:step.title||step.id,answered:ans,total:step.qs.length,done:isStepDone(step)};
       });
       window.parent.postMessage({
-        type:'profilys-progress',
+        type:PROFILYS.events.progress,
         mod:ST.mod,
         answered:answeredAll,
         total:totalQs,
@@ -1693,16 +1697,16 @@ function prevStep(){/* deprecated — accordion mode */}
 function finishMod(){
   ST.done[ST.mod]=true;
   // Save state to localStorage for parent to read
-  try{localStorage.setItem('profilys_profil_state',JSON.stringify({done:ST.done}));}catch(e){}
+  try{localStorage.setItem(PROFILYS.keys.profilState,JSON.stringify({done:ST.done}));}catch(e){}
   // Save answers for this module
   try{localStorage.setItem('profilys_answers_'+ST.mod,JSON.stringify(ST.a));}catch(e){}
   // Compute and save all scores
   try{
     var R=computeScores();
-    localStorage.setItem('profilys_scores',JSON.stringify(R));
+    localStorage.setItem(PROFILYS.keys.scores,JSON.stringify(R));
   }catch(e){}
   // Notify parent iframe
-  try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:'profilys-module-done',mod:ST.mod,scores:computeScores()},'*');}catch(e){}
+  try{if(window.parent&&window.parent!==window)window.parent.postMessage({type:PROFILYS.events.moduleDone,mod:ST.mod,scores:computeScores()},'*');}catch(e){}
   ST.view='results';render();
 }
 function goLanding(){
@@ -1717,13 +1721,13 @@ function goLanding(){
   window.location.href='app.html#profil';
 }
 function goResults(){ST.view='results';render();}
-function resetAll(){if(confirm('Effacer toutes vos réponses et recommencer ?')){ST.a={};ST.done={meta:false,life:false,nutr:false};ST.view='landing';ST.step=0;try{localStorage.setItem('profilys_profil_state',JSON.stringify({done:ST.done}));}catch(e){}render();}}
+function resetAll(){if(confirm('Effacer toutes vos réponses et recommencer ?')){ST.a={};ST.done={meta:false,life:false,nutr:false};ST.view='landing';ST.step=0;try{localStorage.setItem(PROFILYS.keys.profilState,JSON.stringify({done:ST.done}));}catch(e){}render();}}
 
 /* ══ AUTO-START MODULE FROM URL ══ */
 (function(){
   // Restore saved answers from localStorage
   try{
-    var ps=JSON.parse(localStorage.getItem('profilys_profil_state')||'{}');
+    var ps=JSON.parse(localStorage.getItem(PROFILYS.keys.profilState)||'{}');
     if(ps.done){ST.done.meta=!!ps.done.meta;ST.done.life=!!ps.done.life;ST.done.nutr=!!ps.done.nutr;}
   }catch(e){}
   ['meta','life','nutr'].forEach(function(mod){

@@ -402,7 +402,12 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 
 </style>
 
-</head>
+
+  <!-- Profilys shared assets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/components.js"></script>
+  </head>
 <body>
 
 <!-- NAV -->
@@ -585,7 +590,7 @@ function drawAllCharts(){
 
 // Load user name from localStorage
 try{
-  var sess=JSON.parse(localStorage.getItem('profilys_session')||'{}');
+  var sess=JSON.parse(localStorage.getItem(PROFILYS.keys.session)||'{}');
   if(sess&&sess.name){
     var uEl=document.querySelector('.nav-user span');
     var avEl=document.querySelector('.nav-user-av');
@@ -597,8 +602,8 @@ try{
 
 /* ══ BILAN DATA ══ */
 var BIO_DAYS = 90;
-function blnLS(){try{return JSON.parse(localStorage.getItem('profilys_bilans')||'{}')}catch(e){return{}}}
-function blnSaveLS(d){try{localStorage.setItem('profilys_bilans',JSON.stringify(d))}catch(e){}}
+function blnLS(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.bilans)||'{}')}catch(e){return{}}}
+function blnSaveLS(d){try{localStorage.setItem(PROFILYS.keys.bilans,JSON.stringify(d))}catch(e){}}
 
 var BIO_MARKERS = [
   {id:'glycemie',  svgId:'c-gly',  title:'Glycémie à jeun',  unit:'mg/dL', color:'#f59e0b', refMin:70,   refMax:100,  refLabel:'70–100',    warn:function(v){return v>100?'Élevé':v<70?'Bas':'Normal';}},
@@ -745,7 +750,7 @@ var CQ_SIGS=[
   {id:'ecran',label:'Temps écran',unit:'h',color:'#f59e0b'},
   {id:'humeur',label:'Humeur',unit:'/5',color:'#10b981'},
 ];
-function ciGetHistory(){try{return JSON.parse(localStorage.getItem('profilys_checkins')||'{}')}catch(e){return{}}}
+function ciGetHistory(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.checkins)||'{}')}catch(e){return{}}}
 function cqGetSeries(sigId,days){
   var h=ciGetHistory(),cutoff=new Date();cutoff.setDate(cutoff.getDate()-days);
   var pts=[];
@@ -994,8 +999,8 @@ var CI_SIGS=[
 var ciTd={},ciT={};
 function ciDk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function ciFmtDate(){var d=new Date(),dn=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],mn=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];return dn[d.getDay()]+' '+d.getDate()+' '+mn[d.getMonth()]}
-function ciGH(){try{return JSON.parse(localStorage.getItem('profilys_checkins')||'{}')}catch(e){return{}}}
-function ciSH(h){try{localStorage.setItem('profilys_checkins',JSON.stringify(h))}catch(e){}}
+function ciGH(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.checkins)||'{}')}catch(e){return{}}}
+function ciSH(h){try{localStorage.setItem(PROFILYS.keys.checkins,JSON.stringify(h))}catch(e){}}
 function ciLoadTd(){var h=ciGH(),k=ciDk(new Date());ciTd=(h[k]&&h[k].s)?JSON.parse(JSON.stringify(h[k].s)):{}}
 function ciSaveSig(id,v){ciTd[id]=v;var h=ciGH(),k=ciDk(new Date());if(!h[k])h[k]={d:k,ts:new Date().toISOString(),s:{}};h[k].s[id]=v;h[k].ts=new Date().toISOString();ciSH(h);ciRenderMenu();ciUpdNav()}
 function ciStreak(){var h=ciGH(),s=0,d=new Date();if(!h[ciDk(d)])return 0;s=1;for(var i=1;i<365;i++){d.setDate(d.getDate()-1);if(h[ciDk(d)])s++;else break}return s}

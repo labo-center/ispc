@@ -3,7 +3,7 @@
 <head>
   <!-- ══ SUPABASE — chargé en premier ══ -->
   <script src="supabase.min.js"></script>
-  <script src="supabase-client.js"></script>
+  <script src="assets/js/supabase-client.js"></script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
@@ -1322,7 +1322,12 @@ body{background:var(--dark-1)}
   .nav-live{display:none}
 }
 </style>
-</head>
+
+  <!-- Profilys shared assets -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/components.js"></script>
+  </head>
 <body>
 <a href="#s-dash" class="skip-link">Aller au contenu principal</a>
 
@@ -2060,12 +2065,12 @@ body{background:var(--dark-1)}
       var users=JSON.parse(legacyUsers);
       // Migrate to profiles list if not already done
       var profiles=[];
-      try{ profiles=JSON.parse(localStorage.getItem('profilys_profiles')||'[]'); }catch(e){}
+      try{ profiles=JSON.parse(localStorage.getItem(PROFILYS.keys.profiles)||'[]'); }catch(e){}
       if(profiles.length===0 && Array.isArray(users)){
         users.forEach(function(u,i){
           profiles.push({id:'migrated_'+i,name:u.name||'Profil',createdAt:Date.now()});
         });
-        localStorage.setItem('profilys_profiles',JSON.stringify(profiles));
+        localStorage.setItem(PROFILYS.keys.profiles,JSON.stringify(profiles));
       }
       localStorage.removeItem('profilys_users');
     }
@@ -2073,7 +2078,7 @@ body{background:var(--dark-1)}
 
   // ── Supabase Auth guard ──
   var session=null;
-  try{ session=JSON.parse(localStorage.getItem('profilys_session')||'null'); }catch(e){}
+  try{ session=JSON.parse(localStorage.getItem(PROFILYS.keys.session)||'null'); }catch(e){}
   const avatar = document.getElementById('nav-avatar');
   const uname  = document.getElementById('nav-username');
   // Affiche le nom en cache immédiatement (évite le flash)
@@ -2093,7 +2098,7 @@ body{background:var(--dark-1)}
       var name = (profile && profile.name) ? profile.name : (user.email||'Utilisateur');
       if(avatar) avatar.textContent = name[0].toUpperCase();
       if(uname)  uname.textContent  = name;
-      localStorage.setItem('profilys_session', JSON.stringify({id:user.id, name:name, email:user.email}));
+      localStorage.setItem(PROFILYS.keys.session, JSON.stringify({id:user.id, name:name, email:user.email}));
     }catch(e){ console.warn('Auth check:', e); }
   })();
 
@@ -2312,7 +2317,7 @@ function updateProfilProgress(){
   // Read completion state from localStorage (shared with bilan_coaching_premium)
   var done=0;
   try{
-    var raw=localStorage.getItem('profilys_profil_state');
+    var raw=localStorage.getItem(PROFILYS.keys.profilState);
     if(raw){
       var st=JSON.parse(raw);
       ['meta','life','nutr'].forEach(function(k){
@@ -2334,7 +2339,7 @@ function updateProfilProgress(){
 
 function updateBridgeBadges(){
   try{
-    var raw=localStorage.getItem('profilys_profil_state');
+    var raw=localStorage.getItem(PROFILYS.keys.profilState);
     if(raw){
       var st=JSON.parse(raw);
       ['meta','life','nutr'].forEach(function(k){
@@ -2356,16 +2361,16 @@ var modProgress={meta:{answered:0,total:34,pct:0,done:false},life:{answered:0,to
 // Listen for messages from iframe
 window.addEventListener('message',function(e){
   if(!e.data||!e.data.type)return;
-  if(e.data.type==='profilys-module-done'){
+  if(e.data.type===PROFILYS.events.moduleDone){
     updateProfilProgress();
     updateBridgeBadges();
     // Refresh dashboard if scores were sent
     if(e.data.scores){
-      try{localStorage.setItem('profilys_scores',JSON.stringify(e.data.scores));}catch(ex){}
+      try{localStorage.setItem(PROFILYS.keys.scores,JSON.stringify(e.data.scores));}catch(ex){}
     }
     renderDashboard();
   }
-  if(e.data.type==='profilys-progress'){
+  if(e.data.type===PROFILYS.events.progress){
     var mod=e.data.mod;
     if(!mod)return;
     modProgress[mod]=e.data;
@@ -2414,7 +2419,7 @@ window.addEventListener('message',function(e){
 
 // Init badges on load — auto-load demo if empty
 setTimeout(function(){
-  var _sc;try{_sc=JSON.parse(localStorage.getItem('profilys_scores')||'null');}catch(e){}
+  var _sc;try{_sc=JSON.parse(localStorage.getItem(PROFILYS.keys.scores)||'null');}catch(e){}
   if(!_sc || Object.keys(_sc).length===0){
     // Silently load demo data for showcase
     var demoScores={homaIR:1.8,metsIR:42,hba1c:5.8,gly:103,fib4:0.82,egfr:97,kfre:0.4,
@@ -2425,10 +2430,10 @@ setTimeout(function(){
     var demoProfil={done:{meta:true,life:true,nutr:false}};
     var demoCtx={age:'42',sexe:'Homme',taille:'178',poids:'82',tour_taille:'92',
       activite_freq:'3',sommeil_qualite:'moyen',glycemie_connue:'103 mg/dL',_imc:25.9,_demo:true};
-    localStorage.setItem('profilys_scores',JSON.stringify(demoScores));
-    localStorage.setItem('profilys_profil_state',JSON.stringify(demoProfil));
+    localStorage.setItem(PROFILYS.keys.scores,JSON.stringify(demoScores));
+    localStorage.setItem(PROFILYS.keys.profilState,JSON.stringify(demoProfil));
     localStorage.setItem('ctx_bilan_v5b',JSON.stringify(demoCtx));
-    localStorage.setItem('profilys_demo','1');
+    localStorage.setItem(PROFILYS.keys.demo,'1');
   }
   updateBridgeBadges();updateProfilProgress();renderDashboard();
 },200);
@@ -2553,7 +2558,7 @@ function switchProfile(){
   if(window.PrevioAuth){
     PrevioAuth.signOut().catch(function(){ window.location.href='index.html'; });
   } else {
-    localStorage.removeItem('profilys_session');
+    localStorage.removeItem(PROFILYS.keys.session);
     window.location.href='index.html';
   }
 }
@@ -2648,14 +2653,14 @@ function computeModuleScore(scores, keys){
 /* ══ RENDER DASHBOARD ══ */
 function renderDashboard(){
   var session=null;
-  try{session=JSON.parse(localStorage.getItem('profilys_session')||'{}');}catch(e){}
+  try{session=JSON.parse(localStorage.getItem(PROFILYS.keys.session)||'{}');}catch(e){}
   var scores=null;
-  try{scores=JSON.parse(localStorage.getItem('profilys_scores')||'null');}catch(e){}
+  try{scores=JSON.parse(localStorage.getItem(PROFILYS.keys.scores)||'null');}catch(e){}
   var profil=null;
-  try{profil=JSON.parse(localStorage.getItem('profilys_profil_state')||'{}');}catch(e){}
+  try{profil=JSON.parse(localStorage.getItem(PROFILYS.keys.profilState)||'{}');}catch(e){}
   var ctxData=null;
   try{ctxData=JSON.parse(localStorage.getItem('ctx_bilan_v5b')||'null');}catch(e){}
-  var isDemo=!!localStorage.getItem('profilys_demo');
+  var isDemo=!!localStorage.getItem(PROFILYS.keys.demo);
 
   var hasData=(scores && Object.keys(scores).length>0) || (ctxData && Object.keys(ctxData).length>1) || (profil && profil.done && (profil.done.meta||profil.done.life||profil.done.nutr));
 
@@ -3017,10 +3022,10 @@ function loadDemoData(){
     _imc:25.9,_demo:true
   };
 
-  localStorage.setItem('profilys_scores',JSON.stringify(demoScores));
-  localStorage.setItem('profilys_profil_state',JSON.stringify(demoProfil));
+  localStorage.setItem(PROFILYS.keys.scores,JSON.stringify(demoScores));
+  localStorage.setItem(PROFILYS.keys.profilState,JSON.stringify(demoProfil));
   localStorage.setItem('ctx_bilan_v5b',JSON.stringify(demoCtx));
-  localStorage.setItem('profilys_demo','1');
+  localStorage.setItem(PROFILYS.keys.demo,'1');
 
   renderDashboard();
   updateProfilProgress();
@@ -3028,9 +3033,9 @@ function loadDemoData(){
 }
 
 function clearDemoData(){
-  localStorage.removeItem('profilys_scores');
-  localStorage.removeItem('profilys_profil_state');
-  localStorage.removeItem('profilys_demo');
+  localStorage.removeItem(PROFILYS.keys.scores);
+  localStorage.removeItem(PROFILYS.keys.profilState);
+  localStorage.removeItem(PROFILYS.keys.demo);
   // Don't remove ctx_bilan_v5b if it's not demo data
   try{
     var ctx=JSON.parse(localStorage.getItem('ctx_bilan_v5b')||'{}');
@@ -3090,7 +3095,7 @@ var SCORE_INFO={
 /* ══ INFO PANEL ══ */
 function openInfo(key){
   var info=SCORE_INFO[key];if(!info)return;
-  var scores={};try{scores=JSON.parse(localStorage.getItem('profilys_scores')||'{}');}catch(e){}
+  var scores={};try{scores=JSON.parse(localStorage.getItem(PROFILYS.keys.scores)||'{}');}catch(e){}
   var val=scores[key];
   var interp=INTERP[key];
   var result=interp?interp(val):null;
@@ -3204,12 +3209,12 @@ function generate7DayPlan(priorities){
   });
 }
 
-function getChecklist(){try{return JSON.parse(localStorage.getItem('profilys_checklist')||'{}');}catch(e){return{};}}
-function saveChecklist(cl){try{localStorage.setItem('profilys_checklist',JSON.stringify(cl));}catch(e){}}
+function getChecklist(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.checklist)||'{}');}catch(e){return{};}}
+function saveChecklist(cl){try{localStorage.setItem(PROFILYS.keys.checklist,JSON.stringify(cl));}catch(e){}}
 function toggleTask(di,ti){var cl=getChecklist();var k='d'+di+'t'+ti;cl[k]=!cl[k];saveChecklist(cl);renderPlan();}
 
 function renderPlan(){
-  var scores=null;try{scores=JSON.parse(localStorage.getItem('profilys_scores')||'null');}catch(e){}
+  var scores=null;try{scores=JSON.parse(localStorage.getItem(PROFILYS.keys.scores)||'null');}catch(e){}
   var planEl=document.getElementById('dash-plan'),planSep=document.getElementById('dash-plan-sep');
   if(!scores||Object.keys(scores).length===0){planEl.style.display='none';planSep.style.display='none';return;}
   var priorities=generatePriorities(scores);
@@ -3335,8 +3340,8 @@ function renderPlan(){
     function ciFmtDate(){var d=new Date(),dn=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],
       mn=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
       return dn[d.getDay()]+' '+d.getDate()+' '+mn[d.getMonth()]}
-    function ciGH(){try{return JSON.parse(localStorage.getItem('profilys_checkins')||'{}')}catch(e){return{}}}
-    function ciSH(h){try{localStorage.setItem('profilys_checkins',JSON.stringify(h))}catch(e){}}
+    function ciGH(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.checkins)||'{}')}catch(e){return{}}}
+    function ciSH(h){try{localStorage.setItem(PROFILYS.keys.checkins,JSON.stringify(h))}catch(e){}}
     function ciLoadTd(){var h=ciGH(),k=ciDk(new Date());ciTd=(h[k]&&h[k].s)?JSON.parse(JSON.stringify(h[k].s)):{}}
     function ciSaveSig(id,v){
       ciTd[id]=v;var h=ciGH(),k=ciDk(new Date());
