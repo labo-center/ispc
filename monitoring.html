@@ -463,6 +463,15 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 <!-- BODY -->
 <div class="mon-body">
 
+  <!-- SUIVI QUOTIDIEN -->
+  <div class="cq-section fu d3" id="cqSection">
+    <div class="cq-head"><div><div class="cq-title">📅 Suivi quotidien</div><div class="cq-sub">Évolution des signaux du check-in matinal</div></div><div class="cq-filters"><button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button><button class="tf-btn" onclick="switchCqTf(this,30)">30j</button><button class="tf-btn" onclick="switchCqTf(this,90)">90j</button></div></div>
+    <div id="cqEmpty" style="display:none;text-align:center;padding:40px;border:1px dashed rgba(255,255,255,.1);border-radius:16px"><div style="font-size:13px;color:rgba(255,255,255,.4)">Aucune donnée de check-in pour cette période</div></div>
+    <div class="cq-grid" id="cqGrid"></div>
+  </div>
+
+  <div style="margin:36px 0 8px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07)"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35)">🔬 Bilan biologique</div></div>
+
   <!-- Category nav -->
   <div class="cat-nav fu">
     <button class="cat-pill active" onclick="switchCat(this)">📋 Tous</button>
@@ -498,12 +507,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     <div class="bio-card"><div class="bc-head"><div class="bc-title">Ferritine</div><div class="bc-unit">ng/mL</div></div><div class="bc-vals"><div class="bc-current">86</div><div class="bc-trend stable">→ stable</div></div><div class="bc-ref">Réf homme : 30–300</div><div class="bc-chart"><svg id="c-fer" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 84</div><div class="bc-dp"><strong>06/02</strong> 86</div></div></div>
   </div>
 
-  <!-- SUIVI QUOTIDIEN -->
-  <div class="cq-section fu d3" id="cqSection">
-    <div class="cq-head"><div><div class="cq-title">📅 Suivi quotidien</div><div class="cq-sub">Évolution des signaux du check-in matinal</div></div><div class="cq-filters"><button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button><button class="tf-btn" onclick="switchCqTf(this,30)">30j</button><button class="tf-btn" onclick="switchCqTf(this,90)">90j</button></div></div>
-    <div id="cqEmpty" style="display:none;text-align:center;padding:40px;border:1px dashed rgba(255,255,255,.1);border-radius:16px"><div style="font-size:13px;color:rgba(255,255,255,.4)">Aucune donnée de check-in pour cette période</div></div>
-    <div class="cq-grid" id="cqGrid"></div>
-  </div>
+
 
   <!-- Comparison table -->
   <div class="compare-card fu d3">
@@ -742,43 +746,432 @@ function switchCat(el){
 /* ══ CQ SECTION ══ */
 var CQ_DAYS=30;
 var CQ_SIGS=[
-  // Numériques — courbe
-  {id:'poids',   label:'Poids',           unit:'kg', color:'#0ea5c9', type:'num'},
-  {id:'tour',    label:'Tour de taille',  unit:'cm', color:'#7c3aed', type:'num'},
-  {id:'stress',  label:'Stress',          unit:'/10',color:'#f59e0b', type:'num'},
-  {id:'sommeil', label:'Qualité sommeil', unit:'/5', color:'#a78bfa', type:'num'},
-  {id:'humeur',  label:'Humeur',          unit:'/5', color:'#10b981', type:'num'},
-  // Qualitatifs — fréquence / tags
-  {id:'urines',    label:'Hydratation',      unit:'',  color:'#0ea5c9', type:'color',
-    map:{1:'Transparent',2:'Jaune clair',3:'Jaune',4:'Jaune foncé',5:'Ambre',6:'Brun'}},
-  {id:'digestion', label:'Digestion',        unit:'',  color:'#10b981', type:'tag',
-    map:{normal:'Normal',inconfort:'Inconfort',ballonne:'Ballonné',douleurs:'Douleurs',nausee:'Nausée'}},
-  {id:'jeune',     label:'Jeûne',            unit:'',  color:'#f59e0b', type:'bool'},
-  {id:'repas',     label:'Qualité du repas', unit:'',  color:'#f59e0b', type:'tag',
-    map:{leger:'Léger',normal:'Normal',riche:'Riche',jeune:'Jeûne'}},
-  {id:'activite',  label:'Activité physique',unit:'',  color:'#10b981', type:'tags'},
+  // Numériques purs
+  {id:'poids',   label:'Poids',           unit:'kg',  color:'#0ea5c9', type:'num'},
+  {id:'tour',    label:'Tour de taille',  unit:'cm',  color:'#7c3aed', type:'num'},
+  {id:'stress',  label:'Stress',          unit:'/10', color:'#f59e0b', type:'num'},
+  {id:'sommeil', label:'Qualité sommeil', unit:'/5',  color:'#a78bfa', type:'num'},
+  {id:'humeur',  label:'Humeur',          unit:'/5',  color:'#10b981', type:'num'},
+  // Courbes avec valeur par défaut si jour manquant
+  {id:'urines',    label:'Hydratation',       unit:'',  color:'#0ea5c9', type:'scale',
+    // 1=très hydraté→6=déshydraté, on inverse: 7-val pour que haut=bien
+    scale:6, invert:true, labels:{1:'Transparent',2:'Jaune clair',3:'Jaune',4:'Foncé',5:'Ambre',6:'Brun'}, def:null},
+  {id:'activite',  label:'Activité physique', unit:'',  color:'#10b981', type:'bool_curve', def:0,
+    // 1=sport, 0=pas de sport. Valeur par défaut si absent = 0
+    yLabels:['Repos','Sport']},
+  {id:'repas',     label:'Richesse du repas', unit:'',  color:'#f59e0b', type:'scale_map', def:'normal',
+    map:{leger:1, normal:2, riche:3, jeune:0}, revMap:{0:'Jeûne',1:'Léger',2:'Normal',3:'Riche'}, defVal:2},
+  {id:'digestion', label:'Équilibre digestif',unit:'',  color:'#10b981', type:'scale_map', def:'normal',
+    map:{normal:0, inconfort:1, ballonne:2, douleurs:3, nausee:4}, revMap:{0:'Normal',1:'Inconfort',2:'Ballonné',3:'Douleurs',4:'Nausée'}, defVal:0, invert:false},
+  {id:'jeune',     label:'Jeûne',             unit:'',  color:'#a78bfa', type:'bool_curve', def:0,
+    yLabels:['Repas','Jeûne']},
 ];
 function ciGetHistory(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.checkins)||'{}')}catch(e){return{}}}
-function cqGetSeries(sig,days){
-  var h=ciGetHistory(),cutoff=new Date();cutoff.setDate(cutoff.getDate()-days);
-  var pts=[];
-  Object.keys(h).sort().forEach(function(d){
-    if(new Date(d)<cutoff)return;
-    var val=h[d]&&h[d].s&&h[d].s[sig.id];if(val===undefined||val===null)return;
-    pts.push({date:d,v:val});
+function cqGetSeries(sig, days){
+  var h=ciGetHistory();
+  // Build list of all dates in range
+  var dates=[], cutoff=new Date(); cutoff.setDate(cutoff.getDate()-days);
+  var d=new Date(cutoff); d.setDate(d.getDate()+1);
+  var today=new Date();
+  while(d<=today){
+    dates.push(d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'));
+    d.setDate(d.getDate()+1);
+  }
+  var t=sig.type;
+  return dates.map(function(dk){
+    var raw=h[dk]&&h[dk].s&&h[dk].s[sig.id];
+    var v=null;
+    if(t==='num'){
+      v=(raw!==undefined&&raw!==null)?parseFloat(raw):null;
+    } else if(t==='bool_curve'){
+      if(raw===true||raw==='true')v=1;
+      else if(raw===false||raw==='false')v=0;
+      else v=sig.def!==undefined?sig.def:0; // default = repos/repas normal
+    } else if(t==='scale'){
+      v=(raw!==undefined&&raw!==null)?parseInt(raw):null; // null = no dot
+    } else if(t==='scale_map'){
+      if(raw!==undefined&&raw!==null){
+        var mapped=sig.map[Array.isArray(raw)?raw[0]:raw];
+        v=(mapped!==undefined)?mapped:sig.defVal;
+      } else {
+        v=sig.defVal; // default value
+      }
+    }
+    return {date:dk, v:v, hasData:(raw!==undefined&&raw!==null)};
+  }).filter(function(p){
+    // For num, skip days with no data; for others keep all (with defaults)
+    if(t==='num') return p.v!==null;
+    return true;
   });
-  return pts;
 }
-function cqFmt(d){var x=new Date(d);return x.getDate()+'/'+(x.getMonth()+1);}
-function cqTrend(pts){
-  if(pts.length<2)return null;
-  var diff=+(pts[pts.length-1].v-pts[pts.length-2].v).toFixed(1);
-  return diff>0?{cls:'cq-trend-up',txt:'+'+diff}:diff<0?{cls:'cq-trend-down',txt:''+diff}:{cls:'cq-trend-stable',txt:'stable'};
+
+function cqRender(days){
+  var grid=document.getElementById('cqGrid'), empty=document.getElementById('cqEmpty');
+  if(!grid)return; grid.innerHTML='';
+  var cards=[];
+  CQ_SIGS.forEach(function(sig){
+    var pts=cqGetSeries(sig,days);
+    var hasAny=pts.some(function(p){return p.hasData;});
+    if(hasAny) cards.push({sig:sig,pts:pts});
+  });
+  if(!cards.length){if(empty)empty.style.display='block';return;}
+  if(empty)empty.style.display='none';
+
+  cards.forEach(function(c){
+    var sig=c.sig, pts=c.pts, t=sig.type;
+    var div=document.createElement('div'); div.className='cq-card';
+    var svgId='cqsvg'+sig.id;
+    var inner='<div class="cq-card-title">'+sig.label+'</div>';
+
+    if(t==='num'){
+      var last=pts[pts.length-1]; var trend=cqTrend(pts);
+      var tHtml=trend?'<span class="cq-trend '+trend.cls+'">'+trend.txt+'</span>':'';
+      var foot=pts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(sig.unit||'')+'</div>';}).join('');
+      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+'">'+last.v+'</div><div class="cq-card-unit">'+sig.unit+'</div>'+tHtml+'</div>'+
+        '<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>'+
+        '<div class="cq-card-foot">'+foot+'</div>';
+      div.innerHTML=inner; grid.appendChild(div);
+      requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLine(s,pts,sig.color,null,null);});
+
+    } else if(t==='bool_curve'){
+      var oui=pts.filter(function(p){return p.v===1;}).length;
+      var pct=Math.round(oui/pts.length*100);
+      var last=pts[pts.length-1];
+      var lastLbl=sig.yLabels?sig.yLabels[last.v||0]:(last.v?'Oui':'Non');
+      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+'">'+pct+'<span style="font-size:14px">%</span></div><div class="cq-card-unit">des jours</div></div>';
+      inner+='<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>';
+      var yLbls=sig.yLabels||['Non','Oui'];
+      inner+='<div class="cq-card-foot"><div class="cq-dp">'+yLbls[1]+' : <strong>'+oui+' j</strong></div><div class="cq-dp">'+yLbls[0]+' : <strong>'+(pts.length-oui)+' j</strong></div></div>';
+      div.innerHTML=inner; grid.appendChild(div);
+      requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLineBool(s,pts,sig.color,yLbls);});
+
+    } else if(t==='scale'||t==='scale_map'){
+      var validPts=pts.filter(function(p){return p.v!==null;});
+      if(!validPts.length){grid.appendChild(div);return;}
+      var last=validPts[validPts.length-1];
+      var lblMap=sig.revMap||sig.labels||{};
+      var lastLbl=lblMap[last.v]||last.v;
+      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+';font-size:16px;line-height:1.3">'+lastLbl+'</div></div>';
+      inner+='<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>';
+      var foot=validPts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+(lblMap[p.v]||p.v)+'</div>';}).join('');
+      inner+='<div class="cq-card-foot">'+foot+'</div>';
+      div.innerHTML=inner; grid.appendChild(div);
+      requestAnimationFrame(function(){
+        var s=document.getElementById(svgId);
+        if(!s)return;
+        var drawPts=pts.map(function(p){return{date:p.date,v:p.v!==null?p.v:sig.defVal,hasData:p.hasData};});
+        var maxV=sig.scale||(Object.keys(sig.map||{}).length-1)||4;
+        cqDrawLine(s,drawPts,sig.color,0,maxV,lblMap,sig.invert);
+      });
+    }
+  });
 }
-function cqDrawLine(svgEl,pts,color){
+function switchCqTf(btn,days){
+  btn.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');CQ_DAYS=days;cqRender(days);
+}
+
+/* ══ SAISIE BILAN ══ */
+var BLN_CATS=[
+  {label:'Métabolisme Glucidique',fields:[
+    {id:'glycemie',name:'Glycémie à jeun',unit:'mg/dL',ref:'70–100'},
+    {id:'hba1c',name:'HbA1c',unit:'%',ref:'< 5.7'},
+    {id:'insulin',name:'Insuline',unit:'µUI/mL',ref:'2–20'},
+    {id:'homa_ir',name:'HOMA-IR',unit:'',ref:'< 2.5'},
+  ]},
+  {label:'Bilan Lipidique',fields:[
+    {id:'chol_tot',name:'Cholestérol total',unit:'g/L',ref:'< 2.0'},
+    {id:'ldl',name:'LDL',unit:'g/L',ref:'< 1.3'},
+    {id:'hdl',name:'HDL',unit:'g/L',ref:'> 0.4 H'},
+    {id:'trig',name:'Triglycérides',unit:'g/L',ref:'< 1.5'},
+    {id:'apoB',name:'ApoB',unit:'g/L',ref:'< 1.2'},
+  ]},
+  {label:'Inflammatoires & Protéines',fields:[
+    {id:'crp',name:'CRP',unit:'mg/L',ref:'< 3.0'},
+    {id:'crp_hs',name:'CRP ultrasensible',unit:'mg/L',ref:'< 1.0'},
+    {id:'alb',name:'Albumine',unit:'g/L',ref:'38–48'},
+  ]},
+  {label:'Fonction Hépatique',fields:[
+    {id:'asat',name:'ASAT',unit:'UI/L',ref:'< 40'},
+    {id:'alat',name:'ALAT',unit:'UI/L',ref:'< 40'},
+    {id:'ggt',name:'GGT',unit:'UI/L',ref:'< 55'},
+    {id:'pal',name:'Phosphatases alc.',unit:'UI/L',ref:'40–130'},
+    {id:'bili',name:'Bilirubine totale',unit:'mg/L',ref:'< 12'},
+    {id:'fib4',name:'FIB-4',unit:'',ref:'< 1.30'},
+  ]},
+  {label:'Fonction Rénale',fields:[
+    {id:'creat',name:'Créatinine',unit:'mg/L',ref:'7–13 H'},
+    {id:'egfr',name:'eGFR',unit:'mL/min',ref:'> 90'},
+    {id:'uree',name:'Urée',unit:'g/L',ref:'0.15–0.45'},
+  ]},
+  {label:'Ionogramme',fields:[
+    {id:'na',name:'Sodium (Na)',unit:'mmol/L',ref:'136–145'},
+    {id:'k',name:'Potassium (K)',unit:'mmol/L',ref:'3.5–5.0'},
+    {id:'ca',name:'Calcium (Ca)',unit:'mmol/L',ref:'2.2–2.6'},
+    {id:'phos',name:'Phosphore',unit:'mmol/L',ref:'0.8–1.5'},
+  ]},
+  {label:'Nutrition & Hormones',fields:[
+    {id:'vitd',name:'Vitamine D',unit:'ng/mL',ref:'30–80'},
+    {id:'b9',name:'Vitamine B9',unit:'ng/mL',ref:'3–17'},
+    {id:'b12',name:'Vitamine B12',unit:'pg/mL',ref:'200–900'},
+    {id:'fer',name:'Fer sérique',unit:'µg/dL',ref:'65–175 H'},
+    {id:'ferritine',name:'Ferritine',unit:'ng/mL',ref:'30–300 H'},
+    {id:'tsh',name:'TSH',unit:'mUI/L',ref:'0.4–4.0'},
+  ]},
+  {label:'NFS',fields:[
+    {id:'hb',name:'Hémoglobine (HB)',unit:'g/dL',ref:'13–18 H'},
+    {id:'nfs_gr',name:'Globules rouges',unit:'T/L',ref:'4.5–5.9'},
+    {id:'nfs_gb',name:'Globules blancs',unit:'G/L',ref:'4–10'},
+    {id:'plaq',name:'Plaquettes',unit:'G/L',ref:'150–400'},
+  ]},
+];
+function openBilan(){
+  document.getElementById('blnForm').style.display='block';
+  document.getElementById('blnOk').classList.remove('show');
+  var d=new Date();
+  var ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  document.getElementById('blnDate').value=ds;
+  renderBlnFields(ds);
+  document.getElementById('blnOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeBilan(){
+  document.getElementById('blnOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBilan();});
+function renderBlnFields(date){
+  var body=document.getElementById('blnBody');if(!body)return;
+  var stored=blnLS();var dayData=(stored[date]&&stored[date].values)||{};
+  body.innerHTML='';
+  BLN_CATS.forEach(function(cat){
+    var catEl=document.createElement('div');catEl.className='bln-cat';
+    var head=document.createElement('div');head.className='bln-cat-head';head.textContent=cat.label;
+    catEl.appendChild(head);
+    cat.fields.forEach(function(f){
+      var ex=dayData[f.id]!==undefined?String(dayData[f.id]):'';
+      var row=document.createElement('div');row.className='bln-field';
+      var info=document.createElement('div');info.style.flex='1';
+      var nm=document.createElement('div');nm.className='bln-field-name';nm.textContent=f.name;
+      var rf=document.createElement('div');rf.className='bln-field-ref';rf.textContent='Ref: '+f.ref;
+      info.appendChild(nm);info.appendChild(rf);
+      var wrap=document.createElement('div');wrap.className='bln-inp-wrap';
+      var inp=document.createElement('input');
+      inp.type='number';inp.step='any';inp.id='bf-'+f.id;inp.placeholder='--';
+      inp.className='bln-inp'+(ex!==''?' filled':'');
+      if(ex!=='')inp.value=ex;
+      inp.addEventListener('input',function(){this.classList.toggle('filled',this.value!=='');});
+      var un=document.createElement('div');un.className='bln-unit';un.textContent=f.unit;
+      wrap.appendChild(inp);wrap.appendChild(un);
+      row.appendChild(info);row.appendChild(wrap);
+      catEl.appendChild(row);
+    });
+    body.appendChild(catEl);
+  });
+}
+function saveBilan(){
+  var date=document.getElementById('blnDate').value;
+  if(!date){alert('Veuillez choisir une date.');return;}
+  var stored=blnLS();if(!stored[date])stored[date]={date:date,values:{}};
+  var count=0;
+  BLN_CATS.forEach(function(cat){cat.fields.forEach(function(f){
+    var inp=document.getElementById('bf-'+f.id);
+    if(inp&&inp.value!==''){stored[date].values[f.id]=parseFloat(inp.value);count++;}
+  });});
+  if(count===0){alert('Aucune valeur renseignée.');return;}
+  stored[date].savedAt=new Date().toISOString();blnSaveLS(stored);
+  document.getElementById('blnForm').style.display='none';
+  var dt=new Date(date+'T12:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('blnOkSub').textContent=count+' valeur'+(count>1?'s':'')+' enregistrée'+(count>1?'s':'')+' pour le '+dt+'.';
+  document.getElementById('blnOk').classList.add('show');
+}
+
+/* INIT: draw static charts always; replace with real data if bilans exist */
+requestAnimationFrame(function(){
+  setTimeout(function(){
+    drawAllCharts();
+    cqRender(CQ_DAYS);
+    var stored = blnLS();
+    if(Object.keys(stored).length > 0){
+      renderBioCards(BIO_DAYS);
+      updateStripFromLS();
+    }
+  }, 150);
+});
+
+</script>
+
+<div class="ci-overlay" id="ciOv" onclick="closeCI()"></div>
+<div class="ci-panel" id="ciPan">
+  <div class="ci-bg"><div class="p-grid"></div><div class="p-blob1"></div><div class="p-blob2"></div><div class="p-scan"></div></div>
+  <div class="ci-head">
+    <div class="ci-handle"></div>
+    <div class="ci-head-row">
+      <div><div class="ci-title">Check-in <em>matinal</em></div><div class="ci-date" id="ciDt"></div></div>
+      <button class="ci-close" onclick="closeCI()">✕</button>
+    </div>
+  </div>
+  <div class="ci-body" id="ciBd">
+    <div id="vMenu">
+      <div class="ci-menu-label">Que souhaitez-vous renseigner ?</div>
+      <div class="ci-menu-grid" id="mGrid"></div>
+      <div class="ci-week-wrap">
+        <div class="ci-week-label">📅 Cette semaine</div>
+        <div class="ci-week" id="wStrip"></div>
+      </div>
+    </div>
+    <div class="ci-input" id="vInput">
+      <button class="ci-back" onclick="ciToMenu()">← Retour</button>
+      <div id="iContent"></div>
+    </div>
+    <div class="ci-ok" id="vOk">
+      <div class="ci-ok-ico">✅</div>
+      <div class="ci-ok-title">Enregistré !</div>
+      <div class="ci-ok-sub" id="okMsg">Signal sauvegardé</div>
+      <div class="ci-ok-streak" id="okStreak">🔥 1 jour</div>
+      <button class="ci-ok-btn" onclick="ciToMenu()">Ajouter un autre signal →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var CI_SIGS=[
+  {id:'poids',icon:'⚖️',name:'Poids',type:'dial',unit:'kg',min:30,max:200,step:0.1,dec:1,def:70},
+  {id:'tour',icon:'📏',name:'Tour de taille',type:'dial',unit:'cm',min:50,max:150,step:0.5,dec:1,def:85},
+  {id:'urines',icon:'💧',name:'Urines',type:'color',hint:"Indicateur d'hydratation"},
+  {id:'sommeil',icon:'🌙',name:'Qualité sommeil',type:'emoji5',faces:['😵','😕','😐','😌','😴'],labels:['Terrible','Mauvais','Moyen','Bon','Excellent']},
+  {id:'fatigue',icon:'😴',name:'Fatigue',type:'emoji5',faces:['🔋','🟡','😐','😪','💀'],labels:['Top forme','Correct','Moyen','Fatigué','Épuisé']},
+  {id:'stress',icon:'😰',name:'Stress',type:'gauge',min:0,max:10,def:0,
+    lvl:[{m:0,l:'Zen',c:'var(--c-green)'},{m:2,l:'Calme',c:'var(--c-green)'},{m:4,l:'Léger',c:'var(--c-teal)'},{m:6,l:'Modéré',c:'var(--c-amber)'},{m:8,l:'Élevé',c:'var(--c-amber-d)'},{m:10,l:'Intense',c:'var(--c-red)'}],
+    eL:'🧘 Zen',eR:'Intense 🔥'},
+  {id:'digestion',icon:'🌿',name:'Digestion',type:'quick',opts:[{v:'normal',i:'✅',t:'Normal'},{v:'ballonne',i:'🎈',t:'Ballonné'},{v:'douleurs',i:'😣',t:'Douleurs'},{v:'nausee',i:'🤢',t:'Nausée'}]},
+  {id:'jeune',icon:'⏱️',name:'Jeûne',type:'yn',yTxt:"Oui, j'ai jeûné",nTxt:'Non'},
+  {id:'repas',icon:'🍽️',name:'Repas',type:'repas'},
+  {id:'ecran',icon:'📱',name:"Temps d'écran",type:'gauge',min:0,max:12,def:2,
+    lvl:[{m:2,l:'Minimal',c:'var(--c-green)'},{m:4,l:'Modéré',c:'var(--c-green)'},{m:6,l:'Élevé',c:'var(--c-teal)'},{m:8,l:'Excessif',c:'var(--c-amber)'},{m:10,l:'Très excessif',c:'var(--c-amber-d)'},{m:12,l:'Addiction',c:'var(--c-red)'}],
+    eL:'0h',eR:'12h+'},
+  {id:'activite',icon:'🏃',name:'Activité physique',type:'pills',hint:'Sélectionnez une ou plusieurs',
+    opts:[{v:'marche',t:'🚶 Marche'},{v:'running',t:'🏃 Running'},{v:'rameur',t:'🚣 Rameur'},{v:'paddle',t:'🏄 Paddle'},{v:'velo',t:'🚴 Vélo'},{v:'muscu',t:'💪 Muscu'},{v:'yoga',t:'🧘 Yoga'},{v:'natation',t:'🏊 Natation'},{v:'autre',t:'⚡ Autre'}]},
+  {id:'humeur',icon:'😊',name:'Humeur',type:'emoji5',faces:['😫','😔','😐','🙂','😄'],labels:['Mal','Bof','Neutre','Bien','Top']}
+];
+var ciTd={},ciT={};
+function ciDk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function ciFmtDate(){var d=new Date(),dn=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'],mn=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];return dn[d.getDay()]+' '+d.getDate()+' '+mn[d.getMonth()]}
+function ciGH(){try{return JSON.parse(localStorage.getItem(PROFILYS.keys.checkins)||'{}')}catch(e){return{}}}
+function ciSH(h){try{localStorage.setItem(PROFILYS.keys.checkins,JSON.stringify(h))}catch(e){}}
+function ciLoadTd(){var h=ciGH(),k=ciDk(new Date());ciTd=(h[k]&&h[k].s)?JSON.parse(JSON.stringify(h[k].s)):{}}
+function ciSaveSig(id,v){ciTd[id]=v;var h=ciGH(),k=ciDk(new Date());if(!h[k])h[k]={d:k,ts:new Date().toISOString(),s:{}};h[k].s[id]=v;h[k].ts=new Date().toISOString();ciSH(h);ciRenderMenu();ciUpdNav()}
+function ciStreak(){var h=ciGH(),s=0,d=new Date();if(!h[ciDk(d)])return 0;s=1;for(var i=1;i<365;i++){d.setDate(d.getDate()-1);if(h[ciDk(d)])s++;else break}return s}
+function ciGetLvl(lvls,v){for(var i=0;i<lvls.length;i++){if(v<=lvls[i].m)return lvls[i]}return lvls[lvls.length-1]}
+function openCI(){ciLoadTd();ciRenderMenu();ciRenderWeek();document.getElementById('ciOv').classList.add('open');document.getElementById('ciPan').classList.add('open');document.body.style.overflow='hidden';ciShowV('menu')}
+function closeCI(){document.getElementById('ciOv').classList.remove('open');document.getElementById('ciPan').classList.remove('open');document.body.style.overflow=''}
+function ciShowV(v){document.getElementById('vMenu').style.display=v==='menu'?'block':'none';document.getElementById('vInput').className='ci-input'+(v==='input'?' active':'');document.getElementById('vOk').className='ci-ok'+(v==='ok'?' show':'')}
+function ciToMenu(){ciShowV('menu')}
+function ciRenderMenu(){var g=document.getElementById('mGrid');g.innerHTML='';CI_SIGS.forEach(function(s){var d=document.createElement('div');d.className='ci-mi'+(ciTd[s.id]!==undefined?' done':'');d.onclick=function(){ciOpenSig(s.id)};d.innerHTML='<span class="mi-ico">'+s.icon+'</span><span class="mi-name">'+s.name+'</span>';g.appendChild(d)})}
+function ciRenderWeek(){var c=document.getElementById('wStrip');c.innerHTML='';var t=new Date(),dow=t.getDay(),mon=new Date(t);mon.setDate(t.getDate()-((dow+6)%7));var ns=['L','M','M','J','V','S','D'],h=ciGH();for(var i=0;i<7;i++){var d=new Date(mon);d.setDate(mon.getDate()+i);var k=ciDk(d),isT=ciDk(t)===k,dn=!!h[k];var e=document.createElement('div');e.className='ci-wd'+(dn?' done':'')+(isT?' today':'');e.innerHTML='<div class="ci-wd-n">'+ns[i]+'</div><div class="ci-wd-d">'+d.getDate()+'</div><div class="ci-wd-dot"></div>';c.appendChild(e)}}
+function ciUpdNav(){var h=ciGH(),k=ciDk(new Date()),b=document.getElementById('navCI');if(!b)return;if(h[k]&&h[k].s&&Object.keys(h[k].s).length>0){b.classList.add('done');b.innerHTML='<span class="nc-dot"></span> Check-in ✓'}}
+function ciOpenSig(id){
+  var s=CI_SIGS.find(function(x){return x.id===id});if(!s)return;
+  var c=document.getElementById('iContent'),cv=ciTd[s.id],h='';ciT={};
+  h+='<div class="ci-sig-head"><span class="ci-sig-ico">'+s.icon+'</span><div class="ci-sig-title">'+s.name+'</div>';
+  if(s.hint)h+='<div class="ci-sig-hint">'+s.hint+'</div>';h+='</div>';
+  switch(s.type){
+    case 'emoji5':
+      h+='<div class="emo-row">';for(var i=0;i<5;i++){var sel=cv===(i+1)?' on':'';h+='<div class="emo-opt'+sel+'" data-v="'+(i+1)+'" onclick="ciPEmo(this,\''+id+'\')"><span class="ef">'+s.faces[i]+'</span><span class="el">'+s.labels[i]+'</span></div>'}h+='</div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="ciCfmEmo(\''+id+'\')" '+(cv?'':'disabled')+'>Valider →</button>';break;
+    case 'gauge':
+      var gv=cv!==undefined?cv:s.def,gi=ciGetLvl(s.lvl,gv);
+      h+='<div class="gau"><div class="gau-v" id="gV" style="color:'+gi.c+'">'+gv+'</div><div class="gau-l" id="gL" style="color:'+gi.c+'">'+gi.l+'</div>';
+      h+='<input type="range" class="gau-r" id="gR" min="'+s.min+'" max="'+s.max+'" value="'+gv+'" step="1" oninput="ciUGau(this.value,\''+id+'\')">';
+      h+='<div class="gau-ends"><span class="gau-end">'+s.eL+'</span><span class="gau-end">'+s.eR+'</span></div></div>';
+      h+='<button class="ci-confirm" onclick="ciCfmGau(\''+id+'\')">Valider →</button>';break;
+    case 'dial':
+      var dv=cv!==undefined?cv:s.def;ciT._sv=dv;
+      h+='<div class="rdial-wrap"><div class="rdial-display"><div class="rdial-v" id="stV">'+dv.toFixed(s.dec)+'</div><div class="rdial-u">'+s.unit+'</div></div>';
+      h+='<div class="rdial-canvas-wrap" id="dialWrap_'+id+'"><svg class="rdial-svg" viewBox="0 0 200 200" id="dialSvg_'+id+'">';
+      h+='<defs><linearGradient id="dialGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="var(--c-teal)"/><stop offset="100%" stop-color="var(--c-violet)"/></linearGradient></defs>';
+      h+='<circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="16"/>';
+      h+='<circle cx="100" cy="100" r="80" fill="none" stroke="url(#dialGrad)" stroke-width="16" stroke-linecap="round" stroke-dasharray="502" stroke-dashoffset="502" id="dialArc_'+id+'" style="transform:rotate(-90deg);transform-origin:100px 100px;transition:stroke-dashoffset .1s"/>';
+      h+='<circle cx="100" cy="100" r="54" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>';
+      h+='<text x="100" y="93" text-anchor="middle" fill="rgba(255,255,255,.35)" font-size="11" font-family="inherit" font-weight="700" letter-spacing="1">GLISSER</text>';
+      h+='<text x="100" y="112" text-anchor="middle" fill="rgba(255,255,255,.2)" font-size="10" font-family="inherit">↕ pour ajuster</text>';
+      h+='</svg></div>';
+      h+='<div class="rdial-fine"><button class="rdial-fine-btn" onclick="ciDialFine(\''+id+'\',-1)">−</button><span class="rdial-fine-label">Précision ±'+s.step+' '+s.unit+'</span><button class="rdial-fine-btn" onclick="ciDialFine(\''+id+'\',1)">+</button></div></div>';
+      h+='<button class="ci-confirm" onclick="ciCfmDial(\''+id+'\')">Valider →</button>';break;
+    case 'repas':
+      var rv=cv||{};
+      h+='<div class="repas-wrap"><div class="repas-meal"><div class="repas-meal-title">☀️ Déjeuner</div><div class="repas-opts">';
+      h+='<div class="repas-opt'+(rv.dej==='riche'?' on':'')+'" onclick="ciPRepas(this,\'dej\',\'riche\')"><span class="ro-i">🍖</span><span class="ro-t">Riche</span></div>';
+      h+='<div class="repas-opt'+(rv.dej==='normal'?' on':'')+'" onclick="ciPRepas(this,\'dej\',\'normal\')"><span class="ro-i">🥗</span><span class="ro-t">Normal</span></div>';
+      h+='<div class="repas-opt'+(rv.dej==='saute'?' on':'')+'" onclick="ciPRepas(this,\'dej\',\'saute\')"><span class="ro-i">⏭️</span><span class="ro-t">Sauté</span></div>';
+      h+='</div></div><div class="repas-meal"><div class="repas-meal-title">🌙 Dîner</div><div class="repas-opts">';
+      h+='<div class="repas-opt'+(rv.din==='riche'?' on':'')+'" onclick="ciPRepas(this,\'din\',\'riche\')"><span class="ro-i">🍖</span><span class="ro-t">Riche</span></div>';
+      h+='<div class="repas-opt'+(rv.din==='normal'?' on':'')+'" onclick="ciPRepas(this,\'din\',\'normal\')"><span class="ro-i">🥗</span><span class="ro-t">Normal</span></div>';
+      h+='<div class="repas-opt'+(rv.din==='saute'?' on':'')+'" onclick="ciPRepas(this,\'din\',\'saute\')"><span class="ro-i">⏭️</span><span class="ro-t">Sauté</span></div>';
+      h+='</div></div></div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="ciCfmRepas()" '+(rv.dej||rv.din?'':'disabled')+'>Valider →</button>';break;
+    case 'color':
+      var cls=[{bg:'#f5f0d0',l:'Transparent'},{bg:'#f0e68c',l:'Jaune clair'},{bg:'#daa520',l:'Jaune'},{bg:'#cd853f',l:'Jaune foncé'},{bg:'#a0522d',l:'Ambre'},{bg:'#8b4513',l:'Brun'}];
+      h+='<div class="clr-strip">';for(var j=0;j<cls.length;j++){var cs=cv===(j+1)?' on':'';h+='<div class="clr-opt'+cs+'" style="background:'+cls[j].bg+'" data-v="'+(j+1)+'" onclick="ciPClr(this,\''+id+'\')" title="'+cls[j].l+'"></div>'}h+='</div>';
+      h+='<div style="display:flex;justify-content:space-between;padding:6px 4px 0"><span style="font-size:10px;font-weight:600;color:var(--c-green)">Bien hydraté</span><span style="font-size:10px;font-weight:600;color:var(--c-amber)">Déshydraté</span></div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="ciCfmClr(\''+id+'\')" '+(cv?'':'disabled')+'>Valider →</button>';break;
+    case 'quick':
+      h+='<div class="qk-row">';s.opts.forEach(function(o){var qs=cv===o.v?' on':'';h+='<div class="qk-opt'+qs+'" data-v="'+o.v+'" onclick="ciPQk(this,\''+id+'\')"><span class="qi">'+o.i+'</span><span class="qt">'+o.t+'</span></div>'});h+='</div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="ciCfmQk(\''+id+'\')" '+(cv?'':'disabled')+'>Valider →</button>';break;
+    case 'yn':
+      h+='<div class="yn"><div class="yn-b'+(cv===true?' on':'')+'" data-v="true" onclick="ciPYn(this,\''+id+'\')"><span class="yi">✅</span><span class="yt">'+s.yTxt+'</span></div><div class="yn-b'+(cv===false?' on':'')+'" data-v="false" onclick="ciPYn(this,\''+id+'\')"><span class="yi">❌</span><span class="yt">'+s.nTxt+'</span></div></div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="ciCfmYn(\''+id+'\')" '+(cv!==undefined?'':'disabled')+'>Valider →</button>';break;
+    case 'pills':
+      var ca=Array.isArray(cv)?cv:[];h+='<div class="pll-row">';s.opts.forEach(function(o){var ps=ca.indexOf(o.v)>-1?' on':'';h+='<div class="pll'+ps+'" data-v="'+o.v+'" onclick="ciPPll(this)">'+o.t+'</div>'});h+='</div>';
+      h+='<button class="ci-confirm" id="cfm" onclick="ciCfmPll(\''+id+'\')" '+(ca.length?'':'disabled')+'>Valider →</button>';break;
+  }
+  c.innerHTML=h;ciShowV('input');document.getElementById('ciBd').scrollTop=0;
+  if(s.type==='dial')setTimeout(function(){ciDialInit(id);},0);
+  if(s.type==='repas'){ciT._repas=cv?JSON.parse(JSON.stringify(cv)):{};}}
+function ciVib(){if(navigator.vibrate)navigator.vibrate(12)}
+function ciEnCfm(){var b=document.getElementById('cfm');if(b)b.disabled=false}
+function ciPEmo(el,id){el.parentElement.querySelectorAll('.emo-opt').forEach(function(o){o.classList.remove('on')});el.classList.add('on');ciT[id]=parseInt(el.dataset.v);ciEnCfm();ciVib()}
+function ciCfmEmo(id){if(ciT[id]){ciSaveSig(id,ciT[id]);ciShowOk(id)}}
+function ciUGau(v,id){v=parseInt(v);var s=CI_SIGS.find(function(x){return x.id===id}),i=ciGetLvl(s.lvl,v);document.getElementById('gV').textContent=v;document.getElementById('gV').style.color=i.c;document.getElementById('gL').textContent=i.l;document.getElementById('gL').style.color=i.c;ciT[id]=v}
+function ciCfmGau(id){var v=parseInt(document.getElementById('gR').value);ciSaveSig(id,v);ciShowOk(id)}
+function ciDialInit(id){var s=CI_SIGS.find(function(x){return x.id===id});var wrap=document.getElementById('dialWrap_'+id);if(!wrap)return;var startY=null,startV=null,range=s.max-s.min;function updDial(v){ciT._sv=v;document.getElementById('stV').textContent=v.toFixed(s.dec);var arc=document.getElementById('dialArc_'+id);if(!arc)return;var pct=(v-s.min)/range;arc.style.strokeDashoffset=(502-(502*Math.min(pct,1))).toFixed(1);ciVib();}function onStart(e){e.preventDefault();startY=(e.touches?e.touches[0].clientY:e.clientY);startV=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);}function onMove(e){if(startY===null)return;e.preventDefault();var cy=(e.touches?e.touches[0].clientY:e.clientY);var dy=startY-cy;var nv=startV+dy*(range/200);nv=Math.max(s.min,Math.min(s.max,nv));nv=Math.round(nv/s.step)*s.step;nv=Math.round(nv*100)/100;updDial(nv);}function onEnd(){startY=null;}wrap.addEventListener('mousedown',onStart);wrap.addEventListener('mousemove',onMove);wrap.addEventListener('mouseup',onEnd);wrap.addEventListener('mouseleave',onEnd);wrap.addEventListener('touchstart',onStart,{passive:false});wrap.addEventListener('touchmove',onMove,{passive:false});wrap.addEventListener('touchend',onEnd);var iv=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);var arc=document.getElementById('dialArc_'+id);if(arc){var pct=(iv-s.min)/range;arc.style.strokeDashoffset=(502-(502*Math.min(pct,1))).toFixed(1);}}
+function ciDialFine(id,dir){var s=CI_SIGS.find(function(x){return x.id===id});var cur=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);cur+=dir*s.step;cur=Math.max(s.min,Math.min(s.max,cur));cur=Math.round(cur*100)/100;ciT._sv=cur;document.getElementById('stV').textContent=cur.toFixed(s.dec);var arc=document.getElementById('dialArc_'+id);if(arc){var range=s.max-s.min,pct=(cur-s.min)/range;arc.style.strokeDashoffset=(502-(502*Math.min(pct,1))).toFixed(1);}ciVib();}
+function ciCfmDial(id){var s=CI_SIGS.find(function(x){return x.id===id});var v=ciT._sv!==undefined?ciT._sv:(ciTd[id]!==undefined?ciTd[id]:s.def);ciSaveSig(id,v);ciShowOk(id);}
+function ciPRepas(el,meal,val){el.parentElement.querySelectorAll('.repas-opt').forEach(function(o){o.classList.remove('on')});el.classList.add('on');if(!ciT._repas)ciT._repas={};ciT._repas[meal]=val;var b=document.getElementById('cfm');if(b)b.disabled=false;ciVib();}
+function ciCfmRepas(){var v=ciT._repas||{};ciSaveSig('repas',v);ciShowOk('repas');}
+function ciPClr(el,id){el.parentElement.querySelectorAll('.clr-opt').forEach(function(o){o.classList.remove('on')});el.classList.add('on');ciT[id]=parseInt(el.dataset.v);ciEnCfm();ciVib()}
+function ciCfmClr(id){if(ciT[id]){ciSaveSig(id,ciT[id]);ciShowOk(id)}}
+function ciPQk(el,id){el.parentElement.querySelectorAll('.qk-opt').forEach(function(o){o.classList.remove('on')});el.classList.add('on');ciT[id]=el.dataset.v;ciEnCfm();ciVib()}
+function ciCfmQk(id){if(ciT[id]){ciSaveSig(id,ciT[id]);ciShowOk(id)}}
+function ciPYn(el,id){el.parentElement.querySelectorAll('.yn-b').forEach(function(o){o.classList.remove('on')});el.classList.add('on');ciT[id]=el.dataset.v==='true';ciEnCfm();ciVib()}
+function ciCfmYn(id){if(ciT[id]!==undefined){ciSaveSig(id,ciT[id]);ciShowOk(id)}}
+function ciPPll(el){el.classList.toggle('on');var sel=[];el.parentElement.querySelectorAll('.pll.on').forEach(function(p){sel.push(p.dataset.v)});var b=document.getElementById('cfm');if(b)b.disabled=sel.length===0;ciT._pl=sel;ciVib()}
+function ciCfmPll(id){var s=ciT._pl||[];if(s.length>0){ciSaveSig(id,s);ciShowOk(id)}}
+function ciShowOk(id){var s=CI_SIGS.find(function(x){return x.id===id});document.getElementById('okMsg').textContent=s.icon+' '+s.name+' enregistré';var st=ciStreak();document.getElementById('okStreak').textContent='🔥 '+st+' jour'+(st>1?'s':'')+' consécutif'+(st>1?'s':'');ciShowV('ok');if(navigator.vibrate)navigator.vibrate([15,40,15]);ciRenderWeek()}
+(function(){document.getElementById('ciDt').textContent=ciFmtDate();ciUpdNav();})();
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('ciPan').classList.contains('open'))closeCI();});
+</script>
+
+<!-- MODAL BILAN -->
+<div class="bln-overlay" id="blnOverlay" onclick="if(event.target===this)closeBilan()">
+  <div class="bln-modal">
+    <div id="blnForm">
+      <div class="bln-header"><div><div class="bln-header-title">🧪 Saisie bilan biologique</div><div class="bln-header-sub">Renseignez les valeurs — laissez vide ce que vous n’avez pas</div></div><button class="bln-close" onclick="closeBilan()">✕</button></div>
+      <div class="bln-date-row"><div class="bln-date-label">📅 Date du prélèvement</div><input type="date" class="bln-date-input" id="blnDate" onchange="renderBlnFields(this.value)"/></div>
+      <div class="bln-body" id="blnBody"></div>
+      <div class="bln-footer"><div class="bln-footer-note">Seules les cases remplies sont enregistrées.<br>Complétable en plusieurs fois.</div><button class="bln-save-btn" onclick="saveBilan()">Enregistrer →</button></div>
+    </div>
+    <div class="bln-ok" id="blnOk"><div class="bln-ok-ico">✅</div><div class="bln-ok-title">Bilan enregistré !</div><div class="bln-ok-sub" id="blnOkSub"></div><button class="bln-ok-btn" onclick="closeBilan();renderBioCards(BIO_DAYS);updateStripFromLS()">Voir les courbes →</button></div>
+  </div>
+</div>
+</body>
+</html>function cqDrawLine(svgEl,pts,color,forceMin,forceMax,lblMap,invert){
   var W=400,H=70,pt=10,pb=6;
-  var vals=pts.map(function(p){return p.v;});
-  var mn=Math.min.apply(null,vals)*.92,mx=Math.max.apply(null,vals)*1.08;
+  var vals=pts.map(function(p){return p.v;}).filter(function(v){return v!==null&&v!==undefined;});
+  if(!vals.length)return;
+  var mn=forceMin!==null&&forceMin!==undefined?forceMin:Math.min.apply(null,vals);
+  var mx=forceMax!==null&&forceMax!==undefined?forceMax:Math.max.apply(null,vals);
+  if(invert){var tmp=mn;mn=mx;mx=tmp;}
   if(mx===mn){mx+=1;mn-=1;}
   function xS(i){return i*(W/Math.max(pts.length-1,1));}
   function yS(v){return pt+(1-(v-mn)/(mx-mn))*(H-pt-pb);}
@@ -788,83 +1181,98 @@ function cqDrawLine(svgEl,pts,color){
     h+='<path d="M '+coords+' L '+xS(pts.length-1).toFixed(1)+','+(H-pb)+' L 0,'+(H-pb)+' Z" fill="'+color+'" fill-opacity=".12"/>';
     h+='<path d="M '+coords+'" fill="none" stroke="'+color+'" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>';
   }
-  pts.forEach(function(p,i){var cx=xS(i).toFixed(1),cy=yS(p.v).toFixed(1);
-    h+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="'+color+'"/>';
-    h+='<text x="'+cx+'" y="'+(parseFloat(cy)-8).toFixed(1)+'" text-anchor="middle" fill="'+color+'" font-size="9.5" font-weight="700">'+p.v+'</text>';
+  pts.forEach(function(p,i){
+    if(p.v===null||p.v===undefined)return;
+    var cx=xS(i).toFixed(1),cy=yS(p.v).toFixed(1);
+    // Only show dots on days with real data
+    if(p.hasData!==false){
+      h+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="'+color+'"/>';
+      var lbl=lblMap&&lblMap[p.v]!==undefined?lblMap[p.v]:p.v;
+      h+='<text x="'+cx+'" y="'+(parseFloat(cy)-8).toFixed(1)+'" text-anchor="middle" fill="'+color+'" font-size="9" font-weight="700">'+lbl+'</text>';
+    }
   });
   svgEl.setAttribute('viewBox','0 0 400 70');svgEl.setAttribute('preserveAspectRatio','none');svgEl.innerHTML=h;
 }
+
+function cqDrawLineBool(svgEl,pts,color,yLbls){
+  var W=400,H=70,pt=10,pb=6;
+  function xS(i){return i*(W/Math.max(pts.length-1,1));}
+  function yS(v){return v===1?pt+2:H-pb-2;}
+  var coords=pts.map(function(p,i){return xS(i).toFixed(1)+','+yS(p.v).toFixed(1);}).join(' L ');
+  var h='';
+  if(pts.length>1){
+    h+='<path d="M '+coords+' L '+xS(pts.length-1).toFixed(1)+','+(H-pb)+' L 0,'+(H-pb)+' Z" fill="'+color+'" fill-opacity=".1"/>';
+    h+='<path d="M '+coords+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+  }
+  pts.forEach(function(p,i){
+    var cx=xS(i).toFixed(1),cy=yS(p.v).toFixed(1);
+    var dotColor=p.v===1?color:'rgba(255,255,255,.18)';
+    h+='<circle cx="'+cx+'" cy="'+cy+'" r="4" fill="'+dotColor+'"/>';
+  });
+  // Y axis labels
+  h+='<text x="4" y="'+(pt+10)+'" fill="'+color+'" font-size="8" font-weight="700" opacity=".6">'+(yLbls?yLbls[1]:'Oui')+'</text>';
+  h+='<text x="4" y="'+(H-pb-4)+'" fill="rgba(255,255,255,.3)" font-size="8" font-weight="700">'+(yLbls?yLbls[0]:'Non')+'</text>';
+  svgEl.setAttribute('viewBox','0 0 400 70');svgEl.setAttribute('preserveAspectRatio','none');svgEl.innerHTML=h;
+}
+
 function cqRender(days){
-  var grid=document.getElementById('cqGrid'),empty=document.getElementById('cqEmpty');
-  if(!grid)return;grid.innerHTML='';
+  var grid=document.getElementById('cqGrid'), empty=document.getElementById('cqEmpty');
+  if(!grid)return; grid.innerHTML='';
   var cards=[];
-  CQ_SIGS.forEach(function(sig){var pts=cqGetSeries(sig,days);if(pts.length>0)cards.push({sig:sig,pts:pts});});
+  CQ_SIGS.forEach(function(sig){
+    var pts=cqGetSeries(sig,days);
+    var hasAny=pts.some(function(p){return p.hasData;});
+    if(hasAny) cards.push({sig:sig,pts:pts});
+  });
   if(!cards.length){if(empty)empty.style.display='block';return;}
   if(empty)empty.style.display='none';
+
   cards.forEach(function(c){
-    var t=c.sig.type||'num';
-    var div=document.createElement('div');div.className='cq-card';
-    var inner='<div class="cq-card-title">'+c.sig.label+'</div>';
+    var sig=c.sig, pts=c.pts, t=sig.type;
+    var div=document.createElement('div'); div.className='cq-card';
+    var svgId='cqsvg'+sig.id;
+    var inner='<div class="cq-card-title">'+sig.label+'</div>';
 
     if(t==='num'){
-      var numPts=c.pts.map(function(p){return{date:p.date,v:typeof p.v==='number'?p.v:parseFloat(p.v)};}).filter(function(p){return !isNaN(p.v);});
-      if(!numPts.length){grid.appendChild(div);return;}
-      var last=numPts[numPts.length-1];var trend=cqTrend(numPts);
+      var last=pts[pts.length-1]; var trend=cqTrend(pts);
       var tHtml=trend?'<span class="cq-trend '+trend.cls+'">'+trend.txt+'</span>':'';
-      var foot=numPts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(c.sig.unit||'')+'</div>';}).join('');
-      var svgId='cqsvg'+c.sig.id;
-      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+c.sig.color+'">'+last.v+'</div><div class="cq-card-unit">'+c.sig.unit+'</div>'+tHtml+'</div>'+
+      var foot=pts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(sig.unit||'')+'</div>';}).join('');
+      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+'">'+last.v+'</div><div class="cq-card-unit">'+sig.unit+'</div>'+tHtml+'</div>'+
         '<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>'+
         '<div class="cq-card-foot">'+foot+'</div>';
-      div.innerHTML=inner;grid.appendChild(div);
-      requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLine(s,numPts,c.sig.color);});
+      div.innerHTML=inner; grid.appendChild(div);
+      requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLine(s,pts,sig.color,null,null);});
 
-    } else if(t==='bool'){
-      // Count oui/non
-      var oui=c.pts.filter(function(p){return p.v===true||p.v==='true';}).length;
-      var non=c.pts.length-oui;
-      var pct=Math.round(oui/c.pts.length*100);
-      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+c.sig.color+'">'+pct+'<span style="font-size:14px">%</span></div><div class="cq-card-unit">des jours</div></div>';
-      inner+='<div style="margin:10px 0 4px"><div style="height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden"><div style="height:100%;width:'+pct+'%;background:'+c.sig.color+';border-radius:99px"></div></div></div>';
-      inner+='<div class="cq-card-foot"><div class="cq-dp">✅ Jeûne : <strong>'+oui+' j</strong></div><div class="cq-dp">❌ Non : <strong>'+non+' j</strong></div></div>';
-      div.innerHTML=inner;grid.appendChild(div);
+    } else if(t==='bool_curve'){
+      var oui=pts.filter(function(p){return p.v===1;}).length;
+      var pct=Math.round(oui/pts.length*100);
+      var last=pts[pts.length-1];
+      var lastLbl=sig.yLabels?sig.yLabels[last.v||0]:(last.v?'Oui':'Non');
+      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+'">'+pct+'<span style="font-size:14px">%</span></div><div class="cq-card-unit">des jours</div></div>';
+      inner+='<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>';
+      var yLbls=sig.yLabels||['Non','Oui'];
+      inner+='<div class="cq-card-foot"><div class="cq-dp">'+yLbls[1]+' : <strong>'+oui+' j</strong></div><div class="cq-dp">'+yLbls[0]+' : <strong>'+(pts.length-oui)+' j</strong></div></div>';
+      div.innerHTML=inner; grid.appendChild(div);
+      requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLineBool(s,pts,sig.color,yLbls);});
 
-    } else if(t==='tag'||t==='tags'){
-      // Frequency of each tag
-      var counts={};
-      c.pts.forEach(function(p){
-        var vals=Array.isArray(p.v)?p.v:[p.v];
-        vals.forEach(function(v){counts[v]=(counts[v]||0)+1;});
+    } else if(t==='scale'||t==='scale_map'){
+      var validPts=pts.filter(function(p){return p.v!==null;});
+      if(!validPts.length){grid.appendChild(div);return;}
+      var last=validPts[validPts.length-1];
+      var lblMap=sig.revMap||sig.labels||{};
+      var lastLbl=lblMap[last.v]||last.v;
+      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+';font-size:16px;line-height:1.3">'+lastLbl+'</div></div>';
+      inner+='<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>';
+      var foot=validPts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+(lblMap[p.v]||p.v)+'</div>';}).join('');
+      inner+='<div class="cq-card-foot">'+foot+'</div>';
+      div.innerHTML=inner; grid.appendChild(div);
+      requestAnimationFrame(function(){
+        var s=document.getElementById(svgId);
+        if(!s)return;
+        var drawPts=pts.map(function(p){return{date:p.date,v:p.v!==null?p.v:sig.defVal,hasData:p.hasData};});
+        var maxV=sig.scale||(Object.keys(sig.map||{}).length-1)||4;
+        cqDrawLine(s,drawPts,sig.color,0,maxV,lblMap,sig.invert);
       });
-      var sorted=Object.keys(counts).sort(function(a,b){return counts[b]-counts[a];});
-      var map=c.sig.map||{};
-      var tagsHtml=sorted.map(function(k){
-        var lbl=map[k]||k;var n=counts[k];var pct=Math.round(n/c.pts.length*100);
-        return'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'+
-          '<div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7);min-width:80px">'+lbl+'</div>'+
-          '<div style="flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.08)"><div style="height:100%;width:'+pct+'%;background:'+c.sig.color+';border-radius:99px"></div></div>'+
-          '<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.45);min-width:28px;text-align:right">'+n+'j</div></div>';
-      }).join('');
-      inner+='<div style="margin-top:10px">'+tagsHtml+'</div>';
-      div.innerHTML=inner;grid.appendChild(div);
-
-    } else if(t==='color'){
-      // Hydration color frequency
-      var counts={};
-      c.pts.forEach(function(p){counts[p.v]=(counts[p.v]||0)+1;});
-      var map=c.sig.map||{};
-      var clrs=['#f5f0d0','#f0e68c','#daa520','#cd853f','#a0522d','#8b4513'];
-      var sorted=Object.keys(counts).sort(function(a,b){return a-b;});
-      var tagsHtml=sorted.map(function(k){
-        var lbl=map[k]||k;var n=counts[k];var pct=Math.round(n/c.pts.length*100);var bg=clrs[parseInt(k)-1]||'#888';
-        return'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'+
-          '<div style="width:14px;height:14px;border-radius:4px;background:'+bg+';flex-shrink:0"></div>'+
-          '<div style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7);min-width:80px">'+lbl+'</div>'+
-          '<div style="flex:1;height:6px;border-radius:99px;background:rgba(255,255,255,.08)"><div style="height:100%;width:'+pct+'%;background:'+bg+';border-radius:99px"></div></div>'+
-          '<div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.45);min-width:28px;text-align:right">'+n+'j</div></div>';
-      }).join('');
-      inner+='<div style="margin-top:10px">'+tagsHtml+'</div>';
-      div.innerHTML=inner;grid.appendChild(div);
     }
   });
 }
