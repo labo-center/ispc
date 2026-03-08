@@ -1215,71 +1215,8 @@ function cqDrawLineBool(svgEl,pts,color,yLbls){
   svgEl.setAttribute('viewBox','0 0 400 70');svgEl.setAttribute('preserveAspectRatio','none');svgEl.innerHTML=h;
 }
 
-function cqRender(days){
-  var grid=document.getElementById('cqGrid'), empty=document.getElementById('cqEmpty');
-  if(!grid)return; grid.innerHTML='';
-  var cards=[];
-  CQ_SIGS.forEach(function(sig){
-    var pts=cqGetSeries(sig,days);
-    var hasAny=pts.some(function(p){return p.hasData;});
-    if(hasAny) cards.push({sig:sig,pts:pts});
-  });
-  if(!cards.length){if(empty)empty.style.display='block';return;}
-  if(empty)empty.style.display='none';
 
-  cards.forEach(function(c){
-    var sig=c.sig, pts=c.pts, t=sig.type;
-    var div=document.createElement('div'); div.className='cq-card';
-    var svgId='cqsvg'+sig.id;
-    var inner='<div class="cq-card-title">'+sig.label+'</div>';
 
-    if(t==='num'){
-      var last=pts[pts.length-1]; var trend=cqTrend(pts);
-      var tHtml=trend?'<span class="cq-trend '+trend.cls+'">'+trend.txt+'</span>':'';
-      var foot=pts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+p.v+(sig.unit||'')+'</div>';}).join('');
-      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+'">'+last.v+'</div><div class="cq-card-unit">'+sig.unit+'</div>'+tHtml+'</div>'+
-        '<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>'+
-        '<div class="cq-card-foot">'+foot+'</div>';
-      div.innerHTML=inner; grid.appendChild(div);
-      requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLine(s,pts,sig.color,null,null);});
-
-    } else if(t==='bool_curve'){
-      var oui=pts.filter(function(p){return p.v===1;}).length;
-      var pct=Math.round(oui/pts.length*100);
-      var last=pts[pts.length-1];
-      var lastLbl=sig.yLabels?sig.yLabels[last.v||0]:(last.v?'Oui':'Non');
-      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+'">'+pct+'<span style="font-size:14px">%</span></div><div class="cq-card-unit">des jours</div></div>';
-      inner+='<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>';
-      var yLbls=sig.yLabels||['Non','Oui'];
-      inner+='<div class="cq-card-foot"><div class="cq-dp">'+yLbls[1]+' : <strong>'+oui+' j</strong></div><div class="cq-dp">'+yLbls[0]+' : <strong>'+(pts.length-oui)+' j</strong></div></div>';
-      div.innerHTML=inner; grid.appendChild(div);
-      requestAnimationFrame(function(){var s=document.getElementById(svgId);if(s)cqDrawLineBool(s,pts,sig.color,yLbls);});
-
-    } else if(t==='scale'||t==='scale_map'){
-      var validPts=pts.filter(function(p){return p.v!==null;});
-      if(!validPts.length){grid.appendChild(div);return;}
-      var last=validPts[validPts.length-1];
-      var lblMap=sig.revMap||sig.labels||{};
-      var lastLbl=lblMap[last.v]||last.v;
-      inner+='<div class="cq-card-vals"><div class="cq-card-current" style="color:'+sig.color+';font-size:16px;line-height:1.3">'+lastLbl+'</div></div>';
-      inner+='<div class="cq-card-chart"><svg id="'+svgId+'"></svg></div>';
-      var foot=validPts.slice(-3).map(function(p){return'<div class="cq-dp"><strong>'+cqFmt(p.date)+'</strong> '+(lblMap[p.v]||p.v)+'</div>';}).join('');
-      inner+='<div class="cq-card-foot">'+foot+'</div>';
-      div.innerHTML=inner; grid.appendChild(div);
-      requestAnimationFrame(function(){
-        var s=document.getElementById(svgId);
-        if(!s)return;
-        var drawPts=pts.map(function(p){return{date:p.date,v:p.v!==null?p.v:sig.defVal,hasData:p.hasData};});
-        var maxV=sig.scale||(Object.keys(sig.map||{}).length-1)||4;
-        cqDrawLine(s,drawPts,sig.color,0,maxV,lblMap,sig.invert);
-      });
-    }
-  });
-}
-function switchCqTf(btn,days){
-  btn.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active');});
-  btn.classList.add('active');CQ_DAYS=days;cqRender(days);
-}
 
 /* ══ SAISIE BILAN ══ */
 var BLN_CATS=[
