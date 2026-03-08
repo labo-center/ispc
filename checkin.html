@@ -45,6 +45,7 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.38}}
 @keyframes scan{0%{top:-2px}100%{top:100%}}
 @keyframes checkPop{0%{transform:scale(.5);opacity:0}50%{transform:scale(1.15)}100%{transform:scale(1);opacity:1}}
+@keyframes rowSaved{0%{box-shadow:0 0 0 0 rgba(14,165,201,.5)}60%{box-shadow:0 0 0 4px rgba(14,165,201,.15)}100%{box-shadow:none}}
 @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 @keyframes overlayIn{from{opacity:0}to{opacity:1}}
 @keyframes panelSlideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:none}}
@@ -385,10 +386,15 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 .bar-name{font-size:9px;font-weight:700;color:var(--dark-m);text-transform:uppercase;
   letter-spacing:.05em;margin-top:3px;line-height:1.2}
 .bar-ctrl{flex:1;min-width:0;position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center}
-.bar-done-tag{flex-shrink:0;width:20px;height:20px;border-radius:50%;
+.bar-done-tag{flex-shrink:0;width:24px;height:24px;border-radius:50%;
+  background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);
+  display:grid;place-items:center;font-size:11px;font-weight:800;color:rgba(255,255,255,.2);
+  transition:all .3s var(--ease-s);flex-shrink:0}
+.bar-row.done .bar-done-tag{
   background:linear-gradient(135deg,var(--c-teal),var(--c-green));
-  display:none;place-items:center;font-size:10px;font-weight:800;color:#fff}
-.bar-row.done .bar-done-tag{display:grid;animation:checkPop .3s var(--ease-s)}
+  border-color:transparent;color:#fff;
+  box-shadow:0 0 10px rgba(16,185,129,.4);
+  animation:checkPop .35s var(--ease-s)}
 
 /* Inline emoji row in bars */
 .b-emo{display:flex;gap:2px;width:100%}
@@ -886,7 +892,14 @@ function barCtrl(s,cv){
 
 // Bar interactions — auto-save on each change
 function bRowDone(id){
-  var r=document.getElementById('br-'+id);if(r){r.classList.add('done');}
+  var r=document.getElementById('br-'+id);
+  if(r){
+    r.classList.add('done');
+    // Flash animation to confirm save
+    r.style.animation='none';
+    r.offsetHeight; // reflow
+    r.style.animation='rowSaved .6s ease-out';
+  }
   var done=Object.keys(td).length;
   var prog=document.querySelector('.bars-progress');
   if(prog)prog.innerHTML='<span>'+done+'</span> / '+SIGS.length+' signaux renseignés';
