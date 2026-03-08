@@ -1120,6 +1120,47 @@ body{background:var(--dark-1)}
   .nav-links{display:none}
   .nav-live{display:none}
 }
+
+/* ══ MOBILE NAV ══ */
+.nav-burger{display:none;width:36px;height:36px;border-radius:10px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+  flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  cursor:pointer;flex-shrink:0;transition:background .15s;padding:0}
+.nav-burger:hover{background:rgba(255,255,255,.12)}
+.nav-burger span{display:block;width:16px;height:2px;border-radius:1px;background:#fff;transition:all .25s}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-drawer{position:fixed;top:62px;left:0;right:0;z-index:499;
+  background:rgba(7,12,26,.97);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  padding:12px 16px 16px;display:none;flex-direction:column;gap:4px}
+.nav-drawer.open{display:flex;animation:drawerIn .2s ease-out}
+@keyframes drawerIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.nd-link{padding:12px 16px;border-radius:12px;font-size:14px;font-weight:600;
+  color:rgba(255,255,255,.7);cursor:pointer;transition:all .15s;border:1px solid transparent;
+  text-decoration:none;display:block}
+.nd-link:hover,.nd-link.on{background:rgba(255,255,255,.07);color:#fff;border-color:rgba(255,255,255,.08)}
+.nd-sep{height:1px;background:rgba(255,255,255,.07);margin:4px 0}
+.nd-checkin{display:flex;align-items:center;gap:8px;padding:12px 16px;
+  border-radius:12px;font-size:14px;font-weight:700;color:#0ea5c9;
+  background:rgba(14,165,201,.08);border:1px solid rgba(14,165,201,.25);
+  cursor:pointer;width:100%;text-align:left}
+.nd-checkin.done{color:#10b981;background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.25)}
+.nd-dot{width:7px;height:7px;border-radius:50%;background:#0ea5c9;flex-shrink:0}
+.nd-checkin.done .nd-dot{background:#10b981;box-shadow:0 0 8px #10b981}
+.nd-user{display:flex;align-items:center;gap:10px;padding:12px 16px;
+  border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);cursor:pointer}
+.nd-user-av{width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,#0e7490,#6d28d9);
+  display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0}
+.nd-user-name{font-size:13px;font-weight:600;color:rgba(255,255,255,.85)}
+@media(max-width:768px){
+  .nav-links{display:none!important}
+  .nav-checkin{display:none!important}
+  .nav-user,.nav-r .nav-user{display:none!important}
+  .nav-burger{display:flex}
+}
 </style>
 
   <!-- Profilys shared assets -->
@@ -1181,9 +1222,25 @@ body{background:var(--dark-1)}
         <div class="nav-user-avatar" id="nav-avatar">?</div>
         <span id="nav-username">Mon espace</span>
       </div>
+      <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
 </nav>
+<div class="nav-drawer" id="navDrawer">
+  <button class="nd-checkin" id="navBurgerCI" onclick="openCI();document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">
+    <span class="nd-dot"></span>Check-in du jour
+  </button>
+  <div class="nd-sep"></div>
+  <div class="nd-link on" onclick="go('dash');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">📊 Dashboard</div>
+  <a class="nd-link" href="monitoring.html" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">📈 Monitoring</a>
+  <div class="nd-link" onclick="go('profil');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧬 Profil Santé</div>
+  <div class="nd-link" onclick="go('bio');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧪 Bilan Biologique</div>
+  <div class="nd-sep"></div>
+  <div class="nd-user" onclick="go('data');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">
+    <div class="nd-user-av" id="ndAvatar">?</div>
+    <div class="nd-user-name" id="ndUsername">Mon espace</div>
+  </div>
+</div>
 
 <div id="s-dash" class="screen active" role="main" aria-label="Dashboard">
   <div class="dash-hero">
@@ -3106,5 +3163,26 @@ function renderPlan(){
 
     <!-- ══ SUPABASE ══ -->
 
+<script>
+
+(function(){
+  var burger=document.getElementById('navBurger');
+  var drawer=document.getElementById('navDrawer');
+  if(!burger||!drawer)return;
+  burger.addEventListener('click',function(e){
+    e.stopPropagation();
+    var open=drawer.classList.toggle('open');
+    burger.classList.toggle('open',open);
+  });
+  document.addEventListener('click',function(e){
+    if(!drawer.contains(e.target)&&e.target!==burger){
+      drawer.classList.remove('open');burger.classList.remove('open');
+    }
+  });
+})();
+
+// Sync drawer user info
+(function(){var a=document.getElementById("nav-avatar"),u=document.getElementById("nav-username"),da=document.getElementById("ndAvatar"),du=document.getElementById("ndUsername");if(a&&da){var obs=new MutationObserver(function(){da.textContent=a.textContent;du.textContent=u.textContent;});obs.observe(a,{childList:true});obs.observe(u,{childList:true});}})();
+</script>
 </body>
 </html>
