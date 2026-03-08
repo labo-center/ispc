@@ -391,7 +391,7 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 .bar-row.done .bar-done-tag{display:grid;animation:checkPop .3s var(--ease-s)}
 
 /* Inline emoji row in bars */
-.b-emo{display:flex;gap:2px}
+.b-emo{display:flex;gap:2px;width:100%}
 .b-emo-o{flex:1;text-align:center;padding:6px 2px;border-radius:10px;cursor:pointer;
   transition:all .2s var(--ease-s)}
 .b-emo-o .ef{font-size:22px;display:block;filter:grayscale(.6) brightness(.7);transition:filter .2s,transform .2s}
@@ -401,10 +401,10 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 .b-emo-o.on{background:rgba(255,255,255,.07)}
 
 /* Inline gauge in bars */
-.b-gau{display:flex;align-items:center;gap:10px}
+.b-gau{display:flex;align-items:center;gap:10px;width:100%}
 .b-gau-v{font-family:var(--ffd);font-size:18px;font-weight:700;color:#fff;min-width:28px;transition:color .2s}
 .b-gau-l{font-size:9px;font-weight:700;min-width:44px;transition:color .2s;text-transform:uppercase;letter-spacing:.04em}
-.b-gau-track{flex:1;position:relative;padding-top:4px}
+.b-gau-track{flex:1;min-width:0;position:relative;padding-top:4px}
 .b-gau-r{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;
   background:rgba(255,255,255,.08);outline:none;display:block}
 .b-gau-r::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;
@@ -418,18 +418,18 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 .b-gau-tick-lbl{font-size:7.5px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap}
 
 /* Inline stepper in bars */
-.b-stp{display:flex;align-items:center;gap:8px}
+.b-stp{display:flex;align-items:center;gap:8px;justify-content:center;width:100%}
 .b-stp-btn{width:34px;height:34px;border-radius:10px;
   background:rgba(255,255,255,.06);border:1.5px solid var(--dark-b);
   font-size:20px;color:var(--dark-t);display:grid;place-items:center;
   transition:all .15s;flex-shrink:0}
 .b-stp-btn:active{transform:scale(.88);background:rgba(14,165,201,.15);border-color:rgba(14,165,201,.4)}
-.b-stp-v{font-family:var(--ffd);font-size:18px;font-weight:700;color:#fff;min-width:68px;text-align:center}
+.b-stp-v{font-family:var(--ffd);font-size:18px;font-weight:700;color:#fff;min-width:80px;text-align:center}
 .b-stp-u{font-size:10px;font-weight:600;color:var(--dark-m)}
 
 /* Inline color in bars */
-.b-clr{display:flex;gap:5px;align-items:center}
-.b-clr-o{width:32px;height:32px;border-radius:9px;border:2.5px solid transparent;
+.b-clr{display:flex;gap:5px;align-items:center;width:100%;justify-content:space-between}
+.b-clr-o{flex:1;height:32px;border-radius:9px;border:2.5px solid transparent;
   cursor:pointer;transition:transform .2s,border-color .2s;display:grid;place-items:center;flex-shrink:0}
 .b-clr-o:active{transform:scale(.88)}
 .b-clr-o.on{border-color:#fff;transform:scale(1.1)}
@@ -438,7 +438,7 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 .b-clr-hint{display:flex;justify-content:space-between;font-size:9px;font-weight:600;margin-top:4px}
 
 /* Inline quick in bars */
-.b-qk{display:flex;gap:4px}
+.b-qk{display:flex;gap:4px;width:100%}
 .b-qk-o{flex:1;padding:7px 3px;border-radius:10px;
   background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
   text-align:center;cursor:pointer;transition:all .18s var(--ease-s);min-width:0}
@@ -449,7 +449,7 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 .b-qk-o.on .qt{color:#fff}
 
 /* Inline yn in bars */
-.b-yn{display:flex;gap:6px}
+.b-yn{display:flex;gap:6px;width:100%}
 .b-yn-b{flex:1;padding:9px 6px;border-radius:11px;
   background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
   text-align:center;cursor:pointer;transition:all .2s var(--ease-s)}
@@ -460,8 +460,8 @@ button,input,textarea{font-family:var(--ff);border:none;cursor:pointer;outline:n
 .b-yn-b.on .yt{color:#fff}
 
 /* Inline pills in bars */
-.b-pll{display:flex;gap:5px;flex-wrap:wrap}
-.b-pll-o{padding:6px 10px;border-radius:99px;
+.b-pll{display:flex;gap:5px;flex-wrap:wrap;width:100%}
+.b-pll-o{padding:6px 10px;border-radius:99px;flex:1;text-align:center;
   background:rgba(255,255,255,.04);border:1.5px solid var(--dark-b);
   font-size:10px;font-weight:600;color:var(--dark-m);
   cursor:pointer;transition:all .2s;white-space:nowrap}
