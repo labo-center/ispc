@@ -622,8 +622,13 @@ function openCI(){loadTd();renderMenu();renderWeek();
   document.getElementById('ciPan').classList.add('open');
   document.body.style.overflow='hidden';
   if(_viewMode==='bars'){renderBars();showV('bars')}else{showV('menu')}}
-function closeCI(){document.getElementById('ciOv').classList.remove('open');
-  document.getElementById('ciPan').classList.remove('open');document.body.style.overflow=''}
+function closeCI(){
+  document.getElementById('ciOv').classList.remove('open');
+  document.getElementById('ciPan').classList.remove('open');
+  document.body.style.overflow='';
+  // If inside iframe in app.html, close via parent
+  try{if(window.parent&&window.parent!==window)window.parent.closeCI()}catch(e){}
+}
 var _viewMode=(function(){try{return localStorage.getItem('profilys_view_mode')||'cards'}catch(e){return 'cards'}})();
 
 function setView(m){
