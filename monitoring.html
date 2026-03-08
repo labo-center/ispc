@@ -463,6 +463,16 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 <!-- BODY -->
 <div class="mon-body">
 
+<!-- SUIVI QUOTIDIEN -->
+  <div class="cq-section fu d3" id="cqSection">
+    <div class="cq-head"><div><div class="cq-title">📅 Suivi quotidien</div><div class="cq-sub">Évolution des signaux du check-in matinal</div></div><div class="cq-filters"><button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button><button class="tf-btn" onclick="switchCqTf(this,30)">30j</button><button class="tf-btn" onclick="switchCqTf(this,90)">90j</button></div></div>
+    <div id="cqEmpty" style="display:none;text-align:center;padding:40px;border:1px dashed rgba(255,255,255,.1);border-radius:16px"><div style="font-size:13px;color:rgba(255,255,255,.4)">Aucune donnée de check-in pour cette période</div></div>
+    <div class="cq-grid" id="cqGrid"></div>
+  </div>
+
+  <!-- Séparateur Bilan Bio -->
+  <div style="margin:36px 0 8px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.07)"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.35)">🔬 Bilan biologique</div></div>
+
   <!-- Category nav -->
   <div class="cat-nav fu">
     <button class="cat-pill active" onclick="switchCat(this)">📋 Tous</button>
@@ -498,12 +508,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     <div class="bio-card"><div class="bc-head"><div class="bc-title">Ferritine</div><div class="bc-unit">ng/mL</div></div><div class="bc-vals"><div class="bc-current">86</div><div class="bc-trend stable">→ stable</div></div><div class="bc-ref">Réf homme : 30–300</div><div class="bc-chart"><svg id="c-fer" viewBox="0 0 400 100" preserveAspectRatio="none"></svg></div><div class="bc-foot"><div class="bc-dp"><strong>15/12</strong> 84</div><div class="bc-dp"><strong>06/02</strong> 86</div></div></div>
   </div>
 
-  <!-- SUIVI QUOTIDIEN -->
-  <div class="cq-section fu d3" id="cqSection">
-    <div class="cq-head"><div><div class="cq-title">📅 Suivi quotidien</div><div class="cq-sub">Évolution des signaux du check-in matinal</div></div><div class="cq-filters"><button class="tf-btn active" onclick="switchCqTf(this,7)">7j</button><button class="tf-btn" onclick="switchCqTf(this,30)">30j</button><button class="tf-btn" onclick="switchCqTf(this,90)">90j</button></div></div>
-    <div id="cqEmpty" style="display:none;text-align:center;padding:40px;border:1px dashed rgba(255,255,255,.1);border-radius:16px"><div style="font-size:13px;color:rgba(255,255,255,.4)">Aucune donnée de check-in pour cette période</div></div>
-    <div class="cq-grid" id="cqGrid"></div>
-  </div>
+
 
   <!-- Comparison table -->
   <div class="compare-card fu d3">
