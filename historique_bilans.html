@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Historique bilans — Profilys</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0A0F1E;
+      --bg-card:      #111827;
+      --bg-input:     #0D1525;
+      --border:       rgba(255,255,255,0.07);
+
+      --teal:         #2DD4BF;
+      --teal-dim:     rgba(45,212,191,0.12);
+      --violet:       #A78BFA;
+
+      --text-primary:   #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted:     #475569;
+
+      --status-normal: #2DD4BF;
+      --status-bas:    #FBBF24;
+      --status-eleve:  #F87171;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 10%, rgba(45,212,191,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 85% 80%, rgba(167,139,250,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Header ── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-back {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .btn-back:hover { border-color: var(--teal); color: var(--teal); }
+
+    .header-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+      flex: 1;
+    }
+
+    .btn-new {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      background: var(--teal);
+      color: #0A0F1E;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-new:hover { background: #5EEAD4; transform: translateY(-1px); }
+
+    /* ── Container ── */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 20px 0;
+    }
+
+    /* ── Intro ── */
+    .intro { margin-bottom: 28px; }
+    .intro-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .intro h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(20px, 5vw, 26px);
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    /* ── Bilan card ── */
+    .bilan-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .bilan-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+
+    .bilan-date {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .bilan-count {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--teal-dim);
+      border: 1px solid rgba(45,212,191,0.25);
+      color: var(--teal);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ── Marqueurs list ── */
+    .marqueurs-list { padding: 4px 0; }
+
+    .marqueur-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.15s;
+    }
+    .marqueur-row:last-child { border-bottom: none; }
+    .marqueur-row:hover { background: rgba(255,255,255,0.03); }
+
+    .marqueur-nom {
+      font-size: 13px;
+      color: var(--text-primary);
+      font-weight: 400;
+    }
+    .marqueur-cat {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .marqueur-valeur {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: right;
+      white-space: nowrap;
+    }
+    .marqueur-unite {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .statut-badge {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .statut-normal { background: rgba(45,212,191,0.15);  color: var(--status-normal); }
+    .statut-bas    { background: rgba(251,191,36,0.15);  color: var(--status-bas);    }
+    .statut-eleve  { background: rgba(248,113,113,0.15); color: var(--status-eleve);  }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+    }
+    .empty-icon { font-size: 48px; margin-bottom: 16px; }
+    .empty-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .empty-sub {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      max-width: 380px;
+      margin: 0 auto 24px;
+    }
+    .btn-empty {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: var(--radius-sm);
+      background: var(--teal);
+      color: #0A0F1E;
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-empty:hover { background: #5EEAD4; transform: translateY(-1px); }
+
+    /* ── Loader ── */
+    #page-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      transition: opacity 0.3s;
+    }
+    #page-loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-dots { display: flex; gap: 8px; }
+    .loader-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse-dot 1.2s ease-in-out infinite both;
+    }
+    .loader-dot:nth-child(2) { animation-delay: 0.2s; background: var(--violet); }
+    .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(0.6); opacity: 0.3; }
+      50%       { transform: scale(1);   opacity: 1;   }
+    }
+
+    /* ── Error banner ── */
+    .error-banner {
+      display: none;
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      font-size: 13px;
+      color: #F87171;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 20px 16px 0; }
+      .marqueur-row { grid-template-columns: 1fr auto; gap: 8px; }
+      .marqueur-cat { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="page-loader">
+    <div class="loader-dots">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+    </div>
+  </div>
+
+  <header class="header">
+    <a href="app.html" class="btn-back" aria-label="Retour">←</a>
+    <span class="header-title">Historique bilans</span>
+    <a href="saisie_bilan.html" class="btn-new">＋ Nouveau bilan</a>
+  </header>
+
+  <div class="container">
+    <div class="intro">
+      <div class="intro-label">Suivi biologique</div>
+      <h1>Vos bilans enregistrés</h1>
+    </div>
+
+    <div class="error-banner" id="error-banner"></div>
+    <div id="bilans-list"></div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const user = await PrevioAuth.requireAuth();
+    if (!user) return;
+
+    const loader  = document.getElementById('page-loader');
+    const list    = document.getElementById('bilans-list');
+    const errBanner = document.getElementById('error-banner');
+
+    try {
+      // Une seule requête — toutes les colonnes dont marker_name, unit, status
+      const { data, error } = await window.sb
+        .from('biomarqueurs')
+        .select('bilan_date, marker_id, marker_name, value, unit, category, status')
+        .eq('user_id', user.id)
+        .order('bilan_date', { ascending: false })
+        .order('category',   { ascending: true  })
+        .order('marker_name',{ ascending: true  });
+
+      if (error) throw error;
+
+      loader.classList.add('hidden');
+
+      if (!data || !data.length) {
+        renderEmpty(list);
+        return;
+      }
+
+      // Grouper par date
+      const grouped = {};
+      for (const row of data) {
+        if (!grouped[row.bilan_date]) grouped[row.bilan_date] = [];
+        grouped[row.bilan_date].push(row);
+      }
+
+      for (const [date, marqueurs] of Object.entries(grouped)) {
+        list.appendChild(buildBilanCard(date, marqueurs));
+      }
+
+    } catch (err) {
+      console.error('Erreur chargement bilans :', err);
+      loader.classList.add('hidden');
+      errBanner.style.display = 'block';
+      errBanner.textContent = 'Impossible de charger les bilans. Vérifiez votre connexion.';
+    }
+  });
+
+  function buildBilanCard(dateStr, marqueurs) {
+    const dateLabel = new Date(dateStr + 'T12:00').toLocaleDateString('fr-FR', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    const card = document.createElement('div');
+    card.className = 'bilan-card';
+
+    card.innerHTML = `
+      <div class="bilan-header">
+        <div class="bilan-date">${dateLabel}</div>
+        <div class="bilan-count">${marqueurs.length} marqueur${marqueurs.length > 1 ? 's' : ''}</div>
+      </div>
+      <div class="marqueurs-list">
+        ${marqueurs.map(m => buildMarqueurRow(m)).join('')}
+      </div>
+    `;
+
+    return card;
+  }
+
+  function buildMarqueurRow(m) {
+    const nom    = m.marker_name || m.marker_id;
+    const valeur = m.value !== null && m.value !== undefined ? m.value : '—';
+    const unite  = m.unit  || '';
+    const cat    = m.category || '';
+    const badge  = buildBadge(m.status);
+
+    return `
+      <div class="marqueur-row">
+        <div>
+          <div class="marqueur-nom">${nom}</div>
+          ${cat ? `<div class="marqueur-cat">${cat}</div>` : ''}
+        </div>
+        <div class="marqueur-valeur">
+          ${valeur}${unite ? ` <span class="marqueur-unite">${unite}</span>` : ''}
+        </div>
+        ${badge}
+      </div>
+    `;
+  }
+
+  function buildBadge(status) {
+    if (!status) return '<span></span>';
+    const map = {
+      normal: { cls: 'statut-normal', label: 'Normal' },
+      bas:    { cls: 'statut-bas',    label: 'Bas'    },
+      eleve:  { cls: 'statut-eleve',  label: 'Élevé'  },
+    };
+    const s = map[status.toLowerCase()];
+    if (!s) return '<span></span>';
+    return `<span class="statut-badge ${s.cls}">${s.label}</span>`;
+  }
+
+  function renderEmpty(container) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🧪</div>
+        <div class="empty-title">Aucun bilan enregistré</div>
+        <p class="empty-sub">Saisissez votre premier bilan biologique pour le voir apparaître ici.</p>
+        <a href="saisie_bilan.html" class="btn-empty">＋ Saisir un bilan</a>
+      </div>
+    `;
+  }
+  </script>
+</body>
+</html>
