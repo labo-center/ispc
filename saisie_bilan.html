@@ -970,12 +970,14 @@
         if (!m) continue;
         const statut = getStatutMarqueur(id, val);
         marqueurs.push({
-          marker_id:  id,
-          valeur:     val,
-          unite:      m.unite,
-          ref_min:    m.ref_min,
-          ref_max:    m.ref_max,
-          statut:     statut,
+          marker_id:   id,
+          marker_name: m.nom,
+          value:       val,
+          unit:        m.unite,
+          category:    m.categorie,
+          ref_min:     m.ref_min,
+          ref_max:     m.ref_max,
+          status:      statut,
         });
       }
 
