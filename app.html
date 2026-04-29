@@ -1189,7 +1189,7 @@ body{background:var(--dark-1)}
       <div class="nl on" id="nl-dash" onclick="go('dash')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')go('dash')">Dashboard</div>
       <div class="nl" id="nl-mon" onclick="window.location.href='monitoring.html'" tabindex="0" role="button" onkeydown="if(event.key==='Enter')window.location.href='monitoring.html'">Monitoring</div>
       <div class="nl" id="nl-profil" onclick="go('profil')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')go('profil')">Profil Santé</div>
-      <div class="nl" id="nl-bio" onclick="go('bio')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')go('bio')">Bilan Biologique</div>
+
       <div class="nav-dropdown" id="nav-dd-guides">
         <div class="nl" id="nl-guide">
           Guides
@@ -1399,7 +1399,7 @@ body{background:var(--dark-1)}
 
     <div class="br-ctas fu d3">
       <a href="saisie_bilan.html" class="br-btn-main" style="background:linear-gradient(135deg,var(--c-teal-d),var(--c-green-d))">＋ Nouveau bilan biologique</a>
-      <a href="questionnaire_contexte_bilan_v6.html" class="br-btn-main" style="background:linear-gradient(135deg,#334155,#1e293b);border:1.5px solid rgba(255,255,255,.15)">📝 Questionnaire contextuel</a>
+      <a href="historique_bilans.html" class="br-btn-main" style="background:linear-gradient(135deg,#334155,#1e293b);border:1.5px solid rgba(255,255,255,.15)">📄 Historique des bilans</a>
     </div>
 
     <div class="bridge-tags fu d4">
@@ -1412,7 +1412,6 @@ body{background:var(--dark-1)}
     <div class="bio-subnav" style="margin-top:28px">
       <a href="saisie_bilan.html" class="bio-subnav-btn active">📝 Nouveau</a>
       <a href="historique_bilans.html" class="bio-subnav-btn">📄 CR précédents</a>
-      <button class="bio-subnav-btn" onclick="alert('Mettre à jour un bilan existant — disponible prochainement.')">🔄 Mettre à jour</button>
     </div>
     <button class="br-btn-back" onclick="go('dash')" style="margin-top:20px">← Retour au dashboard</button>
   </div>
