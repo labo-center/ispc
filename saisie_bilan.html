@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveau bilan — Profilys</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase-client.js"></script>
+  <script src="assets/js/marqueurs-catalogue.js"></script>
+
+  <style>
+    /* ── Reset & variables ──────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0A0F1E;
+      --bg-card:      #111827;
+      --bg-input:     #0D1525;
+      --border:       rgba(255,255,255,0.07);
+      --border-focus: rgba(45,212,191,0.5);
+
+      --teal:         #2DD4BF;
+      --teal-dim:     rgba(45,212,191,0.12);
+      --teal-glow:    rgba(45,212,191,0.25);
+      --violet:       #A78BFA;
+      --violet-dim:   rgba(167,139,250,0.12);
+
+      --text-primary:   #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted:     #475569;
+
+      --status-normal:  #2DD4BF;
+      --status-bas:     #FBBF24;
+      --status-eleve:   #F87171;
+      --status-inconnu: #475569;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'DM Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+
+    /* ── Fond ambiant ────────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 40% at 15% 10%, rgba(45,212,191,0.05) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 85% 80%, rgba(167,139,250,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Header ──────────────────────────────────────────────────────── */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,15,30,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-back {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .btn-back:hover { border-color: var(--teal); color: var(--teal); }
+
+    .header-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Container ───────────────────────────────────────────────────── */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 32px 20px 0;
+    }
+
+    /* ── Section intro ───────────────────────────────────────────────── */
+    .intro {
+      margin-bottom: 32px;
+    }
+    .intro-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 8px;
+    }
+    .intro h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(22px, 5vw, 28px);
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .intro p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Carte ───────────────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    /* ── Date du bilan ───────────────────────────────────────────────── */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .field-label {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+    .field-input {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+      color-scheme: dark;
+    }
+    .field-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--teal-dim);
+    }
+
+    /* ── Barre de recherche ──────────────────────────────────────────── */
+    .search-wrap {
+      position: relative;
+    }
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 16px;
+      pointer-events: none;
+    }
+    .field-input.with-icon {
+      padding-left: 42px;
+    }
+
+    /* ── Catalogue par catégorie ──────────────────────────────────────── */
+    .catalogue-wrap {
+      margin-top: 16px;
+      max-height: 340px;
+      overflow-y: auto;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      background: var(--bg-input);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .catalogue-wrap::-webkit-scrollbar { width: 4px; }
+    .catalogue-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+    .cat-section { border-bottom: 1px solid var(--border); }
+    .cat-section:last-child { border-bottom: none; }
+
+    .cat-header {
+      padding: 10px 14px;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--teal);
+      font-weight: 500;
+      background: rgba(45,212,191,0.04);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+
+    .marqueur-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .marqueur-item:last-child { border-bottom: none; }
+    .marqueur-item:hover { background: rgba(255,255,255,0.04); }
+    .marqueur-item.selected { background: var(--teal-dim); }
+
+    .marqueur-checkbox {
+      width: 18px; height: 18px;
+      border-radius: 5px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .marqueur-item.selected .marqueur-checkbox {
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+    .marqueur-checkbox-tick {
+      width: 10px; height: 10px;
+      opacity: 0;
+      transition: opacity 0.15s;
+    }
+    .marqueur-item.selected .marqueur-checkbox-tick { opacity: 1; }
+
+    .marqueur-info { flex: 1; min-width: 0; }
+    .marqueur-nom {
+      font-size: 14px;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .marqueur-unite {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .marqueur-refs {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    /* ── Compteur sélection ──────────────────────────────────────────── */
+    .selection-count {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .selection-badge {
+      background: var(--teal-dim);
+      border: 1px solid rgba(45,212,191,0.3);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    /* ── Zone de saisie des valeurs ──────────────────────────────────── */
+    #section-valeurs { display: none; }
+
+    .valeur-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+      animation: fadeIn 0.25s ease both;
+    }
+    .valeur-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .valeur-label {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 400;
+      margin-bottom: 4px;
+    }
+    .valeur-ref {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .valeur-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .valeur-input {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 18px;
+      font-weight: 500;
+      padding: 10px 12px;
+      width: 110px;
+      text-align: right;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      -moz-appearance: textfield;
+    }
+    .valeur-input::-webkit-outer-spin-button,
+    .valeur-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+    .valeur-input:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--teal-dim);
+    }
+    .valeur-unite-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 50px;
+    }
+
+    /* Badge statut inline ─────────────── */
+    .statut-badge {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+    .statut-normal  { background: rgba(45,212,191,0.15);  color: var(--status-normal);  }
+    .statut-bas     { background: rgba(251,191,36,0.15);  color: var(--status-bas);     }
+    .statut-eleve   { background: rgba(248,113,113,0.15); color: var(--status-eleve);   }
+    .statut-inconnu { background: rgba(71,85,105,0.15);   color: var(--status-inconnu); }
+
+    /* ── Section import photo ──────────────────────────────────────────  */
+    .import-section {
+      border: 1.5px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .import-section:hover,
+    .import-section.dragover {
+      border-color: var(--teal);
+      background: var(--teal-dim);
+    }
+    .import-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .import-title {
+      font-size: 14px;
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .import-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .import-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .import-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--violet-dim);
+      border: 1px solid rgba(167,139,250,0.25);
+      color: var(--violet);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-top: 10px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── État extraction IA ───────────────────────────────────────────── */
+    #ia-status {
+      display: none;
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: var(--violet-dim);
+      border: 1px solid rgba(167,139,250,0.2);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--violet);
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(167,139,250,0.2);
+      border-top-color: var(--violet);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Divider ─────────────────────────────────────────────────────── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 20px 0;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── Boutons ──────────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 24px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: #0A0F1E;
+      width: 100%;
+    }
+    .btn-primary:hover { background: #5EEAD4; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(45,212,191,0.25); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+      width: 100%;
+    }
+    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* ── Toast notification ───────────────────────────────────────────── */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 999;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      pointer-events: none;
+      max-width: calc(100vw - 40px);
+      white-space: nowrap;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .toast.success { border-color: rgba(45,212,191,0.4); }
+    .toast.error   { border-color: rgba(248,113,113,0.4); }
+    .toast-icon { font-size: 16px; }
+
+    /* ── Loader global ───────────────────────────────────────────────── */
+    #page-loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      transition: opacity 0.3s;
+    }
+    #page-loader.hidden { opacity: 0; pointer-events: none; }
+
+    .loader-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      animation: pulse-dot 1.2s ease-in-out infinite both;
+    }
+    .loader-dot:nth-child(2) { animation-delay: 0.2s; background: var(--violet); }
+    .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+    .loader-dots { display: flex; gap: 8px; }
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(0.6); opacity: 0.3; }
+      50%       { transform: scale(1);   opacity: 1;   }
+    }
+
+    /* ── Empty state catalogue ───────────────────────────────────────── */
+    .empty-cat {
+      padding: 24px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .container { padding: 20px 16px 0; }
+      .card { padding: 18px; }
+      .valeur-input { width: 90px; font-size: 16px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Loader -->
+  <div id="page-loader">
+    <div class="loader-dots">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <span class="toast-icon" id="toast-icon"></span>
+    <span id="toast-msg"></span>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <a href="app.html" class="btn-back" aria-label="Retour">←</a>
+    <span class="header-title">Nouveau bilan biologique</span>
+  </header>
+
+  <div class="container">
+
+    <!-- Intro -->
+    <div class="intro">
+      <div class="intro-label">Suivi biologique</div>
+      <h1>Saisir un bilan</h1>
+      <p>Sélectionnez les marqueurs de votre bilan puis entrez les valeurs indiquées sur votre compte-rendu de laboratoire.</p>
+    </div>
+
+    <!-- ── ÉTAPE 1 : Date ─────────────────────────────────────────── -->
+    <div class="card">
+      <div class="card-title">Date du bilan</div>
+      <div class="field-group">
+        <label class="field-label" for="bilan-date">Date du prélèvement</label>
+        <input
+          type="date"
+          id="bilan-date"
+          class="field-input"
+          max=""
+        />
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 2 : Import photo (option IA) ────────────────────── -->
+    <div class="card">
+      <div class="card-title">Import automatique <span style="color:var(--violet)">— option</span></div>
+      <div class="import-section" id="drop-zone">
+        <input
+          type="file"
+          id="photo-input"
+          class="import-input"
+          accept="image/jpeg,image/png,image/webp,image/heic"
+          aria-label="Importer une photo du bilan"
+        />
+        <span class="import-icon">📄</span>
+        <div class="import-title">Importer une photo du bilan</div>
+        <div class="import-sub">JPG, PNG, WEBP — photo ou scan du compte-rendu<br>L'IA extraira les valeurs automatiquement</div>
+        <div class="import-badge">✦ Extraction IA</div>
+      </div>
+
+      <div id="ia-status" style="display:none;">
+        <div class="spinner"></div>
+        <span id="ia-status-text">Analyse du document en cours…</span>
+      </div>
+    </div>
+
+    <div class="divider">ou saisie manuelle</div>
+
+    <!-- ── ÉTAPE 3 : Sélection marqueurs ─────────────────────────── -->
+    <div class="card">
+      <div class="card-title">Sélectionner les marqueurs</div>
+
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input
+          type="search"
+          id="search-input"
+          class="field-input with-icon"
+          placeholder="Rechercher un marqueur…"
+          autocomplete="off"
+        />
+      </div>
+
+      <div class="catalogue-wrap" id="catalogue" role="list" aria-label="Liste des marqueurs biologiques"></div>
+
+      <div class="selection-count">
+        <span id="count-badge" class="selection-badge">0</span>
+        marqueur(s) sélectionné(s)
+      </div>
+    </div>
+
+    <!-- ── ÉTAPE 4 : Saisie des valeurs ──────────────────────────── -->
+    <div id="section-valeurs">
+      <div class="card">
+        <div class="card-title">Saisir les valeurs</div>
+        <div id="valeurs-list"></div>
+      </div>
+    </div>
+
+    <!-- ── Actions ───────────────────────────────────────────────── -->
+    <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+      <button class="btn btn-primary" id="btn-sauvegarder" disabled>
+        <span>💾</span> Enregistrer le bilan
+      </button>
+      <a href="app.html" class="btn btn-ghost">Annuler</a>
+    </div>
+
+  </div><!-- /container -->
+
+
+  <script>
+  // ═══════════════════════════════════════════════════════════════════
+  //  SAISIE_BILAN.JS — logique principale (inline pour MVP)
+  // ═══════════════════════════════════════════════════════════════════
+
+  // ── État local ────────────────────────────────────────────────────
+  const state = {
+    selectedIds: new Set(),  // IDs des marqueurs cochés
+    valeurs: {},             // { marqueurId: number|null }
+    bilanDate: '',
+  };
+
+  // ── Refs DOM ──────────────────────────────────────────────────────
+  const $ = id => document.getElementById(id);
+  const elCatalogue     = $('catalogue');
+  const elSearch        = $('search-input');
+  const elCountBadge    = $('count-badge');
+  const elSectionVal    = $('section-valeurs');
+  const elValeursList   = $('valeurs-list');
+  const elBtnSave       = $('btn-sauvegarder');
+  const elBilanDate     = $('bilan-date');
+  const elPhotoInput    = $('photo-input');
+  const elDropZone      = $('drop-zone');
+  const elIaStatus      = $('ia-status');
+  const elIaStatusText  = $('ia-status-text');
+  const elLoader        = $('page-loader');
+
+  // ── Init ──────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', async () => {
+    // Auth guard
+    const user = await PrevioAuth.requireAuth();
+    if (!user) return;
+
+    // Date par défaut = aujourd'hui
+    const today = new Date().toISOString().split('T')[0];
+    elBilanDate.max   = today;
+    elBilanDate.value = today;
+    state.bilanDate   = today;
+
+    renderCatalogue(MARQUEURS_CATALOGUE);
+    elLoader.classList.add('hidden');
+  });
+
+  // ── Rendu catalogue ───────────────────────────────────────────────
+  function renderCatalogue(marqueurs) {
+    elCatalogue.innerHTML = '';
+
+    if (!marqueurs.length) {
+      elCatalogue.innerHTML = '<div class="empty-cat">Aucun marqueur trouvé</div>';
+      return;
+    }
+
+    // Regrouper par catégorie, dans l'ordre de CATEGORIES_ORDRE
+    const grouped = {};
+    CATEGORIES_ORDRE.forEach(cat => { grouped[cat] = []; });
+
+    marqueurs.forEach(m => {
+      if (!grouped[m.categorie]) grouped[m.categorie] = [];
+      grouped[m.categorie].push(m);
+    });
+
+    Object.entries(grouped).forEach(([cat, items]) => {
+      if (!items.length) return;
+
+      const section = document.createElement('div');
+      section.className = 'cat-section';
+
+      const header = document.createElement('div');
+      header.className = 'cat-header';
+      header.textContent = cat;
+      section.appendChild(header);
+
+      items.forEach(m => {
+        const item = buildMarqueurItem(m);
+        section.appendChild(item);
+      });
+
+      elCatalogue.appendChild(section);
+    });
+  }
+
+  function buildMarqueurItem(m) {
+    const div = document.createElement('div');
+    div.className = 'marqueur-item' + (state.selectedIds.has(m.id) ? ' selected' : '');
+    div.dataset.id = m.id;
+    div.setAttribute('role', 'checkbox');
+    div.setAttribute('aria-checked', state.selectedIds.has(m.id));
+    div.tabIndex = 0;
+
+    // Formatage des refs
+    let refsHtml = '';
+    if (m.ref_min !== null && m.ref_max !== null)
+      refsHtml = `${m.ref_min}–${m.ref_max}`;
+    else if (m.ref_min !== null)
+      refsHtml = `≥ ${m.ref_min}`;
+    else if (m.ref_max !== null)
+      refsHtml = `≤ ${m.ref_max}`;
+    else
+      refsHtml = '—';
+
+    div.innerHTML = `
+      <div class="marqueur-checkbox">
+        <svg class="marqueur-checkbox-tick" viewBox="0 0 10 10" fill="none" stroke="#0A0F1E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1.5,5 4,7.5 8.5,2.5"/>
+        </svg>
+      </div>
+      <div class="marqueur-info">
+        <div class="marqueur-nom">${m.nom}</div>
+        <div class="marqueur-unite">${m.unite}</div>
+      </div>
+      <div class="marqueur-refs">${refsHtml}<br><span style="opacity:0.5">${m.unite}</span></div>
+    `;
+
+    div.addEventListener('click', () => toggleMarqueur(m.id));
+    div.addEventListener('keydown', e => { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggleMarqueur(m.id); } });
+
+    return div;
+  }
+
+  // ── Toggle sélection ──────────────────────────────────────────────
+  function toggleMarqueur(id) {
+    if (state.selectedIds.has(id)) {
+      state.selectedIds.delete(id);
+      delete state.valeurs[id];
+    } else {
+      state.selectedIds.add(id);
+      state.valeurs[id] = null;
+    }
+    updateCatalogueUI();
+    renderValeurs();
+    updateSaveBtn();
+  }
+
+  function updateCatalogueUI() {
+    // Mettre à jour visuellement tous les items visibles
+    document.querySelectorAll('.marqueur-item').forEach(el => {
+      const id = el.dataset.id;
+      const sel = state.selectedIds.has(id);
+      el.classList.toggle('selected', sel);
+      el.setAttribute('aria-checked', sel);
+    });
+    elCountBadge.textContent = state.selectedIds.size;
+  }
+
+  // ── Zone de saisie des valeurs ────────────────────────────────────
+  function renderValeurs() {
+    if (!state.selectedIds.size) {
+      elSectionVal.style.display = 'none';
+      elValeursList.innerHTML = '';
+      return;
+    }
+
+    elSectionVal.style.display = 'block';
+
+    // Construire la liste dans l'ordre de CATEGORIES_ORDRE
+    const orderedIds = [];
+    CATEGORIES_ORDRE.forEach(cat => {
+      MARQUEURS_CATALOGUE
+        .filter(m => m.categorie === cat && state.selectedIds.has(m.id))
+        .forEach(m => orderedIds.push(m.id));
+    });
+
+    // Garder les inputs existants (ne pas reset les valeurs déjà saisies)
+    const existingInputs = {};
+    document.querySelectorAll('.valeur-input').forEach(inp => {
+      existingInputs[inp.dataset.id] = inp.value;
+    });
+
+    elValeursList.innerHTML = '';
+
+    orderedIds.forEach((id, idx) => {
+      const m = getMarqueurById(id);
+      if (!m) return;
+
+      const val = existingInputs[id] !== undefined ? existingInputs[id] : (state.valeurs[id] ?? '');
+
+      let refsText = '';
+      if (m.ref_min !== null && m.ref_max !== null) refsText = `Réf. : ${m.ref_min}–${m.ref_max} ${m.unite}`;
+      else if (m.ref_min !== null) refsText = `Réf. : ≥ ${m.ref_min} ${m.unite}`;
+      else if (m.ref_max !== null) refsText = `Réf. : ≤ ${m.ref_max} ${m.unite}`;
+      else refsText = 'Pas de référence standard';
+
+      const statut = val !== '' ? getStatutMarqueur(id, parseFloat(val)) : 'inconnu';
+      const statutLabel = { bas: 'Bas', normal: 'Normal', eleve: 'Élevé', inconnu: '' };
+
+      const row = document.createElement('div');
+      row.className = 'valeur-item';
+      row.style.animationDelay = `${idx * 30}ms`;
+      row.innerHTML = `
+        <div>
+          <div class="valeur-label">${m.nom}</div>
+          <div class="valeur-ref">${refsText}</div>
+          ${val !== '' ? `<span class="statut-badge statut-${statut}" id="badge-${id}">${statutLabel[statut]}</span>` : `<span class="statut-badge statut-inconnu" id="badge-${id}" style="opacity:0"></span>`}
+        </div>
+        <div class="valeur-input-wrap">
+          <input
+            type="number"
+            class="valeur-input"
+            data-id="${id}"
+            value="${val}"
+            placeholder="—"
+            step="any"
+            inputmode="decimal"
+            aria-label="${m.nom}"
+          />
+          <span class="valeur-unite-label">${m.unite}</span>
+        </div>
+      `;
+
+      // Stocker la valeur en temps réel + mettre à jour le badge
+      row.querySelector('.valeur-input').addEventListener('input', e => {
+        const v = e.target.value !== '' ? parseFloat(e.target.value) : null;
+        state.valeurs[id] = v;
+        const s = v !== null ? getStatutMarqueur(id, v) : 'inconnu';
+        const badge = document.getElementById(`badge-${id}`);
+        if (badge) {
+          badge.className = `statut-badge statut-${s}`;
+          badge.textContent = v !== null ? (statutLabel[s] || '') : '';
+          badge.style.opacity = v !== null ? '1' : '0';
+        }
+        updateSaveBtn();
+      });
+
+      elValeursList.appendChild(row);
+    });
+  }
+
+  // ── Validation bouton sauvegarder ─────────────────────────────────
+  function updateSaveBtn() {
+    const hasDate      = !!state.bilanDate;
+    const hasSelection = state.selectedIds.size > 0;
+    const hasValeurs   = [...state.selectedIds].some(id => state.valeurs[id] !== null);
+    elBtnSave.disabled = !(hasDate && hasSelection && hasValeurs);
+  }
+
+  // ── Événement date ────────────────────────────────────────────────
+  elBilanDate.addEventListener('change', e => {
+    state.bilanDate = e.target.value;
+    updateSaveBtn();
+  });
+
+  // ── Recherche ─────────────────────────────────────────────────────
+  let searchTimer;
+  elSearch.addEventListener('input', e => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      const results = searchMarqueurs(e.target.value);
+      renderCatalogue(results);
+      updateCatalogueUI();
+    }, 150);
+  });
+
+  // ── Sauvegarde Supabase ───────────────────────────────────────────
+  elBtnSave.addEventListener('click', async () => {
+    elBtnSave.disabled = true;
+    elBtnSave.innerHTML = '<div class="spinner" style="border-top-color:#0A0F1E;border-color:rgba(10,15,30,0.3);border-top-color:#0A0F1E;width:14px;height:14px;"></div> Enregistrement…';
+
+    try {
+      // Construire la liste des marqueurs avec valeur renseignée
+      const marqueurs = [];
+      for (const id of state.selectedIds) {
+        const val = state.valeurs[id];
+        if (val === null || val === undefined) continue;
+        const m = getMarqueurById(id);
+        if (!m) continue;
+        const statut = getStatutMarqueur(id, val);
+        marqueurs.push({
+          marker_id:  id,
+          valeur:     val,
+          unite:      m.unite,
+          ref_min:    m.ref_min,
+          ref_max:    m.ref_max,
+          statut:     statut,
+        });
+      }
+
+      if (!marqueurs.length) throw new Error('Aucune valeur à enregistrer.');
+
+      const result = await PrevioBio.saveBilan(state.bilanDate, marqueurs);
+
+      if (result && result.error) throw new Error(result.error.message);
+
+      showToast('✓', 'Bilan enregistré avec succès', 'success');
+      setTimeout(() => { window.location.href = 'app.html'; }, 1500);
+
+    } catch (err) {
+      console.error('Erreur sauvegarde bilan :', err);
+      showToast('✕', err.message || 'Erreur lors de l\'enregistrement', 'error');
+      elBtnSave.disabled = false;
+      elBtnSave.innerHTML = '<span>💾</span> Enregistrer le bilan';
+    }
+  });
+
+  // ── Import photo + extraction IA ──────────────────────────────────
+  elPhotoInput.addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (file) processPhotoFile(file);
+  });
+
+  elDropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    elDropZone.classList.add('dragover');
+  });
+  elDropZone.addEventListener('dragleave', () => elDropZone.classList.remove('dragover'));
+  elDropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    elDropZone.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) processPhotoFile(file);
+  });
+
+  async function processPhotoFile(file) {
+    // Vérification taille (max 10 Mo)
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('⚠', 'Image trop lourde (max 10 Mo)', 'error');
+      return;
+    }
+
+    elIaStatus.style.display = 'flex';
+    elIaStatusText.textContent = 'Analyse du document en cours…';
+
+    try {
+      // Convertir en base64
+      const base64 = await fileToBase64(file);
+      const mediaType = file.type || 'image/jpeg';
+
+      // Appel API Claude avec vision
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          messages: [{
+            role: 'user',
+            content: [
+              {
+                type: 'image',
+                source: { type: 'base64', media_type: mediaType, data: base64 }
+              },
+              {
+                type: 'text',
+                text: buildExtractionPrompt()
+              }
+            ]
+          }]
+        })
+      });
+
+      if (!response.ok) throw new Error(`API error ${response.status}`);
+
+      const data = await response.json();
+      const rawText = data.content?.find(b => b.type === 'text')?.text || '';
+
+      // Parser la réponse JSON
+      const clean = rawText.replace(/```json|```/g, '').trim();
+      const extracted = JSON.parse(clean);
+
+      if (!extracted.marqueurs || !extracted.marqueurs.length) {
+        showToast('⚠', 'Aucun marqueur reconnu dans l\'image', 'error');
+        elIaStatus.style.display = 'none';
+        return;
+      }
+
+      // Pré-remplir les sélections et valeurs
+      let count = 0;
+      extracted.marqueurs.forEach(({ id, valeur }) => {
+        if (!getMarqueurById(id)) return;
+        if (!state.selectedIds.has(id)) state.selectedIds.add(id);
+        state.valeurs[id] = valeur;
+        count++;
+      });
+
+      elIaStatusText.textContent = `✓ ${count} valeur(s) extraite(s) — vérifiez avant d'enregistrer`;
+
+      renderCatalogue(MARQUEURS_CATALOGUE);
+      updateCatalogueUI();
+      renderValeurs();
+      updateSaveBtn();
+
+      // Pré-remplir les inputs avec les valeurs extraites
+      setTimeout(() => {
+        document.querySelectorAll('.valeur-input').forEach(inp => {
+          const id = inp.dataset.id;
+          if (state.valeurs[id] !== null && state.valeurs[id] !== undefined) {
+            inp.value = state.valeurs[id];
+            inp.dispatchEvent(new Event('input'));
+          }
+        });
+      }, 100);
+
+    } catch (err) {
+      console.error('Extraction IA :', err);
+      elIaStatusText.textContent = 'Extraction impossible — veuillez saisir manuellement';
+      elIaStatus.style.backgroundColor = 'rgba(248,113,113,0.08)';
+      elIaStatus.style.borderColor = 'rgba(248,113,113,0.2)';
+      elIaStatus.style.color = 'var(--status-eleve)';
+    }
+  }
+
+  function buildExtractionPrompt() {
+    const ids = MARQUEURS_CATALOGUE.map(m => `"${m.id}" (${m.nom}, ${m.unite})`).join(', ');
+    return `Tu es un assistant médical. Analyse cette image de bilan biologique et extrait les valeurs numériques des marqueurs.
+
+IDs reconnus : ${ids}
+
+Réponds UNIQUEMENT en JSON valide, sans aucun texte autour, sans balises markdown, avec ce format exact :
+{"marqueurs": [{"id": "glycemie_a_jeun", "valeur": 5.2}, ...]}
+
+Si un marqueur n'est pas présent dans l'image, ne l'inclus pas. Si tu ne peux pas lire une valeur clairement, ne l'inclus pas. Ne génère aucun commentaire.`;
+  }
+
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result.split(',')[1]);
+      r.onerror = () => reject(new Error('Lecture du fichier impossible'));
+      r.readAsDataURL(file);
+    });
+  }
+
+  // ── Toast ──────────────────────────────────────────────────────────
+  function showToast(icon, msg, type = '') {
+    const toast = $('toast');
+    $('toast-icon').textContent = icon;
+    $('toast-msg').textContent  = msg;
+    toast.className = `toast ${type}`;
+    void toast.offsetWidth; // reflow
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
+  </script>
+</body>
+</html>
