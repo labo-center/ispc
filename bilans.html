@@ -336,47 +336,7 @@
     </div>
   </div>
 
-  <!-- Nav -->
-  <nav class="nav">
-    <div class="nav-in">
-      <a class="nav-logo" href="app.html">
-        <div class="nav-mark">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
-            <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
-            <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="nav-type">Profilys</div>
-      </a>
-      <div class="nav-links">
-        <a class="nl" href="app.html">Dashboard</a>
-        <a class="nl on" href="bilan_hub.html">Bilan Biologique</a>
-        <a class="nl" href="app.html#profil">Profil &amp; Mode de vie</a>
-        <div class="nav-dropdown">
-          <div class="nl">Guides
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <div class="nav-dd-menu">
-            <div class="nav-dd-menu-inner">
-              <a class="nav-dd-item" href="guide-analyses-biologiques.html"><span class="dd-icon">🔬</span>Guide Analyses biologiques</a>
-              <div class="nav-dd-sep"></div>
-              <a class="nav-dd-item" href="guide-metabolismes.html"><span class="dd-icon">⚡</span>Guide des métabolismes</a>
-              <a class="nav-dd-item" href="guide-complements-alimentaires.html"><span class="dd-icon">💊</span>Guide Compléments alimentaires</a>
-              <a class="nav-dd-item" href="guide-aliments-fonctionnels.html"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="nav-r">
-        <a class="nav-checkin" href="checkin.html">
-          <span class="nc-dot"></span> Check-in
-        </a>
-      </div>
-    </div>
-  </nav>
+  <div id="nav-placeholder"></div>
 
   <div class="page">
     <div class="container">
@@ -410,7 +370,7 @@
       <!-- Actions principales -->
       <div class="actions-grid">
 
-        <a href="saisie_bilan.html" class="action-card primary">
+        <a href="bilan-saisie.html" class="action-card primary">
           <div class="card-glow"></div>
           <div class="card-icon">＋</div>
           <div class="card-title">Nouveau bilan</div>
@@ -421,7 +381,7 @@
           <div class="card-cta">Saisir un bilan →</div>
         </a>
 
-        <a href="historique_bilans.html" class="action-card secondary">
+        <a href="bilan-historique.html" class="action-card secondary">
           <div class="card-glow"></div>
           <div class="card-icon">📄</div>
           <div class="card-title">Historique</div>
@@ -437,7 +397,7 @@
       <!-- Liens secondaires -->
       <div class="secondary-links">
         <span class="secondary-links-label">Également :</span>
-        <a href="questionnaire_contexte_bilan_v6.html" class="link-pill">
+        <a href="bilan-questionnaire.html" class="link-pill">
           📝 Questionnaire contextuel
         </a>
         <a href="monitoring.html" class="link-pill">
@@ -480,5 +440,6 @@
   });
   </script>
 
+<script>ProfilysComponents.injectNav('app');</script>
 </body>
 </html>

@@ -483,63 +483,16 @@ details.step-acc.done-acc .sec-dark-banner{background:linear-gradient(135deg,var
   <!-- Profilys shared assets -->
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/config.js"></script>
+  <script src="assets/js/components.js"></script>
   </head>
 <body>
 <style>
-.profilys-bar{
-  position:fixed;top:0;left:0;right:0;z-index:9999;
-  height:48px;background:rgba(7,12,26,.95);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  border-bottom:1.5px solid rgba(255,255,255,.1);
-  display:flex;align-items:center;padding:0 20px;gap:16px;
-  font-family:'DM Sans',system-ui,sans-serif;
-}
-.profilys-bar-logo{
-  display:flex;align-items:center;gap:9px;cursor:pointer;
-  text-decoration:none;
-}
-.profilys-bar-mark{
-  width:28px;height:28px;border-radius:8px;
-  background:linear-gradient(135deg,#0e7490,#6d28d9);
-  display:grid;place-items:center;font-size:14px;flex-shrink:0;
-}
-.profilys-bar-type{
-  font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:700;
-  letter-spacing:-.06em;color:#fff;line-height:1;
-}
-.profilys-bar-type sup{font-size:8px;font-weight:700;letter-spacing:.04em;
-  vertical-align:top;margin-top:3px;opacity:.45;font-family:'DM Sans',sans-serif;text-transform:uppercase}
-.profilys-bar-sep{width:1px;height:22px;background:rgba(255,255,255,.15)}
-.profilys-bar-module{font-size:12px;font-weight:600;color:rgba(255,255,255,.55)}
-.profilys-bar-back{
-  margin-left:auto;padding:6px 16px;border-radius:99px;font-size:12px;font-weight:700;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);
-  color:rgba(255,255,255,.75);cursor:pointer;transition:all .15s;
-  text-decoration:none;
-}
-.profilys-bar-back:hover{background:rgba(255,255,255,.14);color:#fff}
-/* Push content below bar */
-body{padding-top:48px !important}
-/* Hide bar when inside iframe */
-body.in-iframe{padding-top:0 !important}
-body.in-iframe .profilys-bar{display:none !important}
+body{padding-top:var(--nav-h,62px)}
+body.in-iframe{padding-top:0!important}
+body.in-iframe .nav{display:none!important}
 </style>
 <script>if(window.self!==window.top)document.documentElement.classList.add('in-iframe-ready');document.addEventListener('DOMContentLoaded',function(){if(window.self!==window.top)document.body.classList.add('in-iframe');});</script>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<div class="profilys-bar">
-  <a class="profilys-bar-logo" href="app.html">
-    <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#2DD4BF,#A78BFA);display:grid;place-items:center">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
-    </div>
-    <span style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:#fff">Profilys</span>
-  </a>
-  <div style="display:flex;gap:4px;margin-left:24px">
-    <a href="app.html" style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);text-decoration:none">Dashboard</a>
-    <a href="bilan_hub.html" style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);text-decoration:none">Bilan Biologique</a>
-    <a href="bilan_coaching_premium.html" style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);text-decoration:none">Profil &amp; Mode de vie</a>
-  </div>
-  <a class="profilys-bar-back" href="app.html" style="margin-left:auto">← Retour</a>
-</div>
+<div id="nav-placeholder"></div>
 
 <div class="app fade" id="app"></div>
 <script>
@@ -1755,5 +1708,6 @@ function resetAll(){if(confirm('Effacer toutes vos réponses et recommencer ?'))
   }
 })();
 </script>
+<script>if(!document.body.classList.contains('in-iframe'))ProfilysComponents.injectNav('app');</script>
 </body>
 </html>

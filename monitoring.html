@@ -409,54 +409,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
   </head>
 <body>
 
-<!-- NAV -->
-<nav class="nav">
-  <div class="nav-in">
-    <a class="nav-logo" href="app.html">
-      <div class="nav-mark"><svg width="20" height="22" viewBox="0 0 20 22" fill="none"><path d="M10 1L2 5v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V5l-8-4z" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="1.2" stroke-linejoin="round"/><path d="M10 14V8" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M7 11l3-3 3 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      <div class="nav-type">Profilys</div>
-    </a>
-    <div class="nav-links">
-      <a class="nl" href="app.html">Dashboard</a>
-      <a class="nl on" href="bilan_hub.html">Bilan Biologique</a>
-      <a class="nl" href="app.html#profil">Profil &amp; Mode de vie</a>
-      <div class="nav-dropdown">
-        <div class="nl">Guides <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="nav-dd-menu">
-          <div class="nav-dd-menu-inner">
-            <a class="nav-dd-item" href="guide-analyses-biologiques.html"><span class="dd-icon">🔬</span>Guide Analyses biologiques</a>
-            <div class="nav-dd-sep"></div>
-            <a class="nav-dd-item" href="guide-metabolismes.html"><span class="dd-icon">⚡</span>Guide des métabolismes</a>
-            <a class="nav-dd-item" href="guide-complements-alimentaires.html"><span class="dd-icon">💊</span>Guide Compléments alimentaires</a>
-            <a class="nav-dd-item" href="guide-aliments-fonctionnels.html"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="nav-r">
-      <button class="nav-checkin" id="navCI" onclick="openCI()">
-        <span class="nc-dot"></span> Check-in
-      </button>
-      <a class="nav-user" href="app.html"><div class="nav-user-av">O</div><span>Olivier</span></a>
-      <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
-    </div>
-  </div>
-</nav>
-<div class="nav-drawer" id="navDrawer">
-  <button class="nd-checkin" onclick="openCI();document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">
-    <span class="nd-dot"></span>Check-in du jour
-  </button>
-  <div class="nd-sep"></div>
-  <a class="nd-link" href="app.html" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">📊 Dashboard</a>
-  <div class="nd-link on">📈 Monitoring</div>
-  <a class="nd-link" href="app.html#profil" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧬 Profil Santé</a>
-  <a class="nd-link" href="app.html#bio" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧪 Bilan Biologique</a>
-  <div class="nd-sep"></div>
-  <a class="nd-user" href="app.html" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">
-    <div class="nd-user-av" id="ndAvatar">O</div>
-    <div class="nd-user-name" id="ndUsername">Mon espace</div>
-  </a>
-</div>
+<div id="nav-placeholder"></div>
 
 <!-- HERO -->
 <div class="mon-hero">
@@ -468,7 +421,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     </div>
     <h1>Monitoring — <em>vos données dans le temps</em></h1>
     <p>Explorez chaque biomarqueur, comparez vos bilans, identifiez les tendances. ← <a href="app.html">Retour dashboard</a></p>
-    <a href="saisie_bilan.html" class="mh-bilan-btn">🧪 Saisir un bilan biologique</a>
+    <a href="bilan-saisie.html" class="mh-bilan-btn">🧪 Saisir un bilan biologique</a>
   </div>
 </div>
 
@@ -1130,5 +1083,6 @@ document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.ge
 })();
 
 </script>
+<script>ProfilysComponents.injectNav('app');</script>
 </body>
 </html>

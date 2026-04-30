@@ -67,8 +67,8 @@ const ProfilysComponents = (() => {
     </a>
     <div class="nav-links">
       <div class="nl on" id="nl-dash" onclick="go('dash')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')go('dash')">Dashboard</div>
-      <a class="nl" href="bilan_hub.html" tabindex="0">Bilan Biologique</a>
-      <a class="nl" href="app.html#profil" tabindex="0">Profil &amp; Mode de vie</a>
+      <a class="nl" href="bilans.html" tabindex="0">Bilan Biologique</a>
+      <a class="nl" href="profil.html" tabindex="0">Profil &amp; Mode de vie</a>
       <div class="nav-dropdown" id="nav-dd-guides">
         <div class="nl" id="nl-guide">
           Guides
@@ -123,8 +123,25 @@ const ProfilysComponents = (() => {
     </a>
     <div class="nav-links">
       <a class="nl" href="app.html">Dashboard</a>
-      <a class="nl" href="bilan_hub.html">Bilan Biologique</a>
-      <a class="nl" href="app.html#profil">Profil &amp; Mode de vie</a>
+      <a class="nl" href="bilans.html">Bilan Biologique</a>
+      <a class="nl" href="profil.html">Profil &amp; Mode de vie</a>
+      <div class="nav-dropdown" id="nav-dd-guides">
+        <div class="nl" id="nl-guide">
+          Guides
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="nav-dd-menu">
+          <div class="nav-dd-menu-inner">
+            <div class="nav-dd-item" onclick="goGuide('guide')"><span class="dd-icon">🔬</span>Guide Analyses biologiques</div>
+            <div class="nav-dd-sep"></div>
+            <div class="nav-dd-item" onclick="goGuide('guide-meta')"><span class="dd-icon">⚡</span>Guide des métabolismes</div>
+            <div class="nav-dd-item" onclick="goGuide('guide-comp')"><span class="dd-icon">💊</span>Guide Compléments alimentaires</div>
+            <div class="nav-dd-item" onclick="goGuide('guide-alim')"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="nav-r">
       ${CHECKIN_BTN}
