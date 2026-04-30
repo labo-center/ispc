@@ -357,48 +357,6 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 .cq-card-foot{display:flex;gap:12px;margin-top:8px;flex-wrap:wrap}
 .cq-dp{font-size:11px;color:rgba(255,255,255,.45)}
 .cq-dp strong{color:rgba(255,255,255,.88)}
-/* MODAL BILAN */
-.bln-overlay{position:fixed;inset:0;background:rgba(4,8,20,.92);backdrop-filter:blur(12px);z-index:900;display:none;align-items:flex-start;justify-content:center;padding:20px 16px;overflow-y:auto}
-.bln-overlay.open{display:flex}
-.bln-modal{background:#0f1628;border:1px solid rgba(255,255,255,.15);border-radius:20px;width:100%;max-width:640px;overflow:hidden;animation:blnIn .3s cubic-bezier(.16,1,.3,1);margin:auto;flex-shrink:0}
-@keyframes blnIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.bln-header{background:linear-gradient(135deg,#0e7490,#6d28d9);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.bln-header-title{font-family:var(--ffd);font-size:19px;font-weight:600;color:#fff}
-.bln-header-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:2px}
-.bln-close{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.15);border:none;color:#fff;font-size:18px;display:grid;place-items:center;cursor:pointer;flex-shrink:0}
-.bln-close:hover{background:rgba(255,255,255,.25)}
-.bln-date-row{padding:16px 24px;background:#0a1020;display:flex;align-items:center;gap:14px;border-bottom:1px solid rgba(255,255,255,.08)}
-.bln-date-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);white-space:nowrap}
-.bln-date-input{background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.2);border-radius:10px;color:#fff;font-size:14px;font-weight:600;padding:8px 14px;font-family:var(--ff);color-scheme:dark}
-.bln-date-input:focus{border-color:#0ea5c9;outline:none}
-.bln-body{padding:16px;display:flex;flex-direction:column;gap:10px;max-height:55vh;overflow-y:auto}
-.bln-body::-webkit-scrollbar{width:5px}
-.bln-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:99px}
-.bln-cat{border-radius:12px;border:1px solid rgba(255,255,255,.12)}
-.bln-cat-head{padding:10px 16px;background:rgba(14,165,201,.18);border-radius:12px 12px 0 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#7dd3fc}
-.bln-field{display:flex;align-items:center;padding:11px 16px;gap:10px;border-top:1px solid rgba(255,255,255,.06)}
-.bln-field-name{font-size:13px;font-weight:600;color:#e2e8f0}
-.bln-field-ref{font-size:11px;color:rgba(255,255,255,.38);margin-top:2px}
-.bln-inp-wrap{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.bln-inp{width:90px;background:#1a2744;border:2px solid rgba(255,255,255,.18);border-radius:9px;color:#fff;font-size:15px;font-weight:700;padding:9px 10px;text-align:center;font-family:var(--ff);-moz-appearance:textfield;transition:border-color .2s}
-.bln-inp::-webkit-inner-spin-button,.bln-inp::-webkit-outer-spin-button{-webkit-appearance:none}
-.bln-inp::placeholder{color:rgba(255,255,255,.22);font-size:18px}
-.bln-inp:focus{border-color:#0ea5c9;background:#1a3555;outline:none;box-shadow:0 0 0 3px rgba(14,165,201,.18)}
-.bln-inp.filled{border-color:#0ea5c9;background:#1a3555;color:#7dd3fc}
-.bln-unit{font-size:11px;color:rgba(255,255,255,.4);font-weight:600;min-width:32px}
-.bln-footer{padding:16px 24px;background:#0a1020;border-top:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-.bln-footer-note{font-size:11px;color:rgba(255,255,255,.4);line-height:1.6}
-.bln-save-btn{padding:12px 26px;border-radius:12px;background:linear-gradient(135deg,#0e7490,#6d28d9);color:#fff;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;border:none;box-shadow:0 4px 16px rgba(14,116,144,.4)}
-.bln-save-btn:active{transform:scale(.96)}
-.bln-ok{display:none;text-align:center;padding:52px 24px}
-.bln-ok.show{display:block}
-.bln-ok-ico{font-size:52px;margin-bottom:14px}
-.bln-ok-title{font-family:var(--ffd);font-size:22px;font-weight:600;color:#fff;margin-bottom:8px}
-.bln-ok-sub{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:24px;line-height:1.7}
-.bln-ok-btn{padding:12px 26px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;font-size:13px;font-weight:700;cursor:pointer}
-.mh-bilan-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:14px}
-.mh-bilan-btn:hover{background:rgba(14,165,201,.2);border-color:rgba(14,165,201,.5);color:#fff}
-.msb-r{background:rgba(239,68,68,.18);color:#fca5a5}
 
 
 /* ══ MOBILE NAV ══ */
@@ -500,7 +458,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     </div>
     <h1>Monitoring — <em>vos données dans le temps</em></h1>
     <p>Explorez chaque biomarqueur, comparez vos bilans, identifiez les tendances. ← <a href="app.html">Retour dashboard</a></p>
-    <button class="mh-bilan-btn" onclick="openBilan()">🧪 Saisir un bilan biologique</button>
+    <a href="saisie_bilan.html" class="mh-bilan-btn">🧪 Saisir un bilan biologique</a>
   </div>
 </div>
 
@@ -608,7 +566,7 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
 
 <script>
 function switchCat(el){document.querySelectorAll('.cat-pill').forEach(function(p){p.classList.remove('active')});el.classList.add('active')}
-function switchTf(el){el.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active')});el.classList.add('active');var txt=el.textContent.trim();var days=txt==='3 mois'?90:txt==='6 mois'?180:txt==='1 an'?365:9999;if(Object.keys(blnLS()).length)renderBioCards(days);}
+function switchTf(el){el.parentElement.querySelectorAll('.tf-btn').forEach(function(b){b.classList.remove('active')});el.classList.add('active');var txt=el.textContent.trim();var days=txt==='3 mois'?90:txt==='6 mois'?180:txt==='1 an'?365:9999;renderBioCards(days);}
 
 function drawLine(svgId,data,color,refMin,refMax){
   var svg=document.getElementById(svgId);if(!svg)return;
@@ -978,131 +936,14 @@ function switchCqTf(btn,days){
   btn.classList.add('active');CQ_DAYS=days;cqRender(days);
 }
 
-/* ══ SAISIE BILAN ══ */
-var BLN_CATS=[
-  {label:'Métabolisme Glucidique',fields:[
-    {id:'glycemie',name:'Glycémie à jeun',unit:'mg/dL',ref:'70–100'},
-    {id:'hba1c',name:'HbA1c',unit:'%',ref:'< 5.7'},
-    {id:'insulin',name:'Insuline',unit:'µUI/mL',ref:'2–20'},
-    {id:'homa_ir',name:'HOMA-IR',unit:'',ref:'< 2.5'},
-  ]},
-  {label:'Bilan Lipidique',fields:[
-    {id:'chol_tot',name:'Cholestérol total',unit:'g/L',ref:'< 2.0'},
-    {id:'ldl',name:'LDL',unit:'g/L',ref:'< 1.3'},
-    {id:'hdl',name:'HDL',unit:'g/L',ref:'> 0.4 H'},
-    {id:'trig',name:'Triglycérides',unit:'g/L',ref:'< 1.5'},
-    {id:'apoB',name:'ApoB',unit:'g/L',ref:'< 1.2'},
-  ]},
-  {label:'Inflammatoires & Protéines',fields:[
-    {id:'crp',name:'CRP',unit:'mg/L',ref:'< 3.0'},
-    {id:'crp_hs',name:'CRP ultrasensible',unit:'mg/L',ref:'< 1.0'},
-    {id:'alb',name:'Albumine',unit:'g/L',ref:'38–48'},
-  ]},
-  {label:'Fonction Hépatique',fields:[
-    {id:'asat',name:'ASAT',unit:'UI/L',ref:'< 40'},
-    {id:'alat',name:'ALAT',unit:'UI/L',ref:'< 40'},
-    {id:'ggt',name:'GGT',unit:'UI/L',ref:'< 55'},
-    {id:'pal',name:'Phosphatases alc.',unit:'UI/L',ref:'40–130'},
-    {id:'bili',name:'Bilirubine totale',unit:'mg/L',ref:'< 12'},
-    {id:'fib4',name:'FIB-4',unit:'',ref:'< 1.30'},
-  ]},
-  {label:'Fonction Rénale',fields:[
-    {id:'creat',name:'Créatinine',unit:'mg/L',ref:'7–13 H'},
-    {id:'egfr',name:'eGFR',unit:'mL/min',ref:'> 90'},
-    {id:'uree',name:'Urée',unit:'g/L',ref:'0.15–0.45'},
-  ]},
-  {label:'Ionogramme',fields:[
-    {id:'na',name:'Sodium (Na)',unit:'mmol/L',ref:'136–145'},
-    {id:'k',name:'Potassium (K)',unit:'mmol/L',ref:'3.5–5.0'},
-    {id:'ca',name:'Calcium (Ca)',unit:'mmol/L',ref:'2.2–2.6'},
-    {id:'phos',name:'Phosphore',unit:'mmol/L',ref:'0.8–1.5'},
-  ]},
-  {label:'Nutrition & Hormones',fields:[
-    {id:'vitd',name:'Vitamine D',unit:'ng/mL',ref:'30–80'},
-    {id:'b9',name:'Vitamine B9',unit:'ng/mL',ref:'3–17'},
-    {id:'b12',name:'Vitamine B12',unit:'pg/mL',ref:'200–900'},
-    {id:'fer',name:'Fer sérique',unit:'µg/dL',ref:'65–175 H'},
-    {id:'ferritine',name:'Ferritine',unit:'ng/mL',ref:'30–300 H'},
-    {id:'tsh',name:'TSH',unit:'mUI/L',ref:'0.4–4.0'},
-  ]},
-  {label:'NFS',fields:[
-    {id:'hb',name:'Hémoglobine (HB)',unit:'g/dL',ref:'13–18 H'},
-    {id:'nfs_gr',name:'Globules rouges',unit:'T/L',ref:'4.5–5.9'},
-    {id:'nfs_gb',name:'Globules blancs',unit:'G/L',ref:'4–10'},
-    {id:'plaq',name:'Plaquettes',unit:'G/L',ref:'150–400'},
-  ]},
-];
-function openBilan(){
-  document.getElementById('blnForm').style.display='block';
-  document.getElementById('blnOk').classList.remove('show');
-  var d=new Date();
-  var ds=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-  document.getElementById('blnDate').value=ds;
-  renderBlnFields(ds);
-  document.getElementById('blnOverlay').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeBilan(){
-  document.getElementById('blnOverlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBilan();});
-function renderBlnFields(date){
-  var body=document.getElementById('blnBody');if(!body)return;
-  var stored=blnLS();var dayData=(stored[date]&&stored[date].values)||{};
-  body.innerHTML='';
-  BLN_CATS.forEach(function(cat){
-    var catEl=document.createElement('div');catEl.className='bln-cat';
-    var head=document.createElement('div');head.className='bln-cat-head';head.textContent=cat.label;
-    catEl.appendChild(head);
-    cat.fields.forEach(function(f){
-      var ex=dayData[f.id]!==undefined?String(dayData[f.id]):'';
-      var row=document.createElement('div');row.className='bln-field';
-      var info=document.createElement('div');info.style.flex='1';
-      var nm=document.createElement('div');nm.className='bln-field-name';nm.textContent=f.name;
-      var rf=document.createElement('div');rf.className='bln-field-ref';rf.textContent='Ref: '+f.ref;
-      info.appendChild(nm);info.appendChild(rf);
-      var wrap=document.createElement('div');wrap.className='bln-inp-wrap';
-      var inp=document.createElement('input');
-      inp.type='number';inp.step='any';inp.id='bf-'+f.id;inp.placeholder='--';
-      inp.className='bln-inp'+(ex!==''?' filled':'');
-      if(ex!=='')inp.value=ex;
-      inp.addEventListener('input',function(){this.classList.toggle('filled',this.value!=='');});
-      var un=document.createElement('div');un.className='bln-unit';un.textContent=f.unit;
-      wrap.appendChild(inp);wrap.appendChild(un);
-      row.appendChild(info);row.appendChild(wrap);
-      catEl.appendChild(row);
-    });
-    body.appendChild(catEl);
-  });
-}
-function saveBilan(){
-  var date=document.getElementById('blnDate').value;
-  if(!date){alert('Veuillez choisir une date.');return;}
-  var stored=blnLS();if(!stored[date])stored[date]={date:date,values:{}};
-  var count=0;
-  BLN_CATS.forEach(function(cat){cat.fields.forEach(function(f){
-    var inp=document.getElementById('bf-'+f.id);
-    if(inp&&inp.value!==''){stored[date].values[f.id]=parseFloat(inp.value);count++;}
-  });});
-  if(count===0){alert('Aucune valeur renseignée.');return;}
-  stored[date].savedAt=new Date().toISOString();blnSaveLS(stored);
-  document.getElementById('blnForm').style.display='none';
-  var dt=new Date(date+'T12:00').toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
-  document.getElementById('blnOkSub').textContent=count+' valeur'+(count>1?'s':'')+' enregistrée'+(count>1?'s':'')+' pour le '+dt+'.';
-  document.getElementById('blnOk').classList.add('show');
-}
 
 /* INIT: draw static charts always; replace with real data if bilans exist */
 requestAnimationFrame(function(){
   setTimeout(function(){
     drawAllCharts();
     cqRender(CQ_DAYS);
-    var stored = blnLS();
-    if(Object.keys(stored).length > 0){
-      renderBioCards(BIO_DAYS);
-      updateStripFromLS();
-    }
+    renderBioCards(BIO_DAYS);
+    updateStripFromLS();
   }, 150);
 });
 
@@ -1259,18 +1100,7 @@ function ciShowOk(id){var s=CI_SIGS.find(function(x){return x.id===id});document
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&document.getElementById('ciPan').classList.contains('open'))closeCI();});
 </script>
 
-<!-- MODAL BILAN -->
-<div class="bln-overlay" id="blnOverlay" onclick="if(event.target===this)closeBilan()">
-  <div class="bln-modal">
-    <div id="blnForm">
-      <div class="bln-header"><div><div class="bln-header-title">🧪 Saisie bilan biologique</div><div class="bln-header-sub">Renseignez les valeurs — laissez vide ce que vous n’avez pas</div></div><button class="bln-close" onclick="closeBilan()">✕</button></div>
-      <div class="bln-date-row"><div class="bln-date-label">📅 Date du prélèvement</div><input type="date" class="bln-date-input" id="blnDate" onchange="renderBlnFields(this.value)"/></div>
-      <div class="bln-body" id="blnBody"></div>
-      <div class="bln-footer"><div class="bln-footer-note">Seules les cases remplies sont enregistrées.<br>Complétable en plusieurs fois.</div><button class="bln-save-btn" onclick="saveBilan()">Enregistrer →</button></div>
-    </div>
-    <div class="bln-ok" id="blnOk"><div class="bln-ok-ico">✅</div><div class="bln-ok-title">Bilan enregistré !</div><div class="bln-ok-sub" id="blnOkSub"></div><button class="bln-ok-btn" onclick="closeBilan();renderBioCards(BIO_DAYS);updateStripFromLS()">Voir les courbes →</button></div>
-  </div>
-</div>
+
 <script>
 
 (function(){
