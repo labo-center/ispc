@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bilan Biologique — Profilys</title>
+  <link rel="icon" type="image/svg+xml" href="/favicons/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="assets/js/supabase-client.js"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0A0F1E;
+      --bg-card:      #111827;
+      --bg-card-2:    #0D1525;
+      --border:       rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.14);
+
+      --teal:         #2DD4BF;
+      --teal-dim:     rgba(45,212,191,0.1);
+      --teal-glow:    rgba(45,212,191,0.2);
+      --violet:       #A78BFA;
+      --violet-dim:   rgba(167,139,250,0.1);
+      --amber:        #FBBF24;
+
+      --text-primary:   #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted:     #475569;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+
+      --font-serif: 'Playfair Display', Georgia, serif;
+      --font-sans:  'DM Sans', system-ui, sans-serif;
+      --nav-h: 62px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* Fond ambiant */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 20% 0%, rgba(45,212,191,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 40% at 80% 90%, rgba(167,139,250,0.07) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      height: var(--nav-h);
+      background: rgba(10,15,30,0.88);
+      backdrop-filter: blur(22px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-in {
+      max-width: 1160px; margin: 0 auto; height: 100%;
+      display: flex; align-items: center; padding: 0 24px; gap: 0;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 11px;
+      cursor: pointer; margin-right: 38px; flex-shrink: 0;
+      text-decoration: none;
+    }
+    .nav-mark {
+      width: 36px; height: 36px; border-radius: 11px;
+      background: linear-gradient(135deg, var(--teal), var(--violet));
+      display: grid; place-items: center;
+      box-shadow: 0 0 22px rgba(45,212,191,0.25);
+    }
+    .nav-type {
+      font-family: var(--font-serif);
+      font-size: 19px; font-weight: 600;
+      color: #fff; letter-spacing: -0.02em;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2px; }
+    .nl {
+      padding: 7px 14px; border-radius: 9px;
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.42);
+      transition: all 0.15s; cursor: pointer;
+      white-space: nowrap; text-decoration: none;
+    }
+    .nl:hover { color: rgba(255,255,255,0.88); background: rgba(255,255,255,0.06); }
+    .nl.on { color: #fff; background: rgba(255,255,255,0.1); }
+
+    /* Dropdown Guides */
+    .nav-dropdown { position: relative; }
+    .nav-dropdown .nl { display: flex; align-items: center; gap: 5px; }
+    .nav-dropdown .nl svg { transition: transform 0.2s; }
+    .nav-dropdown:hover .nl svg { transform: rotate(180deg); }
+    .nav-dd-menu {
+      position: absolute; top: 100%; left: 50%;
+      transform: translateX(-50%) translateY(-4px);
+      min-width: 240px; padding-top: 8px;
+      opacity: 0; visibility: hidden; pointer-events: none;
+      transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+      z-index: 200;
+    }
+    .nav-dd-menu-inner {
+      background: #18202e; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px; padding: 6px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.55);
+    }
+    .nav-dropdown:hover .nav-dd-menu {
+      opacity: 1; visibility: visible; pointer-events: all;
+      transform: translateX(-50%) translateY(0);
+    }
+    .nav-dd-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 13px; border-radius: 9px;
+      font-size: 13px; font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      cursor: pointer; transition: all 0.13s;
+      white-space: nowrap; text-decoration: none;
+    }
+    .nav-dd-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .nav-dd-sep { height: 1px; background: rgba(255,255,255,0.07); margin: 4px 0; }
+    .dd-icon { font-size: 15px; width: 20px; text-align: center; }
+
+    .nav-r { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+    .nav-checkin {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 99px;
+      background: rgba(45,212,191,0.1);
+      border: 1px solid rgba(45,212,191,0.25);
+      color: var(--teal); font-size: 13px; font-weight: 700;
+      cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .nav-checkin:hover { background: rgba(45,212,191,0.18); }
+    .nc-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 8px var(--teal);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.38} }
+
+    /* ── Page ── */
+    .page {
+      position: relative; z-index: 1;
+      padding-top: calc(var(--nav-h) + 60px);
+      padding-bottom: 80px;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 760px; margin: 0 auto; padding: 0 24px;
+    }
+
+    /* ── Hero ── */
+    .hero-eyebrow {
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 12px;
+    }
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(28px, 5vw, 40px);
+      font-weight: 500; line-height: 1.15;
+      color: var(--text-primary);
+      margin-bottom: 14px;
+    }
+    .hero-title em { color: var(--teal); font-style: italic; }
+    .hero-sub {
+      font-size: 15px; color: var(--text-secondary);
+      line-height: 1.65; max-width: 520px;
+      margin-bottom: 40px;
+    }
+
+    /* ── Cards actions ── */
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 560px) {
+      .actions-grid { grid-template-columns: 1fr; }
+    }
+
+    .action-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 28px 24px;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex; flex-direction: column;
+      transition: all 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .action-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+    }
+    .action-card.primary {
+      background: linear-gradient(135deg, rgba(45,212,191,0.12), rgba(45,212,191,0.04));
+      border-color: rgba(45,212,191,0.25);
+    }
+    .action-card.primary:hover {
+      border-color: rgba(45,212,191,0.5);
+      box-shadow: 0 16px 48px rgba(45,212,191,0.15);
+    }
+
+    .card-glow {
+      position: absolute; top: -40px; right: -40px;
+      width: 160px; height: 160px; border-radius: 50%;
+      pointer-events: none;
+    }
+    .primary .card-glow { background: radial-gradient(circle, rgba(45,212,191,0.15), transparent 70%); }
+    .secondary .card-glow { background: radial-gradient(circle, rgba(167,139,250,0.12), transparent 70%); }
+
+    .card-icon {
+      font-size: 28px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: center;
+      width: 52px; height: 52px; border-radius: 14px;
+    }
+    .primary .card-icon { background: rgba(45,212,191,0.12); }
+    .secondary .card-icon { background: rgba(167,139,250,0.12); }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 19px; font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .card-desc {
+      font-size: 13px; color: var(--text-secondary);
+      line-height: 1.6; flex: 1;
+    }
+    .card-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 20px;
+      font-size: 13px; font-weight: 600;
+      transition: gap 0.2s;
+    }
+    .primary .card-cta { color: var(--teal); }
+    .secondary .card-cta { color: var(--violet); }
+    .action-card:hover .card-cta { gap: 10px; }
+
+    /* ── Lien secondaire ── */
+    .secondary-links {
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex; align-items: center; gap: 8px;
+      flex-wrap: wrap;
+    }
+    .secondary-links-label {
+      font-size: 12px; color: var(--text-muted);
+      margin-right: 4px;
+    }
+    .link-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 99px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      font-size: 12px; font-weight: 600;
+      color: var(--text-secondary); text-decoration: none;
+      transition: all 0.15s;
+    }
+    .link-pill:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+
+    /* ── Stats rapides ── */
+    .stats-bar {
+      display: flex; gap: 24px; flex-wrap: wrap;
+      margin-bottom: 40px;
+      padding: 18px 24px;
+      background: var(--bg-card-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 3px; }
+    .stat-val {
+      font-family: var(--font-serif);
+      font-size: 22px; font-weight: 500; color: var(--text-primary);
+    }
+    .stat-val.teal { color: var(--teal); }
+    .stat-lbl { font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .stat-sep { width: 1px; background: var(--border); align-self: stretch; }
+
+    /* ── Loader ── */
+    #page-loader {
+      position: fixed; inset: 0; background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 999; transition: opacity 0.3s;
+    }
+    #page-loader.hidden { opacity: 0; pointer-events: none; }
+    .loader-dots { display: flex; gap: 8px; }
+    .loader-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--teal);
+      animation: pulse-dot 1.2s ease-in-out infinite both;
+    }
+    .loader-dot:nth-child(2) { animation-delay: 0.2s; background: var(--violet); }
+    .loader-dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(0.6); opacity: 0.3; }
+      50%       { transform: scale(1);   opacity: 1;   }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .stats-bar { gap: 16px; padding: 14px 16px; }
+      .stat-sep { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="page-loader">
+    <div class="loader-dots">
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+      <div class="loader-dot"></div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-in">
+      <a class="nav-logo" href="app.html">
+        <div class="nav-mark">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="nav-type">Profilys</div>
+      </a>
+      <div class="nav-links">
+        <a class="nl" href="app.html">Dashboard</a>
+        <a class="nl on" href="bilan_hub.html">Bilan Biologique</a>
+        <a class="nl" href="bilan_coaching_premium.html">Profil &amp; Mode de vie</a>
+        <div class="nav-dropdown">
+          <div class="nl">Guides
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="nav-dd-menu">
+            <div class="nav-dd-menu-inner">
+              <a class="nav-dd-item" href="guide-analyses-biologiques.html"><span class="dd-icon">🔬</span>Guide Analyses biologiques</a>
+              <div class="nav-dd-sep"></div>
+              <a class="nav-dd-item" href="guide-metabolismes.html"><span class="dd-icon">⚡</span>Guide des métabolismes</a>
+              <a class="nav-dd-item" href="guide-complements-alimentaires.html"><span class="dd-icon">💊</span>Guide Compléments alimentaires</a>
+              <a class="nav-dd-item" href="guide-aliments-fonctionnels.html"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-r">
+        <a class="nav-checkin" href="checkin.html">
+          <span class="nc-dot"></span> Check-in
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="container">
+
+      <!-- Hero -->
+      <div class="hero-eyebrow">Suivi biologique</div>
+      <h1 class="hero-title">Vos bilans — <em>au fil du temps</em></h1>
+      <p class="hero-sub">
+        Saisissez vos résultats de laboratoire, suivez l'évolution de vos marqueurs
+        et bénéficiez d'une analyse contextuelle personnalisée.
+      </p>
+
+      <!-- Stats dynamiques -->
+      <div class="stats-bar" id="stats-bar" style="display:none">
+        <div class="stat-item">
+          <div class="stat-val teal" id="stat-bilans">—</div>
+          <div class="stat-lbl">Bilans enregistrés</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item">
+          <div class="stat-val" id="stat-marqueurs">—</div>
+          <div class="stat-lbl">Marqueurs suivis</div>
+        </div>
+        <div class="stat-sep"></div>
+        <div class="stat-item">
+          <div class="stat-val" id="stat-dernier">—</div>
+          <div class="stat-lbl">Dernier bilan</div>
+        </div>
+      </div>
+
+      <!-- Actions principales -->
+      <div class="actions-grid">
+
+        <a href="saisie_bilan.html" class="action-card primary">
+          <div class="card-glow"></div>
+          <div class="card-icon">＋</div>
+          <div class="card-title">Nouveau bilan</div>
+          <p class="card-desc">
+            Saisissez manuellement vos valeurs ou importez une photo
+            de votre compte-rendu de laboratoire.
+          </p>
+          <div class="card-cta">Saisir un bilan →</div>
+        </a>
+
+        <a href="historique_bilans.html" class="action-card secondary">
+          <div class="card-glow"></div>
+          <div class="card-icon">📄</div>
+          <div class="card-title">Historique</div>
+          <p class="card-desc">
+            Consultez vos bilans passés, comparez vos marqueurs
+            dans le temps et identifiez les tendances.
+          </p>
+          <div class="card-cta">Voir l'historique →</div>
+        </a>
+
+      </div>
+
+      <!-- Liens secondaires -->
+      <div class="secondary-links">
+        <span class="secondary-links-label">Également :</span>
+        <a href="questionnaire_contexte_bilan_v6.html" class="link-pill">
+          📝 Questionnaire contextuel
+        </a>
+        <a href="monitoring.html" class="link-pill">
+          📈 Monitoring des marqueurs
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const user = await PrevioAuth.requireAuth();
+    if (!user) return;
+
+    document.getElementById('page-loader').classList.add('hidden');
+
+    // Charger les stats depuis Supabase
+    try {
+      const { data } = await window.sb
+        .from('biomarqueurs')
+        .select('bilan_date, marker_id')
+        .eq('user_id', user.id)
+        .order('bilan_date', { ascending: false });
+
+      if (data && data.length) {
+        const dates = [...new Set(data.map(r => r.bilan_date))];
+        const markers = [...new Set(data.map(r => r.marker_id))];
+        const lastDate = new Date(dates[0] + 'T12:00')
+          .toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        document.getElementById('stat-bilans').textContent = dates.length;
+        document.getElementById('stat-marqueurs').textContent = markers.length;
+        document.getElementById('stat-dernier').textContent = lastDate;
+        document.getElementById('stats-bar').style.display = 'flex';
+      }
+    } catch (e) {
+      console.warn('Stats bilan:', e);
+    }
+  });
+  </script>
+
+</body>
+</html>
