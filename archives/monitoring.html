@@ -418,10 +418,20 @@ button,input{font-family:var(--ff);border:none;cursor:pointer;outline:none}
     </a>
     <div class="nav-links">
       <a class="nl" href="app.html">Dashboard</a>
-      <a class="nl on" href="monitoring.html">Monitoring</a>
-      <a class="nl" href="app.html#profil">Profil Santé</a>
-      <a class="nl" href="app.html#bio">Bilan Biologique</a>
-      <a class="nl" href="app.html#guides">Guides ▾</a>
+      <a class="nl on" href="bilan_hub.html">Bilan Biologique</a>
+      <a class="nl" href="bilan_coaching_premium.html">Profil &amp; Mode de vie</a>
+      <div class="nav-dropdown">
+        <div class="nl">Guides <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="nav-dd-menu">
+          <div class="nav-dd-menu-inner">
+            <a class="nav-dd-item" href="guide-analyses-biologiques.html"><span class="dd-icon">🔬</span>Guide Analyses biologiques</a>
+            <div class="nav-dd-sep"></div>
+            <a class="nav-dd-item" href="guide-metabolismes.html"><span class="dd-icon">⚡</span>Guide des métabolismes</a>
+            <a class="nav-dd-item" href="guide-complements-alimentaires.html"><span class="dd-icon">💊</span>Guide Compléments alimentaires</a>
+            <a class="nav-dd-item" href="guide-aliments-fonctionnels.html"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</a>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="nav-r">
       <button class="nav-checkin" id="navCI" onclick="openCI()">

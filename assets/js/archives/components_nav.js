@@ -68,7 +68,7 @@ const ProfilysComponents = (() => {
     <div class="nav-links">
       <div class="nl on" id="nl-dash" onclick="go('dash')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')go('dash')">Dashboard</div>
       <a class="nl" href="bilan_hub.html" tabindex="0">Bilan Biologique</a>
-      <a class="nl" href="app.html#profil" tabindex="0">Profil &amp; Mode de vie</a>
+      <a class="nl" href="bilan_coaching_premium.html" tabindex="0">Profil &amp; Mode de vie</a>
       <div class="nav-dropdown" id="nav-dd-guides">
         <div class="nl" id="nl-guide">
           Guides
@@ -124,7 +124,7 @@ const ProfilysComponents = (() => {
     <div class="nav-links">
       <a class="nl" href="app.html">Dashboard</a>
       <a class="nl" href="bilan_hub.html">Bilan Biologique</a>
-      <a class="nl" href="app.html#profil">Profil &amp; Mode de vie</a>
+      <a class="nl" href="bilan_coaching_premium.html">Profil &amp; Mode de vie</a>
     </div>
     <div class="nav-r">
       ${CHECKIN_BTN}

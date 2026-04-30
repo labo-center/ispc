@@ -1187,8 +1187,8 @@ body{background:var(--dark-1)}
     </a>
     <div class="nav-links">
       <div class="nl on" id="nl-dash" onclick="go('dash')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')go('dash')">Dashboard</div>
-      <div class="nl" id="nl-mon" onclick="window.location.href='monitoring.html'" tabindex="0" role="button" onkeydown="if(event.key==='Enter')window.location.href='monitoring.html'">Monitoring</div>
-      <div class="nl" id="nl-profil" onclick="go('profil')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')go('profil')">Profil Santé</div>
+      <a class="nl" href="bilan_hub.html" tabindex="0">Bilan Biologique</a>
+      <a class="nl" href="bilan_coaching_premium.html" tabindex="0">Profil &amp; Mode de vie</a>
 
       <div class="nav-dropdown" id="nav-dd-guides">
         <div class="nl" id="nl-guide">
@@ -1232,9 +1232,8 @@ body{background:var(--dark-1)}
   </button>
   <div class="nd-sep"></div>
   <div class="nd-link on" onclick="go('dash');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">📊 Dashboard</div>
-  <a class="nd-link" href="monitoring.html" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">📈 Monitoring</a>
-  <div class="nd-link" onclick="go('profil');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧬 Profil Santé</div>
-  <div class="nd-link" onclick="go('bio');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧪 Bilan Biologique</div>
+  <a class="nd-link" href="bilan_hub.html" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧪 Bilan Biologique</a>
+  <a class="nd-link" href="bilan_coaching_premium.html" onclick="document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🧬 Profil &amp; Mode de vie</a>
   <div class="nd-sep"></div>
   <div class="nd-link" onclick="goGuide('guide');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">🔬 Guide Analyses biologiques</div>
   <div class="nd-link" onclick="goGuide('guide-meta');document.getElementById('navDrawer').classList.remove('open');document.getElementById('navBurger').classList.remove('open');">⚡ Guide des métabolismes</div>
@@ -1341,6 +1340,23 @@ body{background:var(--dark-1)}
       <div class="scores-row fu d1" id="dash-scores"></div>
       <div style="height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:26px 0"></div>
 
+      <!-- Card Monitoring -->
+      <div style="margin-bottom:26px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div class="blk-title">Monitoring biologique</div>
+        </div>
+        <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:14px;font-weight:600;color:rgba(255,255,255,.85)">Explorez vos marqueurs dans le temps</div>
+            <div style="font-size:12px;color:var(--dark-m);margin-top:4px">Courbes d'évolution, comparaison de bilans, tendances</div>
+          </div>
+          <a href="monitoring.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:12px;background:linear-gradient(135deg,var(--c-teal-d),var(--c-violet-d));color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap;flex-shrink:0">
+            📈 Voir le monitoring →
+          </a>
+        </div>
+      </div>
+      <div style="height:1px;background:linear-gradient(90deg,transparent,var(--brd),transparent);margin:26px 0"></div>
+
       <!-- Plan d'action -->
       <div id="dash-plan" class="plan-section" style="display:none">
         <div class="blk-head"><div class="blk-title">🎯 Plan d'action personnalisé</div></div>
@@ -1356,7 +1372,7 @@ body{background:var(--dark-1)}
         <div>
           <div class="blk-head"><div class="blk-title">Actions rapides</div></div>
           <div class="qa-grid">
-            <div class="qa" onclick="go('bio')"><div class="qa-ico qi-t">🩸</div><div><div class="qa-tit">Nouveau bilan</div><div class="qa-sub">Contextualiser une analyse</div></div></div>
+            <div class="qa" onclick="window.location.href='bilan_hub.html'"><div class="qa-ico qi-t">🩸</div><div><div class="qa-tit">Nouveau bilan</div><div class="qa-sub">Contextualiser une analyse</div></div></div>
             <div class="qa" onclick="go('profil')"><div class="qa-ico qi-v"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle"><path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(124,58,237,0.15)" stroke="#a78bfa" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 16V9" stroke="#a78bfa" stroke-width="2" stroke-linecap="round"/><path d="M8.5 12L12 8.5L15.5 12" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="qa-tit">Profil santé</div><div class="qa-sub">Continuer les modules</div></div></div>
             <div class="qa" onclick="go('mon')"><div class="qa-ico qi-g">🥗</div><div><div class="qa-tit">Recommandations</div><div class="qa-sub">Diét. + activité physique</div></div></div>
             <div class="qa" onclick="go('data')"><div class="qa-ico qi-a">📤</div><div><div class="qa-tit">Exporter</div><div class="qa-sub">Sauvegarder vos données</div></div></div>
