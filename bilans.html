@@ -327,6 +327,7 @@
   </style>
 </head>
 <body>
+<div id="nav-placeholder"></div>
 
   <div id="page-loader">
     <div class="loader-dots">
@@ -409,6 +410,7 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
+    ProfilysComponents.injectNav('app');
     const user = await ProfilysAuth.getUser();
     if (!user) return;
 
