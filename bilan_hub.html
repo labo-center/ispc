@@ -8,8 +8,11 @@
   <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="supabase.min.js"></script>
+  <script src="assets/js/config.js"></script>
   <script src="assets/js/supabase-client.js"></script>
+  <script src="assets/js/components.js"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -447,14 +450,14 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', async () => {
-    const user = await PrevioAuth.requireAuth();
+    const user = await ProfilysAuth.getUser();
     if (!user) return;
 
     document.getElementById('page-loader').classList.add('hidden');
 
     // Charger les stats depuis Supabase
     try {
-      const { data } = await window.sb
+      const { data } = await _sb
         .from('biomarqueurs')
         .select('bilan_date, marker_id')
         .eq('user_id', user.id)
