@@ -78,11 +78,11 @@ const ProfilysComponents = (() => {
         </div>
         <div class="nav-dd-menu">
           <div class="nav-dd-menu-inner">
-            <div class="nav-dd-item" onclick="goGuide('guide')"><span class="dd-icon">🔬</span>Guide Analyses biologiques</div>
+            <a class="nav-dd-item" href="guides/guide-analyses-biologiques.html"><span class="dd-icon">🔬</span>Guide Analyses biologiques</a>
             <div class="nav-dd-sep"></div>
-            <div class="nav-dd-item" onclick="goGuide('guide-meta')"><span class="dd-icon">⚡</span>Guide des métabolismes</div>
-            <div class="nav-dd-item" onclick="goGuide('guide-comp')"><span class="dd-icon">💊</span>Guide Compléments alimentaires</div>
-            <div class="nav-dd-item" onclick="goGuide('guide-alim')"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</div>
+            <a class="nav-dd-item" href="guides/guide-metabolismes.html"><span class="dd-icon">⚡</span>Guide des métabolismes</a>
+            <a class="nav-dd-item" href="guides/guide-complements-alimentaires.html"><span class="dd-icon">💊</span>Guide Compléments alimentaires</a>
+            <a class="nav-dd-item" href="guides/guide-aliments-fonctionnels.html"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</a>
           </div>
         </div>
       </div>
@@ -134,11 +134,11 @@ const ProfilysComponents = (() => {
         </div>
         <div class="nav-dd-menu">
           <div class="nav-dd-menu-inner">
-            <div class="nav-dd-item" onclick="goGuide('guide')"><span class="dd-icon">🔬</span>Guide Analyses biologiques</div>
+            <a class="nav-dd-item" href="guides/guide-analyses-biologiques.html"><span class="dd-icon">🔬</span>Guide Analyses biologiques</a>
             <div class="nav-dd-sep"></div>
-            <div class="nav-dd-item" onclick="goGuide('guide-meta')"><span class="dd-icon">⚡</span>Guide des métabolismes</div>
-            <div class="nav-dd-item" onclick="goGuide('guide-comp')"><span class="dd-icon">💊</span>Guide Compléments alimentaires</div>
-            <div class="nav-dd-item" onclick="goGuide('guide-alim')"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</div>
+            <a class="nav-dd-item" href="guides/guide-metabolismes.html"><span class="dd-icon">⚡</span>Guide des métabolismes</a>
+            <a class="nav-dd-item" href="guides/guide-complements-alimentaires.html"><span class="dd-icon">💊</span>Guide Compléments alimentaires</a>
+            <a class="nav-dd-item" href="guides/guide-aliments-fonctionnels.html"><span class="dd-icon">🥦</span>Guide Aliments fonctionnels</a>
           </div>
         </div>
       </div>
