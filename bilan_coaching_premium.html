@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>Mon Coaching Santé</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   /* Brand palette — identique questionnaire_contexte */
@@ -14,7 +14,7 @@
   --c-amber:#f59e0b;   --c-amber-d:#d97706;
   --c-red:#ef4444;     --c-red-d:#dc2626;
   /* Dark surface */
-  --dark-1:#0a0f1e;  --dark-2:#0f1628;  --dark-3:#141c35;
+  --dark-1:#0A0F1E;  --dark-2:#111827;  --dark-3:#0D1525;
   --dark-4:#1a2347;  --dark-5:#1e2a52;
   --dark-border:rgba(255,255,255,.09);
   --dark-mut:rgba(255,255,255,.45);
@@ -26,7 +26,11 @@
   --bg:#f4f3ef;  --card:#ffffff;  --txt:#111827;  --mut:#64748b;  --brd:#e5e0d8;
   --good:#059669;  --warn:#d97706;  --bad:#dc2626;
   --ff:'DM Sans',system-ui,sans-serif;
-  --ffd:'Fraunces',Georgia,serif;
+  --ffd:'Playfair Display',Georgia,serif;
+  --teal: #2DD4BF;
+  --violet: #A78BFA;
+  --text-primary: #F1F5F9;
+  --text-secondary: #94A3B8;
   --radius-card:20px;
   --radius-input:11px;
 }
@@ -500,7 +504,7 @@ details.step-acc.done-acc .sec-dark-banner{background:linear-gradient(135deg,var
   display:grid;place-items:center;font-size:14px;flex-shrink:0;
 }
 .profilys-bar-type{
-  font-family:'Fraunces',Georgia,serif;font-size:16px;font-weight:700;
+  font-family:'Playfair Display',Georgia,serif;font-size:16px;font-weight:700;
   letter-spacing:-.06em;color:#fff;line-height:1;
 }
 .profilys-bar-type sup{font-size:8px;font-weight:700;letter-spacing:.04em;
@@ -521,15 +525,20 @@ body.in-iframe{padding-top:0 !important}
 body.in-iframe .profilys-bar{display:none !important}
 </style>
 <script>if(window.self!==window.top)document.documentElement.classList.add('in-iframe-ready');document.addEventListener('DOMContentLoaded',function(){if(window.self!==window.top)document.body.classList.add('in-iframe');});</script>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <div class="profilys-bar">
   <a class="profilys-bar-logo" href="app.html">
-    <div class="profilys-bar-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle"><path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div class="profilys-bar-type">Profilys</div>
+    <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,#2DD4BF,#A78BFA);display:grid;place-items:center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/></svg>
+    </div>
+    <span style="font-family:'Playfair Display',Georgia,serif;font-size:17px;font-weight:600;color:#fff">Profilys</span>
   </a>
-  <div class="profilys-bar-sep"></div>
-  <div class="profilys-bar-module"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle"><path d="M12 2L4 6v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" fill="rgba(255,255,255,0.12)" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 16V9" stroke="white" stroke-width="2" stroke-linecap="round"/><path d="M8.5 12L12 8.5L15.5 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Profil Santé Multi-domaines · Module 02</div>
-  <a class="profilys-bar-back" href="app.html">← Retour Profilys</a>
+  <div style="display:flex;gap:4px;margin-left:24px">
+    <a href="app.html" style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);text-decoration:none">Dashboard</a>
+    <a href="bilan_hub.html" style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,0.5);text-decoration:none">Bilan Biologique</a>
+    <a href="bilan_coaching_premium.html" style="padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;color:#fff;background:rgba(255,255,255,0.1);text-decoration:none">Profil &amp; Mode de vie</a>
+  </div>
+  <a class="profilys-bar-back" href="app.html" style="margin-left:auto">← Retour</a>
 </div>
 
 <div class="app fade" id="app"></div>
@@ -1311,7 +1320,7 @@ function arcSelector(id,val,min,max,color,labels){
     <div class="arc-lbl-row"><span>${labels[0]}</span><span>${labels[1]}</span></div>
     <svg class="arc-svg" width="260" height="130" viewBox="0 0 260 130">
       ${segs}
-      <text x="${cx}" y="${cy-8}" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="700" fill="${valColor}" style="font-family:'Fraunces',Georgia,serif">${dispVal}</text>
+      <text x="${cx}" y="${cy-8}" text-anchor="middle" dominant-baseline="central" font-size="24" font-weight="700" fill="${valColor}" style="font-family:'Playfair Display',Georgia,serif">${dispVal}</text>
       <text x="${cx}" y="${cy+13}" text-anchor="middle" font-size="10" fill="#94a3b8">${centerLbl}</text>
     </svg>
   </div>`;
